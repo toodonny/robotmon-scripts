@@ -537,21 +537,21 @@ function usingTimeString(startTime) {
 // 例子： 
 // (new Date()).Format("yyyy-MM-dd hh:mm:ss.S") ==> 2006-07-02 08:09:04.423 
 // (new Date()).Format("yyyy-M-d h:m:s.S")      ==> 2006-7-2 8:9:4.18 
-Date.prototype.Format = function (fmt) {  
-    var o = {
-        "M+": this.getMonth() + 1, //月份 
-        "d+": this.getDate(), //日 
-        "h+": this.getHours(), //小时 
-        "m+": this.getMinutes(), //分 
-        "s+": this.getSeconds(), //秒 
-        "q+": Math.floor((this.getMonth() + 3) / 3), //季度 
-        "S": this.getMilliseconds() //毫秒 
-    };
-    if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
-    for (var k in o)
-    if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
-    return fmt;
-}
+// Date.prototype.Format = function (fmt) {  
+//     var o = {
+//         "M+": this.getMonth() + 1, //月份 
+//         "d+": this.getDate(), //日 
+//         "h+": this.getHours(), //小时 
+//         "m+": this.getMinutes(), //分 
+//         "s+": this.getSeconds(), //秒 
+//         "q+": Math.floor((this.getMonth() + 3) / 3), //季度 
+//         "S": this.getMilliseconds() //毫秒 
+//     };
+//     if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+//     for (var k in o)
+//     if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+//     return fmt;
+// }
 //==============================功能性function=====================================//
 
 function useReturn(choiceF){          //各項回授點檢查 
@@ -596,6 +596,7 @@ function useReturn(choiceF){          //各項回授點檢查
 		
 		case 40: return CheckImageTap( 330,  170, 390,  250, 0.90, 'reincarnationicon.png', 1, 1, 1, 50, 2); return;  //輪迴畫面中上圖示
 		case 41: return CheckImageTap( 270,  980, 450, 1050, 0.90, 'reincarnationNG.png', 1, 1, 1, 50, 2);   return;  //未滿140關提示
+		case 42: return CheckImageTap2( 110, 480, 160,  820, 0.90, 'ascending_prismicon.png', 'ascending_goldicon.png', 1, 1, 1, 50, 2);   return;  //輪回畫面確認
 		
 		case 50: return checkPointcolor3(360, 640, 40, '00BEFF', 360, 660, 40, 'FFFFFF', 360, 760, 40, '6D370C'); return;   //看box廣告圖示點
 		case 51: return checkPointcolor3(286, 493, 50, '0091E0', 290, 493, 50, '003067', 300, 493, 50, '305985'); return;   //物品數量小G
@@ -2178,7 +2179,7 @@ function toRincarnation(Timer) {  //輪迴
 		if (useReturn(1)) {
 			CheckImageTap(20, 30, 85, 75, 0.90, 'reincarnationButton.png', 1, 1, 2, 500, 1);      //主畫面左上輪迴鈕
 			
-			if (useReturn(40)) {
+			if (useReturn(42)) {
 				a = 1;
 				for (var j = 1; j <= 80; j++){
 					if (!config.isRunning) return false;
@@ -3035,11 +3036,29 @@ function receiveMail() {  //收mail，預設全收
 					var Darkcolor = checkPointcolor( 120, 1120, 30, '100903');
 					// console.log('Allcheckcolor:', Allcheckcolor, ', Receivecolor:', Receivecolor, ', Darkcolor:', Darkcolor);
 					
-					if (Allcheckcolor) tapFor( 70, 1120, 1, 50, 300);
-					else if (Receivecolor)  tapFor( 120, 1120, 2, 50, 200);
-					else if (Darkcolor)  tapFor( 120, 1120, 6, 50, 200);
-					else break;
+
+					rbm.keepScreenshotPartial( 11, 129, 190, 1115);  //找工會mail勾選的，來取消
+					var result2s = rbm.findImages('mailGuildchecked.png', 0.90, 2, true, false);
+					rbm.releaseScreenshot();
 					
+					if (result2s != '')  {
+
+						for (var index in result2s) {
+							if (!config.isRunning) return false;
+							var result2 = result2s[index];
+
+							var tapX = result2.x + 10;
+							var tapY = result2.y + 10;
+							console.log('Find mailGuild, tapX:', tapX, ', tapY:', tapY);
+							tapFor(tapX, tapY, 1, 60, 200);
+						}
+					}
+					else if (result2s == '') {
+						if (Allcheckcolor) tapFor( 70, 1120, 1, 50, 300);
+						else if (Receivecolor)  tapFor( 120, 1120, 2, 50, 200);
+						else if (Darkcolor)  tapFor( 120, 1120, 6, 50, 200);
+						else break;
+					}
 					sleep(200);
 				}
 			}
@@ -3386,16 +3405,16 @@ function test(cycle){
 			artlvup3starSw=    0;   //升級寶物3星級
 			artlvup3codeSw=    0;   //升級寶物3代碼
 			
-			commandsetting();    //設定值列表
+			// commandsetting();    //設定值列表
 			setFirstTimer();     //設定初始值
 		}
 		else if (n >= 1) {
 			stage = recoNum(1) * 1
 			console.log('n = ', n, ', CRA 腳本開始', stage);
 
-			while(config.isRunning) { main(); };
+			while(config.isRunning) { main(); }
 
-			sleep(1000)
+			// sleep(1000)
 			console.log('n = ', n, ', CRA 腳本結束');
 
 		}
@@ -3412,7 +3431,7 @@ function start(settingString) {
 	config.isRunning = true;
 	
 	var settings = JSON.parse(settingString);
-	console.log(settingString, settings);
+	// console.log(settingString, settings);
 	for(var key in settings) {
 		global[key] = settings[key] * 1;
 	}
