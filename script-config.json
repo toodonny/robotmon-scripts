@@ -133,8 +133,8 @@
     },
     "com.donny.idlerpg": {
       "title": "Crush Them All",
-      "versionCode": 0.41,
-      "description": "<h3>Crush Them All / 粉碎他們!</h3><ul><li>測試版！3/2 修正收Mail，輪回bug。</li><li>① 英雄/村莊自動升級</li><li>② 地圖寶箱自動撿</li><li>③ 自動看廣告加速/金幣</li><li>④ 自動輪迴(關卡設定)</li><li>⑤ 每日地牢設定自動打</li><li>⑥ 遠征自動收/發(不含勛章)</li><li>⑦ 工會自動求勛章/幫助</li><li>⑧ 工會BOSS自動打(簡易)</li><li>⑨ 自動打競技場(極簡易)</li><li>⑩ 其它(每日任務/獎勵/收信)</li></ul>",
+      "versionCode": 0.42,
+      "description": "<h3>Crush Them All / 粉碎他們!</h3><ul><li>測試版！3/3 修正機器人工廠不會收錢bug。</li>測試版！3/2 修正收Mail，輪回bug。</li><li></li><li>① 英雄/村莊自動升級</li><li>② 地圖寶箱自動撿</li><li>③ 自動看廣告加速/金幣</li><li>④ 自動輪迴(關卡設定)</li><li>⑤ 每日地牢設定自動打</li><li>⑥ 遠征自動收/發(不含勛章)</li><li>⑦ 工會自動求勛章/幫助</li><li>⑧ 工會BOSS自動打(簡易)</li><li>⑨ 自動打競技場(極簡易)</li><li>⑩ 其它(每日任務/獎勵/收信)</li></ul>",
       "packageName": "com.godzilab.idlerpg",
       "downloadURL": "https://github.com/toodonny/robotmon-scripts/raw/master/scripts/com.donny.idlerpg/index.zip"
     }

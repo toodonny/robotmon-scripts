@@ -866,7 +866,7 @@ function lvupVillage2(lvupl, Timer) {  //村莊升級2
 				var robotplantck = villagerobotplant();
 				// console.log('robotplantck:', robotplantck);				
 
-				if (robotplantck == 1 || robotplantck == 2 || robotplantck == 4) {
+				if (robotplantck == 1 || robotplantck == 2 || robotplantck == 4 || robotplantck == 5) {
 					
 					tapFor(20, 1100, 3, 70, 200);
 					rbm.keepScreenshotPartial( 210,  520, 715, 565);  //村莊vip4確認
@@ -902,12 +902,15 @@ function lvupVillage2(lvupl, Timer) {  //村莊升級2
 					if (lvupD) { 
 						Timer = Timer * (1 - Math.pow(2, y+1))/(1-2) - 2;
 						villageF = 1;
+						console.log('本次可升級, 下次檢查:', Timer, '秒後');
 					}
 					else if (!lvupD) { 
 						villageF = villageF * 2;
+						Timer = Timer * villageF;
+						console.log('本次不可升級, 下次檢查:', Timer, '秒後');
+
 					}
 					// console.log('lvupD:', lvupD, ', 下次檢查時間:', Timer, '秒後');
-					console.log('本次可升級, 下次檢查時間:', Timer, '秒後');
 					break;
 				}
 				else if (robotplantck == -1) {
@@ -954,7 +957,11 @@ function villagerobotplant() {
 		}else if (Img1 != undefined && Img2 == undefined) { 
 			rbm.log('機器人工廠已開啟，圖示不存在'); 
 			return 4;
+		}else if (Img1 == undefined && Img2 != undefined) { 
+			rbm.log('機器人工廠已開啟，名稱不存在'); 
+			return 5;
 		}
+
 		sleep(150)
 	}
 	return -1;
@@ -1995,6 +2002,7 @@ function Guildmedal(attrib, herocode, Timer) {  //工會求勛章
 						GuildmedalTimer =  Date.now() + timerNext * 1000;
 						console.log('下次檢查等待:', timerNext, '秒');
 						
+						CheckImageTap2(620, 1200, 690, 1260, 0.85, 'guildBack.png', 'guildBack2.png', 1, 1, 1, 200, 1);    //公會退出鈕1,2
 						//console.log('GuildmedalTimer:', GuildmedalTimer, ', Date.now():', Date.now(), ', ', (GuildmedalTimer - Date.now())/1000);
 	
 						return false;
@@ -2238,7 +2246,7 @@ function DalyDungeons(mF2, pc, Timer) {  //【F2:材料魔王 1:水  2:火  3:�
 	checkPointcolorTap(690, 490, 20, 'FFFFFF', 0, 0, 2, 100, 1)
 	choiceDungeon(1, mmF2);
 	
-	//console.log('start choice BossLV');
+	console.log('start choice BossLV');
 	for (var i = 1; i <= 20; i++){
 		if (!config.isRunning) return false;
 		
@@ -2246,29 +2254,36 @@ function DalyDungeons(mF2, pc, Timer) {  //【F2:材料魔王 1:水  2:火  3:�
 			var a = 1; var b = 1;
 			for (var j = 1; j <= 190; j++){
 				if (!config.isRunning) return false;
-				//console.log('Choice Boss Fight : ', i, j, ', bossLV:', DalyDungeonsLv );
+				console.log('Choice Boss Fight : ', i, j, ', bossLV:', DalyDungeonsLv );
 
-				//console.log('21:', useReturn(21));
+				console.log('21:', useReturn(21));
 				if (!useReturn(21)){  //BOSS戰鬥，撤退鈕
+					
+					console.log('21:false', 1111)
 					rbm.keepScreenshotPartial( 310, 880, 405, 1170);  //完成後確認鈕
 					var targetImg3 = rbm.findImage('OKbutton.png', 0.80);
 					rbm.releaseScreenshot();
+
 					if (targetImg3 != undefined && targetImg3.score >= 0.80) {
+					console.log('21:false', 2222)
 						tapFor(targetImg3.x, targetImg3.y, 1, 60, 500);
 					}
 					else {	
+
+						console.log('21:false', 3333)
 						for (var l = 1; l <= 4; l++){
 							dgticks[1] = recoNum(2); sleep(150); //1 確認目前票數
 							dgticks[2] = recoNum(2); sleep(150); //2 確認目前票數
 							dgticks[3] = recoNum(2); sleep(150); //3 確認目前票數
 							
-							//console.log('l:', l, dgticks[0], dgticks[1], dgticks[2], dgticks[3])
+							console.log('l:', l, dgticks[0], dgticks[1], dgticks[2], dgticks[3])
 							if (dgticks[1] == dgticks[2] && dgticks[2] == dgticks[3] && dgticks[1] != -1){
 								dgticks[0] = dgticks[1]; break;
 							}
 						}
 						
-						//console.log(' 24:', useReturn(24));
+					console.log('21:false', 4444)
+						console.log(' 24:', useReturn(24));
 						if (useReturn(24)) {
 							sleep(300);
 							checkPointcolorTap(690, 490, 20, 'FFFFFF', 0, 0, 2, 100, 1);
@@ -2277,39 +2292,42 @@ function DalyDungeons(mF2, pc, Timer) {  //【F2:材料魔王 1:水  2:火  3:�
 							return false;
 						}
 						
+					console.log('21:false', 5555)
 						if ( (dgticks[0] == 0 || dgticks[0] <= dgticksSw) && dgticks[0] != -1) {
 							sleep(300);
 							checkPointcolorTap(690, 490, 20, 'FFFFFF', 0, 0, 2, 100, 1);
-							//console.log('1Timer:', Timer, dgticksSw, dgticks);
+							console.log('1Timer:', Timer, dgticksSw, dgticks);
 							Timer = Timer + 1200 //* (dgticksSw - dgticks[0] + 1);
-							//console.log('2Timer:', Timer);
+							console.log('2Timer:', Timer);
 							maDungeonTimer =  Date.now() + Timer * 1000;
 							console.log('小於保留票數', dgticks[0], '<=', dgticksSw, '或 0票，', Timer / 60, '分，後檢查', i, j);
 							return false;
 						}
 
+						console.log('21:false', 6666)
 						if (dgticks[0] > dgticksSw){
 							console.log('大於保留票數', dgticks[0], '>', dgticksSw, ', 正常打BOSS', 'bossLV:', DalyDungeonsLv);
 							rbm.keepScreenshotPartial( 590, 560, 680, 1170);  //挑戰BOSS
 							var results = rbm.findImages('challengeBoss.png', 0.90, 6, true, false);
-							//rbm.log('challengeBoss:', results);
+							// rbm.log('challengeBoss:', results);
 							rbm.releaseScreenshot();
-							//rbm.log('results:', results);
+							// rbm.log('results:', results);
 							if (results != '')  {
 								results = results.sort(function (a, b) {return a.y < b.y ? 1 : -1;});								
 
 								for (var index in results) {
 									if (!config.isRunning) return false;
 									var result = results[index];
-									//rbm.log('challengeBoss:', result);
+									rbm.log('challengeBoss:', result);
 									tapFor(result.x, result.y - 100 * (DalyDungeonsLv - 1), 1, 90, 1000);
-									//console.log('tap:', result.x, result.y - 100 * (DalyDungeonsLv - 1));
+									console.log('tap:', result.x, result.y - 100 * (DalyDungeonsLv - 1));
 									break;
 								}
 							}
 						}
 					}
 					
+					console.log('noticks.png');
 					rbm.keepScreenshotPartial( 235, 495, 450, 550);  //No Ticks
 					var targetImg3 = rbm.findImage('noticks.png', 0.85);
 					rbm.releaseScreenshot();
@@ -2321,6 +2339,7 @@ function DalyDungeons(mF2, pc, Timer) {  //【F2:材料魔王 1:水  2:火  3:�
 						return false;
 					}
 					
+					console.log('(j >= 20 && useReturn(1))');
 					if (j >= 20 && useReturn(1)) {
 						a = a + 1;
 						checkPointcolorTap(690, 490, 20, 'FFFFFF', 0, 0, 2, 100, 1)
@@ -2331,7 +2350,7 @@ function DalyDungeons(mF2, pc, Timer) {  //【F2:材料魔王 1:水  2:火  3:�
 					}
 				}
 				else {
-					//console.log('Fight Boss');
+					console.log('Fight Boss');
 					tapFor(  680,   410, 2, 70, 150);
 					var fighttime = recoNum(4);
 					if (fighttime > 3 && fighttime < 10 && DalyDungeonsLv != 2) {
@@ -3038,7 +3057,7 @@ function receiveMail() {  //收mail，預設全收
 					
 
 					rbm.keepScreenshotPartial( 11, 129, 190, 1115);  //找工會mail勾選的，來取消
-					var result2s = rbm.findImages('mailGuildchecked.png', 0.90, 2, true, false);
+					var result2s = rbm.findImages('mailGuildchecked.png', 0.95, 2, true, false);
 					rbm.releaseScreenshot();
 					
 					if (result2s != '')  {
@@ -3187,15 +3206,43 @@ function main(){       //主流程
 	var gg = 0;	var vdxx = 10; var tapmod = tapBOXmodSw
 	var bossatt = choiceMaterialboss(menuW0Sw, menuW1Sw, menuW2Sw, menuW3Sw, menuW4Sw, menuW5Sw, menuW6Sw, 1)
 
+	console.log('main 卡畫面與重啟APP檢查')
 	tapBox(vdxx, tapmod); debug(6);  //卡畫面與重啟APP檢查
+
+	console.log('main 每日地牢')
 	tapBox(vdxx, tapmod); DalyDungeons(bossatt, 5, 60);   //每日地牢
+
+	console.log('main 廣告金幣')
 	tapBox(vdxx, tapmod); getADGold(60);  //廣告金幣
+
+	console.log('main 村莊升級')
 	tapBox(vdxx, tapmod); lvupVillage2(2, 60);   //村莊升級
-	tapBox(vdxx, tapmod); getDailyreward(900);  Areafight(1800);    //每日挑戰任務、競技場
+
+	console.log('main 每日挑戰任務')
+	tapBox(vdxx, tapmod); getDailyreward(900);  
+
+	console.log('main 競技場')
+	tapBox(vdxx, tapmod); Areafight(1800);    //每日挑戰任務、競技場
+
+	console.log('main 英雄升級')
 	tapBox(vdxx, tapmod); lvupHero(lvupHerostgSw, lvupHeroDi, lvuptimeSw);  //英雄升級
-	tapBox(vdxx, tapmod); Guildchat(60);  Guildmedal(heroattribSw, herocodeSw, 1020)   //公會幫助、公會勛章
+
+	console.log('main 公會幫助')
+	tapBox(vdxx, tapmod); Guildchat(60);
+
+	console.log('main 公會勛章')
+	tapBox(vdxx, tapmod); Guildmedal(heroattribSw, herocodeSw, 1020)   //公會幫助、公會勛章
+
+	console.log('main 遠征')
 	tapBox(vdxx, tapmod); Expeditions(60);  //遠征
-	tapBox(vdxx, tapmod); checkScreenStop(30, resetappTm, 6); upMenu(3600);  //畫面停止判斷，自動收信每日獎勵
+
+	console.log('main 畫面停止判斷')
+	tapBox(vdxx, tapmod); checkScreenStop(30, resetappTm, 6);
+
+	console.log('main 自動收信每日獎勵');
+	tapBox(vdxx, tapmod); upMenu(3600);  //畫面停止判斷，自動收信每日獎勵
+	
+	console.log('main 公會BOSS')
 	tapBox(vdxx, tapmod); GuildBoss(guildbosshdSw, guildbossthSw, 5, 3600);  //公會BOSS
 }
 
