@@ -904,7 +904,9 @@ function lvupVillage2(lvupl, Timer) {  //村莊升級2
 					// if (Img1 != undefined) { rbm.log('Img1:',Img1); }
 					// if (Img2 != undefined) { rbm.log('Img2:',Img2); }	
 					// Img1 = undefined;
-
+					if(robotplantck == 4 || robotplantck == 5) {
+						tapFor(20, 1100, 6, 70, 200);
+					}
 					if (Img1 != undefined && Img2 != undefined) { 
 						if (robotplantck == 1) {
 							DIY_swipe(480, 1100, 480, 260, 10, 200);
