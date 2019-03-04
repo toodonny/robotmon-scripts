@@ -894,11 +894,8 @@ function lvupVillage2(lvupl, Timer) {  //村莊升級2
 				if (!config.isRunning) return false;
 				// console.log('Village AutoLvup click', i, j);
 				
-				var robotplantck = villagerobotplant();		
-				if (robotplantck == 4 || robotplantck == 5) {
-					tapFor(20, 1100, 6, 70, 200);
-				}
-				if (robotplantck == 1 || robotplantck == 2 ) {
+				var robotplantck = villagerobotplant();
+				if (robotplantck == 1 || robotplantck == 2 || robotplantck == 4 || robotplantck == 5) {
 					rbm.keepScreenshotPartial( 210,  520, 715, 565);  //村莊vip4確認
 					var Img1 = rbm.findImage('v4villageautobt.png', 0.90);  //vip4全升級按鈕
 					var Img2 = rbm.findImage('v4villageautock.png', 0.90);  //vip4只升到自動的 check box
@@ -922,6 +919,7 @@ function lvupVillage2(lvupl, Timer) {  //村莊升級2
 					}
 					else if (Img1 == undefined) {
 						rbm.log('無村莊自動升級，進行點擊升級'); 
+						tapFor(20, 1100, 6, 70, 200);
 						villagelvup();
 						break;
 					}
