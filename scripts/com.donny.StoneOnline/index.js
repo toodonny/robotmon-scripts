@@ -18,50 +18,75 @@ var config = {
   LaunchActivityName: '.MainActivity',
 };
  
+ 
+var rbm = new RBM(config);
+rbm.init();
+ 
+ ////============================ New Function ===============================////
+ 
+function getRandom(min,max) {
+	return Math.floor(Math.random()*(max-min+1))+min;
+}
+
 function isSameColor(c1, c2, diff) {
-  if (diff == undefined) diff = 20;
-  if (Math.abs(c1.r - c2.r) > diff) return false;
-  if (Math.abs(c1.g - c2.g) > diff) return false;
-  if (Math.abs(c1.b - c2.b) > diff) return false;
-  if (Math.abs(c1.a - c2.a) > diff) return false;
-  return true;
+	if (!config.isRunning) return false;
+	if (diff == undefined) diff = 20;
+	if (Math.abs(c1.r - c2.r) > diff) return false;
+	if (Math.abs(c1.g - c2.g) > diff) return false;
+	if (Math.abs(c1.b - c2.b) > diff) return false;
+	if (Math.abs(c1.a - c2.a) > diff) return false;
+	return true;
 }
 
-/*
-function getColor(img, xy) {
-  var xy = toResizeXYs(xy);
-  return getImageColor(img, xy.x, xy.y);
-}
+function checkPointcolor0(intX, intY, diff, strRGB) {  //return 
+	if (!config.isRunning) return false;
 
-function toResizeXYs(xy) {
-  return toResizeXY(xy.x, xy.y);
-}
-
-function toResizeXY(x, y) {
-  var rx = Math.floor(x * Config.resizeWidth / Config.screenWidth);
-  var ry = Math.floor(y * Config.resizeHeight / Config.screenHeight);
-  return {x: rx, y: ry};
-}
-
-*/
-
-function color_check_3(x1,y1,) {
+	checkr = parseInt(strRGB.substr(0, 2), 16) * 1;
+	checkg = parseInt(strRGB.substr(2, 2), 16) * 1;
+	checkb = parseInt(strRGB.substr(4, 2), 16) * 1;
+	checka = 0;
+	
 	var img = getScreenshot();
-    var RubyBoxFull = getImageColor(img, x1, y1);
-	var RubyBoxCheck = isSameColor({b: 00, g:208, r: 172, a: 0},RubyBoxFull, 25)
-	////console.log(RubyBoxFull.b,RubyBoxFull.g,RubyBoxFull.r,RubyBoxFull.a,RubyBoxCheck)
-	if (RubyBoxCheck) {
-		var RubyButton = getImageColor(img, 60, 1203);
-		var RubyButtonCheck = isSameColor({b: 57, g:53, r: 150, a: 0},RubyButton, 25)
-		if (RubyButtonCheck) {
-			sleep(200)
-			console.log('RubyBoxFull_Open')
-			tap(60, 1203, 100); sleep(200);
-			tap(300, 1240, 100); sleep(150);
+    var getpoint = getImageColor(img, intX, intY);
+	var check = isSameColor({b:checkb, g:checkg, r:checkr, a:checka}, getpoint, diff);
+	releaseImage(img);
+	
+	return check;
+}
+
+function checkPointcolor(intX, intY, diff, strRGB) {  //return 
+	if (!config.isRunning) return false;
+
+	checkr = parseInt(strRGB.substr(0, 2), 16) * 1;
+	checkg = parseInt(strRGB.substr(2, 2), 16) * 1;
+	checkb = parseInt(strRGB.substr(4, 2), 16) * 1;
+	checka = 0;
+	
+	var img = getScreenshotModify(intX, intY, 1, 1, 1, 1, 100);
+    var getpoint = getImageColor(img, 0, 0);
+	var check = isSameColor({b:checkb, g:checkg, r:checkr, a:checka}, getpoint, diff);
+	releaseImage(img);
+	
+	return check;
+}
+
+function checkPointcolorTap(intX, intY, diff, strRGB, TapX, TapY, TapTimes, Delay1, Taptype) {  //type: 0:TapX, TapY, 1:intX, intY, 2:return 
+	if (!config.isRunning) return false;
+	
+	check = checkPointcolor(intX, intY, diff, strRGB);
+	if (Taptype == 2) {return check;}                       //console.log('check:', check);
+	for (var i = 0; i < TapTimes; i++) {
+		if (!config.isRunning) return false;
+		
+		if (check) {
+			if (Taptype == 0) { tap(TapX, TapY, 80); }          //console.log('Tap TapX, TapY: ', TapX, TapY)
+			else if (Taptype == 1) { tap(intX, intY, 80); } 	//console.log('Tap intX, intY: ', intX, intY)
+			sleep(Delay1)
 		}
 	}
-	releaseImage(img);
 }
+
+////============================ Old Function ===============================////
 
 function CheckImageTap(intX, intY, ImgW, ImgH, Siml, ImageName, TapX, TapY, TapTimes, Delay1, Taptype) {
 	rbm.keepScreenshotPartial(intX - 2, intY - 2, intX + ImgW + 4, intY + ImgH + 4); // x1, y1, x2, y2
@@ -82,27 +107,6 @@ function CheckImageTap(intX, intY, ImgW, ImgH, Siml, ImageName, TapX, TapY, TapT
 		}
 	}
 	rbm.releaseScreenshot();
-}
-
-function DIY_swipe(intx, inty, finax, finay, moveD) {
-	var movedistance = (finay - inty) / moveD
-	
-	var MoveXD = (finax - intx) / moveD
-	var MoveYD = (finay - inty) / moveD
-	
-	tapDown(intx, inty, 40);
-	for (var i = 0; i < moveD; i++) {
-		if (!config.isRunning) {
-			tapUp(intx, i, 200);
-			break;
-		}
-		intx = intx + MoveXD
-		inty = inty + MoveYD
-		moveTo(intx, inty, 8);
-	}
-	moveTo(finax, finay, 10)	
-	tapUp(finax, finay, 10)
-	sleep(50)
 }
 
 function xy_swipe(intx, inty, finax, finay, moveD) {  //坐標位移
@@ -133,9 +137,109 @@ function xy_swipe(intx, inty, finax, finay, moveD) {  //坐標位移
 	sleep(200)
 }
 
+function DIY_swipe(intx, inty, finax, finay, moveD) {
+	var movedistance = (finay - inty) / moveD
+	
+	var MoveXD = (finax - intx) / moveD
+	var MoveYD = (finay - inty) / moveD
+	
+	tapDown(intx, inty, 60);
+	for (var i = 0; i < moveD; i++) {
+		if (!config.isRunning) {
+			tapUp(intx, i, 200);
+			break;
+		}
+		intx = intx + MoveXD
+		inty = inty + MoveYD
+		moveTo(intx, inty, 10);
+	}
+	moveTo(finax, finay, 40)	
+	tapUp(finax, finay, 40)
+	sleep(50)
+}
 
-var rbm = new RBM(config);
-rbm.init();
+
+function DIY_swipe2(intx, inty, finax, finay, moveD, sleeptime) {
+	if (!config.isRunning) return false;
+	var movedistance = (finay - inty) / moveD
+	
+	var MoveXD = (finax - intx) / moveD
+	var MoveYD = (finay - inty) / moveD
+	
+	tapDown(intx, inty, 50);
+	for (var i = 0; i < moveD; i++) {
+		if (!config.isRunning) { tapUp(intx, i, 200);  break; }
+		intx = intx + MoveXD
+		inty = inty + MoveYD
+		moveTo(intx, inty, 8);
+	}
+	moveTo(finax, finay, 10)	
+	tapUp(finax, finay, 10)
+	sleep(sleeptime)
+}
+
+function DIY_radomswipe1(intx, inty, finax, finay, moveD) {
+	var movedistance = (finay - inty) / moveD
+	
+	var MoveXD = (finax - intx) / moveD
+	var MoveYD = (finay - inty) / moveD
+	
+	tapDown(intx, inty, 60);
+	for (var i = 0; i < moveD; i++) {
+		if (!config.isRunning) {
+			tapUp(intx, i, 200);
+			break;
+		}
+		intx = intx + MoveXD
+		inty = inty + MoveYD
+		
+		intxR = intx + getRandom(-30,30);
+		intyR = inty + getRandom(-30,30);
+		
+		moveTo(intxR, intyR, 10 +  getRandom(-5,5));
+	}
+	moveTo(finax, finay, 40)	
+	tapUp(finax, finay, 40)
+	sleep(50)
+}
+
+function DIY_radomswipe2(intx, inty, finax, finay, moveD) {
+	var movedistance = (finay - inty) / moveD
+	
+	var MoveXD = (finax - intx) / moveD
+	var MoveYD = (finay - inty) / moveD
+	
+	tapDown(intx, inty, 60);
+	for (var i = 0; i < moveD; i++) {
+		if (!config.isRunning) {
+			tapUp(intx, i, 200);
+			break;
+		}
+		intx = intx + MoveXD + getRandom(-30,30);
+		inty = inty + MoveYD + getRandom(-30,30);
+		moveTo(intx, inty, 10 +  getRandom(-5,5));
+	}
+	moveTo(finax, finay, 40)	
+	tapUp(finax, finay, 40)
+	sleep(50)
+}
+
+
+function tessOCRtest(intX, intY, finX, finY) {
+	
+	distX = finX - intX;
+	distY = finY - intY;
+	
+	var img = getScreenshot();
+	var cropImg = cropImage(img, intX, intY, distX + 1, distY + 1);
+
+	Text = getTextFromImage(cropImg);
+	
+	releaseImage(img);
+	releaseImage(cropImg); 
+	
+	return Text;
+}
 
 function usingTimeString(startTime) {
   return '循環時間：' + (Date.now() - startTime) + 'ms';
@@ -150,79 +254,139 @@ function FindStonesImages(stoneslv1,stoneslv2,column) {
 	if (eightdragonchangswitch == 1) var stone15findmax = eightdragonmoonset * 2 + 4;
 
 	var StoneMaxFindArray = new Array(16,16,16,16,16,16,16,16,16,8,6,4,4,4,18, stone15findmax,18,4,4,4,4,4,4,4,4,4,4);
+	//var StoneMaxFindArray = new Array(6,6,6,6,6,6,6,6,6,8,6,4,4,4,6, stone15findmax,6,4,4,4,4,4,4,4,4,4,4);
 	var stoneDir = config.stoneDir;
 	var StonesPath = getStoragePath() + '/' + stoneDir;
 		
 	for(var k = stoneslv1; k <= stoneslv2 ; k++) {
 		if (!config.isRunning) return false;
 		
+		
 		rbm.keepScreenshotPartial(956, 1403, 956 + 66, 1403 + 21);
 		var BagOpenCheck = rbm.imageExists('BagOpen_-.png', 0.9)
 		rbm.releaseScreenshot();
 		
 		if (BagOpenCheck) {
-			//console.log('BagOpenCheck-Open')
-			combinecount = combinecount + 1
-			var comcountremainder = combinecount % 3
-			if (comcountremainder == 0)	RubyBox();
-			
-			var comcountremainder = combinecount % 4
-			if (comcountremainder == 0) characterbubble();
-			
-			tap(389, 1000, 60); sleep(100); 
-			var x0 = 0; var y0 = 0; var x1 = 0; var y1 = 0;
-			var checkxy = 0;
-			var stoneDir = config.stoneDir;
-			var StonesPath = getStoragePath() + '/' + stoneDir;
-			var filename = StonesPath + '/stones_lv' + k + '_1080_ALL_cmp.png';				
-			var tImg = openImage(filename);
-			
-			var image = getScreenshotModify(44, 1478, 900, 330, 450, 165, 100);
-			var results = findImages(image, tImg, 0.85, StoneMaxFindArray[k], true);
-			
-			////console.log(StonesPath)
-			for(var index in results) {
-				var result = results[index];
-				if (!config.isRunning) return false;
+			if (StoneCountArray[k] >= 2 || k == stonelvmin ) {
 				
-				var kindexNum = index * 1
-				var indexremainder = kindexNum % 2
+				sleep(dectcompraw4);
 				
-				if (k == 15 && mooncompswitch > 0) {
-					if (kindexNum < mooncompswitch) {
-						indexremainder = 2
+				//console.log('BagOpenCheck-Open')
+				
+				/*
+				combinecount = combinecount + 1
+				var comcountremainder = combinecount % 3
+				if (comcountremainder == 0)	RubyBox();
+				
+				var comcountremainder = combinecount % 4
+				if (comcountremainder == 0) characterbubble();
+				*/
+				
+				//tap(389, 1000, 60); sleep(100); 
+				
+				var x0 = 0; var y0 = 0; var x1 = 0; var y1 = 0;
+				var checkxy = 0;
+				var stoneDir = config.stoneDir;
+				var StonesPath = getStoragePath() + '/' + stoneDir;
+				var filename = StonesPath + '/stones_lv' + k + '_1080_ALL_cmp.png';				
+				var tImg = openImage(filename);
+				
+				var image = getScreenshotModify(44, 1478, 900, 330, 450, 165, 100);
+				var results = findImages(image, tImg, 0.90, StoneMaxFindArray[k], true);
+				
+				var Stones = 0; var nextStone = 0;
+				for(var index in results) {
+					var result = results[index];
+					if (!config.isRunning) return false;
+					
+					Stones = Stones + 1
+					
+					var kindexNum = index * 1
+					var indexremainder = kindexNum % 2
+					
+					if (k == 15 && mooncompswitch > 0) {
+						if (kindexNum < mooncompswitch) {
+							indexremainder = 2
+						}
+						else if (kindexNum >= mooncompswitch) {
+							indexremainder = (kindexNum - 3) % 2
+						}
 					}
-					else if (kindexNum >= mooncompswitch) {
-						indexremainder = (kindexNum - 3) % 2
-					}
-				}
 
-				//rbm.log('k=' + k,'index=' + index,'remainder=' + indexremainder,result.x, result.y, result.score);
-				//sleep(200);
-				if (indexremainder == 0) {
-					var x0 = 46 + result.x * 2 + 40
-					var y0 = 1479 + result.y * 2  + 40
-					////console.log('indexremainder=000',x0, y0)
-				}
-				else if (indexremainder == 1) {
-					var x1 = 46 + result.x * 2  + 40
-					var y1 = 1479 + result.y * 2  + 40
-					////console.log('indexremainder=111',x1, y1)
-					if (x1 > x0) {
-						DIY_swipe(x1, y1, x0, y0, 10)
+					//rbm.log('k=' + k,'index=' + index,'remainder=' + indexremainder,result.x, result.y, result.score);
+					sleep(dectcompraw2);
+					if (indexremainder == 0) {
+						var x0 = 46 + result.x * 2 + 40
+						var y0 = 1479 + result.y * 2  + 40
+						////console.log('indexremainder=000',x0, y0)
 					}
-					else if (x1 <= x0) {
-						DIY_swipe(x0, y0, x1, y1, 10)
+					else if (indexremainder == 1) {
+						var x1 = 46 + result.x * 2  + 40
+						var y1 = 1479 + result.y * 2  + 40
+						////console.log('indexremainder=111',x1, y1)
+						//DIY_swipe(x0, y0, x1, y1, 20);
+						
+						if (dectcompraw1 == 1) {
+							DIY_swipe(x0, y0, x1, y1, 30);
+						}
+						else if (dectcompraw1 == 2) {
+							DIY_radomswipe1(x0, y0, x1, y1, 30);
+						}
+						else if (dectcompraw1 == 3) {
+							DIY_radomswipe2(x0, y0, x1, y1, 30);
+						}
+						
+						nextStone = nextStone + 1;
+						
+						/*
+						if (x1 > x0) {
+							DIY_swipe(x1, y1, x0, y0, 60);
+						}
+						else if (x1 <= x0) {
+							DIY_swipe(x0, y0, x1, y1, 60);
+						}
+						*/
+					}
+					sleep(dectcompraw3);
+				}
+				releaseImage(tImg);
+				releaseImage(image);
+				
+				ScreenCheck = 0
+				StoneCountArray[k] = Stones - nextStone * 2
+				
+				switch(k) {
+					case 23 : 
+						if (StoneCountArray[k + 1] == 99) { StoneCountArray[k + 1] = nextStone}
+						else { StoneCountArray[k + 1] = StoneCountArray[k + 1] + nextStone }
+						
+						break;
+					
+					case 24 : 
+						break;
+						
+					default :
+						if (StoneCountArray[k + 1] == 99) { StoneCountArray[k + 1] = nextStone}
+						else { StoneCountArray[k + 1] = StoneCountArray[k + 1] + nextStone }
+						
+						if (StoneCountArray[k + 2] == 99) { StoneCountArray[k + 2] = nextStone}
+						else { StoneCountArray[k + 2] = StoneCountArray[k + 2] + nextStone }
+						
+						break;
+				}				
+				
+				if (k == stonelvmin) { 
+					if (Stones <= 1) { 
+						combinecount = combinecount - 1 
+					}
+					else { 
+						combinecount = 0
 					}
 				}
-
-				//sleep(20)
+				
+				console.log('combinecount =', combinecount);
+				ResterTimerSet = Date.now()
 			}
-			releaseImage(tImg);
-			releaseImage(image);
-			ScreenCheck = 0
-			
-			ResterTimerSet = Date.now()
 		}
 		else {
 			if (!config.isRunning) return false;
@@ -233,7 +397,7 @@ function FindStonesImages(stoneslv1,stoneslv2,column) {
 			QuizRestart();
 			
 			CheckImageTap(455,  575, 180,  60, 0.9, 'exitstone.png', 680, 1280, 1, 150, 0); //Exit Grow Stone Online
-			CheckImageTap(490, 1060, 100, 330, 0.9, 'ok_button.png', 1, 1, 1, 150, 1); //OK_Button
+			CheckImageTap(490, 1060, 100, 600, 0.9, 'ok_button.png', 1, 1, 1, 150, 1); //OK_Button
 			CheckImageTap(600,  200, 470, 750, 0.9, 'closeboard.png', 1, 1, 1, 2, 1); //closeboard
 			CheckImageTap(470, 1100, 133,  95, 0.9, 'Receiveaward.png', 1, 1, 1, 150, 1); //Receiveaward
 			CheckImageTap(626,  868, 154,  51, 0.9, 'fastdig_ok.png', 430, 1130, 1, 150, 0);   //fast dig OK button
@@ -245,7 +409,6 @@ function FindStonesImages(stoneslv1,stoneslv2,column) {
 			
 			timetoRestarApp2(RestartApptimeset);
 		}
-		sleep(10);
 		console.log('石頭',k,'級',usingTimeString(now));
 		now = Date.now();
 	}
@@ -321,13 +484,12 @@ function AttackMode(Mode) { //攻擊模式：1:自動攻擊  2:定點攻擊  3:�
 
 function RubyBox() { //檢查寶箱拿鑽&看廣告拿鑽 main
 	if (!config.isRunning) return false;
+	
 	console.log('檢查寶箱/廣告拿寶石');
 	
-    //var RubyBoxFull = getImageColor(img, 257, 1874);
-	//var RubyBoxCheck = isSameColor({b: 00, g:208, r: 172, a: 0},RubyBoxFull, 25)
-	
-	//rbm.log(RubyBoxpa,rbm.findImage('rubybox100pa.png', 0.50))
 	for (var j = 0; j < 2; j++) {
+		
+		
 		var img = getScreenshot();
 		var RubyButton = getImageColor(img, 60, 1060 + j * 140);  //1st:60,1203
 		var RubyButtonCheck = isSameColor({b: 57, g:53, r: 160, a: 0},RubyButton, 40)
@@ -335,7 +497,7 @@ function RubyBox() { //檢查寶箱拿鑽&看廣告拿鑽 main
 		if (RubyButtonCheck) {
 
 			rbm.keepScreenshotPartial(40, 1815, 480, 1890); // x1, y1, x2, y2
-			var RubyBoxpa = rbm.imageExists('rubybox100pa.png', 0.95);
+			var RubyBoxpa = rbm.imageExists('rubybox100pa.png', 0.90);
 			rbm.releaseScreenshot();
 			if (RubyBoxpa) {
 				//sleep(200)
@@ -353,7 +515,7 @@ function RubyBox() { //檢查寶箱拿鑽&看廣告拿鑽 main
 					sleep(500);
 
 					rbm.keepScreenshotPartial(240, 1090 + j * 140, 310, 1160 + j * 140); // x1, y1, x2, y2
-					var target = rbm.imageExists('rubyboxget.png', 0.92);
+					var target = rbm.imageExists('rubyboxget.png', 0.90);
 					rbm.releaseScreenshot();
 					if (target) {
 						tap(300, 1100 + j * 140, 100); // sleep(400);
@@ -924,152 +1086,221 @@ function friendheartcheck(Timer) { //朋友送愛心 main
 }
 
 function WhiteCrystalMake(Timer) { //收工藝裝備，製作工藝
-	if (!config.isRunning) return false;
+	if (!config.isRunning || Date.now() < WhiteCrystalTimer) return false;
+	if (!WhiteCrystalswitch) return false;
 	console.log('收工藝裝備，製作工藝')
+	
+	var mooncount = Stonecount(15);
+	if (mooncount == 0) return false;
+	if (mooncount > 4) {mooncount = 4}
 	
 	var craftsmenu = 0;
 	var WhiteCrystalTD = Date.now() - WhiteCrystalTimer
-	var mooncount = Stonecount(15);
-	if (WhiteCrystalswitch > 0 && Date.now() > WhiteCrystalTimer && mooncount > 0) {
 		
-		if (mooncount > 4) {
-			mooncount = 4
-		}
+	if (Stonecount(0) < 4) {
+		sleep(500);
+		tap(990, 1400, 200); sleep(1000); //點包包下拉
 		
-		if (Stonecount(0) < 4) {
-			sleep(500);
-			tap(990, 1400, 200); sleep(1000); //點包包下拉
-			
-			AttackMode(3);
-		}
-		
-		for (var i = 0; i < 6; i++) {
-			CheckImageTap(947, 1688, 87, 83, 0.9, 'craftsbutton.png', 1, 1, 1, 200, 1) //craftsbutton
-			sleep(1000)
-			
-			rbm.keepScreenshotPartial(450, 830, 680, 940); // x1, y1, x2, y2
-			var image = rbm.imageExists('craftsmenu.png', 0.90);
-			rbm.releaseScreenshot();
-			if (image) {
-				craftsmenu = 1;
-				//console.log('craftsmenu = ' + craftsmenu)
-				break;
-			}
-		}
+		AttackMode(3);
+	}
+	
+	for (var i = 0; i < 6; i++) {
+		CheckImageTap(947, 1688, 87, 83, 0.9, 'craftsbutton.png', 1, 1, 1, 200, 1) //craftsbutton
+		sleep(1000)
 		
 		rbm.keepScreenshotPartial(450, 830, 680, 940); // x1, y1, x2, y2
-		var image = rbm.imageExists('craftsmenu.png', 0.97);
+		var image = rbm.imageExists('craftsmenu.png', 0.90);
 		rbm.releaseScreenshot();
-		if (craftsmenu == 1) {  //CraftsOkOpen.png
-			
-			var craftsgetmake = 0;
-			
-			//收裝備
-			var stoneDir = config.stoneDir;
-			var StonesPath = getStoragePath() + '/' + stoneDir;
-			
-			var filename1 = StonesPath + '/craftsokopen.png';
-			var tImg1 = openImage(filename1);
-			var image1 = getScreenshotModify(110, 1100, 870, 140, 870, 140, 100);
-			var results1 = findImages(image1, tImg1, 0.90, 3, true);
-			
-			for(var index in results1) {
-				var result1 = results1[index];
-				
-				if (Stonecount(0) == 0) {
-					FindStonesImages(5, 11, 0);    //合成  5  ==> 11
-					CheckImageTap(947, 1688, 87, 83, 0.9, 'craftsbutton.png', 1, 1, 1, 200, 1) //craftsbutton
-					sleep(1000)
-					if (Stonecount(0) == 0) {
-						keycode('BACK', 600)
-						return false;
-					}
-				}
-
-				var x0 = 110 + result1.x + 40 - 40;
-				var y0 = 1100 + result1.y + 85 - 85;
-				sleep(300)
-				//rbm.log(result1.x, result1.y, result1.score);
-				for (var i = 0; i < 1; i++) {
-					tap(x0, y0, 50);sleep(1000)
-					tap(x0, y0, 50);sleep(1000)
-					tap(x0, y0, 50);sleep(1000)
-					tap(x0, y0, 50);sleep(1000)
-					CheckImageTap(490, 1060, 100, 160, 0.9, 'ok_button.png', 1, 1, 1, 200, 1) //OK_Button
-					CheckImageTap(490, 1060, 100, 160, 0.9, 'ok_button.png', 1, 1, 1, 200, 1) //OK_Button
-				}
-				craftsgetmake = craftsgetmake + 1
-			}	
-			releaseImage(tImg1);
-			releaseImage(image1);
-			
-			//製作裝備
-			var filename2 = StonesPath + '/CraftsMake.png';	
-			var tImg2 = openImage(filename2);
-			var image2 = getScreenshotModify(90, 1000, 900, 120, 900, 120, 100);
-			var results2 = findImages(image2, tImg2, 0.90, mooncount, true);
-			releaseImage(tImg2);
-			releaseImage(image2);
-			
-			for(var index in results2) {
-				var result2 = results2[index];
-				var x1= 120 + result2.x + 40
-				var y1 = 1000 + result2.y + 40
-				//rbm.log(result2.x, result2.y, result2.score);
-				
-				
-				for (var i = 0; i < 1; i++) {
-					CheckImageTap(947, 1688, 87, 83, 0.9, 'craftsbutton.png', 1, 1, 1, 200, 1) //craftsbutton
-					sleep(500)
-					
-					tap(x1, y1, 20);
-					
-					var MakeListEx = 0;
-					for (var k = 0; k < 10; k++) {
-						sleep(1000);
-						rbm.keepScreenshotPartial(330, 560, 550, 630); // x1, y1, x2, y2
-						var image = rbm.imageExists('CraftsMakeList.png', 0.8);
-						rbm.releaseScreenshot();
-						if (image) {
-							MakeListEx = 1;
-							break;
-						}
-					}
-					
-					if (MakeListEx == 1) {
-						
-						if (CraftsMakeEatneedleswitch == 1 && x1 > 110 && x1 < 380){
-							CraftsMakeSelect(1);
-						}
-						else if (CraftsMakeIceneedleswitch == 1 && x1 > 405 && x1 < 675){
-							CraftsMakeSelect(2);
-						}
-						else{
-							CraftsMakeSelect(3);
-						}
-					}
-				}
-				craftsgetmake = craftsgetmake + 1
-			}
-			keycode('BACK', 1000);
+		if (image) {
+			craftsmenu = 1;
+			//console.log('craftsmenu = ' + craftsmenu)
+			break;
 		}
-		
-		
-		tap(990, 1400, 200); sleep(300); //點包包下拉
-		tap(990, 1400, 200); sleep(300); //點包包下拉
-		tap(990, 1400, 200); sleep(300); //點包包下拉
-		tap(990, 1400, 200); sleep(300); //點包包下拉
-		AttackMode(1);
-		
-		WhiteCrystalTimer = Date.now() + Timer * 1000;
 	}
+	
+	rbm.keepScreenshotPartial(450, 830, 680, 940); // x1, y1, x2, y2
+	var image = rbm.imageExists('craftsmenu.png', 0.97);
+	rbm.releaseScreenshot();
+	if (craftsmenu == 1) {  //CraftsOkOpen.png
+		
+		var craftsgetmake = 0;
+		
+		//收裝備
+		var stoneDir = config.stoneDir;
+		var StonesPath = getStoragePath() + '/' + stoneDir;
+		
+		var filename1 = StonesPath + '/craftsokopen.png';
+		var tImg1 = openImage(filename1);
+		var image1 = getScreenshotModify(110, 1100, 870, 140, 870, 140, 100);
+		var results1 = findImages(image1, tImg1, 0.90, 3, true);
+		
+		for(var index in results1) {
+			var result1 = results1[index];
+			
+			if (Stonecount(0) == 0) {
+				FindStonesImages(5, 11, 0);    //合成  5  ==> 11
+				CheckImageTap(947, 1688, 87, 83, 0.9, 'craftsbutton.png', 1, 1, 1, 200, 1) //craftsbutton
+				sleep(1000)
+				if (Stonecount(0) == 0) {
+					keycode('BACK', 600)
+					return false;
+				}
+			}
+
+			var x0 = 110 + result1.x + 40 - 40;
+			var y0 = 1100 + result1.y + 85 - 85;
+			sleep(300)
+			//rbm.log(result1.x, result1.y, result1.score);
+			for (var i = 0; i < 1; i++) {
+				tap(x0, y0, 50);sleep(1000)
+				tap(x0, y0, 50);sleep(1000)
+				tap(x0, y0, 50);sleep(1000)
+				tap(x0, y0, 50);sleep(1000)
+				CheckImageTap(490, 1060, 100, 160, 0.9, 'ok_button.png', 1, 1, 1, 200, 1) //OK_Button
+				CheckImageTap(490, 1060, 100, 160, 0.9, 'ok_button.png', 1, 1, 1, 200, 1) //OK_Button
+			}
+			craftsgetmake = craftsgetmake + 1
+		}	
+		releaseImage(tImg1);
+		releaseImage(image1);
+			
+		
+		//製作裝備
+		var craftTableX = new Array( '', 0, 0, 0, 0, 0)
+		for (var n = 1; n <= 5; n++) { craftTableX[n] = 58 + 241 * (n - 1) };
+		var filename2 = StonesPath + '/CraftsMake.png';	
+		var tImg2 = openImage(filename2);
+		var image2 = getScreenshotModify(60, 940, 1020, 960,  1020, 960, 100);
+		var results2 = findImages(image2, tImg2, 0.90, mooncount, true);
+		releaseImage(tImg2);
+		releaseImage(image2);
+		
+		for(var index in results2) {
+			var result2 = results2[index];
+			var x1= 120 + result2.x + 40
+			var y1 = 1000 + result2.y + 40
+			//rbm.log(result2.x, result2.y, result2.score);
+			
+			
+			for (var i = 0; i < 1; i++) {
+				CheckImageTap(947, 1688, 87, 83, 0.9, 'craftsbutton.png', 1, 1, 1, 200, 1) //craftsbutton
+				sleep(500)
+				
+				tap(x1, y1, 20);
+				
+				var MakeListEx = 0;
+				for (var k = 0; k < 10; k++) {
+					sleep(1000);
+					rbm.keepScreenshotPartial(330, 560, 550, 630); // x1, y1, x2, y2
+					var image = rbm.imageExists('CraftsMakeList.png', 0.8);
+					rbm.releaseScreenshot();
+					if (image) {
+						MakeListEx = 1;
+						break;
+					}
+				}
+				/*
+				if (MakeListEx == 1) {
+					
+					if (CraftsMakeEatneedleswitch == 1 && x1 > 110 && x1 < 380){
+						CraftsMakeSelect(1);
+					}
+					else if (CraftsMakeIceneedleswitch == 1 && x1 > 405 && x1 < 675){
+						CraftsMakeSelect(2);
+					}
+					else{
+						CraftsMakeSelect(3);
+					}
+				}
+				*/
+				if (MakeListEx == 1) {
+						 if (x1 > craftTableX[1] && x1 < craftTableX[2]){ CraftsMakeSelect(CraftsMake1switch); }
+					else if (x1 > craftTableX[2] && x1 < craftTableX[3]){ CraftsMakeSelect(CraftsMake2switch); }
+					else if (x1 > craftTableX[3] && x1 < craftTableX[4]){ CraftsMakeSelect(CraftsMake3switch); }
+					else if (x1 > craftTableX[4] && x1 < craftTableX[5]){ CraftsMakeSelect(CraftsMake4switch); }
+				}
+			}
+			craftsgetmake = craftsgetmake + 1
+		}
+		keycode('BACK', 1000);
+	}
+	
+	
+	tap(990, 1400, 200); sleep(300); //點包包下拉
+	tap(990, 1400, 200); sleep(300); //點包包下拉
+	tap(990, 1400, 200); sleep(300); //點包包下拉
+	tap(990, 1400, 200); sleep(300); //點包包下拉
+	AttackMode(1);
+	
+	WhiteCrystalTimer = Date.now() + Timer * 1000;
+	
 }
 
 function CraftsMakeSelect(CraftsSelect){ //製作工藝，物品選擇  1:食針  2:冰針  3:水晶
 	if (!config.isRunning) return false;
-	console.log('開始製作工藝');
+	if (CraftsSelect == 0) return false;
+	//console.log('開始製作工藝');
+	
+	var itemEN = new Array('', 'Solar Stone Craft[Rare~Unique]', ' Advanced miracle Card', ' Middle Miracle Card', ' Beginner Miracle Card', 'Phoenix Craft[normal~Unique]', ' Expanding Bag Scroll', ' Hat Craft', ' Armor Craft', ' Energy of Solar Craft', ' Shining Item Crystal Craft', ' Crystal Craft(Crescent)');
+	var itemTC = new Array('', '[手藝]太陽石【稀有~獨特】', '高級奇蹟卡工藝', '中級奇蹟卡工藝', '初級奇蹟卡工藝', '白色鳳凰', 'Expanding Bag Scroll', '[初級]帽子工藝', '裝備手藝', 'Energy of Solar', '[手藝]閃亮水晶', '[手藝]白水晶');
+	var itemTCnew = new Array('', '1.太陽石', '2.高級卡', '3.中級卡', '4.初級卡', '5.鳳凰', '6.背包卷', '7.帽子卷', '8.裝備卷', '9.太陽水晶', '10.閃亮水晶', '11.白水晶');
+	
+	var CraftItem = 'craftlist_' + CraftsSelect + '.png';
+	console.log('開始製作工藝', itemTCnew[CraftsSelect]);
+	
+
+	tap(980, 1730, 80);
+	tap(980, 1730, 80);
+	sleep(1000);
+	
+	tap(800, 800, 100);
+	sleep(2000);
 	
 	
+	
+	for (var j = 0; j < 7; j++) {
+		if (!config.isRunning) return false;
+		
+		rbm.keepScreenshotPartial(55, 340, 735, 1330); //找設定齒輪，點擊切換區域
+		var itemImg = rbm.findImage(CraftItem, 0.9);
+		//rbm.log('j:', j, ', itemTCnew[CraftsSelect]:', itemImg)
+
+		if (itemImg != undefined && itemImg.score >= 0.9) {
+			console.log('Find:', itemTCnew[CraftsSelect]);
+			tap(itemImg.x, itemImg.y, 200);
+			sleep(2500);
+			
+			console.log('Tap Found:', itemTCnew[CraftsSelect]);
+			keycode('BACK', 100);
+			sleep(500)
+			keycode('BACK', 100);
+			sleep(1000);
+			
+			console.log('BACK:', itemTCnew[CraftsSelect]);
+			sleep
+			break;
+		}
+		else {
+			var outImg0 =  rbm.findImage('outcrafteslist_0.png', 0.9);
+			var outImg1 =  rbm.findImage('outcrafteslist_1.png', 0.9);
+			var outImg2 =  rbm.findImage('outcrafteslist_2.png', 0.9);
+			var outImg5 =  rbm.findImage('outcrafteslist_5.png', 0.9);
+			if (outImg0 == undefined &&  outImg1 == undefined &&  outImg2 == undefined &&  outImg5 == undefined) { 
+				DIY_swipe2(980, 1220, 980, 430, 150, 800);
+			}
+			else if (outImg0 != undefined ||  outImg1 != undefined ||  outImg2 != undefined ||  outImg5 != undefined) { 
+				console.log('Not Found:', itemTCnew[CraftsSelect]);  break;
+			}
+		}
+
+		rbm.releaseScreenshot();
+		
+		sleep(1000);
+		ResterTimerSet = Date.now();
+	}
+
+		
+	/*
 	var CraftsMakeItem = new Array(0,'CraftsMakeEatneedle','CraftsMakeIceneedle','CraftsMakeMoon');
 	var MakeFile = CraftsMakeItem[CraftsSelect] + '_TC.png'
 	var DoitFile = CraftsMakeItem[CraftsSelect] + 'Doit_TC.png'
@@ -1112,39 +1343,29 @@ function CraftsMakeSelect(CraftsSelect){ //製作工藝，物品選擇  1:食針
 		//console.log('2j=', j, craftOkButton_Y);
 		rbm.keepScreenshotPartial(440, 820, 770, 1340); // x1, y1, x2, y2
 		var image1 = rbm.imageExists(CraftsMakeItem[CraftsSelect] + '_TC.png', 0.9);
-		//var image2 = rbm.imageExists(CraftsMakeItem[CraftsSelect] + '_EN.png', 0.9);
 		rbm.releaseScreenshot();
 		if (image1) {
 			rbm.imageClick(CraftsMakeItem[CraftsSelect] + '_TC.png', 0.9)
 			rbm.imageClick(CraftsMakeItem[CraftsSelect] + '_TC.png', 0.9)
 		}
-		/*
-		else if (image2) {
-			rbm.imageClick(CraftsMakeItem[CraftsSelect] + '_EN.png', 0.9)
-			rbm.imageClick(CraftsMakeItem[CraftsSelect] + '_EN.png', 0.9)
-		}
-		*/
 		
 		rbm.keepScreenshotPartial(450, 1040, 840, 1500); // x1, y1, x2, y2
 		var image1 = rbm.imageExists(CraftsMakeItem[CraftsSelect] + 'Doit_TC.png', 0.9);
-		//var image2 = rbm.imageExists(CraftsMakeItem[CraftsSelect] + 'Doit_EN.png', 0.9);
 		rbm.releaseScreenshot();
 		if (image1) {
 		//if (image1 || image2) {
 			sleep(2000)
 			CheckImageTap(470, 1100, 130, 580, 0.9, 'craftsbuttonOK.png', 1, 1, 1, 200, 1) //OK_Button
 			CheckImageTap(470, 1100, 130, 580, 0.9, 'craftsbuttonOK.png', 1, 1, 1, 200, 1) //OK_Button
-			//tap(540, craftOkButton_Y, 300);
-			//tap(540, craftOkButton_Y, 300);
 			console.log('CraftsMakeDoit')
 			sleep(2000)
 			break;
 		}
 		
-		//xy_swipe(150, 1250, 150, 780, 25);
 		sleep(800);
 		ResterTimerSet = Date.now();
 	}
+	*/
 	
 }
 
@@ -1720,33 +1941,79 @@ function stonecompoundnotup(stonelv1,stonelv2) {  //指定石頭不跳階合成
 	}
 }
 
+function DailyAchievene(Timer) { //ReceiveDaily
+	if (!config.isRunning || Dailyswitch == 0 ) return false;
+	if (Date.now() < DailyAchieveneTimer) { return false; }
+	
+	for (var i = 0; i < 15; i++) {
+		if (!config.isRunning) return false;
+		
+		CheckImageTap(930, 150,  50, 255, 0.85,  'Achievene.png', 1, 1, 1, 300, 1); //Achievene
+		CheckImageTap( 65, 860, 150,  70, 0.85, 'ReceiveAll.png', 1, 1, 1, 300, 1); //Achievene		
+		sleep(1000);
+		
+		rbm.keepScreenshotPartial( 50, 870, 225, 935); // x1, y1, x2, y2
+		var checkImg1 = rbm.imageExists('ReceiveAll_dark.png', 0.90);
+		rbm.releaseScreenshot();
+		if (checkImg1) {
+			tap(995, 905, 100); sleep(200);
+			tap(995, 905, 100); sleep(200);
+			console.log('ReceiveAll_dark Break DailyAchievene')	
+			DailyAchieveneTimer = Date.now() + Timer * 1000
+			break;
+		}
+		
+		console.log('DailyAchievene Check :', i, ' times');
+	}
+
+}
+
 function StoneCompound(min, max, rainmax) { // 主流程
 	if (!config.isRunning) return false;
 
-	combinecount = 0;
-	FindStonesImages(5, 8, 0);    //合成  5  ==> 8
+	//FindStonesImages(5, 8, 0);    //合成  5  ==> 8
 	
 	var Map_Check_FC1 = Map_Check(2, 0);  // MapFc: 1打獵圖, 2礦區； Type: 1點擊圖示
 	var Map_Check_FC2 = Map_Check(1, 0);  // MapFc: 1打獵圖, 2礦區； Type: 1點擊圖示
 	
 	if (Map_Check_FC1) {                 // 確認在礦區
 		
-		AreaChange(5, 600);  //區域切換：AreaID= 1:礦區 1頻	
+		//AreaChange(5, 600);  //區域切換：AreaID= 1:礦區 1頻	
 		
 		if (eightdragonswitch == 0) {
 			var StonMax = max;
 
+			/*
 			rbm.keepScreenshotPartial(655, 119, 694, 338);
 			var targetPic1 = rbm.imageExists('weather_rain.png', 0.95);
 			rbm.releaseScreenshot();
 			if (targetPic1) {  //確認是雨天
 				StonMax = rainmax;
 			}
+			*/
 			
-			//FindStonesImages(6, 6, 0);    //合成  6  ==> 6
-			FindStonesImages(min, min, 0);     //合成  min ~ min
-			FindStonesImages(min, min + 4, 0);     //合成  min ~ min + 3
-			FindStonesImages(min, StonMax + 0, 0); //合成  min ~ max
+			
+			for (var i = 24; i >= min; i = i - 1) {
+				StonMax = i;
+				if (StoneCountArray[i] >= 2) {
+					console.log('StoneCountArray[' + i + '] =', StoneCountArray[i], 'StonMax =', StonMax)
+					break;
+				}
+			}
+				
+			if ( combinecount > -15) {
+				FindStonesImages(min, StonMax, 0); //合成  min ~ max
+			}
+			else if (combinecount <= -15) {
+				//console.log(' combinecount <= -10');
+				
+				for (var i = 0; i < 27; i++) {
+					StoneCountArray[i] = 99;
+				}
+				
+				FindStonesImages(min, 18, 0);
+				combinecount = 0;
+			}
 			
 			rain_fastdig();  //下雨天快速挖
 		}
@@ -1797,7 +2064,7 @@ function StoneCompound(min, max, rainmax) { // 主流程
 		sleep(500)
 	}
 	else {                                // 不在打獵&礦區 上右上
-		keycode('DPAD_UP', 100);
+		keycode('DPAD_DOWN', 100);
 		keycode('DPAD_RIGHT', 100);
 		keycode('DPAD_UP', 100);
 	}
@@ -1805,57 +2072,126 @@ function StoneCompound(min, max, rainmax) { // 主流程
 	WhiteCrystalMake(300);  //白色水晶製作
 	friendheartcheck(1800);  //好友送愛心
 	Dougeon_WFStone(600); //打地城
+	DailyAchievene(3600); //每日獎勵
 
 }
 
-//config.isRunning = true;	
-for(var n = 0; n <= 0; n++) {
-	//rbm.log(rbm.currentApp())
-	var combinecount = 0;
-	friendheartswitch = 0;
-	RubyBoxClick = 0;
-	if (!config.isRunning) break;
-	if (n == 1) {
-		DougeonWFStoneswitch = 3;   //打水火石              0:關  1:開
-		DungeonTicketsset = 0;      //打水火石剩餘票設定   0:打光所有票  11:時間為 0:00
-		DungeonRoomset = 1;         //打水火石等級設定      0:不打     1:Beginner  2:Easy  
-									//                      3:Normal   4:Hard      5:Hell
-		Dougeon_WFStoneTimer = Date.now();  //打水火石
-		AreaTimer1 =  Date.now() - 1000;  //頻道
-		AreaTimer2 =  Date.now() - 1000;  //狩獵區
-		AreaTimer3 =  Date.now() - 1000;  //副本
-		AreaTimer4 =  Date.now() - 1000;  //城鎮
-		AreaTimer5 =  Date.now() - 1000;  //強制回礦區
-	}
-	else if (n > 1) {
-		//eightdragonhuntermap = 5;
-		//EDTravel_field();
-		//Dougeon_WFStone(60);
-
-		QuizRestart()
-		
-		/*
-		rbm.keepScreenshotPartial(120, 360, 400, 430); // x1, y1, x2, y2 //判斷是否有打勾 ok
-		var target3 = rbm.imageExists('Travel_channels_lessperson_no.png', 0.92);
-		var target4 = rbm.imageExists('Travel_channels_lessperson_ok.png', 0.92);
-		rbm.log('no_target3: ', target3, rbm.findImage('Travel_channels_lessperson_no.png', 0.50));
-		rbm.log('ok_target4: ', target4, rbm.findImage('Travel_channels_lessperson_ok.png', 0.50));
-		*/
-	}
+function timer(t, st) {
+	if (!config.isRunning) return false;
 	
-	console.log('n = '+ n);
+	for (var i = 1; i <= t; i++) {
+		if (!config.isRunning) return false;
+		sleep(1000);
+		
+		if ( st == 1 ) {
+			console.log('wait ', i, ' /', t, ' sec');
+		}
+	}
+}
+
+function test(a) {
+	config.isRunning = true;
+	
+	for(var n = 0; n <= a; n++) {
+		if (!config.isRunning) return false;
+		
+		
+		if (n == 0) {
+			
+		  //StoneCountArray = new Array( 1, 2, 3, 4, 5, 6, 7, 8, 9,10, 1, 2, 3, 4, 5, 6, 7, 8, 9,10, 1, 2, 3, 4, 5, 6, 7, 8);
+			StoneCountArray = new Array(99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99);
+			DougeonWFStoneswitch = 3;   //打水火石              0:關  1:開
+			DungeonTicketsset = 0;      //打水火石剩餘票設定   0:打光所有票  11:時間為 0:00
+			DungeonRoomset = 1;         //打水火石等級設定      0:不打     1:Beginner  2:Easy  
+										//                      3:Normal   4:Hard      5:Hell
+
+			//合成方式調整
+			dectcompraw1 = 2;
+			dectcompraw2 = 100;
+			dectcompraw3 = 100;
+			dectcompraw4 = 100;										
+										
+			eightdragonchangswitch = 0;
+			mooncompswitch = 0;
+			combinecount = 0;
+			friendheartswitch = 0;
+			RubyBoxClick = 0;
+			characterbubbleSwitch = 0;
+			AD_GetRubyswitch = 0;
+			eightdragonhuntermap = 3;
+			RestartAppswitch = 1;
+				
+			stonelvmin = 7;
+			
+			RestartApptimeset = 240;
+			
+			friendheartTimer = Date.now() + 30 * 1000;
+			AD_GetRubyTimer = Date.now() + 50 * 1000;
+			ResterTimerSet = Date.now() + 0 * 1000;
+			WhiteCrystalTimer = Date.now() + 10 * 1000;
+			Dougeon_WFStoneTimer = Date.now() + 40 * 1000;  //打水火石
+			AD_Goldx2Timer = Date.now() + 10 * 1000;  //打獵區金幣2倍&重生
+			DailyAchieveneTimer = Date.now() + 20 * 1000  //DailyAchieveneTimer
+			
+			AreaTimer1 =  Date.now();  //頻道
+			AreaTimer2 =  Date.now();  //狩獵區
+			AreaTimer3 =  Date.now();  //副本
+			AreaTimer4 =  Date.now();  //城鎮
+			AreaTimer5 =  Date.now();  //強制回礦區
+			AreaTimer6 =  Date.now();  //切換少人頻道
+			
+			DailyAchieveneTimer = Date.now() + 20 * 1000  //DailyAchieveneTimer
+			Dougeon_WFStoneTimer = Date.now();  //打水火石
+			
+		}
+		else if (n > 0) {
+			//console.log('n:', n, ', 腳本測試開始');
+			var aa = 0;
+			
+			CraftsMakeSelect(n);
+		 
+			 /*
+			//製作裝備
+			var stoneDir = config.stoneDir;
+			var StonesPath = getStoragePath() + '/' + stoneDir;
+			var filename2 = StonesPath + '/CraftsMake.png';	
+			var tImg2 = openImage(filename2);
+			var image2 = getScreenshotModify(60, 940, 1020, 960,  1020, 960, 100);
+			var results2 = findImages(image2, tImg2, 0.90, 4, true);
+			releaseImage(tImg2);
+			releaseImage(image2);
+			
+			for(var index in results2) {
+				var result2 = results2[index];
+				rbm.log('1:', result2);
+			}	
+			*/
+		
+		
+			//while(config.isRunning) {FindStonesImages(5, 24, 0);}    //合成  5  ==> 8		
+			
+		}
+	}
 }
 
 function stop() {
 	config.isRunning=false;
 }
 
-function start(min, max, rainmax, friendheart, ad_ruby, charabubble, rainfastdig, WCrystal, moonkeep, CMIceneedle, CMEatneedle, DWFStone, DTickets, DWFroomlv, EightDragon, EDmoonkeep, EDareachange, EDmoonback, EDgotohunter, resetapp, resetapptime, goldx2, goldx2T, CHLperson, CHLpersonT) {
+function start( dectcomprawT1, dectcomprawT2, dectcomprawT3, dectcomprawT4, min, max, rainmax, friendheart, ad_ruby, charabubble, rainfastdig, WCrystal, moonkeep, CraftsMake1, CraftsMake2, CraftsMake3, CraftsMake4, DWFStone, DTickets, DWFroomlv, EightDragon, EDmoonkeep, EDareachange, EDmoonback, EDgotohunter, resetapp, resetapptime, goldx2, goldx2T, CHLperson, CHLpersonT, DailyAchieveneT) {
 	config.isRunning = true;
-	var combinecount = 0;
-	var ScreenCheck = 0;
+	combinecount = 0;
+	ScreenCheck = 0;
 	RubyBoxClick = 0;
 	EDbackminigmooncount = 0;
+	
+	//合成方式調整
+	dectcompraw1 = dectcomprawT1
+	dectcompraw2 = dectcomprawT2
+	dectcompraw3 = dectcomprawT3
+	dectcompraw4 = dectcomprawT4
+	console.log('合成方式調整防偵測:', dectcompraw1, dectcompraw2, dectcompraw3, dectcompraw4)
+	
 	
 	stonelvmin = min;            //合成，石頭最"低"等級        0:關  1:開
 	normalstonelvmax = max;      //一般合成，石頭最"高"等級    0:關  1:開
@@ -1872,22 +2208,22 @@ function start(min, max, rainmax, friendheart, ad_ruby, charabubble, rainfastdig
 	mooncompswitch = moonkeep;          //彎月保留量(作水晶用)  0:不保留
 	//console.log('製作水晶設定', WCrystal, moonkeep)
 
-	CraftsMakeEatneedleswitch = CMIceneedle;    //工藝 暴食之針製作裝備
-	CraftsMakeIceneedleswitch = CMEatneedle;    //工藝 寒冰之針製作裝備
-	console.log('食針 冰針:', CMIceneedle, CMEatneedle)
+	CraftsMake1switch = CraftsMake1;    //工藝1
+	CraftsMake2switch = CraftsMake2;    //工藝2
+	CraftsMake3switch = CraftsMake3;    //工藝3
+	CraftsMake4switch = CraftsMake4;    //工藝4
+	console.log('食針 冰針:', CraftsMake1, CraftsMake2, CraftsMake3)
 	
 	DougeonWFStoneswitch = DWFStone;    //打水火石地城          0:關  1:開
 	DungeonTicketsset = DTickets;       //打水火石地城票        設定值：0~10
 	DungeonRoomset = DWFroomlv;         //打水火石地城等級      1:Beginner  2:Easy  3:Normal  4:Hard  5:Hell
 	//console.log('打水火石地城設定', DWFStone, DTickets, DWFroomlv)
 	
-	
-	
 	eightdragonswitch = EightDragon;        //8龍專用(含鳳凰)，合成限制(雨天加速:關，合成：5~14) EightDragon
 	eightdragonmoonset = EDmoonkeep;        //8龍專用(含鳳凰)，合成停止(彎月數量) EDmoonkeep
 	eightdragonchangswitch = EDareachange;  //8龍專用(含鳳凰)，打獵←→打礦切換  EDareachange
 	EDbackminigmoonset = EDmoonback;        //8龍專用(含鳳凰)，回到礦區(彎月數量) EDmoonback
-	eightdragonhuntermap = EDgotohunter;    //設定要打獵地圖 EDgotohunter
+	eightdragonhuntermap = EDgotohunter;    //設定要打獵地圖 ，1:70, 2:80, 3:90-E, 4:90-N, 5:90-H
 	//console.log('8龍模式UI:', EightDragon, EDmoonkeep, EDareachange, EDmoonback, EDgotohunter)
 	//console.log('8龍模式SC:', eightdragonswitch, eightdragonmoonset, eightdragonchangswitch, EDbackminigmoonset, eightdragonhuntermap)
 	
@@ -1901,6 +2237,8 @@ function start(min, max, rainmax, friendheart, ad_ruby, charabubble, rainfastdig
 	CHLpersontimeset = CHLpersonT          //打圖 頻道 切換至少人頻道     切換時間 "秒"
 	//console.log('廣告 金幣x2 自動重生:', goldx2, goldx2T, CHLperson, CHLpersonT)
 	
+	Dailyswitch = DailyAchieveneT          //領取每日獎勵       0:關  1:開  
+	
 	
 	friendheartTimer = Date.now() + 30 * 1000;
 	AD_GetRubyTimer = Date.now() + 50 * 1000;
@@ -1908,6 +2246,7 @@ function start(min, max, rainmax, friendheart, ad_ruby, charabubble, rainfastdig
 	WhiteCrystalTimer = Date.now() + 10 * 1000;
 	Dougeon_WFStoneTimer = Date.now() + 40 * 1000;  //打水火石
 	AD_Goldx2Timer = Date.now() + 10 * 1000;  //打獵區金幣2倍&重生
+	DailyAchieveneTimer = Date.now() + 20 * 1000  //DailyAchieveneTimer
 	
 	AreaTimer1 =  Date.now();  //頻道
 	AreaTimer2 =  Date.now();  //狩獵區
@@ -1915,11 +2254,12 @@ function start(min, max, rainmax, friendheart, ad_ruby, charabubble, rainfastdig
 	AreaTimer4 =  Date.now();  //城鎮
 	AreaTimer5 =  Date.now();  //強制回礦區
 	AreaTimer6 =  Date.now();  //切換少人頻道
+
+	
+  //StoneCountArray = new Array( 1, 2, 3, 4, 5, 6, 7, 8, 9,10, 1, 2, 3, 4, 5, 6, 7, 8, 9,10, 1, 2, 3, 4, 5, 6, 7, 8);
+	StoneCountArray = new Array(99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99);
 	
 	while(config.isRunning) {
 		StoneCompound(stonelvmin, normalstonelvmax, rainstonelvmax);
 	}
 }
-
-
-//console.log(parseInt("FF", 16)); 字串16進位轉10進位

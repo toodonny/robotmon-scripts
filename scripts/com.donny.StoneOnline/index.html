@@ -146,67 +146,37 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
     <script>
-      VERSION = 1.44;
+      VERSION = 1.60;
 
       var settings = [
         [
-          {
-            title: "1.44版，更新日期 2018.05.24，小測驗測配合改版修正，500k/1m 地城對話框修正",
-            title_zh_TW: "",
-          },
-          {
-            title: "1.43版，更新日期 2018.04.30，修正切換少人失效及水火不打，感謝'德'協助debug",
-            title_zh_TW: "",
-          },
-          {
-            title: "特別感謝 Robotmon 作者，連線指導腳本編寫與debug協助，才有此腳本誕生",
-            title_zh_TW: "",
-          },
-          {
-            title: "感謝 聞西、黃可愛、杉、建志協助測試與反饋bug內容",
-            title_zh_TW: "",
-          },
-          {
-            title: "感謝 吳小帆 提供電腦，進行24小時運轉測試",
-            title_zh_TW: "",
-          },
+          { title: "1.60版，更新 2019.01.23，工藝製作4格可選，感謝易宸提供圖文 ",  title_zh_TW: "",  },
+          { title: "1.53版，更新 2018.08.26，修正合成模式，提高效率            ",  title_zh_TW: "",  },
+          { title: "1.51版，更新 2018.08.26，新增防偵測設定及每日獎勵領取功能  ",  title_zh_TW: "",  },
+          { title: "感謝 Robotmon 作者，連線指導腳本編寫與debug，才有此腳本誕生",  title_zh_TW: "",  },
+          { title: "感謝 聞西、黃可愛、杉、建志協助測試與反饋bug內容           ",  title_zh_TW: "",  },
+          { title: "感謝 吳小帆 提供電腦，進行24小時運轉測試                   ",  title_zh_TW: "",  },
         ],
-        [
+		[
           {
             title: "Language",
             title_zh_TW: "語言",
-            buttons: [
-              {
-                title: "中文",
-                onclick: "saveLocale('en-US')"
-              },
-            ]
+            buttons: [   {   title: "中文",  onclick: "saveLocale('en-US')"  }, ]
           },
-          { 
-            title: ['合成，石頭最"低"等級(1~8)'],
-            default: 6,
-            step: 1,
-            max: 8,
-            min: 1,
-          },
-		  { 
-            title: ['一般合成，石頭最"高"等級(2~24)'],
-            default: 18,
-            step: 1,
-            max: 24,
-            min: 2,
-          },
-		  { 
-            title: ['雨天合成，石頭最"高"等級(2~24)'],
-            default: 24,
-            step: 1,
-            max: 24,
-            min: 2,
-          },
-          {
-            title: "本腳本不提供 25級(三星球)以上合成，留點樂趣給玩家",
-            title_zh_TW: "",
-          },
+		],
+		[
+          { title: "防偵測合成調整(延遲愈短易偵測，自行調整)",            title_zh_TW: "",          },
+          { title: ['合成移動模式(1:正常, 2:手抖, 3:手殘)'],  default:   2,  step:  1,  max:   3,  min:  1, },
+          { title: ['同級合成"前"延遲(20~500毫秒)    '],  default: 200,  step: 20,  max: 500,  min: 20, },
+          { title: ['同級合成"後"延遲(20~500毫秒)    '],  default: 300,  step: 20,  max: 500,  min: 20, },
+          { title: ['不同級合成延遲(20~500毫秒)      '],  default: 500,  step: 20,  max: 500,  min: 20, },
+		],
+		
+        [
+          { title: ['合成，石頭最"低"等級(1~8)           '],  default:   6,  step:  1,  max:   8,  min:  1, },
+		  { title: ['一般合成，最"高"級(2~24)      '],  default:  18,  step:  1,  max:  24,  min:  2, },
+		  { title: ['雨天合成，最"高"級(2~24)      '],  default:  24,  step:  1,  max:  24,  min:  2, },
+          { title: "本腳本不提供 25級(三星球)以上合成，留點樂趣給玩家",  title_zh_TW: "",   },
         ],
         [
           { title: "朋友送愛心", title_zh_TW: "", default: false},
@@ -231,12 +201,14 @@
           },
         ],
         [
-          {
-            title: "工藝品製作選擇開關(無選擇，預設白水晶)",
-            title_zh_TW: "",
-          },
-          { title: "食針作裝(工藝第1格)", title_zh_TW: "", default: false},
-          { title: "冰針作裝(工藝第2格)", title_zh_TW: "", default: false},
+          { title: "工藝品製作選擇：",  title_zh_TW: "",  },
+          { title: ['工藝第1格(0:關閉,1~11)           '],  default:   0,  step:  1,  max:  11,  min:  0, },
+          { title: ['工藝第2格(0:關閉,1~11)           '],  default:   0,  step:  1,  max:  11,  min:  0, },
+          { title: ['工藝第3格(0:關閉,1~11)           '],  default:   0,  step:  1,  max:  11,  min:  0, },
+          { title: ['工藝第4格(0:關閉,1~11)           '],  default:   0,  step:  1,  max:  11,  min:  0, },
+          { title: "1★太陽石,_____2★高級卡,_____3★中級卡,___4★初級卡,     ",  title_zh_TW: "",  },
+          { title: "5★鳳凰,_______6★背包卷,_____7★帽子卷,___8★裝備卷,     ",  title_zh_TW: "",  },
+          { title: "9★太陽水晶,__10★閃亮水晶,__11★白水晶, 	    ",  title_zh_TW: "",  },
         ],
         [		  
 		  { 
@@ -325,35 +297,29 @@
           },
         ],
         [
-          { title: "每日獎勵，自動領(無功能)", title_zh_TW: "", default: true},
-          { title: "信件獎勵，自動領(無功能)", title_zh_TW: "", default: true},
+          { title: "每日獎勵，自動領", title_zh_TW: "", default: true},
+          { title: "信件獎勵，自動領(無功能)", title_zh_TW: "", default: false},
         ],
+		
 		[
           {
-            title: "1.41版，更新日期 2018.04.26，修正，工藝白水晶無法製作(官方圖修改)",
+            title: "====================我是分隔線====================",
             title_zh_TW: "",
           },
-          {
-            title: "1.40版，更新日期 2018.04.23，修正，地城票數無法判斷，不打地城；收工藝",
-            title_zh_TW: "",
-          },
-          {
-            title: "1.39版，更新日期 2018.04.21，新增 500k/1m 地城(不限地區)、死亡判斷",
-            title_zh_TW: "",
-          },
-          {
-            title: "1.38版，更新日期 2018.04.14，修正進入地圖模式",
-            title_zh_TW: "",
-          },
-          {
-            title: "1.37版，更新日期 2018.04.10，新增工藝品製作 食針/冰針 作裝備",
-            title_zh_TW: "",
-          },
+		],
+		[
+          { title: "1.44版，更新日期 2018.05.24，小測驗測配合改版修正，500k/1m 地城對話框修正  ",  title_zh_TW: "", },
+          { title: "1.43版，更新日期 2018.04.30，修正切換少人失效及水火不打，感謝'德'協助debug ",  title_zh_TW: "", },
+          { title: "1.41版，更新日期 2018.04.26，修正，工藝白水晶無法製作(官方圖修改)          ",  title_zh_TW: "", },
+          { title: "1.40版，更新日期 2018.04.23，修正，地城票數無法判斷，不打地城；收工藝      ",  title_zh_TW: "", },
+          { title: "1.39版，更新日期 2018.04.21，新增 500k/1m 地城(不限地區)、死亡判斷         ",  title_zh_TW: "", },
+          { title: "1.38版，更新日期 2018.04.14，修正進入地圖模式                              ",  title_zh_TW: "", },
+          { title: "1.37版，更新日期 2018.04.10，新增工藝品製作 食針/冰針 作裝備               ",  title_zh_TW: "", },
 		]
       ];
       function saveLocale(locale) {
         if (localStorage !== undefined) {
-          localStorage.setItem('growstonelanguage', locale);
+          localStorage.setItem('taptitans2language', locale);
           location.reload();
         }
       }
@@ -362,11 +328,11 @@
         if (localStorage = undefined) {
           return;
         }
-        var version = +localStorage.getItem('growstoneversion');
+        var version = +localStorage.getItem('taptitans2version');
         if (!version || VERSION != version) {
           return;
         }
-        var settingsJSON = localStorage.getItem('growstonesettings');
+        var settingsJSON = localStorage.getItem('taptitans2settings');
         if (!settingsJSON) {
           return;
         }
@@ -401,8 +367,8 @@
               }
             }
           }
-          localStorage.setItem('growstoneversion', VERSION);
-          localStorage.setItem('growstonesettings', JSON.stringify(recordSettings));
+          localStorage.setItem('taptitans2version', VERSION);
+          localStorage.setItem('taptitans2settings', JSON.stringify(recordSettings));
           console.log('Save settings');
         }
       }
@@ -430,7 +396,7 @@
         if (localStorage === undefined) {
           return setting.title;
         }
-        var lang = localStorage.getItem('growstonelanguage');
+        var lang = localStorage.getItem('taptitans2language');
         if (!lang) {
           return setting.title;
         } else if (lang === "zh-TW") {
@@ -545,7 +511,7 @@
           window.scrollTo(0, 0);
         });
 
-        if (localStorage !== undefined && localStorage.getItem('growstonelanguage') === "zh-TW") {
+        if (localStorage !== undefined && localStorage.getItem('taptitans2language') === "zh-TW") {
           $("#goToTop").text("回頁面頂端");
         } else {
           $("#goToTop").text("Go Top");
@@ -570,8 +536,17 @@
     <div class="container">
       <div id="settings"></div>
       <button id="goToTop" class="btn btn-plus">Go Top</button>
-      <br />
-      <br />
+      <br /> 1.<img src="images/craftlist_1 _Copy.png">    2.<img src="images/craftlist_2 _Copy.png">
+      <br /> 
+      <br /> 3.<img src="images/craftlist_3 _Copy.png">    4.<img src="images/craftlist_4 _Copy.png">
+      <br /> 
+      <br /> 5.<img src="images/craftlist_5 _Copy.png">    6.<img src="images/craftlist_6 _Copy.png">
+      <br /> 
+      <br /> 7.<img src="images/craftlist_7 _Copy.png">    8.<img src="images/craftlist_8 _Copy.png">
+      <br /> 
+      <br /> 9.<img src="images/craftlist_9 _Copy.png">   10.<img src="images/craftlist_10 _Copy.png">
+      <br /> 
+      <br />11.<img src="images/craftlist_11 _Copy.png">
       <br />
     </div>
   </body>

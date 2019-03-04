@@ -12,7 +12,7 @@ var config = {
   imageThreshold: 1,
   imageQuality: 100,
   resizeFactor: 1, // small -> quickly
-  stoneDir: 'scripts/com.donny.idlerpg/images',
+  scriptDir: 'scripts/com.donny.idlerpg/images',
   isRunning: false,
   PackangName: 'com.godzilab.idlerpg',
   LaunchActivityName: 'com.godzilab.idlerpg.Main',
@@ -331,149 +331,189 @@ function ScreenShottoPath(filename) {    //全畫面截圖存檔
 function num_Recognition(x1, y1, x2, y2, siml, numstr) {    //數字辨識-測試function
 	if (!config.isRunning) return false;
 	
-	//console.log('數字辨識-測試function');
-	var Character = { 
-	    'Attributes':[
-	        {'No':0, 'Value':0, 'x':0, 'y':'', 'Rank':'', 'score':''}, 
-	        {'No':1, 'Value':0, 'x':0, 'y':'', 'Rank':'', 'score':''}, 
-	        {'No':2, 'Value':0, 'x':0, 'y':'', 'Rank':'', 'score':''}, 
-	        {'No':3, 'Value':0, 'x':0, 'y':'', 'Rank':'', 'score':''}, 
-	        {'No':4, 'Value':0, 'x':0, 'y':'', 'Rank':'', 'score':''}, 
-	        {'No':5, 'Value':0, 'x':0, 'y':'', 'Rank':'', 'score':''}, 
-	        {'No':6, 'Value':0, 'x':0, 'y':'', 'Rank':'', 'score':''}, 
-	        {'No':7, 'Value':0, 'x':0, 'y':'', 'Rank':'', 'score':''}, 
-	        {'No':8, 'Value':0, 'x':0, 'y':'', 'Rank':'', 'score':''}, 
-	        {'No':9, 'Value':0, 'x':0, 'y':'', 'Rank':'', 'score':''}, 
-	        {'No':10, 'Value':0, 'x':0, 'y':'', 'Rank':'', 'score':''}, 
-	        {'No':11, 'Value':0, 'x':0, 'y':'', 'Rank':'', 'score':''}, 
-	        {'No':12, 'Value':0, 'x':0, 'y':'', 'Rank':'', 'score':''}, 
-	        {'No':13, 'Value':0, 'x':0, 'y':'', 'Rank':'', 'score':''}, 
-	        {'No':14, 'Value':0, 'x':0, 'y':'', 'Rank':'', 'score':''}, 
-	        {'No':15, 'Value':0, 'x':0, 'y':'', 'Rank':'', 'score':''}, 
-	        {'No':16, 'Value':0, 'x':0, 'y':'', 'Rank':'', 'score':''}, 
-	        {'No':17, 'Value':0, 'x':0, 'y':'', 'Rank':'', 'score':''}, 
-	        {'No':18, 'Value':0, 'x':0, 'y':'', 'Rank':'', 'score':''}, 
-	        {'No':19, 'Value':0, 'x':0, 'y':'', 'Rank':'', 'score':''}, 
-	        {'No':20, 'Value':0, 'x':0, 'y':'', 'Rank':'', 'score':''}, 
-	        {'No':21, 'Value':0, 'x':0, 'y':'', 'Rank':'', 'score':''}, 
-	        {'No':22, 'Value':0, 'x':0, 'y':'', 'Rank':'', 'score':''}, 
-	        {'No':23, 'Value':0, 'x':0, 'y':'', 'Rank':'', 'score':''}, 
-	        {'No':24, 'Value':0, 'x':0, 'y':'', 'Rank':'', 'score':''}, 
-	        {'No':25, 'Value':0, 'x':0, 'y':'', 'Rank':'', 'score':''}, 
-	        {'No':26, 'Value':0, 'x':0, 'y':'', 'Rank':'', 'score':''}, 
-	        {'No':27, 'Value':0, 'x':0, 'y':'', 'Rank':'', 'score':''}, 
-	        {'No':28, 'Value':0, 'x':0, 'y':'', 'Rank':'', 'score':''}, 
-	        {'No':29, 'Value':0, 'x':0, 'y':'', 'Rank':'', 'score':''}, 
-	        {'No':30, 'Value':0, 'x':0, 'y':'', 'Rank':'', 'score':''},
-	        {'No':31, 'Value':0, 'x':0, 'y':'', 'Rank':'', 'score':''}, 
-	        {'No':32, 'Value':0, 'x':0, 'y':'', 'Rank':'', 'score':''}, 
-	        {'No':33, 'Value':0, 'x':0, 'y':'', 'Rank':'', 'score':''}, 
-	        {'No':34, 'Value':0, 'x':0, 'y':'', 'Rank':'', 'score':''}, 
-	        {'No':35, 'Value':0, 'x':0, 'y':'', 'Rank':'', 'score':''}, 
-	        {'No':36, 'Value':0, 'x':0, 'y':'', 'Rank':'', 'score':''}, 
-	        {'No':37, 'Value':0, 'x':0, 'y':'', 'Rank':'', 'score':''}, 
-	        {'No':38, 'Value':0, 'x':0, 'y':'', 'Rank':'', 'score':''}, 
-	        {'No':39, 'Value':0, 'x':0, 'y':'', 'Rank':'', 'score':''}, 
-	        {'No':40, 'Value':0, 'x':0, 'y':'', 'Rank':'', 'score':''}, 
-	        {'No':41, 'Value':0, 'x':0, 'y':'', 'Rank':'', 'score':''}, 
-	        {'No':42, 'Value':0, 'x':0, 'y':'', 'Rank':'', 'score':''}, 
-	        {'No':43, 'Value':0, 'x':0, 'y':'', 'Rank':'', 'score':''}, 
-	        {'No':44, 'Value':0, 'x':0, 'y':'', 'Rank':'', 'score':''}, 
-	        {'No':45, 'Value':0, 'x':0, 'y':'', 'Rank':'', 'score':''}, 
-	        {'No':46, 'Value':0, 'x':0, 'y':'', 'Rank':'', 'score':''}, 
-	        {'No':47, 'Value':0, 'x':0, 'y':'', 'Rank':'', 'score':''}, 
-	        {'No':48, 'Value':0, 'x':0, 'y':'', 'Rank':'', 'score':''}, 
-	        {'No':49, 'Value':0, 'x':0, 'y':'', 'Rank':'', 'score':''}, 
-	    ], 
-	}; 	
+	// console.log('數字辨識-測試function');
+
+	var xD = x2 - x1;
+	var yD = y2 - y1;
+
+	var scriptDir = config.scriptDir;
+	var scriptPath = getStoragePath() + '/' + scriptDir;
+	// console.log('scriptPath:', scriptPath)
+
+	for(var n = 0; n <= 6; n++) {
 	
-	//抓圖辨識數字及x位置
-	rbm.keepScreenshotPartial(x1, y1, x2, y2);
-	var arrynum = 0
-	for (var i = 0; i <= 9; i++) {
-		if (!config.isRunning) return false;
+		var Character = { 
+			'Attributes':[
+				{'No':0, 'value':0, 'x':0, 'y':'', 'Rank':'', 'score':''}, 
+				{'No':1, 'value':0, 'x':0, 'y':'', 'Rank':'', 'score':''}, 
+				{'No':2, 'value':0, 'x':0, 'y':'', 'Rank':'', 'score':''}, 
+				{'No':3, 'value':0, 'x':0, 'y':'', 'Rank':'', 'score':''}, 
+				{'No':4, 'value':0, 'x':0, 'y':'', 'Rank':'', 'score':''}, 
+				{'No':5, 'value':0, 'x':0, 'y':'', 'Rank':'', 'score':''}, 
+				{'No':6, 'value':0, 'x':0, 'y':'', 'Rank':'', 'score':''}, 
+				{'No':7, 'value':0, 'x':0, 'y':'', 'Rank':'', 'score':''}, 
+				{'No':8, 'value':0, 'x':0, 'y':'', 'Rank':'', 'score':''}, 
+				{'No':9, 'value':0, 'x':0, 'y':'', 'Rank':'', 'score':''}, 
+				{'No':10, 'value':0, 'x':0, 'y':'', 'Rank':'', 'score':''}, 
+				{'No':11, 'value':0, 'x':0, 'y':'', 'Rank':'', 'score':''}, 
+				{'No':12, 'value':0, 'x':0, 'y':'', 'Rank':'', 'score':''}, 
+				{'No':13, 'value':0, 'x':0, 'y':'', 'Rank':'', 'score':''}, 
+				{'No':14, 'value':0, 'x':0, 'y':'', 'Rank':'', 'score':''}, 
+				{'No':15, 'value':0, 'x':0, 'y':'', 'Rank':'', 'score':''}, 
+				{'No':16, 'value':0, 'x':0, 'y':'', 'Rank':'', 'score':''}, 
+				{'No':17, 'value':0, 'x':0, 'y':'', 'Rank':'', 'score':''}, 
+				{'No':18, 'value':0, 'x':0, 'y':'', 'Rank':'', 'score':''}, 
+				{'No':19, 'value':0, 'x':0, 'y':'', 'Rank':'', 'score':''}, 
+				{'No':20, 'value':0, 'x':0, 'y':'', 'Rank':'', 'score':''}, 
+				{'No':21, 'value':0, 'x':0, 'y':'', 'Rank':'', 'score':''}, 
+				{'No':22, 'value':0, 'x':0, 'y':'', 'Rank':'', 'score':''}, 
+				{'No':23, 'value':0, 'x':0, 'y':'', 'Rank':'', 'score':''}, 
+				{'No':24, 'value':0, 'x':0, 'y':'', 'Rank':'', 'score':''}, 
+				{'No':25, 'value':0, 'x':0, 'y':'', 'Rank':'', 'score':''}, 
+				{'No':26, 'value':0, 'x':0, 'y':'', 'Rank':'', 'score':''}, 
+				{'No':27, 'value':0, 'x':0, 'y':'', 'Rank':'', 'score':''}, 
+				{'No':28, 'value':0, 'x':0, 'y':'', 'Rank':'', 'score':''}, 
+				{'No':29, 'value':0, 'x':0, 'y':'', 'Rank':'', 'score':''}, 
+				{'No':30, 'value':0, 'x':0, 'y':'', 'Rank':'', 'score':''},
+				{'No':31, 'value':0, 'x':0, 'y':'', 'Rank':'', 'score':''}, 
+				{'No':32, 'value':0, 'x':0, 'y':'', 'Rank':'', 'score':''}, 
+				{'No':33, 'value':0, 'x':0, 'y':'', 'Rank':'', 'score':''}, 
+				{'No':34, 'value':0, 'x':0, 'y':'', 'Rank':'', 'score':''}, 
+				{'No':35, 'value':0, 'x':0, 'y':'', 'Rank':'', 'score':''}, 
+				{'No':36, 'value':0, 'x':0, 'y':'', 'Rank':'', 'score':''}, 
+				{'No':37, 'value':0, 'x':0, 'y':'', 'Rank':'', 'score':''}, 
+				{'No':38, 'value':0, 'x':0, 'y':'', 'Rank':'', 'score':''}, 
+				{'No':39, 'value':0, 'x':0, 'y':'', 'Rank':'', 'score':''}, 
+				{'No':40, 'value':0, 'x':0, 'y':'', 'Rank':'', 'score':''}, 
+				{'No':41, 'value':0, 'x':0, 'y':'', 'Rank':'', 'score':''}, 
+				{'No':42, 'value':0, 'x':0, 'y':'', 'Rank':'', 'score':''}, 
+				{'No':43, 'value':0, 'x':0, 'y':'', 'Rank':'', 'score':''}, 
+				{'No':44, 'value':0, 'x':0, 'y':'', 'Rank':'', 'score':''}, 
+				{'No':45, 'value':0, 'x':0, 'y':'', 'Rank':'', 'score':''}, 
+				{'No':46, 'value':0, 'x':0, 'y':'', 'Rank':'', 'score':''}, 
+				{'No':47, 'value':0, 'x':0, 'y':'', 'Rank':'', 'score':''}, 
+				{'No':48, 'value':0, 'x':0, 'y':'', 'Rank':'', 'score':''}, 
+				{'No':49, 'value':0, 'x':0, 'y':'', 'Rank':'', 'score':''}, 
+			], 
+		}; 	
 		
-		//console.log('1 reNum:', 'findImages', numstr + i + '.png', siml);
-		var results = rbm.findImages(numstr + i + '.png', siml, 5, false, false);
-		//rbm.log('2 reNum:', i, rbm.findImages(numstr + i + '.png', 0.60, 6, true, false));
-		//rbm.log('3 reNum:', i, rbm.findImages(numstr + '2-' + i + '.png', 0.90, 6, false, false));
-		
-		for (var index in results){
+		//抓圖辨識數字及x位置
+		// rbm.keepScreenshotPartial(x1, y1, x2, y2);
+		var image = getScreenshotModify(x1, y1, xD, yD, xD, yD, 100);
+		var arrynum = 0
+		for (var i = 0; i <= 9; i++) {
 			if (!config.isRunning) return false;
+
+			var filename = scriptPath + '/' + numstr + i + '.png';
+			// console.log('filename:', filename);				
+			var tImg = openImage(filename);
 			
-			var result = results[index];
-			//rbm.log('4 reNum:', i, numstr + i + '.png', result.x, result.y, result.score)
-			
-			Character.Attributes[arrynum].Value = i;
-			Character.Attributes[arrynum].x = result.x;
-			Character.Attributes[arrynum].y = result.y;
-			Character.Attributes[arrynum].score = result.score.toFixed(5);
-			
-			arrynum = arrynum + 1
-		}
-	}
-	rbm.releaseScreenshot();
-	
-	if (Character.Attributes[0].score == '') return -1;
-	
-	//console.log('reNum:', 'sort a.x < b.x');
-	Character.Attributes = Character.Attributes.sort(function (a, b) {
-		return a.x < b.x ? 1 : -1;
-	});	
-	
-	// for (var i = 0; i <= 49; i++ ) {
-		// if (Character.Attributes[i].score == '') break;
-		// rbm.log('5 reNum:', i, Character.Attributes[i])
-	// }
-	
-	// console.log('clear errorX');
-	for (var j = 0; j < 49; j++ ) {
-		var errckX1 = Character.Attributes[j].x;
-		var errcksc1 = Character.Attributes[j].score;
-		
-		if (errcksc1 != '') {
-			var inK = j + 1;
-			for (var k = inK; k <= 48; k++) {
-				var errckX2 = Character.Attributes[k].x;
-				var errcksc2 = Character.Attributes[k].score;
-				
-				var errckDv = Math.abs(errckX2 - errckX1);
-				// console.log(j, k, errckDv, errckX1, errckX2, errcksc1, errcksc2)
-				
-				if (errckDv > 3 || errcksc2 == '') break
-				
-				if (errckDv <= 3) {
-					if (errcksc1 > errcksc2) {var clear = k;}
-					else if (errcksc1 < errcksc2) {var clear = j;}
-					// console.log('clear:', clear, j, k, errcksc1, errcksc2);
+			// console.log('1 reNum:', 'findImages', numstr + i + '.png', siml);
+			// var results = rbm.findImages(numstr + i + '.png', siml, 5, false, false);
+			var results = findImages(image, tImg, siml, 3, true);
+			if (results != ''){
+				for (var index in results){
+					if (!config.isRunning) return false;
 					
-					Character.Attributes[clear].Value = 0;
-					Character.Attributes[clear].x = 0;
-					Character.Attributes[clear].y = '';
-					Character.Attributes[clear].score = '';
+					var result = results[index];
+					// rbm.log('4 reNum:', i, numstr + i + '.png', result.x, result.y, result.score)
+					
+					Character.Attributes[arrynum].Value = i;
+					Character.Attributes[arrynum].x = result.x;
+					Character.Attributes[arrynum].y = result.y;
+					Character.Attributes[arrynum].score = result.score.toFixed(5);
+					
+					arrynum = arrynum + 1
 				}
-				if (Character.Attributes[j].score == '') break;				
 			}
 		}
+		// rbm.releaseScreenshot();
+		
+		if (Character.Attributes[0].score == '') return -1;
+		
+		// console.log('reNum:', 'sort a.x < b.x');
+		Character.Attributes = Character.Attributes.sort(function (a, b) {
+			return a.x < b.x ? 1 : -1;
+		});	
+		
+		// for (var i = 0; i <= 49; i++ ) {
+		// 	if (Character.Attributes[i].score == '') break;
+		// 	rbm.log('5 reNum:', i, Character.Attributes[i])
+		// }
+		
+		// console.log('clear errorX');
+		for (var j = 0; j < 49; j++ ) {
+			var errckX1 = Character.Attributes[j].x;
+			var errcksc1 = Character.Attributes[j].score;
+			var errckval1 = Character.Attributes[j].value;
+			// console.log('clear errorX:', i, j)
+
+			// if (errcksc1 == '') break
+			
+
+			if (errcksc1 != '') {
+				var inK = j + 1;
+				for (var k = inK; k <= 48; k++) {
+					var errckX2 = Character.Attributes[k].x;
+					var errcksc2 = Character.Attributes[k].score;
+					var errckval2 = Character.Attributes[k].value;
+					
+					var errckDv = Math.abs(errckX2 - errckX1);
+					// console.log('j:', j, 'k:', k, 'errckDv:', errckDv, 'errckX1:', errckX1, 'errckX2:', errckX2, 'errcksc1:', errcksc1, 'errcksc2:', errcksc2)
+					
+					if (errckDv > 3 || errcksc2 == '') break
+					
+					if (errckDv <= 3) {
+						if (errcksc1 > errcksc2) {var clear = k;}
+						else if (errcksc1 < errcksc2) {var clear = j;}
+						else if (errcksc1 == errcksc2) {
+							if (errckval1 == errckval2) {
+								var errfile = scriptPath + '/' + numstr + i + 'err.png';
+								saveImage(image, errfile)
+								var clear = k;
+							}
+							console.log('clear 0:', clear, errckval1, errckval2)
+						}
+						console.log('clear 1:', clear, j, k, errcksc1, errcksc2, errckval1, errckval2);
+						
+						Character.Attributes[clear].Value = 0;
+						Character.Attributes[clear].x = 0;
+						Character.Attributes[clear].y = '';
+						Character.Attributes[clear].score = '';
+					}
+					if (Character.Attributes[j].score == '') break;				
+				}
+			}
+			// console.log('clear 2:', clear, j, k, errcksc1, errcksc2);
+			
+			if (clear == -1) {
+				console.log('clear 3:', clear, errcksc1, errcksc2,', break for')
+				// break;
+			}
+		}
+		sleep(50);
+	
+		Character.Attributes = Character.Attributes.sort(function (a, b) {
+			return a.x < b.x ? 1 : -1;
+		});
+		
+		for (var i = 0; i <= 49; i++ ) {
+			if (Character.Attributes[i].score == '') break;
+			// rbm.log('6 reNum:', i, Character.Attributes[i])
+		}
+		
+		var Resultvalue = 0;
+		
+		for (var l = 0; l <= 49; l++) {
+			if (Character.Attributes[l].score == '') break;
+			Resultvalue = Resultvalue + Character.Attributes[l].Value * Math.pow(10,l);
+		}
+		
+		releaseImage(tImg);
+		releaseImage(image);
+
+		return Resultvalue
 	}
-	
-	Character.Attributes = Character.Attributes.sort(function (a, b) {
-		return a.x < b.x ? 1 : -1;
-	});
-	
-	// for (var i = 0; i <= 49; i++ ) {
-		// if (Character.Attributes[i].score == '') break;
-		// rbm.log('6 reNum:', i, Character.Attributes[i])
-	// }
-	
-	var Resultvalue = 0;
-	
-	for (var l = 0; l <= 49; l++) {
-		if (Character.Attributes[l].score == '') break;
-		Resultvalue = Resultvalue + Character.Attributes[l].Value * Math.pow(10,l);
-	}
-	
-	return Resultvalue
 }
 
 function tessOCRtest(intX, intY, finX, finY) {
@@ -620,14 +660,16 @@ function recoNum(choiceF) {        //各項數字辨識
 	//console.log('各項數字辨識', choiceF);
 	
 	switch (choiceF) {
-		case  1: return	num_Recognition(320, 16, 395, 50, 0.85, 'num_Reco/idle_stage_num/idle_stage_num2_'); break;  //關卡數
+		case  1: return	num_Recognition(320, 16, 395, 50, 0.93, 'num_Reco/idle_stage_num/idle_stage_num2_'); break;  //關卡數
 		case  2:
 			//每日地城目前票數
 			rbm.keepScreenshotPartial(180, 525, 370, 545);  //Indentification Ticks
 			var targetImg = rbm.findImage('num_Reco/dalydueng_num/dalyduengtick1_num_-.png', 0.90);
 			rbm.releaseScreenshot();
+			// if(targetImg != undefined) {rbm.log(targetImg);}
 			if (targetImg != undefined && targetImg.score >= 0.90) {
-				return num_Recognition(180, 525, targetImg.x, 545, 0.90, 'num_Reco/dalydueng_num/dalyduengtick1_num_');
+				// rbm.log(9999, targetImg.x - 30, 525, targetImg.x, 545, 0.90)
+				return num_Recognition(targetImg.x - 30, 525, targetImg.x, 545, 0.90, 'num_Reco/dalydueng_num/dalyduengtick1_num_');
 			}		
 			return -1;
 			break;  //
@@ -777,19 +819,8 @@ function lvupHero(stageMin, lvupl, Timer) {  //
 	}	
 }
 
-function heroinformation(intX, intY) {
+function heroinformation(intX, intY) {  //英雄訊息
 	if (!config.isRunning) return false;
-
-	// Hero = {
-	  // 'information':[
-			// {'NO': 1, 'magiclv': '', 'goldlv': '', 'attrib': '', 'totallv': ''},
-			// {'NO': 2, 'magiclv': '', 'goldlv': '', 'attrib': '', 'totallv': ''},
-			// {'NO': 3, 'magiclv': '', 'goldlv': '', 'attrib': '', 'totallv': ''},
-			// {'NO': 4, 'magiclv': '', 'goldlv': '', 'attrib': '', 'totallv': ''},
-			// {'NO': 5, 'magiclv': '', 'goldlv': '', 'attrib': '', 'totallv': ''},
-		// ],
-	// }	
-	
 	
 	var attribcolor = new Array( '', '0083C6', 'A80000', '587C00', 'E3BB00', '2C1268')
 	var attribwordE = new Array( '',  'water',   'fire',   'wood',  'light',   'dark')
@@ -863,12 +894,11 @@ function lvupVillage2(lvupl, Timer) {  //村莊升級2
 				if (!config.isRunning) return false;
 				// console.log('Village AutoLvup click', i, j);
 				
-				var robotplantck = villagerobotplant();
-				// console.log('robotplantck:', robotplantck);				
-
-				if (robotplantck == 1 || robotplantck == 2 || robotplantck == 4 || robotplantck == 5) {
-					
-					tapFor(20, 1100, 3, 70, 200);
+				var robotplantck = villagerobotplant();		
+				if (robotplantck == 4 || robotplantck == 5) {
+					tapFor(20, 1100, 6, 70, 200);
+				}
+				if (robotplantck == 1 || robotplantck == 2 ) {
 					rbm.keepScreenshotPartial( 210,  520, 715, 565);  //村莊vip4確認
 					var Img1 = rbm.findImage('v4villageautobt.png', 0.90);  //vip4全升級按鈕
 					var Img2 = rbm.findImage('v4villageautock.png', 0.90);  //vip4只升到自動的 check box
@@ -876,10 +906,13 @@ function lvupVillage2(lvupl, Timer) {  //村莊升級2
 					
 					// if (Img1 != undefined) { rbm.log('Img1:',Img1); }
 					// if (Img2 != undefined) { rbm.log('Img2:',Img2); }	
-					
+					// Img1 = undefined;
+
 					if (Img1 != undefined && Img2 != undefined) { 
+						if (robotplantck == 1) {
+							DIY_swipe(480, 1100, 480, 260, 10, 200);
+						}
 						rbm.log('有村莊自動升級，已勾選到自動，點升級3次'); 
-						if (robotplantck == 1 || robotplantck == 4) {DIY_swipe(480, 1100, 480, 560, 10, 200);}
 						tapFor(Img1.x, Img1.y, 3, 50, 300);
 						break;
 					}
@@ -891,13 +924,11 @@ function lvupVillage2(lvupl, Timer) {  //村莊升級2
 						rbm.log('無村莊自動升級，進行點擊升級'); 
 						villagelvup();
 						break;
-						
 					}
 				}
 				else if (robotplantck == 3) {
 					rbm.log('機器人工廠自動，直接升級');
 					var lvupD = lvupTap(lvupl, 1100, 'FAAC00', '8C4800');
-					tapFor(20, 1100, 3, 70, 200);
 					var y = Math.log(villageF)/Math.log(2);
 					if (lvupD) { 
 						Timer = Timer * (1 - Math.pow(2, y+1))/(1-2) - 2;
@@ -926,7 +957,7 @@ function lvupVillage2(lvupl, Timer) {  //村莊升級2
 	}	
 }
 
-function villagerobotplant() {
+function villagerobotplant() {  //村莊機器人判斷
 	if (!config.isRunning) return false;
 	
 	var a = 0;
@@ -946,28 +977,29 @@ function villagerobotplant() {
 		if ((Img1 != undefined && Img1.y < 1085) || (Img2 != undefined && Img2.y < 1085)) {
 			rbm.log('有機器人工廠，未在底端，等定位', i);
 		}else if (Img1 == undefined && Img2 == undefined && Img3 == undefined) {
-			rbm.log('機器人工廠未開啟'); 
+			rbm.log('機器人工廠未開啟 1'); 
 			return 1;
 		}else if (Img1 != undefined && Img2 != undefined && Img3 == undefined) { 
-			rbm.log('機器人工廠已開啟，未達自動'); 
+			rbm.log('機器人工廠已開啟，未達自動 2'); 
 			return 2;
 		}else if (Img1 != undefined && Img2 != undefined && Img3 != undefined) { 
-			rbm.log('機器人工廠已開啟，達到自動'); 
+			rbm.log('機器人工廠已開啟，達到自動 3'); 
 			return 3;
 		}else if (Img1 != undefined && Img2 == undefined) { 
-			rbm.log('機器人工廠已開啟，圖示不存在'); 
+			rbm.log('機器人工廠已開啟，圖示不存在 4'); 
 			return 4;
 		}else if (Img1 == undefined && Img2 != undefined) { 
-			rbm.log('機器人工廠已開啟，名稱不存在'); 
+			rbm.log('機器人工廠已開啟，名稱不存在 5'); 
 			return 5;
 		}
 
 		sleep(150)
 	}
+	console.log('無法判斷，異常 -1')
 	return -1;
 }
 
-function villagelvup() {
+function villagelvup() {  //村莊不用vip4升級
 	if (!config.isRunning) return false;
 
 	for (var i = 1; i <= 10; i++) {
@@ -1005,10 +1037,11 @@ function villagelvup() {
 					var Img1 = rbm.findImage('lvupAuto.png', 0.90);  
 					rbm.releaseScreenshot();
 					
-					if (Img1 != undefined) { rbm.log('Img1:',Img1); }						
-					
-					if (result.y >= 1070) {
-						DIY_swipe(480, result.y, 480, 650, 60, 10);
+					if (Img1 != undefined) { rbm.log('Img1:',Img1); }
+								
+					var robotplantck = villagerobotplant();
+					if (result.y >= 1070 &&  villagerobotplant() != 2) {
+						if (robotplantck == 1) DIY_swipe(480, result.y, 480, 650, 60, 10);
 						tapFor(480, 650, 1, 100, 50, 100);
 						a = 0;
 						break;
@@ -1027,7 +1060,7 @@ function villagelvup() {
 						rbm.log('2 lvupTaps:', lvupTaps, ', lvupQ:', lvupQ);
 						
 						lvupTap(2, result.y, 'FDB000', '8C4800');
-						tapFor(tapX1, tapY1, 3, 50, 150);
+						tapFor(tapX1, tapY1, 6, 50, 150);
 						
 						
 						lvupTaps = new Array( '', 20, 12, 5, 3);
@@ -1039,7 +1072,7 @@ function villagelvup() {
 				if (villagelv == -1 || villagelv >= 160) {break;}
 				if (result.y >= 1070) {	break; }
 			}
-			if (a > 0) {
+			if (a > 1) {
 				console.log('a:', a);
 				return false;
 			}
@@ -1049,7 +1082,7 @@ function villagelvup() {
 	}
 }
 
-function lvupTap(uplv, intY, strOK, strNG) {
+function lvupTap(uplv, intY, strOK, strNG) {  //英雄、村莊升級
 	if (!config.isRunning) return false;
 	var lvupX = new Array( 20, 580, 540, 440, 340);
 	var lvupCheckNG = checkPointcolor(lvupX[1], intY, 30, strNG);
@@ -2254,23 +2287,23 @@ function DalyDungeons(mF2, pc, Timer) {  //【F2:材料魔王 1:水  2:火  3:�
 			var a = 1; var b = 1;
 			for (var j = 1; j <= 190; j++){
 				if (!config.isRunning) return false;
-				console.log('Choice Boss Fight : ', i, j, ', bossLV:', DalyDungeonsLv );
+				// console.log('Choice Boss Fight : ', i, j, ', bossLV:', DalyDungeonsLv );
 
-				console.log('21:', useReturn(21));
+				// console.log('21:', useReturn(21));
 				if (!useReturn(21)){  //BOSS戰鬥，撤退鈕
 					
-					console.log('21:false', 1111)
+					// console.log('21:false', 1111)
 					rbm.keepScreenshotPartial( 310, 880, 405, 1170);  //完成後確認鈕
 					var targetImg3 = rbm.findImage('OKbutton.png', 0.80);
 					rbm.releaseScreenshot();
 
 					if (targetImg3 != undefined && targetImg3.score >= 0.80) {
-					console.log('21:false', 2222)
+					// console.log('21:false', 2222)
 						tapFor(targetImg3.x, targetImg3.y, 1, 60, 500);
 					}
 					else {	
 
-						console.log('21:false', 3333)
+						// console.log('21:false', 3333)
 						for (var l = 1; l <= 4; l++){
 							dgticks[1] = recoNum(2); sleep(150); //1 確認目前票數
 							dgticks[2] = recoNum(2); sleep(150); //2 確認目前票數
@@ -2282,8 +2315,8 @@ function DalyDungeons(mF2, pc, Timer) {  //【F2:材料魔王 1:水  2:火  3:�
 							}
 						}
 						
-					console.log('21:false', 4444)
-						console.log(' 24:', useReturn(24));
+					// console.log('21:false', 4444)
+						// console.log(' 24:', useReturn(24));
 						if (useReturn(24)) {
 							sleep(300);
 							checkPointcolorTap(690, 490, 20, 'FFFFFF', 0, 0, 2, 100, 1);
@@ -2292,7 +2325,7 @@ function DalyDungeons(mF2, pc, Timer) {  //【F2:材料魔王 1:水  2:火  3:�
 							return false;
 						}
 						
-					console.log('21:false', 5555)
+					// console.log('21:false', 5555)
 						if ( (dgticks[0] == 0 || dgticks[0] <= dgticksSw) && dgticks[0] != -1) {
 							sleep(300);
 							checkPointcolorTap(690, 490, 20, 'FFFFFF', 0, 0, 2, 100, 1);
@@ -2304,7 +2337,7 @@ function DalyDungeons(mF2, pc, Timer) {  //【F2:材料魔王 1:水  2:火  3:�
 							return false;
 						}
 
-						console.log('21:false', 6666)
+						// console.log('21:false', 6666)
 						if (dgticks[0] > dgticksSw){
 							console.log('大於保留票數', dgticks[0], '>', dgticksSw, ', 正常打BOSS', 'bossLV:', DalyDungeonsLv);
 							rbm.keepScreenshotPartial( 590, 560, 680, 1170);  //挑戰BOSS
@@ -2327,7 +2360,7 @@ function DalyDungeons(mF2, pc, Timer) {  //【F2:材料魔王 1:水  2:火  3:�
 						}
 					}
 					
-					console.log('noticks.png');
+					// console.log('noticks.png');
 					rbm.keepScreenshotPartial( 235, 495, 450, 550);  //No Ticks
 					var targetImg3 = rbm.findImage('noticks.png', 0.85);
 					rbm.releaseScreenshot();
@@ -2339,7 +2372,7 @@ function DalyDungeons(mF2, pc, Timer) {  //【F2:材料魔王 1:水  2:火  3:�
 						return false;
 					}
 					
-					console.log('(j >= 20 && useReturn(1))');
+					// console.log('(j >= 20 && useReturn(1))');
 					if (j >= 20 && useReturn(1)) {
 						a = a + 1;
 						checkPointcolorTap(690, 490, 20, 'FFFFFF', 0, 0, 2, 100, 1)
@@ -2350,7 +2383,7 @@ function DalyDungeons(mF2, pc, Timer) {  //【F2:材料魔王 1:水  2:火  3:�
 					}
 				}
 				else {
-					console.log('Fight Boss');
+					// console.log('Fight Boss');
 					tapFor(  680,   410, 2, 70, 150);
 					var fighttime = recoNum(4);
 					if (fighttime > 3 && fighttime < 10 && DalyDungeonsLv != 2) {
@@ -3418,7 +3451,7 @@ function test(cycle){
 			maldhelpupTSw =    5;   //提早進入求助時間
 			
 			guildbossSw   =    1;   //工會打BOSS開關
-			guildbosshdSw =    3;   //工會打BOSS難度 1:弱, 2:中, 3:強
+			guildbosshdSw =    2;   //工會打BOSS難度 1:弱, 2:中, 3:強
 			guildbossthSw =    1;   //工會打BOSS閃電用量 1:100, 2:300
 			failureth3Sw  =    0;   //打不過閃電改 300
 			failuredwlvSw =    0;   //閃電300 打不過降級打
@@ -3457,12 +3490,14 @@ function test(cycle){
 		}
 		else if (n >= 1) {
 			stage = recoNum(1) * 1
+			// console.log('============================================================================')
 			console.log('n = ', n, ', CRA 腳本開始', stage);
-
+			// tapFor(360, 400, 1, 50, 200);
 			while(config.isRunning) { main(); }
-
-			// sleep(1000)
-			console.log('n = ', n, ', CRA 腳本結束');
+			// lvupVillageTimer  = -1;
+			// lvupVillage2(2, 60)
+			sleep(1000)
+			// console.log('n = ', n, ', CRA 腳本結束');
 
 		}
 	}
