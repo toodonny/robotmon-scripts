@@ -290,7 +290,7 @@ function DIY_swipe(intx, inty, finax, finay, moveD, sleeptime) {
 	}
 	moveTo(finax, finay, 10)	
 	tapUp(finax, finay, 10)
-	sleep(sleeptime)
+	if (sleeptime != undefined) sleep(sleeptime);
 }
 
 function xy_swipe(intx, inty, finax, finay, moveD) {  //坐標位移
