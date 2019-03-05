@@ -472,9 +472,9 @@ function num_Recognition(x1, y1, x2, y2, siml, numstr) {    //數字辨識-測�
 								saveImage(image, errfile)
 								var clear = k;
 							}
-							console.log('clear 0:', clear, errckval1, errckval2)
+							// console.log('clear 0:', clear, errckval1, errckval2)
 						}
-						console.log('clear 1:', clear, j, k, errcksc1, errcksc2, errckval1, errckval2);
+						// console.log('clear 1:', clear, j, k, errcksc1, errcksc2, errckval1, errckval2);
 						
 						Character.Attributes[clear].Value = 0;
 						Character.Attributes[clear].x = 0;
@@ -486,10 +486,10 @@ function num_Recognition(x1, y1, x2, y2, siml, numstr) {    //數字辨識-測�
 			}
 			// console.log('clear 2:', clear, j, k, errcksc1, errcksc2);
 			
-			if (clear == -1) {
-				console.log('clear 3:', clear, errcksc1, errcksc2,', break for')
-				// break;
-			}
+			// if (clear == -1) {
+			// 	// console.log('clear 3:', clear, errcksc1, errcksc2,', break for')
+			// 	// break;
+			// }
 		}
 		sleep(50);
 	
@@ -790,7 +790,8 @@ function lvupHero(stageMin, lvupl, Timer) {  //
 							var nowgoldlv = Hero.information[k-1].goldlv;
 							var lvupQ = lvuplimitSw - nowgoldlv;
 							if (lvupQ > 0) {
-								rbm.log('人員:', k, '等級未達:',  nowgoldlv, '/', lvuplimitSw, ', lvupQ:', lvupQ);
+								// rbm.log('人員' + k + ':' + '等級未達:', nowgoldlv + '/' + lvuplimitSw, ', lvupQ:' + lvupQ);
+								rbm.log('人員' + k + ':' + nowgoldlv + '/' + lvuplimitSw + ', 等級未到:');
 								
 								lvupTaps[3] = Math.floor(lvupQ/100);                    // 取百位數
 								lvupTaps[2] = Math.floor(lvupQ/10) - lvupTaps[3] * 10;  // 取十位數
@@ -798,7 +799,8 @@ function lvupHero(stageMin, lvupl, Timer) {  //
 								lvupTap(lvupl, tapY, 'E38100', '8C4800');               // lvupTap(uplv, intY, strOK, strNG)
 							}
 							else if (lvupQ <= 0) {
-								rbm.log('人員:', k, '等級到達:', nowgoldlv, '/', lvuplimitSw, ', lvupQ:', lvupQ);
+								// rbm.log('人員' + k + ':' + '等級到達:', nowgoldlv + '/' + lvuplimitSw, ', lvupQ:' + lvupQ);
+								rbm.log('人員' + k + ':' + nowgoldlv + '/' + lvuplimitSw + ', 等級到達:');
 								herolvupQ = herolvupQ + 1;
 							}
 						}
@@ -890,7 +892,7 @@ function lvupVillage2(lvupl, Timer) {  //村莊升級2
 		if (useReturn(1)) {
 			choiceMenu(2);
 			
-			for (var j = 1; j <= 10; j++){
+			for (var j = 1; j <= 4; j++){
 				if (!config.isRunning) return false;
 				// console.log('Village AutoLvup click', i, j);
 				
@@ -903,7 +905,7 @@ function lvupVillage2(lvupl, Timer) {  //村莊升級2
 					
 					// if (Img1 != undefined) { rbm.log('Img1:',Img1); }
 					// if (Img2 != undefined) { rbm.log('Img2:',Img2); }	
-					// Img1 = undefined;
+					Img1 = undefined;
 					if(robotplantck == 4 || robotplantck == 5) {
 						tapFor(20, 1100, 6, 70, 200);
 					}
@@ -922,7 +924,9 @@ function lvupVillage2(lvupl, Timer) {  //村莊升級2
 					else if (Img1 == undefined) {
 						rbm.log('無村莊自動升級，進行點擊升級'); 
 						tapFor(20, 1100, 6, 70, 200);
-						villagelvup();
+						var villback = villagelvup();
+						lvupVillageTimer =  Date.now() + Timer * 1000;
+						return false;
 						break;
 					}
 				}
@@ -955,6 +959,102 @@ function lvupVillage2(lvupl, Timer) {  //村莊升級2
 		
 		sleep(200);
 	}	
+}
+
+function villagelvup() {  //村莊不用vip4升級
+	if (!config.isRunning) return false;
+
+	for (var i = 1; i <= 4; i++) {
+		rbm.keepScreenshotPartial( 550, 565, 660, 1180);  //確認"升級鈕金幣圖"出現量
+		var Img2s = rbm.findImages('villageupgrade.png', 0.92, 6, true, false);
+		rbm.releaseScreenshot();
+		console.log('villagelvup:', i);
+
+		if (Img2s != '')  {
+			Img2s = Img2s.sort(function (a, b) {
+				return a.y < b.y ? 1 : -1;
+			});
+			
+			var coines = Object.keys(Img2s).length;
+			console.log('可升級項目:', coines, '個'); //取物件長度
+			
+			var a = 0;
+			for (var index in Img2s) {
+				if (!config.isRunning) return false;
+				var result = Img2s[index];
+				// rbm.log(result);
+	
+				for (var k = 1; k <= 1; k++) {
+					if (!config.isRunning) return false;
+					console.log('villagelvup:', i, k);
+					
+					var tapX1 = 20;
+					var tapY1 = result.y + 10;
+					tapFor(tapX1, tapY1, 3, 50, 150);
+					// console.log(tapX1, tapY1);
+					
+					var autoY1 = result.y -  10;
+					var autoY2 = result.y +  10;
+					rbm.keepScreenshotPartial( 8, autoY1, 32, autoY2);  //確認auto符號
+					var Img1 = rbm.findImage('lvupAuto.png', 0.90);  
+					rbm.releaseScreenshot();
+					
+					// if (Img1 != undefined) { rbm.log('Img1:',Img1); }
+								
+					// var robotplantck = villagerobotplant();
+					// if (robotplantck == 3) {
+					// 	return robotplantck;
+					// }else 
+					// if (result.y >= 1070 || robotplantck != 2) {
+					// 	if (robotplantck == 1) {
+					// 		DIY_swipe(480, result.y, 480, 650, 60, 10);
+					// 		tapFor(480, 650, 1, 100, 50, 100);
+					// 	}
+					// 	a = 0;
+					// 	break;
+					// }
+					
+					if (result.y >= 1070 && Img1 != undefined) {
+					
+						DIY_swipe(480, result.y, 480, 650, 60, 10);
+						tapFor(480, 650, 1, 100, 50, 100);
+
+						a = 0;
+						break;
+					}
+					else if (Img1 == undefined) {
+						var lvY1 = result.y -  3;
+						var lvY2 = result.y + 13;
+						var villagelv = num_Recognition(153, lvY1, 200, lvY2, 0.90, 'num_Reco/village_num/village_lv_num_');
+						console.log('村莊等級:', villagelv);
+						if (villagelv == -1 || villagelv >= 160) break;
+						
+						var lvupQ = 100 - villagelv % 100;		
+						rbm.log('1 lvupTaps:', lvupTaps, ', lvupQ:', lvupQ);						
+						lvupTaps[2] = Math.floor(lvupQ/10);  // 取十位數
+						lvupTaps[1] = lvupQ - lvupTaps[2] * 10 + 1;  // 取個位數
+						rbm.log('2 lvupTaps:', lvupTaps, ', lvupQ:', lvupQ);
+						
+						lvupTap(2, result.y, 'FDB000', '8C4800');
+						tapFor(tapX1, tapY1, 6, 50, 100);
+						
+						lvupTaps = new Array( '', 20, 12, 5, 3);
+						rbm.log('3 lvupTaps:', lvupTaps, ', lvupQ:', lvupQ);
+						
+						a = a + 1;
+					}
+				}
+				if (villagelv == -1 || villagelv >= 160) {break;}
+				if (result.y >= 1070) {	break; }
+			}
+			if (a > 0) {
+				console.log('a:', a);
+				return false;
+			}
+			
+		}
+		sleep(100);
+	}
 }
 
 function villagerobotplant() {  //村莊機器人判斷
@@ -999,89 +1099,6 @@ function villagerobotplant() {  //村莊機器人判斷
 	return -1;
 }
 
-function villagelvup() {  //村莊不用vip4升級
-	if (!config.isRunning) return false;
-
-	for (var i = 1; i <= 10; i++) {
-		rbm.keepScreenshotPartial( 550, 565, 660, 1180);  //確認"升級鈕金幣圖"出現量
-		var Img2s = rbm.findImages('villageupgrade.png', 0.92, 6, true, false);
-		rbm.releaseScreenshot();
-		console.log('villagelvup:', i);
-
-		if (Img2s != '')  {
-			Img2s = Img2s.sort(function (a, b) {
-				return a.y < b.y ? 1 : -1;
-			});
-			
-			var coines = Object.keys(Img2s).length;
-			console.log('可升級項目:', coines, '個'); //取物件長度
-			
-			var a = 0;
-			for (var index in Img2s) {
-				if (!config.isRunning) return false;
-				var result = Img2s[index];
-				rbm.log(result);
-	
-				for (var k = 1; k <= 1; k++) {
-					if (!config.isRunning) return false;
-					console.log('villagelvup:', i, k);
-					
-					var tapX1 = 20;
-					var tapY1 = result.y + 10;
-					tapFor(tapX1, tapY1, 3, 50, 150);
-					console.log(tapX1, tapY1);
-					
-					var autoY1 = result.y -  10;
-					var autoY2 = result.y +  10;
-					rbm.keepScreenshotPartial( 8, autoY1, 32, autoY2);  //確認auto符號
-					var Img1 = rbm.findImage('lvupAuto.png', 0.90);  
-					rbm.releaseScreenshot();
-					
-					if (Img1 != undefined) { rbm.log('Img1:',Img1); }
-								
-					var robotplantck = villagerobotplant();
-					if (result.y >= 1070 &&  villagerobotplant() != 2) {
-						if (robotplantck == 1) DIY_swipe(480, result.y, 480, 650, 60, 10);
-						tapFor(480, 650, 1, 100, 50, 100);
-						a = 0;
-						break;
-					}
-					else if (Img1 == undefined) {
-						var lvY1 = result.y -  3;
-						var lvY2 = result.y + 13;
-						var villagelv = num_Recognition(153, lvY1, 200, lvY2, 0.90, 'num_Reco/village_num/village_lv_num_');
-						console.log('村莊等級:', villagelv);
-						if (villagelv == -1 || villagelv >= 160) break;
-						
-						var lvupQ = 100 - villagelv % 100;		
-						rbm.log('1 lvupTaps:', lvupTaps, ', lvupQ:', lvupQ);						
-						lvupTaps[2] = Math.floor(lvupQ/10);  // 取十位數
-						lvupTaps[1] = lvupQ - lvupTaps[2] * 10 + 1;  // 取個位數
-						rbm.log('2 lvupTaps:', lvupTaps, ', lvupQ:', lvupQ);
-						
-						lvupTap(2, result.y, 'FDB000', '8C4800');
-						tapFor(tapX1, tapY1, 6, 50, 150);
-						
-						
-						lvupTaps = new Array( '', 20, 12, 5, 3);
-						rbm.log('3 lvupTaps:', lvupTaps, ', lvupQ:', lvupQ);
-						
-						a = a + 1;
-					}
-				}
-				if (villagelv == -1 || villagelv >= 160) {break;}
-				if (result.y >= 1070) {	break; }
-			}
-			if (a > 1) {
-				console.log('a:', a);
-				return false;
-			}
-			
-		}
-		sleep(300);
-	}
-}
-
 function lvupTap(uplv, intY, strOK, strNG) {  //英雄、村莊升級
 	if (!config.isRunning) return false;
 	var lvupX = new Array( 20, 580, 540, 440, 340);
@@ -1091,14 +1108,14 @@ function lvupTap(uplv, intY, strOK, strNG) {  //英雄、村莊升級
 	if (lvupCheckNG) {return false;}
 	if (lvupCheckOK) {
 		if (uplv > 1) {		
-			DIY_swipe(lvupX[1], intY, 160, intY, 120, 200);
+			DIY_swipe(lvupX[1], intY, 160, intY, 80, 120);
 		}
 		for (var j = uplv; j >= 1; j--){
 			// checkPointcolorTap(lvupX[j], intY, 40, strOK, 1, 1, lvupTaps[j], 80, 1);
 			if (lvupTaps[j] > 0) {
 				var checkcolor = checkPointcolor(lvupX[j], intY, 40, strOK);
 				if (checkcolor) {
-					tapFor(lvupX[j], intY, lvupTaps[j], 50, 80, 50);
+					tapFor(lvupX[j], intY, lvupTaps[j], 40, 60, 30);
 				}
 
 			}
@@ -2279,7 +2296,7 @@ function DalyDungeons(mF2, pc, Timer) {  //【F2:材料魔王 1:水  2:火  3:�
 	checkPointcolorTap(690, 490, 20, 'FFFFFF', 0, 0, 2, 100, 1)
 	choiceDungeon(1, mmF2);
 	
-	console.log('start choice BossLV');
+	// console.log('start choice BossLV');
 	for (var i = 1; i <= 20; i++){
 		if (!config.isRunning) return false;
 		
@@ -2309,7 +2326,7 @@ function DalyDungeons(mF2, pc, Timer) {  //【F2:材料魔王 1:水  2:火  3:�
 							dgticks[2] = recoNum(2); sleep(150); //2 確認目前票數
 							dgticks[3] = recoNum(2); sleep(150); //3 確認目前票數
 							
-							console.log('l:', l, dgticks[0], dgticks[1], dgticks[2], dgticks[3])
+							// console.log('l:', l, dgticks[0], dgticks[1], dgticks[2], dgticks[3])
 							if (dgticks[1] == dgticks[2] && dgticks[2] == dgticks[3] && dgticks[1] != -1){
 								dgticks[0] = dgticks[1]; break;
 							}
@@ -2329,9 +2346,9 @@ function DalyDungeons(mF2, pc, Timer) {  //【F2:材料魔王 1:水  2:火  3:�
 						if ( (dgticks[0] == 0 || dgticks[0] <= dgticksSw) && dgticks[0] != -1) {
 							sleep(300);
 							checkPointcolorTap(690, 490, 20, 'FFFFFF', 0, 0, 2, 100, 1);
-							console.log('1Timer:', Timer, dgticksSw, dgticks);
+							// console.log('1Timer:', Timer, dgticksSw, dgticks);
 							Timer = Timer + 1200 //* (dgticksSw - dgticks[0] + 1);
-							console.log('2Timer:', Timer);
+							// console.log('2Timer:', Timer);
 							maDungeonTimer =  Date.now() + Timer * 1000;
 							console.log('小於保留票數', dgticks[0], '<=', dgticksSw, '或 0票，', Timer / 60, '分，後檢查', i, j);
 							return false;
@@ -2351,9 +2368,9 @@ function DalyDungeons(mF2, pc, Timer) {  //【F2:材料魔王 1:水  2:火  3:�
 								for (var index in results) {
 									if (!config.isRunning) return false;
 									var result = results[index];
-									rbm.log('challengeBoss:', result);
+									// rbm.log('challengeBoss:', result);
 									tapFor(result.x, result.y - 100 * (DalyDungeonsLv - 1), 1, 90, 1000);
-									console.log('tap:', result.x, result.y - 100 * (DalyDungeonsLv - 1));
+									// console.log('tap:', result.x, result.y - 100 * (DalyDungeonsLv - 1));
 									break;
 								}
 							}
@@ -3451,7 +3468,7 @@ function test(cycle){
 			maldhelpupTSw =    5;   //提早進入求助時間
 			
 			guildbossSw   =    1;   //工會打BOSS開關
-			guildbosshdSw =    2;   //工會打BOSS難度 1:弱, 2:中, 3:強
+			guildbosshdSw =    3;   //工會打BOSS難度 1:弱, 2:中, 3:強
 			guildbossthSw =    1;   //工會打BOSS閃電用量 1:100, 2:300
 			failureth3Sw  =    0;   //打不過閃電改 300
 			failuredwlvSw =    0;   //閃電300 打不過降級打

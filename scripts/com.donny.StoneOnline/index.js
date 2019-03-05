@@ -265,7 +265,7 @@ function FindStonesImages(stoneslv1,stoneslv2,column) {
 		rbm.keepScreenshotPartial(956, 1403, 956 + 66, 1403 + 21);
 		var BagOpenCheck = rbm.imageExists('BagOpen_-.png', 0.9)
 		rbm.releaseScreenshot();
-		
+		console.log('BagOpenCheck:', BagOpenCheck);
 		if (BagOpenCheck) {
 			if (StoneCountArray[k] >= 2 || k == stonelvmin ) {
 				
@@ -288,10 +288,12 @@ function FindStonesImages(stoneslv1,stoneslv2,column) {
 				var checkxy = 0;
 				var stoneDir = config.stoneDir;
 				var StonesPath = getStoragePath() + '/' + stoneDir;
+
+
 				var filename = StonesPath + '/stones_lv' + k + '_1080_ALL_cmp.png';				
 				var tImg = openImage(filename);
-				
 				var image = getScreenshotModify(44, 1478, 900, 330, 450, 165, 100);
+
 				var results = findImages(image, tImg, 0.90, StoneMaxFindArray[k], true);
 				
 				var Stones = 0; var nextStone = 0;
@@ -414,6 +416,209 @@ function FindStonesImages(stoneslv1,stoneslv2,column) {
 	}
 }
 
+function FindStonesImages2(stoneslv1,stoneslv2) { 
+	var a = 0
+	var now = Date.now();
+	var StonesImages = []; // [] array,  {} object
+	var StoneGridLv = [];
+	if (eightdragonchangswitch == 0) var stone15findmax = mooncompswitch * 2 + 4;
+	if (eightdragonchangswitch == 1) var stone15findmax = eightdragonmoonset * 2 + 4;
+
+		
+	rbm.keepScreenshotPartial(956, 1403, 956 + 66, 1403 + 21);
+	var BagOpenCheck = rbm.imageExists('BagOpen_-.png', 0.9)
+	rbm.releaseScreenshot();
+	console.log('BagOpenCheck:', BagOpenCheck);
+	if (BagOpenCheck) {
+		var stones =  MergerStone(stoneslv1, stoneslv2);
+		// console.log('stones:', stones);
+		if (stones <= 15) {characterbubble2();}
+		RubyBox();
+
+		// for(var k = stoneslv1; k <= stoneslv2 ; k++) {
+		// 	if (!config.isRunning) return false;
+			
+		// 		if (StoneCountArray[k] >= 2 || k == stonelvmin ) {
+					
+		// 			sleep(dectcompraw4);
+					
+		// 			var Stones = 0; var nextStone = 0;
+		// 			for(var index in results) {
+		// 				if (!config.isRunning) return false;
+						
+		// 				Stones = Stones + 1
+						
+		// 				var kindexNum = index * 1
+		// 				var indexremainder = kindexNum % 2
+						
+		// 				if (k == 15 && mooncompswitch > 0) {
+		// 					if (kindexNum < mooncompswitch) {
+		// 						indexremainder = 2
+		// 					}
+		// 					else if (kindexNum >= mooncompswitch) {
+		// 						indexremainder = (kindexNum - 3) % 2
+		// 					}
+		// 				}
+
+		// 				sleep(dectcompraw2);
+		// 			}
+		// 			sleep(dectcompraw3);
+					
+		// 			console.log('combinecount =', combinecount);
+		// 			ResterTimerSet = Date.now()
+		// 		}
+		// 	}
+		}
+		else {
+			if (!config.isRunning) return false;
+			
+			sleep(100);
+			console.log('背包找不到，畫面檢查');
+			AttackMode(1); //檢查背包打開/自動攻擊
+			QuizRestart();
+			
+			CheckImageTap(455,  575, 180,  60, 0.9, 'exitstone.png', 680, 1280, 1, 150, 0); //Exit Grow Stone Online
+			CheckImageTap(490, 1060, 100, 600, 0.9, 'ok_button.png', 1, 1, 1, 150, 1); //OK_Button
+			CheckImageTap(600,  200, 470, 750, 0.9, 'closeboard.png', 1, 1, 1, 2, 1); //closeboard
+			CheckImageTap(470, 1100, 133,  95, 0.9, 'Receiveaward.png', 1, 1, 1, 150, 1); //Receiveaward
+			CheckImageTap(626,  868, 154,  51, 0.9, 'fastdig_ok.png', 430, 1130, 1, 150, 0);   //fast dig OK button
+			CheckImageTap(299,  897, 207,  39, 0.9, 'UpdataFailed.png', 540, 1120, 1, 150, 0); //wifi or lan disconnected
+			CheckImageTap(438,  825, 109,  42, 0.9, 'break_down.png', 650, 1150, 1, 150, 0);   //break down stone : cancle
+			CheckImageTap(570, 1190, 205,  78, 0.9, 'dungeon_backtomini.png', 1, 1, 1, 150, 1); //dungeon_backtomini
+			
+			//CheckImageTap(441, 648, 113, 39, 0.8, 'Unlock_Stone.png', 540, 1210, 1, 150, 0); //stone lv_up : ok
+			
+			timetoRestarApp2(RestartApptimeset);
+		}
+		// console.log('石頭',k,'級',usingTimeString(now));
+		now = Date.now();
+	
+}
+
+function MergerStone(intLv, finLv) {
+	if (!config.isRunning) return false;
+
+	var soltx = [];
+	var solty = [];
+
+	var soltcount = 0;
+	for(var n = 1; n <= 3 ; n++) {
+		for(var m = 1; m <= 8 ; m++) {
+			soltx[soltcount] =   95 + 112 * (m - 1);
+			solty[soltcount] = 1525 + 112 * (n - 1);
+			soltcount = soltcount + 1;
+		}
+	}
+	// rbm.log('soltx;', soltx);
+	// rbm.log('solty;', solty);
+
+	var stoneLvobj = [];
+	var stoneDir = config.stoneDir;
+	var StonesPath = getStoragePath() + '/' + stoneDir;
+
+	var image = getScreenshotModify(44, 1478, 900, 330, 450, 165, 100);
+
+	var objcount = 0;
+	for(var k = intLv; k <= finLv ; k++) {
+		if (!config.isRunning) return false;
+
+		var filename = StonesPath + '/stones_lv' + k + '_1080_ALL_cmp.png';				
+		var tImg = openImage(filename);
+		var results = findImages(image, tImg, 0.88, 24, true);
+
+		for(var index in results) {
+			if (!config.isRunning) return false;
+
+			var result = results[index];
+			stoneLvobj[objcount] = result;
+			stoneLvobj[objcount].score = result.score.toFixed(5)*1;
+			stoneLvobj[objcount].Lv = k;
+			// rbm.log('log 1:', stoneLvobj[objcount])
+			
+			objcount = objcount + 1;
+		}
+	}
+	releaseImage(tImg);
+	releaseImage(image);
+
+	var AllStone = Object.keys(stoneLvobj).length;
+	rbm.log('石頭數量:', AllStone);
+
+	var mgNo = 0; var mgCount = 0;
+	for (var i = 0; i <= AllStone - 1; i++) {
+		if (!config.isRunning) return false;
+		if (stoneLvobj[mgNo] == undefined) break;
+		if (stoneLvobj[mgNo + 1] == undefined) break;
+		// rbm.log('log 1:', i, mgNo, stoneLvobj[mgNo]);
+		// rbm.log('log 1:', i, mgNo + 1, stoneLvobj[mgNo + 1]);
+		// rbm.log('')
+		if (stoneLvobj[mgNo].Lv == stoneLvobj[mgNo + 1].Lv) {
+			var x0 = 46 + stoneLvobj[mgNo].x * 2 + 40
+			var y0 = 1479 + stoneLvobj[mgNo].y * 2  + 40
+			var x1 = 46 + stoneLvobj[mgNo + 1].x * 2  + 40
+			var y1 = 1479 + stoneLvobj[mgNo + 1].y * 2  + 40
+			DIY_swipe(x0, y0, x1, y1, 40);
+
+			mgNo = mgNo + 2;
+			mgCount = mgCount + 1;
+		} else {
+			mgNo = mgNo + 1;
+		}
+	}
+
+	if (mgCount == 0) {
+		stoneLvobj = stoneLvobj.sort(function (a, b) {
+			return a.Lv < b.Lv ? 1 : -1;
+		});	
+
+		for (var j = 0; j <= AllStone - 1; j++){
+			var x2 =   46 + stoneLvobj[j].x * 2 + 40
+			var y2 = 1479 + stoneLvobj[j].y * 2  + 40
+			var xD = Math.abs(x2 - soltx[j]);
+			var yD = Math.abs(y2 - solty[j]);
+
+			if (j == 0) {
+				var xD2 = 15;
+				var yD2 = 15;
+			} else if (j > 0){
+				var x3 =   46 + stoneLvobj[j].x * 2 + 40
+				var y3 = 1479 + stoneLvobj[j].y * 2  + 40
+				var xD2 = Math.abs(x3 - soltx[j -1]);
+				var yD2 = Math.abs(y3 - solty[j -1]);
+			}
+
+			if (xD > 10 || yD > 10) {
+					if (xD2 > 10 || yD2 > 10) {
+						rbm.log('j:', j, xD, yD, x2, y2, soltx[j], solty[j]);
+						DIY_swipe(x2, y2, soltx[j], solty[j], 40);
+					}
+				
+			}
+		}
+	}
+
+	return AllStone;
+
+	// 				if (dectcompraw1 == 1) {
+	// 					DIY_swipe(x0, y0, x1, y1, 30);
+	// 				}
+	// 				else if (dectcompraw1 == 2) {
+	// 					DIY_radomswipe1(x0, y0, x1, y1, 30);
+	// 				}
+	// 				else if (dectcompraw1 == 3) {
+	// 					DIY_radomswipe2(x0, y0, x1, y1, 30);
+	// 				}
+					
+	// 				nextStone = nextStone + 1;
+					
+			
+	// 		sleep(dectcompraw3);
+		
+	
+
+
+}
+
 function AttackMode(Mode) { //攻擊模式：1:自動攻擊  2:定點攻擊  3:手動模式
 	if (!config.isRunning) return false;
 	console.log('攻擊模式切換')
@@ -488,7 +693,6 @@ function RubyBox() { //檢查寶箱拿鑽&看廣告拿鑽 main
 	console.log('檢查寶箱/廣告拿寶石');
 	
 	for (var j = 0; j < 2; j++) {
-		
 		
 		var img = getScreenshot();
 		var RubyButton = getImageColor(img, 60, 1060 + j * 140);  //1st:60,1203
@@ -981,6 +1185,46 @@ function characterbubble() {  //角色對話泡包點擊 main
 	else if (StoneNum < 6) {
 		console.log('空格有 '+StoneNum+' 不足6個!不點角色!')
 	}
+}
+
+function characterbubble2() {  //角色對話泡包點擊 main
+	if (!config.isRunning || characterbubbleSwitch == 0) return false;
+ 
+		console.log('有 個空格');
+		
+		var stoneDir = config.stoneDir;
+		var StonesPath = getStoragePath() + '/' + stoneDir;	
+		var filename1 = StonesPath + '/characterbubble.png';
+		
+		var tImg1 = openImage(filename1);
+		
+		for (var i = 0; i < 2; i++) {
+			var image = getScreenshotModify(5, 255, 1075 - 5, 1900 - 255, 1075 - 5, 1900 - 255, 90);
+			var results1 = findImages(image, tImg1, 0.8, 3, true);
+			for(var index in results1) {
+				var result1 = results1[index];
+				
+				//rbm.log('characterbubble = ',result1.x, result1.y, result1.score)
+
+				var x1 = 5 + result1.x + 0
+				var y1 = 255 + result1.y + 0
+				
+				if (x1 > 640 && x1 < 1080 && y1 > 175 & y1 < 575) {
+					
+				}
+				else if (x1 > 0 && x1 < 141 && y1 > 730 & y1 < 1322) {
+					
+				}
+				else{
+					tap (x1, y1, 10);
+				}
+			}
+			sleep(100);
+			releaseImage(image);
+		}
+		releaseImage(tImg1);
+		
+	
 }
 
 function friendheartfind() {  //朋友送愛心尋找 藍→黃
@@ -2116,14 +2360,14 @@ function test(a) {
 			combinecount = 0;
 			friendheartswitch = 0;
 			RubyBoxClick = 0;
-			characterbubbleSwitch = 0;
+			characterbubbleSwitch = 1;
 			AD_GetRubyswitch = 0;
 			eightdragonhuntermap = 3;
 			RestartAppswitch = 1;
 				
 			stonelvmin = 7;
 			
-			RestartApptimeset = 240;
+			RestartApptimeset = 120;
 			
 			friendheartTimer = Date.now() + 30 * 1000;
 			AD_GetRubyTimer = Date.now() + 50 * 1000;
@@ -2148,8 +2392,13 @@ function test(a) {
 			//console.log('n:', n, ', 腳本測試開始');
 			var aa = 0;
 			
-			CraftsMakeSelect(n);
-		 
+			// CraftsMakeSelect(n);
+			// MergerStone(1, 24);
+
+			// sleep(500);
+
+			FindStonesImages2(1, 24);
+
 			 /*
 			//製作裝備
 			var stoneDir = config.stoneDir;
