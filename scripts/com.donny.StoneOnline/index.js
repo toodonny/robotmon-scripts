@@ -2471,6 +2471,6 @@ function start( dectcomprawT1, dectcomprawT2, dectcomprawT3, dectcomprawT4, min,
 	
 	while(config.isRunning) {
 		// StoneCompound(stonelvmin, normalstonelvmax, rainstonelvmax);
-		StoneCompound(stonelvmin, normalstonelvmax);
+		StoneCompound2(stonelvmin, normalstonelvmax);
 	}
 }
