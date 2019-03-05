@@ -1573,11 +1573,13 @@ function waitAD(timer, speedx2) {
 				
 				CheckImageTap(300,  570, 430,  700, 0.80, 'playAD.png',    1, 1, 1, 300, 1, 0);      //點擊播放廣告
 				CheckImageTap(500, 1050, 720, 1280, 0.90, 'skipAD01.png',  1, 1, 1, 300, 1, 0);      //點擊右下略過廣告(中字)
-				CheckImageTap(440, 660, 610,  750, 0.90, 'KPwatchAD.png', 1, 1, 1, 3000, 1, 0);     //點擊繼續看廣告
-				CheckImageTap(440, 660, 610,  750, 0.90, 'KPwatchAD2.png', 1, 1, 1, 3000, 1, 0);     //點擊繼續看廣告2
+				CheckImageTap(440,  660, 610,  750, 0.90, 'KPwatchAD.png', 1, 1, 1, 3000, 1, 0);     //點擊繼續看廣告
+				CheckImageTap(440,  660, 610,  750, 0.90, 'KPwatchAD2.png', 1, 1, 1, 3000, 1, 0);     //點擊繼續看廣告2
+				CheckImageTap(579,   12, 704,   44, 0.99, 'AD_rightup_01.png', 1,  1, 1, 300, 1, 0);   //右上叉叉01
 				
 				CheckImageTap2(  0,   0, 110,   80, 0.90, 'AD_XX_03.png', 'AD_XX_04.png',   1,  1, 1, 3000, 1, 0);     //廣告結束，左上叉叉
 				
+
 				//CheckImageTap(650,  20, 700,  65, 0.80, 'ADdebug1.png', 360, 280, 1, 3000, 0);
 				//CheckImageTap(465,  655, 540,  740, 0.95, 'systemwait.png', 1, 1, 1, 3000, 1);      //無回應等待鈕
 				
