@@ -943,7 +943,6 @@ function lvupVillage2(lvupl, Timer) {  //村莊升級2
 						villageF = villageF * 2;
 						Timer = Timer * villageF;
 						console.log('本次不可升級, 下次檢查:', Timer, '秒後');
-
 					}
 					// console.log('lvupD:', lvupD, ', 下次檢查時間:', Timer, '秒後');
 					break;
@@ -956,7 +955,6 @@ function lvupVillage2(lvupl, Timer) {  //村莊升級2
 			lvupVillageTimer =  Date.now() + Timer * 1000;
 			return false;
 		}
-		
 		sleep(200);
 	}	
 }
@@ -1000,22 +998,8 @@ function villagelvup() {  //村莊不用vip4升級
 					rbm.releaseScreenshot();
 					
 					// if (Img1 != undefined) { rbm.log('Img1:',Img1); }
-								
-					// var robotplantck = villagerobotplant();
-					// if (robotplantck == 3) {
-					// 	return robotplantck;
-					// }else 
-					// if (result.y >= 1070 || robotplantck != 2) {
-					// 	if (robotplantck == 1) {
-					// 		DIY_swipe(480, result.y, 480, 650, 60, 10);
-					// 		tapFor(480, 650, 1, 100, 50, 100);
-					// 	}
-					// 	a = 0;
-					// 	break;
-					// }
 					
 					if (result.y >= 1070 && Img1 != undefined) {
-					
 						DIY_swipe(480, result.y, 480, 650, 60, 10);
 						tapFor(480, 650, 1, 100, 50, 100);
 
@@ -1051,7 +1035,6 @@ function villagelvup() {  //村莊不用vip4升級
 				console.log('a:', a);
 				return false;
 			}
-			
 		}
 		sleep(100);
 	}
