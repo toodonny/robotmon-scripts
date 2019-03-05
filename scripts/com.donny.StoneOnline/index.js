@@ -2470,6 +2470,7 @@ function start( dectcomprawT1, dectcomprawT2, dectcomprawT3, dectcomprawT4, min,
 	StoneCountArray = new Array(99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99);
 	
 	while(config.isRunning) {
-		StoneCompound(stonelvmin, normalstonelvmax, rainstonelvmax);
+		// StoneCompound(stonelvmin, normalstonelvmax, rainstonelvmax);
+		StoneCompound(stonelvmin, normalstonelvmax);
 	}
 }
