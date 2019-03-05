@@ -167,22 +167,22 @@
 		[
           { title: "防偵測合成調整(延遲愈短易偵測，自行調整)",            title_zh_TW: "",          },
           { title: ['合成移動模式(1:正常, 2:手抖, 3:手殘)'],  default:   2,  step:  1,  max:   3,  min:  1, },
-          { title: ['同級合成"前"延遲(20~500毫秒)    '],  default: 200,  step: 20,  max: 500,  min: 20, },
-          { title: ['同級合成"後"延遲(20~500毫秒)    '],  default: 300,  step: 20,  max: 500,  min: 20, },
-          { title: ['不同級合成延遲(20~500毫秒)      '],  default: 500,  step: 20,  max: 500,  min: 20, },
+          { title: ['同級合成"前"延遲(20~500毫秒)    '],  default: 200,  step: 20,  max: 5500,  min: 20, },
+          { title: ['同級合成"後"延遲(20~500毫秒)    '],  default: 300,  step: 20,  max: 5500,  min: 20, },
+          { title: ['不同級合成延遲(20~500毫秒)      '],  default: 500,  step: 20,  max: 5500,  min: 20, },
 		],
 		
         [
-          { title: ['合成，石頭最"低"等級(1~8)           '],  default:   6,  step:  1,  max:   8,  min:  1, },
-		  { title: ['一般合成，最"高"級(2~24)      '],  default:  18,  step:  1,  max:  24,  min:  2, },
-		  { title: ['雨天合成，最"高"級(2~24)      '],  default:  24,  step:  1,  max:  24,  min:  2, },
+          { title: ['合成，石頭最"低"等級(1~8)     '],  default:   1,  step:  1,  max:   8,  min:  1, },
+          { title: ['一般合成，最"高"級(2~24)      '],  default:  18,  step:  1,  max:  24,  min:  2, },
+          { title: ['雨天合成，最"高"級(2~24)      '],  default:  24,  step:  1,  max:  24,  min:  2, },
           { title: "本腳本不提供 25級(三星球)以上合成，留點樂趣給玩家",  title_zh_TW: "",   },
         ],
         [
           { title: "朋友送愛心", title_zh_TW: "", default: false},
           { title: "看廣告拿鑽", title_zh_TW: "", default: false},
           { title: "角色對話泡泡點擊", title_zh_TW: "", default: false},
-		  { 
+		      { 
             title: ['快速挖礦-藍   (0:關, 1:雨, 2:全天)'],
             default: 0,
             step: 1,

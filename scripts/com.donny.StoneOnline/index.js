@@ -1348,7 +1348,7 @@ function WhiteCrystalMake(Timer) { //收工藝裝備，製作工藝
 			var result1 = results1[index];
 			
 			if (Stonecount(0) == 0) {
-				FindStonesImages(5, 11, 0);    //合成  5  ==> 11
+				FindStonesImages2(5, 11);    //合成  5  ==> 11
 				CheckImageTap(947, 1688, 87, 83, 0.9, 'craftsbutton.png', 1, 1, 1, 200, 1) //craftsbutton
 				sleep(1000)
 				if (Stonecount(0) == 0) {
@@ -1590,7 +1590,7 @@ function AreaChangelistclick() {
 		if (targetPic3 != undefined && targetPic3.score >= 0.8) {
 			tapx = targetPic3.x - 30;
 			tapy = targetPic3.y + 10;
-			tap(tapx, tapy); sleep(200);
+			tap(tapx, tapy, 200); sleep(200);
 		}
 		
 		rbm.keepScreenshotPartial(390, 360, 700, 420); //出現切換區域選單跳出檢查
@@ -1628,7 +1628,7 @@ function AreaChange(AreaID, Timer) {  //區域切換：AreaID= 1:頻道  2:狩�
 				rbm.imageClick('Travel_channels_lessperson_check.png', 0.90);
 			}
 			else if (target2) {
-				tap(260, 580);
+				tap(260, 580, 200);
 				sleep(300);
 				break;
 			}
@@ -1685,7 +1685,7 @@ function AreaChange(AreaID, Timer) {  //區域切換：AreaID= 1:頻道  2:狩�
 					rbm.imageClick('Travel_channels_lessperson_check.png', 0.97);
 				}
 				else if (target4) {
-					tap(260, 580);
+					tap(260, 580, 200);
 					sleep(300);
 					rbm.releaseScreenshot();
 					break;
@@ -1975,9 +1975,9 @@ function Dougeon_500k1mFight(){ //地城 打500K or 1M
 			var x1 = targetPic2.x;
 			var y1 = targetPic2.y + 200 * (DougeonWFStoneswitch - 2);
 			
-			tap(x1, y1); sleep(200);
-			tap(x1, y1); sleep(200);
-			tap(x1, y1); sleep(200);
+			tap(x1, y1, 200); sleep(200);
+			tap(x1, y1, 200); sleep(200);
+			tap(x1, y1, 200); sleep(200);
 			
 			break;
 		}
@@ -2094,7 +2094,7 @@ function EDTravel_field() {  //8龍，礦區切打獵，彎月數控制，切換
 					var y1 = target1.y - ( 3 - Math.floor(eightdragonhuntermap/3) ) * 135;
 					//console.log('XY1', eightdragonhuntermap - Math.floor(eightdragonhuntermap/3))
 					//console.log(x1, y1)
-					tap(x1, y1)
+					tap(x1, y1, 200)
 					sleep(1000);
 			
 						rbm.keepScreenshotPartial(790, 1080, 940, 1680); // x1, y1, x2, y2
@@ -2105,7 +2105,7 @@ function EDTravel_field() {  //8龍，礦區切打獵，彎月數控制，切換
 							var y2 = target2.y + 26 + ( eightdragonhuntermap - Math.floor(eightdragonhuntermap/3) * 3 ) * 135;
 							//console.log( 'XY2', eightdragonhuntermap - Math.floor(eightdragonhuntermap/3) * 3 );
 							//console.log(x2, y2);
-							tap(x2, y2)		;			
+							tap(x2, y2, 200)		;			
 							sleep(1000);
 							
 							for (var j = 0; j < 3; j++){
@@ -2116,7 +2116,7 @@ function EDTravel_field() {  //8龍，礦區切打獵，彎月數控制，切換
 									var x3 = target3.x + 50;
 									var y3 = target3.y + 20 + 580;
 									//console.log(x3, y3);
-									tap(x3, y3);			
+									tap(x3, y3, 200);			
 							
 									break;
 								}
@@ -2141,7 +2141,7 @@ function stonecompoundnotup(stonelv1,stonelv2) {  //指定石頭不跳階合成
 			rbm.imageClick('buffer_stonelvup_on.png', 0.80);
 		}
 		if (target2) {
-			FindStonesImages(stonelv1, stonelv1, 0);    //合成  12  ==> 12
+			FindStonesImages2(stonelv1, stonelv1);    //合成  12  ==> 12
 			rbm.imageClick('buffer_stonelvup_off.png', 0.80);
 			break;
 		}
@@ -2212,7 +2212,7 @@ function StoneCompound(min, max, rainmax) { // 主流程
 			}
 				
 			if ( combinecount > -15) {
-				FindStonesImages(min, StonMax, 0); //合成  min ~ max
+				FindStonesImages2(min, StonMax); //合成  min ~ max
 			}
 			else if (combinecount <= -15) {
 				//console.log(' combinecount <= -10');
@@ -2221,7 +2221,7 @@ function StoneCompound(min, max, rainmax) { // 主流程
 					StoneCountArray[i] = 99;
 				}
 				
-				FindStonesImages(min, 18, 0);
+				FindStonesImages2(min, 18);
 				combinecount = 0;
 			}
 			
@@ -2229,7 +2229,7 @@ function StoneCompound(min, max, rainmax) { // 主流程
 		}
 		else if (eightdragonswitch == 1 && Stonecount(15) < eightdragonmoonset) {
 			console.log('8龍模式，合成6~13，彎月未滿 ' + eightdragonmoonset + ' 個')
-			FindStonesImages(6, 13, 0);    //合成  5  ==> 13
+			FindStonesImages2(6, 13);    //合成  5  ==> 13
 			stonecompoundnotup(14, 14); //指定金星不跳階合成
 		}
 		else if (eightdragonswitch == 1 && Stonecount(15) >= eightdragonmoonset) {
@@ -2264,7 +2264,7 @@ function StoneCompound(min, max, rainmax) { // 主流程
 		}
 		deadcheck(50);
 		
-		FindStonesImages(6, 13, 0);    //合成  5  ==> 13
+		FindStonesImages2(6, 13);    //合成  5  ==> 13
 		AreaChange(6, CHLpersontimeset); // Change to channels
 		AD_Goldx2(AD_Goldx2timeset); //打獵 2倍金幣&看廣告自動重生
 		CheckImageTap(470, 1120, 610 - 470, 1170 - 1120, 0.9, 'Rebirth_Now.png', 1, 1, 1, 200, 1); //Rebirth_Now
@@ -2360,7 +2360,7 @@ function test(a) {
 			// sleep(500);
 			// FindStonesImages2(1, 24);
 
-			while(config.isRunning) {FindStonesImages2(1, 24);}    //合成  5  ==> 8		
+			while(config.isRunning) {StoneCompound(stonelvmin, normalstonelvmax, rainstonelvmax);}    //合成  5  ==> 8		
 			
 			 /*
 			//製作裝備
@@ -2470,7 +2470,6 @@ function start( dectcomprawT1, dectcomprawT2, dectcomprawT3, dectcomprawT4, min,
 	StoneCountArray = new Array(99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99);
 	
 	while(config.isRunning) {
-		// StoneCompound(stonelvmin, normalstonelvmax, rainstonelvmax);
-		StoneCompound2(stonelvmin, normalstonelvmax);
+		StoneCompound(stonelvmin, normalstonelvmax, rainstonelvmax);
 	}
 }
