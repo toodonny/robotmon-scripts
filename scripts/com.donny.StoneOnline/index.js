@@ -511,6 +511,9 @@ function FindStonesImages2(stoneslv1,stoneslv2) {
 		
 		sleep(100);
 		console.log('背包找不到，畫面檢查');
+		
+		// tap(980, 1830, 100)
+		DIY_swipe_conv(980, 1830, 980 + 30, 1830 + 30, 25, 2000);
 		// AttackMode(1); //檢查背包打開/自動攻擊
 		QuizRestart();
 		
@@ -871,7 +874,7 @@ function AD_GetRuby(Timer) { //看廣告拿寶石
 					var cdin = convXY(385, 935, 695, 1185);
 					rbm.log(cdin);
 					var image = getScreenshotModify(cdin.x1, cdin.y1, cdin.codX, cdin.codY, cdin.ordX, cdin.ordY, 100);
-					console.log(cdin.x1, cdin.y1, cdin.codX, cdin.codY, cdin.ordX, cdin.ordY);
+					// console.log(cdin.x1, cdin.y1, cdin.codX, cdin.codY, cdin.ordX, cdin.ordY);
 					var filename = config.stonePath + '/AD_non.png';
 					var tImg = openImage(filename);
 					var checkimg = findImage(image, tImg);
