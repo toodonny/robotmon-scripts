@@ -12,13 +12,15 @@ var config = {
   imageThreshold: 1,
   imageQuality: 100,
   resizeFactor: 1, // small -> quickly
-  stoneDir: 'scripts/com.donny.StoneOnline/images',
+	stoneDir: 'scripts/com.donny.StoneOnline/images',
+	stonePath: getStoragePath() + '/scripts/com.donny.StoneOnline/images',
   isRunning: false,
   PackangName: 'net.supercat.stone',
   LaunchActivityName: '.MainActivity',
 };
  
- 
+var stonesImg = [];
+var ston
 var rbm = new RBM(config);
 rbm.init();
  
@@ -89,24 +91,39 @@ function checkPointcolorTap(intX, intY, diff, strRGB, TapX, TapY, TapTimes, Dela
 ////============================ Old Function ===============================////
 
 function CheckImageTap(intX, intY, ImgW, ImgH, Siml, ImageName, TapX, TapY, TapTimes, Delay1, Taptype) {
-	rbm.keepScreenshotPartial(intX - 2, intY - 2, intX + ImgW + 4, intY + ImgH + 4); // x1, y1, x2, y2
-	var StoneLvUP = rbm.imageExists(ImageName, Siml);
+
+	var cdin = convXY(intX - 2, intY - 2, intX + ImgW + 4, intY + ImgH + 4);
+	var image = getScreenshotModify(cdin.x1, cdin.y1, cdin.codX, cdin.codY, cdin.ordX, cdin.ordY, 100);
+	var filename = config.stonePath + '/' + ImageName;
+	var tImg = openImage(filename);
+	var target = findImage(image, tImg);
+	releaseImage(image);
+	releaseImage(tImg);
+	rbm.log(ImageName + ':', target);
+
+	if (target != undefined && target.score > Siml) {var result = true;}
+	else {var result = false;}
+
+	if (Taptype == 2) return StoneLvUP;
+	if (Taptype == 3) return target;
+
+	// rbm.keepScreenshotPartial(intX - 2, intY - 2, intX + ImgW + 4, intY + ImgH + 4); // x1, y1, x2, y2
+	// var StoneLvUP = rbm.imageExists(ImageName, Siml);
 	for (var i = 0; i < TapTimes; i++) {
-		//console.log(StoneLvUP, ': Find-' + ImageName)
-		//rbm.log(StoneLvUP)
-		if (StoneLvUP) {
+		if (result) {
 			if (Taptype == 1) {
-				rbm.imageClick(ImageName, Siml)
-				//console.log('Click-' + ImageName)
+				var TaptoX = Math.round((intX + target.x) * widthF);
+				var TaptoY = Math.round((intY + target.y) * heightF);
+			} else if (Taptype == 0) {
+				var TaptoX = TapX * widthF;
+				var TaptoY = TapY * heightF;
 			}
-			else if (Taptype == 0) {
-				tap(TapX, TapY, 100)
-				//console.log('Tap-' + TapX + ',' + TapY)
-			}
+			console.log('type:', Taptype, ', X:', TaptoX, ', Y:', TaptoY);
+			tap(TaptoX, TaptoY, 100);
 			sleep(Delay1)
 		}
 	}
-	rbm.releaseScreenshot();
+	// rbm.releaseScreenshot();
 }
 
 function xy_swipe(intx, inty, finax, finay, moveD) {  //坐標位移
@@ -139,6 +156,33 @@ function xy_swipe(intx, inty, finax, finay, moveD) {  //坐標位移
 
 function DIY_swipe(intx, inty, finax, finay, moveD, sleeptime) {
 	if (!config.isRunning) return false;
+	var movedistance = (finay - inty) / moveD
+	
+	var MoveXD = (finax - intx) / moveD
+	var MoveYD = (finay - inty) / moveD
+	
+	tapDown(intx, inty, 80);
+	for (var i = 0; i < moveD; i++) {
+		if (!config.isRunning) { tapUp(intx, i, 200);  break; }
+		intx = intx + MoveXD
+		inty = inty + MoveYD
+		moveTo(intx, inty, 8);
+	}
+	moveTo(finax, finay, 10)	
+	tapUp(finax, finay, 60)
+	if (sleeptime != undefined) sleep(sleeptime);
+}
+
+function DIY_swipe_conv(intx, inty, finax, finay, moveD, sleeptime) {
+	if (!config.isRunning) return false;
+	console.log(intx, inty, finax, finay, moveD, sleeptime)
+	var cdin = convXY(intx, inty, finax, finay);
+	var intx = Math.round(cdin.x1);
+	var inty = Math.round(cdin.y1);
+	var finax = Math.round(cdin.x2);
+	var finay = Math.round(cdin.y2);
+
+	console.log(intx, inty, finax, finay, moveD, sleeptime)
 	var movedistance = (finay - inty) / moveD
 	
 	var MoveXD = (finax - intx) / moveD
@@ -202,7 +246,6 @@ function DIY_radomswipe2(intx, inty, finax, finay, moveD, sleeptime) {
 	if (sleeptime != undefined) sleep(sleeptime);
 }
 
-
 function tessOCRtest(intX, intY, finX, finY) {
 	
 	distX = finX - intX;
@@ -219,9 +262,39 @@ function tessOCRtest(intX, intY, finX, finY) {
 	return Text;
 }
 
+function tapFor(intX, intY, taptimes, pushtime, sleeptime, delaytime){  //單點，多次連續點擊, taptimes:點擊次數, pushtime:按住時間, sleeptime:點擊間隔
+	for (var i = 0; i < taptimes; i++){
+		if (!config.isRunning) return false;
+		
+		tap(intX*widthF, intY*heightF, pushtime);
+		sleep(sleeptime);
+	}
+	if (delaytime != undefined) { sleep(delaytime); }
+}
+
+function convXY(intX1, intY1, intX2, intY2) {
+	if(intX1 != undefined) {var x1 = Math.round(intX1 * widthF);}
+	else {var x1 = -1;}
+	if(intY1 != undefined) {var y1 = Math.round(intY1 * widthF);}
+	else {var y1 = -1;}
+	if(intX2 != undefined) {var x2 = Math.round(intX2 * widthF);}
+	else {var x2 = -1;}
+	if(intY2 != undefined) {var y2 = Math.round(intY2 * widthF);}
+	else {var y2 = -1;}
+
+	if(x1 != -1 && x2 != -1) {var codX = x2 - x1 + 1; var ordX = intX2 - intX1 + 1;}
+	else {var ordX = -1; var codX = -1;}
+	if(y1 != -1 && y2 != -1) {var codY = y2 - y1 + 1; var ordY = intY2 - intY1 + 1;}
+	else {var ordY = -1; var codY = -1;}
+
+	return {'x1':x1, 'y1':y1, 'x2':x2, 'y2':y2, 'codX':codX, 'codY':codY, 'ordX':ordX, 'ordY':ordY};
+}
+
 function usingTimeString(startTime) {
   return '循環時間：' + (Date.now() - startTime) + 'ms';
 }
+
+//========================Game Function====================================
 
 function FindStonesImages(stoneslv1,stoneslv2,column) { 
 	var a = 0
@@ -268,9 +341,9 @@ function FindStonesImages(stoneslv1,stoneslv2,column) {
 				var StonesPath = getStoragePath() + '/' + stoneDir;
 
 
-				var filename = StonesPath + '/stones_lv' + k + '_1080_ALL_cmp.png';				
-				var tImg = openImage(filename);
 				var image = getScreenshotModify(44, 1478, 900, 330, 450, 165, 100);
+				var filename = StonesPath + '/Stones_img/stones_lv' + k + '_1080_ALL_cmp.png';				
+				var tImg = openImage(filename);
 
 				var results = findImages(image, tImg, 0.90, StoneMaxFindArray[k], true);
 				
@@ -402,15 +475,34 @@ function FindStonesImages2(stoneslv1,stoneslv2) {
 	if (eightdragonchangswitch == 0) var stone15findmax = mooncompswitch * 2 + 4;
 	if (eightdragonchangswitch == 1) var stone15findmax = eightdragonmoonset * 2 + 4;
 
+
+	var cdin = convXY(956, 1403, 956 + 66, 1403 + 21);
+	rbm.log('BagOpen_  cdin:', cdin);
+
+	var image = getScreenshotModify(cdin.x1, cdin.y1, cdin.codX, cdin.codY, cdin.ordX, cdin.ordY, 100);
+	rbm.log('BagOpen_  cdinRST:', cdin.x1, cdin.y1, cdin.codX, cdin.codY, cdin.ordX, cdin.ordY);
+
+	var filename = config.stonePath + '/BagOpen_-.png';
+	var tImg = openImage(filename);
+	var target = findImage(image, tImg);
+	releaseImage(image);
+	releaseImage(tImg);
+	rbm.log('BagOpen_  target:', target)
+
+	if (target != undefined && target.score > 0.90) {var BagOpenCheck = true;}
+	else {var BagOpenCheck = false;}		
+
 		
-	rbm.keepScreenshotPartial(956, 1403, 956 + 66, 1403 + 21);
-	var BagOpenCheck = rbm.imageExists('BagOpen_-.png', 0.9)
-	rbm.releaseScreenshot();
+	// rbm.keepScreenshotPartial(956, 1403, 956 + 66, 1403 + 21);
+	// var BagOpenCheck = rbm.imageExists('BagOpen_-.png', 0.9)
+	// rbm.releaseScreenshot();
 	console.log('BagOpenCheck:', BagOpenCheck);
+
+	
 	if (BagOpenCheck) {
 		var stones =  MergerStone(stoneslv1, stoneslv2);
-		// console.log('stones:', stones);
-		if (stones <= 15) {characterbubble2();}
+
+		// if (stones.stonelv0 >= 10) {characterbubble2(300);}
 		RubyBox();
 
 		//==========================================================
@@ -453,7 +545,7 @@ function FindStonesImages2(stoneslv1,stoneslv2) {
 			
 			sleep(100);
 			console.log('背包找不到，畫面檢查');
-			AttackMode(1); //檢查背包打開/自動攻擊
+			// AttackMode(1); //檢查背包打開/自動攻擊
 			QuizRestart();
 			
 			CheckImageTap(455,  575, 180,  60, 0.9, 'exitstone.png', 680, 1280, 1, 150, 0); //Exit Grow Stone Online
@@ -483,8 +575,8 @@ function MergerStone(intLv, finLv) {
 	var soltcount = 0;
 	for(var n = 1; n <= 3 ; n++) {
 		for(var m = 1; m <= 8 ; m++) {
-			soltx[soltcount] =   95 + 112 * (m - 1);
-			solty[soltcount] = 1525 + 112 * (n - 1);
+			soltx[soltcount] = (  95 + 112 * (m - 1))*widthF;
+			solty[soltcount] = (1525 + 112 * (n - 1))*heightF;
 			soltcount = soltcount + 1;
 		}
 	}
@@ -492,18 +584,17 @@ function MergerStone(intLv, finLv) {
 	// rbm.log('solty;', solty);
 
 	var stoneLvobj = [];
-	var stoneDir = config.stoneDir;
-	var StonesPath = getStoragePath() + '/' + stoneDir;
-
-	var image = getScreenshotModify(44, 1478, 900, 330, 450, 165, 100);
+	var intX = Math.round(44*widthF);
+	var intY = Math.round(1478*heightF);
+	var image = getScreenshotModify(intX, intY, 900*widthF, 330*heightF, 450, 165, 100);
 
 	var objcount = 0;
 	for(var k = intLv; k <= finLv ; k++) {
 		if (!config.isRunning) return false;
 
-		var filename = StonesPath + '/stones_lv' + k + '_1080_ALL_cmp.png';				
-		var tImg = openImage(filename);
-		var results = findImages(image, tImg, 0.88, 24, true);
+		// var filename = config.stonePath + '/Stones_img/stones_lv' + k + '_1080_ALL_cmp.png';
+		var stonelv0s = findImages(image, stonesImg[0], 0.95, 24, true);
+		var results = findImages(image, stonesImg[k], 0.87, 24, true);
 
 		for(var index in results) {
 			if (!config.isRunning) return false;
@@ -516,47 +607,58 @@ function MergerStone(intLv, finLv) {
 			
 			objcount = objcount + 1;
 		}
+		// releaseImage(tImg);
 	}
-	releaseImage(tImg);
 	releaseImage(image);
 
+
 	var AllStone = Object.keys(stoneLvobj).length;
-	rbm.log('石頭數量:', AllStone);
+	var stonelv0 = Object.keys(stonelv0s).length;
+	rbm.log('石頭數量:', AllStone, ', 空格數量:', stonelv0);
 
 	var mgNo = 0; var mgCount = 0;
 	for (var i = 0; i <= AllStone - 1; i++) {
 		if (!config.isRunning) return false;
 		if (stoneLvobj[mgNo] == undefined) break;
 		if (stoneLvobj[mgNo + 1] == undefined) break;
-		// rbm.log('log 1:', i, mgNo, stoneLvobj[mgNo]);
-		// rbm.log('log 1:', i, mgNo + 1, stoneLvobj[mgNo + 1]);
+		// rbm.log('log 2:', i, mgNo, stoneLvobj[mgNo]);
+		// rbm.log('log 3:', i, mgNo + 1, stoneLvobj[mgNo + 1]);
 		// rbm.log('')
 		if (stoneLvobj[mgNo].Lv == stoneLvobj[mgNo + 1].Lv) {
-			var x0 = 46 + stoneLvobj[mgNo].x * 2 + 40
-			var y0 = 1479 + stoneLvobj[mgNo].y * 2  + 40
-			var x1 = 46 + stoneLvobj[mgNo + 1].x * 2  + 40
-			var y1 = 1479 + stoneLvobj[mgNo + 1].y * 2  + 40
+			var x0 = (46 + stoneLvobj[mgNo].x * 2 + 40)*widthF;
+			var y0 = (1479 + stoneLvobj[mgNo].y * 2  + 40)*heightF;
+			var x1 = (46 + stoneLvobj[mgNo + 1].x * 2  + 40)*widthF;
+			var y1 = (1479 + stoneLvobj[mgNo + 1].y * 2  + 40)*heightF;
+			var randomtime = dectcompraw3 + getRandom(-10, 10);  
+
+			var mvx0 = x0; var mvy0 = y0; var mvx1 = x1; var mvy1 = y1;
+
+			if (x1 > x0) { 
+				mvx0 = x1; mvy0 = y1; mvx1 = x0; mvy1 = y0;
+			} 
+
 			switch (dectcompraw1) {
-				case 1: DIY_swipe(x0, y0, x1, y1, 50, dectcompraw3); break;
-				case 2: DIY_radomswipe1(x0, y0, x1, y1, 50, dectcompraw3); break;
-				case 3: DIY_radomswipe2(x0, y0, x1, y1, 50, dectcompraw3); break;  
+				case 1: DIY_swipe(mvx0, mvy0, mvx1, mvy1, 30, randomtime); break;
+				case 2: DIY_radomswipe1(mvx0, mvy0, mvx1, mvy1, 30, randomtime); break;
+				case 3: DIY_radomswipe2(mvx0, mvy0, mvx1, mvy1, 30, randomtime); break;  
 			}
 
 			mgNo = mgNo + 2;
 			mgCount = mgCount + 1;
+			ResterTimerSet = Date.now();
 		} else {
 			mgNo = mgNo + 1;
 		}
 	}
-
+	
 	if (mgCount == 90) {
 		stoneLvobj = stoneLvobj.sort(function (a, b) {
 			return a.Lv < b.Lv ? 1 : -1;
 		});	
 
 		for (var j = 0; j <= AllStone - 1; j++){
-			var x2 =   46 + stoneLvobj[j].x * 2 + 40
-			var y2 = 1479 + stoneLvobj[j].y * 2  + 40
+			var x2 = (  46 + stoneLvobj[j].x * 2 + 40)*widthF;
+			var y2 = (1479 + stoneLvobj[j].y * 2 + 40)*heightF;
 			var xD = Math.abs(x2 - soltx[j]);
 			var yD = Math.abs(y2 - solty[j]);
 
@@ -564,8 +666,8 @@ function MergerStone(intLv, finLv) {
 				var xD2 = 15;
 				var yD2 = 15;
 			} else if (j > 0){
-				var x3 =   46 + stoneLvobj[j].x * 2 + 40
-				var y3 = 1479 + stoneLvobj[j].y * 2  + 40
+				var x3 = (  46 + stoneLvobj[j].x * 2 + 40)*heightF;
+				var y3 = (1479 + stoneLvobj[j].y * 2 + 40)*widthF;
 				var xD2 = Math.abs(x3 - soltx[j -1]);
 				var yD2 = Math.abs(y3 - solty[j -1]);
 			}
@@ -579,9 +681,7 @@ function MergerStone(intLv, finLv) {
 			}
 		}
 	}
-
-	return AllStone;
-
+	return {'AllStone':AllStone, 'stonelv0':stonelv0};
 }
 
 function AttackMode(Mode) { //攻擊模式：1:自動攻擊  2:定點攻擊  3:手動模式
@@ -652,115 +752,180 @@ function AttackMode(Mode) { //攻擊模式：1:自動攻擊  2:定點攻擊  3:�
 	//sleep(200)
 }
 
-function RubyBox() { //檢查寶箱拿鑽&看廣告拿鑽 main
-	if (!config.isRunning) return false;
-	
-	console.log('檢查寶箱/廣告拿寶石');
+function RubyBox(Timer) { //檢查寶箱拿鑽&看廣告拿鑽 main
+	if (!config.isRunning || Date.now() < RubyBoxTimer) return false;
+	// console.log('檢查寶箱/廣告拿寶石');
 	
 	for (var j = 0; j < 2; j++) {
+		if (!config.isRunning) return false;
+		console.log('檢查寶箱/廣告拿寶石', 'j:', j);
 		
+		var cdin = convXY(60, 1060 + j * 140, 60, 1060 + j * 140);
 		var img = getScreenshot();
-		var RubyButton = getImageColor(img, 60, 1060 + j * 140);  //1st:60,1203
-		var RubyButtonCheck = isSameColor({b: 57, g:53, r: 160, a: 0},RubyButton, 40)
+		var RubyButton = getImageColor(img, cdin.x1, cdin.y1);
+		var RubyButtonCheck = isSameColor({b: 57, g:53, r: 160, a: 0}, RubyButton, 40)
 		releaseImage(img);
+		rbm.log('RubyButtonCheck:', RubyButtonCheck);
+
 		if (RubyButtonCheck) {
+			
+			var cdin = convXY(40, 1815, 480, 1890);
+			var image = getScreenshotModify(cdin.x1, cdin.y1, cdin.codX, cdin.codY, cdin.ordX, cdin.ordY, 100);
+			var filename = config.stonePath + '/rubybox100pa.png';
+			var tImg = openImage(filename);
+			var RubyBoxpa = findImage(image, tImg);
+			releaseImage(image);
+			releaseImage(tImg);
+			rbm.log('RubyBoxpa:', RubyBoxpa);
 
-			rbm.keepScreenshotPartial(40, 1815, 480, 1890); // x1, y1, x2, y2
-			var RubyBoxpa = rbm.imageExists('rubybox100pa.png', 0.90);
-			rbm.releaseScreenshot();
-			if (RubyBoxpa) {
-				//sleep(200)
-				//console.log('RubyBoxFull_Open')
+			if (RubyBoxpa != undefined && RubyBoxpa.score > 0.85) {
+				console.log('RubyBoxFull_Open')
+				var randelaytime = 900 + getRandom(-400,400)
 
-				tap(510, 1000, 60); sleep(100);
-				tap(510, 1000, 60); sleep(200);
-
-				tap(62, 1065 + j * 140, 100); // sleep(4000);
+				sleep(randelaytime);
+				// tapFor( 62, 1065 + j * 140, 1, 60, 200, randelaytime);
+				DIY_swipe_conv(62 + 30, 1065 + j * 140 + 30, 62, 1065 + j * 140, 25, randelaytime);
+				
+				
 
 				for (var i = 0; i < 40; i++) {
-					if (!config.isRunning) {
-						return false;
-					}
+					if (!config.isRunning) return false;
+
 					sleep(500);
 
-					rbm.keepScreenshotPartial(240, 1090 + j * 140, 310, 1160 + j * 140); // x1, y1, x2, y2
-					var target = rbm.imageExists('rubyboxget.png', 0.90);
-					rbm.releaseScreenshot();
-					if (target) {
-						tap(300, 1100 + j * 140, 100); // sleep(400);
-						break;
+					var cdin = convXY(220, 1060 + j * 140, 330, 1190 + j * 140);
+					// rbm.log(cdin);
+					var image = getScreenshotModify(cdin.x1, cdin.y1, cdin.codX, cdin.codY, cdin.ordX, cdin.ordY, 100);
+					// console.log(cdin.x1, cdin.y1, cdin.codX, cdin.codY, cdin.ordX/2, cdin.ordY/2);
+					var filename = config.stonePath + '/rubyboxget1-1.png';
+					var tImg = openImage(filename);
+					var target = findImage(image, tImg);
+					releaseImage(image);
+					releaseImage(tImg);
+					rbm.log('rubyboxget1-1.png:', target)
+
+					if (target != undefined && target.score > 0.85) {
+						sleep(randelaytime);
+						// tapFor(300, 1100 + j * 140, 1, 60, 200, randelaytime);
+						DIY_swipe_conv(300 + 10, 1100 + j * 140 + 40, 300 - 35, 1100 + j * 140 - 10, 25, randelaytime);
+
+						RubyBoxTimer = Date.now() + Timer * 1000;
+						return true;
 					}
 				}
+				// sleep(randelaytime);
+				// var randX = 510 + getRandom(-80, 80);
+				// var randY = 1000 + getRandom(-80, 80);
+				// tapFor(randX, randY, 1, 60, 200, randelaytime);
 
-				tap(510, 1000, 60); sleep(200);
-
-				QuizRestart();
+				// QuizRestart();
 
 				RubyBoxClick = RubyBoxClick + 1
 			}
 			else{
-				AD_GetRuby(120)
+				// AD_GetRuby(120);
 			}
 		}
 		else {
-			CheckImageTap(600,  200, 470, 750, 0.9, 'closeboard.png', 1, 1, 1, 2, 1); //closeboard
+			CheckImageTap(600, 200, 470, 750, 0.9, 'closeboard.png', 1, 1, 1, 2, 1); //closeboard
 		}
 	}
+
+	RubyBoxTimer = Date.now() + Timer * 1000;
+	return false;
 }
 
 function AD_GetRuby(Timer) { //看廣告拿寶石
-	if (!config.isRunning) return false;
+	if (!config.isRunning || Date.now() < AD_GetRubyTimer) return false;
+	if (!AD_GetRubyswitch) return false;
 	var AD_GetRubyTD = Date.now() - AD_GetRubyTimer
+
+
 	console.log('看廣告拿寶石')
 	for (var j = 0; j < 2; j++) {
+		if (!config.isRunning) return false;
+
+		var cdin = convXY(60, 1060 + j * 140, 60, 1060 + j * 140);
 		var img = getScreenshot();
-		var GetRuby = getImageColor(img, 60, 1060 + j * 140);
+		var GetRuby = getImageColor(img, cdin.x1, cdin.y1);
 		var GetRubyCheck = isSameColor({b: 63, g:58, r: 169, a: 0}, GetRuby, 40)
 		releaseImage(img);
 
-		if (AD_GetRubyswitch == 1 && GetRubyCheck  && Date.now() > AD_GetRubyTimer) {
-			//console.log('GetRubyCheck=true)')
+
+		if (GetRubyCheck) {
+			console.log('GetRubyCheck:', GetRubyCheck);
+
+			var cdin = convXY(60, 1060 + j * 140, 60, 1060 + j * 140);
 			var img = getScreenshot();
-			var RubyButton = getImageColor(img, 60, 1060 + j * 140);
+			var RubyButton = getImageColor(img, cdin.x1, cdin.y1);
 			var RubyButtonCheck = isSameColor({b: 57, g:53, r: 160, a: 0}, RubyButton, 40)
 			releaseImage(img);
+			rbm.log('RubyButtonCheck:', RubyButtonCheck);
+	
 			if (RubyButtonCheck) {
 				sleep(200)
-				//console.log('RubyBoxFull_Open')
+				console.log('RubyBoxFull_Open')
 
-				tap(510, 1000, 60); sleep(100);
-				tap(510, 1000, 60); sleep(200);
+				tapFor(510, 1000, 60, 2, 60, 1000, 200);
 
-				tap(60, 1060 + j * 140, 100); sleep(250);
+				tapFor(60, 1060 + j * 140, 1, 60, 200, 250);
 
-				tap(290, 1100 + j * 140, 100); sleep(700); // 寶箱-寶石
-				tap(160, 1100 + j * 140, 100); sleep(700); // 廣告-寶石
+				tapFor(290, 1100 + j * 140, 1, 60, 700, 700); // 寶箱-寶石
+				tapFor(160, 1100 + j * 140, 1, 60, 200, 700); // 廣告-寶石
 
-				tap(510, 1000, 60); sleep(200);
+				tapFor(510, 1000, 1, 60, 200, 700);
 
 
 				for (var i = 0; i < 6 ; i++) {
+					if (!config.isRunning) return false;
+
 					sleep(500);
-					rbm.keepScreenshotPartial(512, 920, 512 + 135, 920 + 40); // x1, y1, x2, y2
-					var checkimg = rbm.imageExists('ruby_5free.png', 0.9);
-					rbm.releaseScreenshot();
+
+					// rbm.keepScreenshotPartial(512, 920, 647, 960); // x1, y1, x2, y2
+					// var checkimg = rbm.imageExists('ruby_5free.png', 0.9);
+					// rbm.releaseScreenshot();
+
+					var cdin = convXY(512, 920, 647, 960);
+					rbm.log(cdin);
+					var image = getScreenshotModify(cdin.x1, cdin.y1, cdin.codX, cdin.codY, cdin.ordX, cdin.ordY, 100);
+					console.log(cdin.x1, cdin.y1, cdin.codX, cdin.codY, cdin.ordX, cdin.ordY);
+					var filename = config.stonePath + '/ruby_5free.png';
+					var tImg = openImage(filename);
+					var checkimg = findImage(image, tImg);
+					releaseImage(image);
+					releaseImage(tImg);
+					rbm.log('checkimg:', checkimg)
+
 					if (checkimg) {
-						tap(420, 1120, 100); sleep(500);
+						tapFor(420, 1120, 1, 60, 200, 500);
 						//break;
 					}
 
-					rbm.keepScreenshotPartial(385, 935, 695, 1185); // x1, y1, x2, y2
-					var checkImg3 = rbm.imageExists('AD_non.png', 0.95);
-					rbm.releaseScreenshot();
-					if (checkImg3 || !config.isRunning) {
-						AD_GetRubyTimer = Date.now() + 600 * 1000
+
+					// rbm.keepScreenshotPartial(385, 935, 695, 1185); // x1, y1, x2, y2
+					// var checkImg3 = rbm.imageExists('AD_non.png', 0.95);
+					// rbm.releaseScreenshot();
+
+					var cdin = convXY(385, 935, 695, 1185);
+					rbm.log(cdin);
+					var image = getScreenshotModify(cdin.x1, cdin.y1, cdin.codX, cdin.codY, cdin.ordX, cdin.ordY, 100);
+					console.log(cdin.x1, cdin.y1, cdin.codX, cdin.codY, cdin.ordX, cdin.ordY);
+					var filename = config.stonePath + '/AD_non.png';
+					var tImg = openImage(filename);
+					var checkimg = findImage(image, tImg);
+					releaseImage(image);
+					releaseImage(tImg);
+					rbm.log('checkimg:', checkimg)
+
+					if (checkImg3.score > 0.85) {
+						AD_GetRubyTimer = Date.now() + 600 * 1000;
 						console.log('廣告不夠，延10分檢查')
 						return false;
 					}
 				}
 
-				QuizRestart();
-				AD_watch(90);
+				// QuizRestart();
+				// AD_watch(90);
 				AD_GetRubyTimer = AD_GetRubyTimer + Timer * 1000;
 			}
 		}
@@ -820,37 +985,48 @@ function QuizRestart() {   // 小測驗判斷與解答 main
 	console.log('小測驗檢查')
 	
 	for (var i = 0; i < 6; i++) {
-		rbm.keepScreenshotPartial(420, 500 - 50, 610, 580 - 50); // x1, y1, x2, y2
-		var QuizTest = rbm.imageExists('Quiz_Lable.png', 0.9);
-		rbm.releaseScreenshot();
-			if (QuizTest) {
-				break;
-			}
-		sleep(300);
+		var cdin = convXY(420, 450, 610, 530);
+		rbm.log('QuizRestart  cdin:', cdin);
+		var image = getScreenshotModify(cdin.x1, cdin.y1, cdin.codX, cdin.codY, cdin.ordX, cdin.ordY, 100);
+		console.log('QuizRestart  cdinRST:', cdin.x1, cdin.y1, cdin.codX, cdin.codY, cdin.ordX, cdin.ordY);
+		var filename = config.stonePath + '/Quiz_Lable.png';
+		var tImg = openImage(filename);
+		var target = findImage(image, tImg);
+		releaseImage(image);
+		releaseImage(tImg);
+		rbm.log('QuizRestart  target:', target)
+
+		if (target != undefined && target.score > 0.90) {var QuizTest = true;}
+		else {var QuizTest = false;}		
+
+		// rbm.keepScreenshotPartial(420, 450, 610, 530); // x1, y1, x2, y2
+		// var QuizTest = rbm.imageExists('Quiz_Lable.png', 0.9);
+		// rbm.releaseScreenshot();
+
+		if (QuizTest) {break;}
+		sleep(150);
 	}
 	if (QuizTest) {
-		tap(850, 1000, 100); sleep(200);
-		tap(850, 1000, 100); sleep(200);
-		
-		QuizAnswer();
-		
+		// tapFor(850, 1000, 1, 60, 400, 300);	
+		// QuizAnswer();
+		QuizAnswer2();
 	}	
 }
 
-function QuizAnswer() { //小測驗解答判斷
+function QuizAnswer() { //小測驗解答判斷1
 	console.log('小測驗解答判斷');
 	var targetCharacter1 = -1;
 	var AltCharacterNum = 0;
 	var Character = { 
 	    'Attributes':[
 	        {'No':0,'Type':'Non','MainFile':'','AltFile':'','x':0,'y':0,'Rank':''}, 
-	        {'No':1,'Type':'Bear','MainFile':'Quiz_Main_1_N.png','AltFile':'Quiz_Alt_1_N.png','x':'','y':'','Rank':''}, 
-	        {'No':2,'Type':'Rabb','MainFile':'Quiz_Main_2_N.png','AltFile':'Quiz_Alt_2_N.png','x':'','y':'','Rank':''}, 
-	        {'No':3,'Type':'LBoy','MainFile':'Quiz_Main_3_N.png','AltFile':'Quiz_Alt_3_N.png','x':'','y':'','Rank':''}, 
-	        {'No':4,'Type':'Blue','MainFile':'Quiz_Main_4_N.png','AltFile':'Quiz_Alt_4_N.png','x':'','y':'','Rank':''}, 
-	        {'No':5,'Type':'Kaka','MainFile':'Quiz_Main_5_N.png','AltFile':'Quiz_Alt_5_N.png','x':'','y':'','Rank':''}, 
-	        {'No':6,'Type':'GNja','MainFile':'Quiz_Main_6_N.png','AltFile':'Quiz_Alt_6_N.png','x':'','y':'','Rank':''}, 
-	        {'No':7,'Type':'LGir','MainFile':'Quiz_Main_7_N.png','AltFile':'Quiz_Alt_7_N.png','x':'','y':'','Rank':''} 
+	        {'No':1,'Type':'Bear','MainFile':'/Quiz_img/Quiz_Main_1_N.png','AltFile':'/Quiz_img/Quiz_Alt_1_N.png','x':'','y':'','Rank':''}, 
+	        {'No':2,'Type':'Rabb','MainFile':'/Quiz_img/Quiz_Main_2_N.png','AltFile':'/Quiz_img/Quiz_Alt_2_N.png','x':'','y':'','Rank':''}, 
+	        {'No':3,'Type':'LBoy','MainFile':'/Quiz_img/Quiz_Main_3_N.png','AltFile':'/Quiz_img/Quiz_Alt_3_N.png','x':'','y':'','Rank':''}, 
+	        {'No':4,'Type':'Blue','MainFile':'/Quiz_img/Quiz_Main_4_N.png','AltFile':'/Quiz_img/Quiz_Alt_4_N.png','x':'','y':'','Rank':''}, 
+	        {'No':5,'Type':'Kaka','MainFile':'/Quiz_img/Quiz_Main_5_N.png','AltFile':'/Quiz_img/Quiz_Alt_5_N.png','x':'','y':'','Rank':''}, 
+	        {'No':6,'Type':'GNja','MainFile':'/Quiz_img/Quiz_Main_6_N.png','AltFile':'/Quiz_img/Quiz_Alt_6_N.png','x':'','y':'','Rank':''}, 
+	        {'No':7,'Type':'LGir','MainFile':'/Quiz_img/Quiz_Main_7_N.png','AltFile':'/Quiz_img/Quiz_Alt_7_N.png','x':'','y':'','Rank':''} 
 	    ], 
 	}; 	
 	//確認主要對象是誰
@@ -946,6 +1122,165 @@ function QuizAnswer() { //小測驗解答判斷
 	}
 }
 
+function QuizAnswer2() { //小測驗解答判斷1
+	console.log('小測驗解答判斷');
+	var targetCharacter1 = -1;
+	var AltCharacterNum = 0;
+	var Character = { 
+	    'Attributes':[
+	        {'No':0,'Type':'Non','MainFile':'','AltFile':'','x':0,'y':0,'Rank':''}, 
+	        {'No':1,'Type':'Bear','MainFile':'/Quiz_img/Quiz_Main_1_N.png','AltFile':'/Quiz_img/Quiz_Alt_1_N.png','x':'','y':'','Rank':''}, 
+	        {'No':2,'Type':'Rabb','MainFile':'/Quiz_img/Quiz_Main_2_N.png','AltFile':'/Quiz_img/Quiz_Alt_2_N.png','x':'','y':'','Rank':''}, 
+	        {'No':3,'Type':'LBoy','MainFile':'/Quiz_img/Quiz_Main_3_N.png','AltFile':'/Quiz_img/Quiz_Alt_3_N.png','x':'','y':'','Rank':''}, 
+	        {'No':4,'Type':'Blue','MainFile':'/Quiz_img/Quiz_Main_4_N.png','AltFile':'/Quiz_img/Quiz_Alt_4_N.png','x':'','y':'','Rank':''}, 
+	        {'No':5,'Type':'Kaka','MainFile':'/Quiz_img/Quiz_Main_5_N.png','AltFile':'/Quiz_img/Quiz_Alt_5_N.png','x':'','y':'','Rank':''}, 
+	        {'No':6,'Type':'GNja','MainFile':'/Quiz_img/Quiz_Main_6_N.png','AltFile':'/Quiz_img/Quiz_Alt_6_N.png','x':'','y':'','Rank':''}, 
+	        {'No':7,'Type':'LGir','MainFile':'/Quiz_img/Quiz_Main_7_N.png','AltFile':'/Quiz_img/Quiz_Alt_7_N.png','x':'','y':'','Rank':''} 
+	    ], 
+	}; 	
+	//確認主要對象是誰
+	console.log('確認主要對象是誰')
+	Tag_Main:
+	for (var i = 1; i < 8; i++) {
+		var targetmathtimes1 = 0;
+		// console.log('i=',i,' main check');
+		for (var j = 0; j < 9; j++) {
+			var cdin = convXY(470, 1060, 580, 1140);
+			// rbm.log('QuizAnswer2  cdin:', cdin);
+
+			var image = getScreenshotModify(cdin.x1, cdin.y1, cdin.codX, cdin.codY, cdin.ordX, cdin.ordY, 100);
+			// rbm.log('QuizAnswer2  cdinRST:', cdin.x1, cdin.y1, cdin.x2, cdin.y2, cdin.codX, cdin.codY, cdin.ordX, cdin.ordY);
+
+			var filename = config.stonePath + Character.Attributes[i].MainFile;
+			var tImg = openImage(filename);
+			var target = findImage(image, tImg);
+			releaseImage(image);
+			releaseImage(tImg);
+			// rbm.log('QuizAnswer2  target 1:', target)
+			if (target.score < 0.85) break;
+			if (target != undefined && target.score > 0.90) {var targetPic1 = true;}
+			else {var targetPic1 = false;}		
+	
+			// rbm.keepScreenshotPartial(470, 1060, 580, 1140);
+			// var targetPic1 = rbm.imageExists(Character.Attributes[i].MainFile, 0.95)
+			// rbm.releaseScreenshot();
+
+			
+			if (targetPic1) {  //確認比對人物編號
+				rbm.log('QuizAnswer2  target 2:', i, j, target)
+				targetmathtimes1 = targetmathtimes1 + 1
+			}
+			if (targetmathtimes1 >= 1) {
+				rbm.log(i, Character.Attributes[i].Type,'-Main-', target)
+				targetCharacter1 = i;
+				break Tag_Main;
+			}
+			sleep(100);
+		}
+	}
+
+	//
+	console.log('解答區找人與x坐標儲存');
+	if (targetCharacter1 >= 1) {
+
+		for (var i = 1; i < 8; i++) {
+			var targetmathtimes2 = 0;
+
+			for (var j = 0; j < 9; j++) {
+				var cdin = convXY(120, 790, 650, 920);
+				// rbm.log('Character  cdin:', cdin);
+
+				var image = getScreenshotModify(cdin.x1, cdin.y1, cdin.codX, cdin.codY, cdin.ordX, cdin.ordY, 100);
+				// rbm.log('Character  cdinRST:', cdin.x1, cdin.y1, cdin.x2, cdin.y2, cdin.codX, cdin.codY, cdin.ordX, cdin.ordY);
+
+				// console.log('Character', 'i:', i, ', j:', j);
+				var filename = config.stonePath + Character.Attributes[i].AltFile;
+				var tImg = openImage(filename);
+				var targetPic1 = findImage(image, tImg);
+				// rbm.log('Character  target:', 'i:', i, ', j:', j, targetPic1)
+				if (targetPic1.score < 0.91) break;
+
+				rbm.log(i, j, Character.Attributes[i].Type, '-answer-', targetPic1);
+
+				if (targetPic1 != undefined && targetPic1.score >= 0.92) {  //確認比對人物編號
+					targetmathtimes2 = targetmathtimes2 + 1
+					//rbm.log(i,Character.Attributes[i].Type,'-answer-',rbm.findImage(Character.Attributes[i].AltFile, 0.90))
+				}
+				if (targetmathtimes2 >= 1) {
+					Character.Attributes[i].x = targetPic1.x;
+					Character.Attributes[i].y = targetPic1.y;
+					AltCharacterNum = AltCharacterNum + 1
+					//console.log(i, 'targetPic1.x=' + targetPic1.x, 'targetPic1.y=' + targetPic1.y)
+					break;
+				}
+				sleep(120);
+			}
+		}
+		releaseImage(image);
+		releaseImage(tImg);
+		// rbm.releaseScreenshot();
+		
+		//console.log('AltCharacterNum = ' + AltCharacterNum)
+		
+		if (AltCharacterNum == 4) {
+			Character.Attributes = Character.Attributes.sort(function (a, b) {
+				return a.x < b.x ? 1 : -1;
+			});
+			
+			for (var k = 0; k < 4; k++) {
+				Character.Attributes[k].Rank = 4 - k
+			}
+			
+			Character.Attributes = Character.Attributes.sort(function (a, b) {
+				return a.No > b.No ? 1 : -1;
+			});
+			
+			// for (var i = 1; i < 7; i++) {
+			// 	rbm.log(Character.Attributes[i].No, Character.Attributes[i].Type, 'Rank='+Character.Attributes[i].Rank, 'x='+Character.Attributes[i].x, 'y='+Character.Attributes[i].y)
+			// }
+			
+			console.log(Character.Attributes[targetCharacter1].Type,' 是第 ',Character.Attributes[targetCharacter1].Rank,' 個！');
+			
+			var cdin = convXY(120, 1370, 980, 1450);
+			// rbm.log('QuizAnswer2  Rank:', cdin);
+
+			var image = getScreenshotModify(cdin.x1, cdin.y1, cdin.codX, cdin.codY, cdin.ordX, cdin.ordY, 100);
+			// rbm.log('QuizAnswer2  Rank:', cdin.x1, cdin.y1, cdin.codX, cdin.codY, cdin.ordX, cdin.ordY);
+
+			var filename = config.stonePath + '/Quiz_Rank_' + Character.Attributes[targetCharacter1].Rank + '.png';
+			var tImg = openImage(filename);
+			var target = findImage(image, tImg);
+			releaseImage(image);
+			releaseImage(tImg);
+			rbm.log('QuizAnswer2  Rank:', target)
+	
+			if (target != undefined && target.score > 0.90) {var Rank = true;}
+			else {var Rank = false;}
+
+			// console.log(120 + target.x, 1370 + target.y);
+			// rbm.log(convXY(120 + target.x, 1370 + target.y))
+
+			if (Rank) {
+				// tapFor(120 + target.x, 1370 + target.y, 1, 60, 200, 5000);
+				DIY_swipe_conv(120 + target.x, 1370 + target.y, 120 + target.x + 30, 1370 + target.y + 30, 10, 3000);
+			}
+			ResterTimerSet = Date.now()
+		}
+		else {
+			console.log('人物坐標不符4個，重開!')
+			sleep(500);
+			ScreenShottoPath();
+			RubyBoxClick = 0;
+			//RestartApp();
+		}
+	}
+	else if (targetCharacter1 == -1) {
+		sleep(500);
+		ScreenShottoPath();
+		console.log('沒找到目標，不做答!')
+	}
+}
+
 function QuizRestart2() {
 	console.log('小測驗無法解-重開礦山')
 	rbm.keepScreenshotPartial(431, 510, 431 + 161, 510 + 54); // x1, y1, x2, y2
@@ -984,9 +1319,29 @@ function timetoRestarApp2(CycleTimer) { //重開app，時間控制 main
 		sleep(1000);
 	}
 	else if (Timerremainder > 40) {
-		rbm.keepScreenshotPartial(935, 454 - 190, 935 + 55, 454 + 65); // x1, y1, x2, y2
-		var Disconnect = rbm.imageExists('main_fbmark.png', 0.9);
-		rbm.releaseScreenshot();
+
+
+		var cdin = convXY(935, 454 - 190, 935 + 55, 454 + 65);
+		rbm.log('timetoRestarApp2:', cdin);
+
+		var image = getScreenshotModify(cdin.x1, cdin.y1, cdin.codX, cdin.codY, cdin.ordX, cdin.ordY, 100);
+		rbm.log('timetoRestarApp2:', cdin.x1, cdin.y1, cdin.codX, cdin.codY, cdin.ordX, cdin.ordY);
+
+		var filename = config.stonePath + '/main_fbmark.png';
+		var tImg = openImage(filename);
+		var target = findImage(image, tImg);
+		releaseImage(image);
+		releaseImage(tImg);
+		rbm.log('timetoRestarApp2:', target)
+
+		if (target != undefined && target.score > 0.90) {var Disconnect = true;}
+		else {var Disconnect = false;}
+
+		// rbm.keepScreenshotPartial(935, 454 - 190, 935 + 55, 454 + 65); // x1, y1, x2, y2
+		// var Disconnect = rbm.imageExists('main_fbmark.png', 0.9);
+		// rbm.releaseScreenshot();
+
+
 		if (Disconnect) {
 			return false;
 		}
@@ -1073,16 +1428,13 @@ function rain_fastdig() { //雨天加速挖 main
 
 function Stonecount(stonelv) { //石頭數量 stonelv:指定等級，空格:0
 	
-	if (stonelv == 0) {
-		var siml = 0.95;
-	}
-	else {
-		var siml = 0.85;
-	}
+	if (stonelv == 0) {var siml = 0.95;}
+	else {var siml = 0.85;}
+
 	//console.log('stonelv = ' + stonelv,'siml = ' + siml)
-	var stoneDir = config.stoneDir;
-	var StonesPath = getStoragePath() + '/' + stoneDir;
-	var filename = StonesPath + '/stones_lv' + stonelv + '_1080_ALL_cmp.png';	
+	// var stoneDir = config.stoneDir;
+	// var StonesPath = getStoragePath() + '/' + stoneDir;
+	var filename = config.stonePath + '/Stones_img/stones_lv' + stonelv + '_1080_ALL_cmp.png';	
 	var tImg = openImage(filename);
 	var image = getScreenshotModify(46, 1478, 900, 330, 450, 165, 100);
 	var results = findImages(image, tImg, siml, 12, true);
@@ -1113,9 +1465,9 @@ function characterbubble() {  //角色對話泡包點擊 main
 		//tap(990, 1400, 200); //點包包下拉
 		//tap(990, 1400, 200);
 		
-		var stoneDir = config.stoneDir;
-		var StonesPath = getStoragePath() + '/' + stoneDir;	
-		var filename1 = StonesPath + '/characterbubble.png';
+		// var stoneDir = config.stoneDir;
+		// var StonesPath = getStoragePath() + '/' + stoneDir;	
+		var filename1 =  config.stonePath +  + '/characterbubble.png';
 		
 		var tImg1 = openImage(filename1);
 		
@@ -1152,45 +1504,34 @@ function characterbubble() {  //角色對話泡包點擊 main
 	}
 }
 
-function characterbubble2() {  //角色對話泡包點擊 main
-	if (!config.isRunning || characterbubbleSwitch == 0) return false;
- 
-		console.log('有 個空格');
+function characterbubble2(timer) {  //角色對話泡包點擊 main
+	if (!config.isRunning || Date.now() <= characterbubbleTimer) return false;
+	if (!characterbubbleSwitch) return false;
+	console.log('角色對話泡包點擊');
 		
-		var stoneDir = config.stoneDir;
-		var StonesPath = getStoragePath() + '/' + stoneDir;	
-		var filename1 = StonesPath + '/characterbubble.png';
-		
-		var tImg1 = openImage(filename1);
-		
-		for (var i = 0; i < 2; i++) {
-			var image = getScreenshotModify(5, 255, 1075 - 5, 1900 - 255, 1075 - 5, 1900 - 255, 90);
-			var results1 = findImages(image, tImg1, 0.8, 3, true);
-			for(var index in results1) {
-				var result1 = results1[index];
-				
-				//rbm.log('characterbubble = ',result1.x, result1.y, result1.score)
-
-				var x1 = 5 + result1.x + 0
-				var y1 = 255 + result1.y + 0
-				
-				if (x1 > 640 && x1 < 1080 && y1 > 175 & y1 < 575) {
-					
-				}
-				else if (x1 > 0 && x1 < 141 && y1 > 730 & y1 < 1322) {
-					
-				}
-				else{
-					tap (x1, y1, 200);
-				}
-				break;
-			}
-			sleep(100);
-			releaseImage(image);
-		}
-		releaseImage(tImg1);
-		
+	var filename1 = config.stonePath + '/characterbubble.png';
+	var tImg1 = openImage(filename1);
 	
+	for (var i = 0; i < 2; i++) {
+		var image = getScreenshotModify(5, 255, 1070, 1645, 1070, 1645, 90);
+		var results1 = findImages(image, tImg1, 0.8, 3, true);
+		for(var index in results1) {
+			var result1 = results1[index];
+			
+			var x1 = 5 + result1.x + 0
+			var y1 = 255 + result1.y + 0
+			
+			if (x1 > 640 && x1 < 1080 && y1 > 175 & y1 < 575) {}
+			else if (x1 > 0 && x1 < 141 && y1 > 730 & y1 < 1322) {}
+			else {tap (x1, y1, 200);}
+			break;
+		}
+		sleep(100);
+		releaseImage(image);
+	}
+	releaseImage(tImg1);
+
+	characterbubbleTimer = Date.now() + Timer * 1000;
 }
 
 function friendheartfind() {  //朋友送愛心尋找 藍→黃
@@ -1455,7 +1796,7 @@ function CraftsMakeSelect(CraftsSelect){ //製作工藝，物品選擇  1:食針
 	var itemTC = new Array('', '[手藝]太陽石【稀有~獨特】', '高級奇蹟卡工藝', '中級奇蹟卡工藝', '初級奇蹟卡工藝', '白色鳳凰', 'Expanding Bag Scroll', '[初級]帽子工藝', '裝備手藝', 'Energy of Solar', '[手藝]閃亮水晶', '[手藝]白水晶');
 	var itemTCnew = new Array('', '1.太陽石', '2.高級卡', '3.中級卡', '4.初級卡', '5.鳳凰', '6.背包卷', '7.帽子卷', '8.裝備卷', '9.太陽水晶', '10.閃亮水晶', '11.白水晶');
 	
-	var CraftItem = 'craftlist_' + CraftsSelect + '.png';
+	var CraftItem = '/craftlist_img/craftlist_' + CraftsSelect + '.png';
 	console.log('開始製作工藝', itemTCnew[CraftsSelect]);
 	
 
@@ -2169,7 +2510,7 @@ function DailyAchievene(Timer) { //ReceiveDaily
 			tap(995, 905, 100); sleep(200);
 			tap(995, 905, 100); sleep(200);
 			console.log('ReceiveAll_dark Break DailyAchievene')	
-			DailyAchieveneTimer = Date.now() + Timer * 1000
+			DailyAchieveneTimer = Date.now() + Timer * 1000;
 			break;
 		}
 		
@@ -2299,68 +2640,148 @@ function timer(t, st) {
 	}
 }
 
-function test(a) {
+function loadStones() {
+	// console.log('Load Stones...');
+	stonesImg = [];
+	for(var k = 0; k <= 24 ; k++) {
+		var filename = config.stonePath + '/Stones_img/stones_lv' + k + '_1080_ALL_cmp.png';
+		stonesImg.push(openImage(filename));
+	}
+}
+
+function releaseStones() {
+	// console.log('Release Stones...');
+	for(var k = 0; k <= 24 ; k++) {
+		releaseImage(stonesImg[k]);
+	}
+}
+
+function testtap(Timer) {
+	if (!config.isRunning || Date.now() < testtapTimer ) return false;
+	
+	var randelaytime = 1000 + getRandom(-300,300)
+	sleep(randelaytime);
+	var randX =  150 + getRandom(-80, 80);
+	var randY = 1690 + getRandom(-80, 80);
+	console.log('testtap:', Timer + 'sec, ', randX, randY);
+	tapFor(randX, randY, 1, 80, 200, randelaytime);
+
+	testtapTimer = testtapTimer + Timer * 1000;
+}
+
+function testbackmine() {
+	sleep(300);
+	tap(540, 220, 300);
+	sleep(1000);
+
+	tap(540, 220, 300);
+	sleep(2000);
+
+	tap(300, 260, 300);
+	sleep(1500);
+
+	// tap(300, 330, 300);  //直接回礦區
+	// sleep(5000);
+
+
+	tap(300, 420, 300);  //打獵區 forest
+	sleep(1500);
+
+	tap(580, 510, 300);  //打獵區 弱 進入
+	sleep(1500);
+
+	tap(550, 310, 300);  //打獵區 快速進入
+	sleep(5000);
+
+	tap(654, 1220, 300);
+	sleep(4000);
+}
+
+function setFirstTimer() {   //預設值設定
+	friendheartTimer     = Date.now() + 30 * 1000;
+	AD_GetRubyTimer      = Date.now() + 50 * 1000;
+	ResterTimerSet       = Date.now() +  0 * 1000;
+	WhiteCrystalTimer    = Date.now() + 10 * 1000;
+	Dougeon_WFStoneTimer = Date.now() + 40 * 1000;  //打水火石
+	AD_Goldx2Timer       = Date.now() + 10 * 1000;  //打獵區金幣2倍&重生
+	DailyAchieveneTimer  = Date.now() + 20 * 1000;  //
+	characterbubbleTimer = Date.now() + 20 * 1000;  //DailyAchieveneTimer
+	RubyBoxTimer         = Date.now() +  5 * 1000;  //DailyAchieveneTimer
+
+	testtapTimer         = Date.now() + 60 * 1000;  
+	
+	AreaTimer1 =  Date.now();  //頻道
+	AreaTimer2 =  Date.now();  //狩獵區
+	AreaTimer3 =  Date.now();  //副本
+	AreaTimer4 =  Date.now();  //城鎮
+	AreaTimer5 =  Date.now();  //強制回礦區
+	AreaTimer6 =  Date.now();  //切換少人頻道
+	
+	DailyAchieveneTimer  = Date.now() + 20 * 1000  //DailyAchieveneTimer
+	Dougeon_WFStoneTimer = Date.now();  //打水火石
+
+	whSize = getScreenSize();
+	widthF = whSize.width / 1080 ;
+	heightF = whSize.height / 1920;
+
+	loadStones();
+}
+
+function testsetting() {
+	DougeonWFStoneswitch = 2;   //打水火石             0:關  1:開
+	DungeonTicketsset    = 0;   //打水火石剩餘票設定    0:打光所有票  11:時間為 0:00
+	DungeonRoomset       = 1;   //打水火石等級設定      0:不打     1:Beginner  2:Easy  
+															//                     3:Normal   4:Hard      5:Hell
+
+	//合成方式調整
+	dectcompraw1 =    2;       //1:正常模式  2:手抖模式  3:手殘模式
+	dectcompraw2 =  100;
+	dectcompraw3 =  400;
+	dectcompraw4 =  100;										
+								
+	eightdragonchangswitch = 0;
+	mooncompswitch         = 0;
+	combinecount           = 0;
+	friendheartswitch      = 0;
+	RubyBoxClick           = 0;
+	characterbubbleSwitch  = 1;
+	AD_GetRubyswitch       = 0;
+	eightdragonhuntermap   = 3;
+	RestartAppswitch       = 1;
+		
+	stonelvmin = 7;
+	
+	RestartApptimeset = 120;
+}
+
+function test(n) {
 	config.isRunning = true;
 	
-	for(var n = 0; n <= a; n++) {
+	for(var i = 0; i <= n; i++) {
 		if (!config.isRunning) return false;
 		
-		
-		if (n == 0) {
-			
-			DougeonWFStoneswitch = 3;   //打水火石             0:關  1:開
-			DungeonTicketsset    = 0;   //打水火石剩餘票設定    0:打光所有票  11:時間為 0:00
-			DungeonRoomset       = 1;   //打水火石等級設定      0:不打     1:Beginner  2:Easy  
-									              	//                     3:Normal   4:Hard      5:Hell
+		if (i == 0) {
+			testsetting();
+			setFirstTimer();
 
-			//合成方式調整
-			dectcompraw1 =   2;       //1:正常模式  2:手抖模式  3:手殘模式
-			dectcompraw2 = 100;
-			dectcompraw3 = 2000;
-			dectcompraw4 = 100;										
-										
-			eightdragonchangswitch = 0;
-			mooncompswitch         = 0;
-			combinecount           = 0;
-			friendheartswitch      = 0;
-			RubyBoxClick           = 0;
-			characterbubbleSwitch  = 1;
-			AD_GetRubyswitch       = 0;
-			eightdragonhuntermap   = 3;
-			RestartAppswitch       = 1;
-				
-			stonelvmin = 7;
-			
-			RestartApptimeset = 120;
-			
-			friendheartTimer     = Date.now() + 30 * 1000;
-			AD_GetRubyTimer      = Date.now() + 50 * 1000;
-			ResterTimerSet       = Date.now() + 0 * 1000;
-			WhiteCrystalTimer    = Date.now() + 10 * 1000;
-			Dougeon_WFStoneTimer = Date.now() + 40 * 1000;  //打水火石
-			AD_Goldx2Timer       = Date.now() + 10 * 1000;  //打獵區金幣2倍&重生
-			DailyAchieveneTimer  = Date.now() + 20 * 1000  //DailyAchieveneTimer
-			
-			AreaTimer1 =  Date.now();  //頻道
-			AreaTimer2 =  Date.now();  //狩獵區
-			AreaTimer3 =  Date.now();  //副本
-			AreaTimer4 =  Date.now();  //城鎮
-			AreaTimer5 =  Date.now();  //強制回礦區
-			AreaTimer6 =  Date.now();  //切換少人頻道
-			
-			DailyAchieveneTimer  = Date.now() + 20 * 1000  //DailyAchieveneTimer
-			Dougeon_WFStoneTimer = Date.now();  //打水火石
-			
+			// rbm.log(getScreenSize());
+			// console.log('width:', whSize.width, 'height:', whSize.height, 'widthF:', widthF, 'heightF:', heightF);
 		}
-		else if (n > 0) {
-			console.log('n:', n, ', 腳本測試開始');
+		else if (i > 0) {
+			console.log('n:', i, '/', n, ', 腳本測試開始');
+			var j = 1;
 			// var aa = 0;
 			// CraftsMakeSelect(n);
-			// MergerStone(1, 24);
-			// sleep(500);
+			// testtap(60);
+			// QuizAnswer2();
+			var stones = MergerStone(1, 24);
+			if (stones.AllStone == 0 && stones.stonelv0 == 0) QuizRestart();
+			RubyBox(12)
 			// FindStonesImages2(1, 24);
 
-			while(config.isRunning) {StoneCompound(stonelvmin, normalstonelvmax, rainstonelvmax);}    //合成  5  ==> 8		
+			sleep(1000);
+			// console.log(execute("ps | grep app_"));
+			// while(config.isRunning) {StoneCompound(stonelvmin, normalstonelvmax, rainstonelvmax);}    //合成  5  ==> 8		
 			
 			 /*
 			//製作裝備
@@ -2382,6 +2803,7 @@ function test(a) {
 		
 		}
 	}
+	releaseStones();
 }
 
 function stop() {
@@ -2469,7 +2891,14 @@ function start( dectcomprawT1, dectcomprawT2, dectcomprawT3, dectcomprawT4, min,
   //StoneCountArray = new Array( 1, 2, 3, 4, 5, 6, 7, 8, 9,10, 1, 2, 3, 4, 5, 6, 7, 8, 9,10, 1, 2, 3, 4, 5, 6, 7, 8);
 	StoneCountArray = new Array(99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99);
 	
+	setFirstTimer();
+
 	while(config.isRunning) {
 		StoneCompound(stonelvmin, normalstonelvmax, rainstonelvmax);
 	}
+	releaseStones();
 }
+
+
+// ./adb -s emulator-5558 shell
+// / # ps | grep app_

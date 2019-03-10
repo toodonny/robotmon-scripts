@@ -1,0 +1,1 @@
+bin/adb shell kill -9 2552

@@ -1,0 +1,595 @@
+<html>
+  <head>
+    <style>
+      .navbar-custom {
+        border-radius: 0 !important;
+        background-color: #2196F3;
+        color: #FFFFFF;
+      }
+      .navbar-custom > a {
+        width: 100%;
+        color: #FFFFFF;
+        text-align: center;
+      }
+      .navbar-custom > a:hover {
+        color: #FFFFFF;
+      }
+
+      .list-group-item {
+        padding: 6px 10px !important;
+      }
+
+      /* The switch - the box around the slider */
+      .switch {
+        position: relative; 
+        display: inline-block;
+        vertical-align: middle;
+        margin: 0px;
+        width: 52px;
+        height: 28px;
+      }
+
+      ul {
+        padding-left: 5px;
+      }
+
+      /* Hide default HTML checkbox */
+      .switch input {display:none;}
+
+      /* The slider */
+      .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #ccc;
+        -webkit-transition: .4s;
+        transition: .4s;
+      }
+
+      .slider:before {
+        position: absolute;
+        content: "";
+        height: 24px;
+        width: 24px;
+        left: 2px;
+        bottom: 4px;
+        top: 2px;
+        background-color: white;
+        -webkit-transition: .4s;
+        transition: .4s;
+      }
+
+      input:checked + .slider {
+        background-color: #2196F3;
+      }
+
+      input:focus + .slider {
+        box-shadow: 0 0 1px #2196F3;
+      }
+
+      input:checked + .slider:before {
+        -webkit-transform: translateX(24px);
+        -ms-transform: translateX(24px);
+        transform: translateX(24px);
+      }
+
+      /* Rounded sliders */
+      .slider.round {
+        border-radius: 28px;
+      }
+
+      .slider.round:before {
+        border-radius: 50%;
+      }
+
+      .btn {
+        margin-left: 5px;
+      }
+      .btn-plus {
+        color:#FFFFFF;
+        background-color: #2196F3;
+        border-color: #2196F3;
+      }
+      .btn-plus:hover,
+      .btn-plus:focus,
+      .btn-plus:active,
+      .btn-plus.active {
+        color:#FFFFFF !important; 
+        background-color: #0d8aee;
+        border-color: #0c7cd5;
+      }
+      .btn-plus.disabled:hover,
+      .btn-plus.disabled:focus,
+      .btn-plus.disabled:active,
+      .btn-plus.disabled.active,
+      .btn-plus[disabled]:hover,
+      .btn-plus[disabled]:focus,
+      .btn-plus[disabled]:active,
+      .btn-plus[disabled].active,
+      fieldset[disabled] .btn-plus:hover,
+      fieldset[disabled] .btn-plus:focus,
+      fieldset[disabled] .btn-plus:active,
+      fieldset[disabled] .btn-plus.active {
+        color:#FFFFFF;
+        background-color: #2196F3;
+        border-color: #2196F3;
+      }
+      .btn-plus,
+      .btn-danger {
+        min-width: 35px;
+        padding: 3px 0px 3px 0px !important;
+      }
+      .setting_input_value {
+        width: 40px;
+        text-align: center;
+      }
+      .setting_input_value[type=text] {
+        width: 80%;
+      }
+      .row {
+          display: flex;
+          align-items: center;
+      }
+      #goToTop {
+        position: fixed;
+        bottom: 10px;
+        right: 10px;
+      }
+    </style>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <script>
+      VERSION = 0.36;
+
+      var settings = [
+        [
+          {title: "⊙_⊙ 特別感謝 小源學長硬要一個腳本，才有此腳本誕生 ⊙_⊙            ",   title_zh_TW: ""},
+        ],
+        [
+          {title: "0.36 Beta，2018.12.01，新增卡畫面自動重啟，優化打公會boss      ",   title_zh_TW: ""},
+          {title: "0.35 Beta，2018.10.27，優化程式碼及工會boss，取消perks設定     ",   title_zh_TW: ""},
+          {title: "0.30 Beta，2018.10.08，新增金幣控制 金錢buffer與卡關檢查       ",   title_zh_TW: ""},
+        ],
+        [
+          {title: "☆★☆★☆============注意事項============☆★☆★☆                    ",   title_zh_TW: ""},
+          {title: "本腳本僅適用 720x1280 解析度，英文介面。                       ",   title_zh_TW: ""},
+          {title: "遊戲內數字顯示模式設定為 eXXX 顯示。                           ",   title_zh_TW: ""},
+          {title: "轉生控制，是以卡BOSS與設定金幣值檢查次數觸發。                 ",   title_zh_TW: ""},
+        ],
+        [
+          {
+            title: "Language",
+            title_zh_TW: "Language",
+            buttons: [
+              {
+                title: "EN",
+                onclick: "saveLocale('en-US')"
+              },
+
+            ]
+          },
+        ],
+        [
+          { title: "無廣告-VIP", title_zh_TW: "", default: false},
+        ],
+        [
+          {
+            title: "技能使用：",
+            title_zh_TW: "",
+          },
+          { title: "技能1-天堂聖擊", title_zh_TW: "", default: true},
+          { title: "技能2-致命打擊", title_zh_TW: "", default: true},
+          { title: "技能3-米達斯手", title_zh_TW: "", default: true},
+          { title: "技能4-火焰之劍", title_zh_TW: "", default: true},
+          { title: "技能5-戰嚎呦嗚", title_zh_TW: "", default: true},
+          { title: "技能6-旋渦嗚人", title_zh_TW: "", default: true},		  
+        ],
+        [
+          {
+            title: "小仙女廣告：",
+            title_zh_TW: "",
+          },
+          { title: "效果1-鑽石", title_zh_TW: "", default:  true},
+          { title: "效果2-金幣", title_zh_TW: "", default: false},
+          { title: "效果3-全技", title_zh_TW: "", default: false},
+          { title: "效果4-80趴", title_zh_TW: "", default: false},
+          { title: "效果5-回MP", title_zh_TW: "", default: false},
+          {
+            title: "註：全技關閉，不點擊小仙女。",
+            title_zh_TW: "",
+          },
+		  
+		  { 
+            title: ['金幣級次達到收金幣 (1~3000)'],
+            default: 500,
+            step: 5,
+            max: 3000,
+            min: 100,
+          },
+		  
+        ],
+        [
+          { title: "主角/大技升級開關", title_zh_TW: "", default:  true},
+		  { 
+            title: ['主角/大技升級,檢查時間(秒)'],
+            default: 240,
+            step: 15,
+            max: 600,
+            min: 30,
+          },
+		  { 
+            title: ['主角升級,等級限制 (0:不升)'],
+            default: 5000,
+            step: 200,
+            max: 50000,
+            min: 0,
+          },
+          { title: "效果4-80趴，才升級", title_zh_TW: "", default:  false},
+        ],
+        [
+          { title: "英雄升級開關", title_zh_TW: "", default:  true},
+		  { 
+            title: ['第一頁英雄升級,檢查時間(秒)'],
+            default: 40,
+            step: 10,
+            max: 60,
+            min: 10,
+          },
+		  { 
+            title: ['英雄升級,檢查時間(秒)'],
+            default: 180,
+            step: 15,
+            max: 600,
+            min: 30,
+          },
+		  { 
+            title: ['已開第1英雄升級,強制升級 (0:不升)'],
+            default: 3000,
+            step: 100,
+            max: 6000,
+            min: 0,
+          },
+          { title: "效果4-80趴，才升級", title_zh_TW: "", default:  false},
+        ],
+        [
+          {
+            title: "卡關/自動轉生：",
+            title_zh_TW: "",
+          },
+		  { 
+            title: ['卡BOSS，等待再打(秒) (0~3600)'],
+            default: 5,
+            step: 5,
+            max: 600,
+            min: 5,
+          },
+          { title: "自動蛻變", title_zh_TW: "", default: true},
+		  { 
+            title: ['金幣級次卡關轉生啟動 (1~3000)'],
+            default: 500,
+            step: 5,
+            max: 3000,
+            min: 100,
+          },
+		  { 
+            title: ['30秒BOSS不過連續 x次轉生 (0:關)'],
+            default: 3,
+            step: 1,
+            max: 20,
+            min: 1,
+          },
+		  { 
+            title: ['金幣級次轉生eXXXX (1~3000)'],
+            default: 500,
+            step: 5,
+            max: 3000,
+            min: 100,
+          },
+		  { 
+            title: ['金幣達設定 x次轉生 (1~30)'],
+            default: 3,
+            step: 1,
+            max: 30,
+            min: 1,
+          },
+		  
+		  
+          { title: "蛻變時自動抓圖(全屏)", title_zh_TW: "", default: false},
+          {
+            title: "自動存檔路徑:/storage/emulated/legacy/Pictures/TT2",
+            title_zh_TW: "",
+          },
+        ],
+        [
+          { title: "自動發掘文物(暫無功能)", title_zh_TW: "", default: false},
+          { title: "紅書自動升級", title_zh_TW: "", default: false},
+        ],
+        [
+          { title: "打工會boss", title_zh_TW: "", default: true},
+        ],
+		[
+		  { 
+            title: ['自動賣裝(暫無功能) (0:關; 1:白; 2:藍; 3:紫)'],
+            default: 0,
+            step: 1,
+            max: 3,
+            min: 0,
+          },
+        ],
+		[
+		
+          {
+            title: "===========更新記錄===========",
+            title_zh_TW: "",
+          },
+          {
+            title: "0.28 Beta版，2018.09.08，修改看廣告圖面偏移無法判斷",
+            title_zh_TW: "",
+          },
+          {
+            title: "0.26 Beta版，2018.08.22，沒有改什麼",
+            title_zh_TW: "",
+          },
+          {
+            title: "0.25 Beta版，2018.08.12，新增金幣量及檢查次數轉生條件",
+            title_zh_TW: "",
+          },
+          {
+            title: "0.22 Beta版，2018.08.11，新增每日任務獎勵自動領",
+            title_zh_TW: "",
+          },
+          {
+            title: "0.20 Beta版，2018.07.15，新增第1頁英雄升級控制",
+            title_zh_TW: "",
+          },
+          {
+            title: "0.19 Beta版，2018.07.09，新增自動升紅書/英雄升級優化",
+            title_zh_TW: "",
+          },
+          {
+            title: "0.17 Beta版，2018.07.06，新增打公會boss/天降黃金控制",
+            title_zh_TW: "",
+          },
+          {
+            title: "0.10 Beta版，2018.06.08，卡關判斷調校",
+            title_zh_TW: "",
+          },
+          {
+            title: "0.01 Beta版，2018.04.22，開始寫腳本.....",
+            title_zh_TW: "",
+          },
+		]
+      ];
+      function saveLocale(locale) {
+        if (localStorage !== undefined) {
+          localStorage.setItem('taptitans2language', locale);
+          location.reload();
+        }
+      }
+      function loadSettings(settings) {
+        var recordSettings = {};
+        if (localStorage = undefined) {
+          return;
+        }
+        var version = +localStorage.getItem('taptitans2version');
+        if (!version || VERSION != version) {
+          return;
+        }
+        var settingsJSON = localStorage.getItem('taptitans2settings');
+        if (!settingsJSON) {
+          return;
+        }
+        recordSettings = JSON.parse(settingsJSON);
+        if (!recordSettings) {
+          return;
+        }
+        for (var i in settings) {
+          for (var g in settings[i]) {
+            var id =  i + "_" + g;
+            var setting = settings[i][g];
+            if (recordSettings[id] != undefined) {
+              setting.default = recordSettings[id];
+            }
+          }
+        }
+        console.log('Load settings');
+      }
+      function saveSettings(settings) {
+        if (localStorage != undefined) {
+          var recordSettings = {};
+          for (var i in settings) {
+            for (var g in settings[i]) {
+              var id =  i + "_" + g;
+              var setting = settings[i][g];
+              if (typeof setting.default === "boolean") {
+                recordSettings[id] = $("#setting_value_" + id).is(':checked');
+              } else if (typeof setting.default === "number") {
+                recordSettings[id] = +$("#setting_value_" + id).val();
+              } else if (typeof setting.default === "string") {
+                recordSettings[id] = $("#setting_value_" + id).val();
+              }
+            }
+          }
+          localStorage.setItem('taptitans2version', VERSION);
+          localStorage.setItem('taptitans2settings', JSON.stringify(recordSettings));
+          console.log('Save settings');
+        }
+      }
+      function genStartCommand(settings) {
+        var command = "start(";
+        for (var i in settings) {
+          for (var g in settings[i]) {
+            var id =  i + "_" + g;
+            var setting = settings[i][g];
+            if (typeof setting.default === "boolean") {
+              command += $("#setting_value_" + id).is(':checked') + ", ";
+            } else if (typeof setting.default === "number") {
+              command += $("#setting_value_" + id).val() + ", ";
+            } else if (typeof setting.default === "string") {
+              command += "'" + $("#setting_value_" + id).val() + "', ";
+            }
+          }
+        }
+        command += "undefined);"
+        console.log("Start command: " + command);
+        return command;
+      }
+
+      function getTitle(setting) {
+        if (localStorage === undefined) {
+          return setting.title;
+        }
+        var lang = localStorage.getItem('taptitans2language');
+        if (!lang) {
+          return setting.title;
+        } else if (lang === "zh-TW") {
+          return setting.title_zh_TW;
+        }
+        return setting.title;
+      }
+
+      function appendTitle(jSetting, title) {
+        jSetting.append("<div class='col-xs-6'>" + title + "</div>");
+      }
+
+      function appendCol(jSetting, jContent) {
+        var jDiv = $('<div class="pull-right"></div>');
+        var jCol = $('<div class="col-xs-6"></div>');
+        if (Array.isArray(jContent)) {
+          for (var j in jContent) {
+            jDiv.append(jContent[j]);
+          }
+        } else {
+          jDiv.append(jContent);
+        }
+        jCol.append(jDiv);
+        jSetting.append(jCol);
+      }
+
+      function getSwitchButton(id, checked) {
+        var jLabel = $('<label class="switch pull-right"></label>');
+        var jInput = $("<input id='setting_value_" + id + "' class='setting_input_value' type='checkbox' " + (checked ? 'checked' : '') + "/>");
+        jInput.change(function() {saveSettings(settings);});
+        jLabel.append(jInput);
+        jLabel.append('<a class="slider round"></a>');
+        return jLabel;
+      }
+
+      function genSettings(jContainer, settings) {
+        for (var i in settings) {
+          var jGroup = $("<div class='list-group'></div>");
+          for (var g in settings[i]) {
+            var id =  i + "_" + g;
+            var setting = settings[i][g];
+            var title = getTitle(setting);
+            var jGroupItem = $("<div id='setting_" + id + "' class='list-group-item'></div>");
+            var jSetting = $("<div class='row'></div>");
+            if (typeof setting.default === "boolean") {
+              appendTitle(jSetting, title);
+              appendCol(jSetting, getSwitchButton(id, setting.default));
+            } else if (typeof setting.default === "number") {
+              var step = setting.step;
+              var max = setting.max;
+              var min = setting.min;
+              var jBtns = [];
+              var jInput = $("<input id='setting_value_" + id + "' class='setting_input_value' type='number' value='" + setting.default + "' readonly/>");
+              var jBtnP = $('<button id="setting_value_p_' + id + '" class="btn btn-danger">+' + step + '</button>');
+              var jBtnM = $('<button id="setting_value_m_' + id + '" class="btn btn-danger">-' + step + '</button>');
+              jBtnP.click((function(jInput, min, max, step){
+                return function() {
+                  var newValue = (+jInput.val()) + step;
+                  if (newValue <= max) {
+                    jInput.val(newValue);
+                  }
+                  saveSettings(settings);
+                }
+              })(jInput, min, max, step));
+              jBtnM.click((function(jInput, min, max, step){
+                return function() {
+                  var newValue = (+jInput.val()) - step;
+                  if (newValue >= min) {
+                    jInput.val(newValue);
+                  }
+                  saveSettings(settings);
+                }
+              })(jInput, min, max, step));
+              jBtns.push(jInput);
+              jBtns.push(jBtnP);
+              jBtns.push(jBtnM);
+              jInput.change(function() {saveSettings(settings);});
+              appendTitle(jSetting, title);
+              appendCol(jSetting, jBtns);
+            } else if (typeof setting.default === "string") {
+              var jInput = $("<input id='setting_value_" + id + "' class='setting_input_value' type='text' value='" + setting.default + "'/>");
+              jInput.change(function() {saveSettings(settings);});
+              appendTitle(jSetting, title);
+              appendCol(jSetting, jInput);
+            } else if (setting.buttons !== undefined) {
+              var jBtns = [];
+              for (var j in setting.buttons) {
+                var jBtn = $('<button id="setting_value_b_' + id + '" onclick=' + setting.buttons[j].onclick + ' class="btn btn-plus">' + setting.buttons[j].title + '</button>');
+                jBtns.push(jBtn);
+              }
+              appendTitle(jSetting, title);
+              appendCol(jSetting, jBtns);
+            } else if (title !== undefined) {
+              jSetting.append("<div class='col-xs-12'>" + title + "</div>");
+            }
+            jGroupItem.append(jSetting);
+            jGroup.append(jGroupItem);
+          }
+          jContainer.append(jGroup)
+        }
+      }
+    </script>
+
+    <script>
+      $(function() {
+        $("#version").html(" Tap Titans 2 / 點擊泰坦 2 ");
+
+        loadSettings(settings);
+        genSettings($("#settings"), settings);
+
+        $("#goToTop").click(function() {
+          window.scrollTo(0, 0);
+        });
+
+        if (localStorage !== undefined && localStorage.getItem('taptitans2language') === "zh-TW") {
+          $("#goToTop").text("回頁面頂端");
+        } else {
+          $("#goToTop").text("Go Top");
+        }
+      });
+
+      function onEvent(eventType) {
+        if (eventType == 'OnPlayClick') {
+		  JavaScriptInterface.setXY(3, 480)
+          var startCommand = genStartCommand(settings);
+          JavaScriptInterface.runScript(startCommand);
+        } else if (eventType == 'OnPauseClick') {
+          JavaScriptInterface.runScript('stop();');
+        }
+		
+      }
+    </script>
+  </head>
+  <body>
+    <nav class="navbar navbar-custom" role="navigation">
+      <a id="version" class="navbar-brand"></a>
+    </nav>
+    <div class="container">
+      <div id="settings"></div>
+      <button id="goToTop" class="btn btn-plus">Go Top</button>
+      <br />
+      <br />
+      <br />
+    </div>
+  </body>
+</html>

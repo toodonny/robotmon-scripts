@@ -3126,7 +3126,7 @@ function checkScreenStop(Time1, Time2, Timer) {
 	//console.log('Check Screen Stop');
 
 	stage = recoNum(1) * 1
-	if (stage == 0) {
+	if (stage == -1) {
 		stage0Error = stage0Error + Timer;
 		//console.log('stage == 0  stage0Error = stage0Error + Timer');
 	}
