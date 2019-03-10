@@ -501,69 +501,33 @@ function FindStonesImages2(stoneslv1,stoneslv2) {
 	
 	if (BagOpenCheck) {
 		var stones =  MergerStone(stoneslv1, stoneslv2);
+		if (stones.AllStone == 0 && stones.stonelv0 == 0) QuizRestart();
+		RubyBox(12)
+		if (stones.stonelv0 >= 10) {characterbubble2(300);}
 
-		// if (stones.stonelv0 >= 10) {characterbubble2(300);}
-		RubyBox();
-
-		//==========================================================
-		// for(var k = stoneslv1; k <= stoneslv2 ; k++) {
-		// 	if (!config.isRunning) return false;
-			
-		// 		if (StoneCountArray[k] >= 2 || k == stonelvmin ) {
-					
-		// 			sleep(dectcompraw4);
-					
-		// 			var Stones = 0; var nextStone = 0;
-		// 			for(var index in results) {
-		// 				if (!config.isRunning) return false;
-						
-		// 				Stones = Stones + 1
-						
-		// 				var kindexNum = index * 1
-		// 				var indexremainder = kindexNum % 2
-						
-		// 				if (k == 15 && mooncompswitch > 0) {
-		// 					if (kindexNum < mooncompswitch) {
-		// 						indexremainder = 2
-		// 					}
-		// 					else if (kindexNum >= mooncompswitch) {
-		// 						indexremainder = (kindexNum - 3) % 2
-		// 					}
-		// 				}
-
-		// 				sleep(dectcompraw2);
-		// 			}
-		// 			sleep(dectcompraw3);
-					
-		// 			console.log('combinecount =', combinecount);
-		// 			ResterTimerSet = Date.now()
-		// 		}
-		// 	}
-		}
-		else {
-			if (!config.isRunning) return false;
-			
-			sleep(100);
-			console.log('背包找不到，畫面檢查');
-			// AttackMode(1); //檢查背包打開/自動攻擊
-			QuizRestart();
-			
-			CheckImageTap(455,  575, 180,  60, 0.9, 'exitstone.png', 680, 1280, 1, 150, 0); //Exit Grow Stone Online
-			CheckImageTap(490, 1060, 100, 600, 0.9, 'ok_button.png', 1, 1, 1, 150, 1); //OK_Button
-			CheckImageTap(600,  200, 470, 750, 0.9, 'closeboard.png', 1, 1, 1, 2, 1); //closeboard
-			CheckImageTap(470, 1100, 133,  95, 0.9, 'Receiveaward.png', 1, 1, 1, 150, 1); //Receiveaward
-			CheckImageTap(626,  868, 154,  51, 0.9, 'fastdig_ok.png', 430, 1130, 1, 150, 0);   //fast dig OK button
-			CheckImageTap(299,  897, 207,  39, 0.9, 'UpdataFailed.png', 540, 1120, 1, 150, 0); //wifi or lan disconnected
-			CheckImageTap(438,  825, 109,  42, 0.9, 'break_down.png', 650, 1150, 1, 150, 0);   //break down stone : cancle
-			CheckImageTap(570, 1190, 205,  78, 0.9, 'dungeon_backtomini.png', 1, 1, 1, 150, 1); //dungeon_backtomini
-			
-			//CheckImageTap(441, 648, 113, 39, 0.8, 'Unlock_Stone.png', 540, 1210, 1, 150, 0); //stone lv_up : ok
-			
-			timetoRestarApp2(RestartApptimeset);
-		}
-		// console.log('石頭',k,'級',usingTimeString(now));
-		now = Date.now();
-	
+	}
+	else {
+		if (!config.isRunning) return false;
+		
+		sleep(100);
+		console.log('背包找不到，畫面檢查');
+		// AttackMode(1); //檢查背包打開/自動攻擊
+		QuizRestart();
+		
+		CheckImageTap(455,  575, 180,  60, 0.9, 'exitstone.png', 680, 1280, 1, 150, 0); //Exit Grow Stone Online
+		CheckImageTap(490, 1060, 100, 600, 0.9, 'ok_button.png', 1, 1, 1, 150, 1); //OK_Button
+		CheckImageTap(600,  200, 470, 750, 0.9, 'closeboard.png', 1, 1, 1, 2, 1); //closeboard
+		CheckImageTap(470, 1100, 133,  95, 0.9, 'Receiveaward.png', 1, 1, 1, 150, 1); //Receiveaward
+		CheckImageTap(626,  868, 154,  51, 0.9, 'fastdig_ok.png', 430, 1130, 1, 150, 0);   //fast dig OK button
+		CheckImageTap(299,  897, 207,  39, 0.9, 'UpdataFailed.png', 540, 1120, 1, 150, 0); //wifi or lan disconnected
+		CheckImageTap(438,  825, 109,  42, 0.9, 'break_down.png', 650, 1150, 1, 150, 0);   //break down stone : cancle
+		CheckImageTap(570, 1190, 205,  78, 0.9, 'dungeon_backtomini.png', 1, 1, 1, 150, 1); //dungeon_backtomini
+		
+		//CheckImageTap(441, 648, 113, 39, 0.8, 'Unlock_Stone.png', 540, 1210, 1, 150, 0); //stone lv_up : ok
+		
+		timetoRestarApp2(RestartApptimeset);
+	}
+	now = Date.now();
 }
 
 function MergerStone(intLv, finLv) {
@@ -786,8 +750,6 @@ function RubyBox(Timer) { //檢查寶箱拿鑽&看廣告拿鑽 main
 				// tapFor( 62, 1065 + j * 140, 1, 60, 200, randelaytime);
 				DIY_swipe_conv(62 + 30, 1065 + j * 140 + 30, 62, 1065 + j * 140, 25, randelaytime);
 				
-				
-
 				for (var i = 0; i < 40; i++) {
 					if (!config.isRunning) return false;
 
@@ -1523,7 +1485,9 @@ function characterbubble2(timer) {  //角色對話泡包點擊 main
 			
 			if (x1 > 640 && x1 < 1080 && y1 > 175 & y1 < 575) {}
 			else if (x1 > 0 && x1 < 141 && y1 > 730 & y1 < 1322) {}
-			else {tap (x1, y1, 200);}
+			else {
+				tap (x1, y1, 200);
+			}
 			break;
 		}
 		sleep(100);
@@ -2728,7 +2692,7 @@ function setFirstTimer() {   //預設值設定
 }
 
 function testsetting() {
-	DougeonWFStoneswitch = 2;   //打水火石             0:關  1:開
+	DougeonWFStoneswitch = 0;   //打水火石             0:關  1:開
 	DungeonTicketsset    = 0;   //打水火石剩餘票設定    0:打光所有票  11:時間為 0:00
 	DungeonRoomset       = 1;   //打水火石等級設定      0:不打     1:Beginner  2:Easy  
 															//                     3:Normal   4:Hard      5:Hell
@@ -2744,7 +2708,7 @@ function testsetting() {
 	combinecount           = 0;
 	friendheartswitch      = 0;
 	RubyBoxClick           = 0;
-	characterbubbleSwitch  = 1;
+	characterbubbleSwitch  = 0;
 	AD_GetRubyswitch       = 0;
 	eightdragonhuntermap   = 3;
 	RestartAppswitch       = 1;
@@ -2774,11 +2738,11 @@ function test(n) {
 			// CraftsMakeSelect(n);
 			// testtap(60);
 			// QuizAnswer2();
-			var stones = MergerStone(1, 24);
-			if (stones.AllStone == 0 && stones.stonelv0 == 0) QuizRestart();
-			RubyBox(12)
-			// FindStonesImages2(1, 24);
-
+			// var stones = MergerStone(1, 24);
+			// if (stones.AllStone == 0 && stones.stonelv0 == 0) QuizRestart();
+			// RubyBox(12)
+			FindStonesImages2(1, 24);
+			
 			sleep(1000);
 			// console.log(execute("ps | grep app_"));
 			// while(config.isRunning) {StoneCompound(stonelvmin, normalstonelvmax, rainstonelvmax);}    //合成  5  ==> 8		
@@ -2894,7 +2858,10 @@ function start( dectcomprawT1, dectcomprawT2, dectcomprawT3, dectcomprawT4, min,
 	setFirstTimer();
 
 	while(config.isRunning) {
-		StoneCompound(stonelvmin, normalstonelvmax, rainstonelvmax);
+		FindStonesImages2(1, 24);
+		sleep(1000);
+
+		// StoneCompound(stonelvmin, normalstonelvmax, rainstonelvmax);
 	}
 	releaseStones();
 }
