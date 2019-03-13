@@ -146,7 +146,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
     <script>
-      VERSION = 1.60;
+      VERSION = 1.62;
 
       var settings = [
         [
@@ -156,23 +156,22 @@
           { title: "感謝 聞西、黃可愛、杉、建志協助測試與反饋bug內容           ",  title_zh_TW: "",  },
           { title: "感謝 吳小帆 提供電腦，進行24小時運轉測試                   ",  title_zh_TW: "",  },
         ],
-		[
+	    	[
           {
             title: "Language",
             title_zh_TW: "語言",
             buttons: [   {   title: "中文",  onclick: "saveLocale('en-US')"  }, ]
           },
-		],
-		[
-          { title: "防偵測合成調整(延遲愈短易偵測，自行調整)",            title_zh_TW: "",          },
-          { title: ['合成移動模式(1:正常, 2:手抖, 3:手殘)'],  default:   2,  step:  1,  max:   3,  min:  1, },
-          { title: ['同級合成"前"延遲(20~500毫秒)    '],  default: 200,  step: 20,  max: 5500,  min: 20, },
-          { title: ['同級合成"後"延遲(20~500毫秒)    '],  default: 300,  step: 20,  max: 5500,  min: 20, },
-          { title: ['不同級合成延遲(20~500毫秒)      '],  default: 500,  step: 20,  max: 5500,  min: 20, },
-
-          
-		],
-		
+          { title: ['腳本時間差調整(50~1000)'],  default:   100,  step:  50,  max: 1000,  min:  50, },
+		    ],
+		    [
+          { title: "防偵測合成調整(延遲愈短易偵測，自行調整)",            title_zh_TW: "", },
+          { title: ['移動模式(1:正常, 2:手抖, 3:手殘)'],  default:   2,  step:  1,  max:   3,  min:  1, },
+          { title: ['--------------(無效)       '],  default:   0,  step:   0,  max:    0,  min:   0, },
+          { title: ['每次合成後延遲(100~4000毫秒)'],  default: 500,  step: 100,  max: 4000,  min: 200, },
+          { title: ['--------------(無效)       '],  default:   0,  step:   0,  max:    0,  min:   0, },
+          { title: ['合成速度設定(小->快,30~200)       '],  default:  45,  step:   5,  max:  200,  min:  30, },
+	    	],
         [
           { title: ['合成，石頭最"低"等級(1~8)     '],  default:   1,  step:  1,  max:   8,  min:  1, },
           { title: ['一般合成，最"高"級(2~24)      '],  default:  18,  step:  1,  max:  24,  min:  2, },
@@ -193,7 +192,7 @@
         ],
         [
           { title: "工藝製作(預設彎月)", title_zh_TW: "", default: false},
-		  { 
+		      { 
             title: ['彎月保留量(作水晶用)(0~12)'],
             default: 0,
             step: 1,
@@ -212,7 +211,7 @@
           { title: "9★太陽水晶,__10★閃亮水晶,__11★白水晶, 	    ",  title_zh_TW: "",  },
         ],
         [		  
-		  { 
+		      { 
             title: ['打地城選擇 (0:關, 1:水火, 2:500k, 3:1m )'],
             default: 0,
             step: 1,
@@ -220,14 +219,14 @@
             min: 0,
           },
 		  
-		  { 
+		      { 
             title: ['打地城票(剩餘量)(0~10)'],
             default: 10,
             step: 1,
             max: 10,
             min: 0,
           },
-		  { 
+		      { 
             title: ['打水火石地城等級(1~5)'],
             default: 1,
             step: 1,

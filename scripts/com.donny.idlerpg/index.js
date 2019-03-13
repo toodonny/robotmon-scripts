@@ -837,6 +837,7 @@ function heroinformation(intX, intY) {  //英雄訊息
 		var magicLv = num_Recognition(66, magicY1, 108, magicY2, 0.75, 'num_Reco/hero_lv_num/hero_magiclv_num_');
 		var goldLv  = num_Recognition(18, goldY1, 66, goldY2, 0.65, 'num_Reco/hero_lv_num/hero_goldlv_num_');
 		
+		var heroatt = 'NONO'
 		var attribY = magicY1 + 38;
 		var img = getScreenshotModify(250, attribY, 1, 1, 1, 1, 100);
 		for (var q = 1; q <= 5; q++) {
@@ -849,7 +850,8 @@ function heroinformation(intX, intY) {  //英雄訊息
 			var getpoint = getImageColor(img, 0, 0);
 			var check = isSameColor({b:checkb, g:checkg, r:checkr, a:checka}, getpoint, 30);
 			
-			if (check) { heroatt = attribwordC[q]; break;}
+			if (check) {heroatt = attribwordC[q]; break;}
+			else (heroatt = 'NONO')
 		}
 		releaseImage(img);
 
