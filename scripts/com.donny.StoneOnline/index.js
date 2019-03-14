@@ -792,7 +792,8 @@ function RubyBox(Timer) { //檢查寶箱拿鑽&看廣告拿鑽 main
 
 					if (rubyboxget) {
 						sleep(randelaytime);
- 						DIY_swipe_conv(300 + 10, 1100 + j * 140 + 40, 300 - 35, 1100 + j * 140 - 10, 25, randelaytime);
+						DIY_swipe_conv(300 + 10, 1100 + j * 140 + 40, 300 - 35, 1100 + j * 140 - 10, 35, randelaytime);
+						DIY_swipe_conv(880, 1415, 660, 1420, 35, randelaytime);
 
 						RubyBoxTimer = Date.now() + Timer * 1000;
 						return true;
@@ -991,115 +992,6 @@ function QuizRestart() {   // 小測驗判斷與解答 main
 		// QuizAnswer();
 		QuizAnswer2();
 	}	
-}
-
-function QuizAnswer() { //小測驗解答判斷1
-	console.log('小測驗解答判斷');
-	var targetCharacter1 = -1;
-	var AltCharacterNum = 0;
-	var Character = { 
-	    'Attributes':[
-	        {'No':0,'Type':'Non','MainFile':'','AltFile':'','x':0,'y':0,'Rank':''}, 
-	        {'No':1,'Type':'Bear','MainFile':'/Quiz_img/Quiz_Main_1_N.png','AltFile':'/Quiz_img/Quiz_Alt_1_N.png','x':'','y':'','Rank':''}, 
-	        {'No':2,'Type':'Rabb','MainFile':'/Quiz_img/Quiz_Main_2_N.png','AltFile':'/Quiz_img/Quiz_Alt_2_N.png','x':'','y':'','Rank':''}, 
-	        {'No':3,'Type':'LBoy','MainFile':'/Quiz_img/Quiz_Main_3_N.png','AltFile':'/Quiz_img/Quiz_Alt_3_N.png','x':'','y':'','Rank':''}, 
-	        {'No':4,'Type':'Blue','MainFile':'/Quiz_img/Quiz_Main_4_N.png','AltFile':'/Quiz_img/Quiz_Alt_4_N.png','x':'','y':'','Rank':''}, 
-	        {'No':5,'Type':'Kaka','MainFile':'/Quiz_img/Quiz_Main_5_N.png','AltFile':'/Quiz_img/Quiz_Alt_5_N.png','x':'','y':'','Rank':''}, 
-	        {'No':6,'Type':'GNja','MainFile':'/Quiz_img/Quiz_Main_6_N.png','AltFile':'/Quiz_img/Quiz_Alt_6_N.png','x':'','y':'','Rank':''}, 
-	        {'No':7,'Type':'LGir','MainFile':'/Quiz_img/Quiz_Main_7_N.png','AltFile':'/Quiz_img/Quiz_Alt_7_N.png','x':'','y':'','Rank':''} 
-	    ], 
-	}; 	
-	//確認主要對象是誰
-	Tag_Main:
-	for (var i = 1; i < 8; i++) {
-		var targetmathtimes1 = 0;
-		//console.log('i=',i,' main check');
-		for (var j = 0; j < 3; j++) {
-			rbm.keepScreenshotPartial(470, 1060, 580, 1140);
-			var targetPic1 = rbm.imageExists(Character.Attributes[i].MainFile, 0.95)
-			rbm.releaseScreenshot();
-			if (targetPic1) {  //確認比對人物編號
-				targetmathtimes1 = targetmathtimes1 + 1
-			}
-			if (targetmathtimes1 >= 1) {
-				rbm.log(i, Character.Attributes[i].Type,'-Main-',rbm.findImage(Character.Attributes[i].MainFile, 0.95))
-				targetCharacter1 = i;
-				break Tag_Main;
-			}
-		}
-	}
-	//解答區找人與x坐標儲存
-	if (targetCharacter1 >= 1) {
-		rbm.keepScreenshotPartial(120, 790, 650, 920);
-		for (var i = 1; i < 8; i++) {
-			var targetmathtimes2 = 0;
-			for (var j = 0; j < 1; j++) {
-				
-				var targetPic1 = rbm.findImage(Character.Attributes[i].AltFile, 0.92)
-				
-				//rbm.log(i,Character.Attributes[i].Type,'-answer-',rbm.findImage(Character.Attributes[i].AltFile, 0.80))
-
-				if (targetPic1 != undefined && targetPic1.score >= 0.92) {  //確認比對人物編號
-					targetmathtimes2 = targetmathtimes2 + 1
-					//rbm.log(i,Character.Attributes[i].Type,'-answer-',rbm.findImage(Character.Attributes[i].AltFile, 0.90))
-				}
-				if (targetmathtimes2 >= 1) {
-					Character.Attributes[i].x = targetPic1.x;
-					Character.Attributes[i].y = targetPic1.y;
-					AltCharacterNum = AltCharacterNum + 1
-					//console.log(i, 'targetPic1.x=' + targetPic1.x, 'targetPic1.y=' + targetPic1.y)
-					break;
-				}
-			}
-		}
-		rbm.releaseScreenshot();
-		
-		//console.log('AltCharacterNum = ' + AltCharacterNum)
-		
-		if (AltCharacterNum == 4) {
-			Character.Attributes = Character.Attributes.sort(function (a, b) {
-				return a.x < b.x ? 1 : -1;
-			});
-			
-			for (var k = 0; k < 4; k++) {
-				//sleep(100)
-				Character.Attributes[k].Rank = 4 - k
-			}
-			
-			Character.Attributes = Character.Attributes.sort(function (a, b) {
-				return a.No > b.No ? 1 : -1;
-			});
-			
-			for (var i = 0; i < 0; i++) {
-				//rbm.log(Character.Attributes[i].No, Character.Attributes[i].Type, 'Rank='+Character.Attributes[i].Rank, 'x='+Character.Attributes[i].x, 'y='+Character.Attributes[i].y)
-			}
-			
-			console.log(Character.Attributes[targetCharacter1].Type,' 是第 ',Character.Attributes[targetCharacter1].Rank,' 名！');
-			
-			//sleep(1000);
-			//ScreenShottoPath();
-			
-			
-			rbm.keepScreenshotPartial(120, 1370, 980, 1450); // x1, y1, x2, y2
-			var QuizRankFile = 'Quiz_Rank_' + Character.Attributes[targetCharacter1].Rank + '.png'
-			rbm.imageClick(QuizRankFile, 0.90);
-			rbm.releaseScreenshot();
-			
-			ResterTimerSet = Date.now()
-		}
-		else {
-			console.log('人物坐標不符4個，重開!')
-			sleep(500);
-			// ScreenShottoPath();
-			RubyBoxClick = 0;
-			//RestartApp();
-		}
-	}
-	else if (targetCharacter1 == -1) {
-		sleep(500);
-		// ScreenShottoPath();
-		console.log('沒找到目標，不做答!')
-	}
 }
 
 function QuizAnswer2() { //小測驗解答判斷1
@@ -2673,7 +2565,7 @@ function testsetting() {
 	EDbackminigmooncount = 0;
 	
 	//整體時間調整
-	s = s_timesUI;
+	s = 200;
 
 	//合成方式調整
 	dectcompraw1 = 1;
@@ -2703,7 +2595,7 @@ function testsetting() {
 	CraftsMake2switch = 0;    //工藝2
 	CraftsMake3switch = 0;    //工藝3
 	CraftsMake4switch = 0;    //工藝4
-	console.log('食針 冰針:', CraftsMake1, CraftsMake2, CraftsMake3)
+	console.log('食針 冰針:', CraftsMake1switch, CraftsMake2switch, CraftsMake3switch)
 	
 	DougeonWFStoneswitch = 0;    //打水火石地城          0:關  1:開
 	DungeonTicketsset = 10;       //打水火石地城票        設定值：0~10
