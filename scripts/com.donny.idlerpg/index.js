@@ -556,11 +556,11 @@ function ScreenStopTimes(intX, intY, finX, finY, siml, str, Timer) {  //Return s
 		rbm.screencrop( str, intX, intY, finX, finY)
 		ScreenErrorTime1 = Date.now()
 		ScreenErrorTime2 = 0;
-		// console.log('畫面不同，重新抓圖, ScreenErrorTime2 = 0');
+		console.log('畫面不同，重新抓圖, ScreenErrorTime2 = 0');
 	}
 	else if (targetImg.score >= siml) {
 		ScreenErrorTime2 = Date.now() - ScreenErrorTime1
-		// console.log('畫面相似', targetImg.score.toFixed(5), '/', siml, ', ', ScreenErrorTime2/1000, 'sec');
+		console.log('畫面相似', targetImg.score.toFixed(5), '/', siml, ', ', ScreenErrorTime2/1000, 'sec');
 	}
 	checkScreenTimer = Date.now() + Timer * 1000
 	
@@ -660,7 +660,7 @@ function recoNum(choiceF) {        //各項數字辨識
 	//console.log('各項數字辨識', choiceF);
 	
 	switch (choiceF) {
-		case  1: return	num_Recognition(320, 16, 395, 50, 0.93, 'num_Reco/idle_stage_num/idle_stage_num2_'); break;  //關卡數
+		case  1: return	num_Recognition(320, 16, 395, 50, 0.90, 'num_Reco/idle_stage_num/idle_stage_num2_'); break;  //關卡數
 		case  2:
 			//每日地城目前票數
 			rbm.keepScreenshotPartial(180, 525, 370, 545);  //Indentification Ticks
@@ -1275,7 +1275,8 @@ function stagerincarnation() {  //自動輪回
 	var stuckstage =  -1; 
 	var rintimes1  =  rintimes1Sw;
 
-	stage = recoNum(1) * 1
+	stage = recoNum(1) * 1;
+	console.log('關卡', stage, '到達');
 	if (stage % 50 == 0) console.log('關卡', stage, '到達');
 	if (stage >= ministage && stage <= maxstage) {
 		RinF = RinF + 1;
@@ -3314,7 +3315,6 @@ function setFirstTimer() {   //預設值設定
 	ADtimeout      = new Array( -1, -1, -1, -1, -1, -1, -1);
 	lvupTaps       = new Array( '', 20, 10, 5, 3);
 
-
 	Hero = {
 	  'information':[
 			{'NO': 1, 'magiclv': '', 'goldlv': '', 'attrib': '', 'totallv': ''},
@@ -3373,6 +3373,117 @@ function commandsetting() {
 	console.log('10 Sw:', admodeSw, adtimesetSw, resetappTm, upStartlvSw, receiveMailSw, loginDailySw);
 }
 
+function setFirstsetting() {
+	lvupHeroSw    =    1;   //英雄升級開關
+	lvupHeroDi    =    3;   //升級量級次 1:x1, 2:x10, 3:x100, 4:MAX
+	lvupHerostgSw = 2500;   //設定開始升級關卡
+	lvupheromdSw  =    3;   //1:定時, 2:自動, 3:設定
+	lvuptimeSw    =   60;   //英雄升級檢查間隔
+	lvuplimitSw   =  999;   //金幣等級到達不檢查
+	//自動判斷是以魔晶+金幣等級-100為下次檢查關卡
+
+	lvupVillageSw =    1;
+	lvupVillageDi =    2;
+
+	autoWeekSw    =    1;   //每日可打材料屬性【1:水  2:火  3:木  4:光  5:暗】
+	dgticksSw     =    0;   //保留票數
+
+	spdongeonSw   =    0;   //活動boss，9:雪怪，8:豬怪
+	spdstageSw    =  300;
+
+	menuW0Sw      =    1;   //星期日：木、水、暗 (3, 1, 5)
+	menuW1Sw      =    5;   //星期一：火、暗 (2, 5)
+	menuW2Sw      =    4;   //星期二：木、光 (3, 4)
+	menuW3Sw      =    2;   //星期三：水、火 (1, 2)
+	menuW4Sw      =    4;   //星期四：木、光 (3, 4)
+	menuW5Sw      =    5;   //星期五：水、暗 (1, 5)
+	menuW6Sw      =    4;   //星期六：光、火 (4, 2)
+
+	toRincarnSw   =    1;
+	ministageSw   = 3800;
+	rintimes1Sw   =    1;
+
+	mlvupautoSw   =    1;   //自動升級魔晶等級
+	mlvuptargetSw = 2600;   //魔晶等級目標值(0:自動以最小等級為基準)
+	mlvupwaterSw  =  200;   //水屬性等級差(正值)(-1:不升級)
+	mlvupfireSw   =    0;   //火屬性等級差(正值)(-1:不升級)
+	mlvupwoodSw   =    0;   //木屬性等級差(正值)(-1:不升級)
+	mlvuplightSw  =    0;   //光屬性等級差(正值)(-1:不升級)
+	mlvupdarkSw   =    0;   //暗屬性等級差(正值)(-1:不升級)
+	//以最低等級為基礎進行等級差加級
+	//由級別差值大到小進行升級
+	//每次升級以10級為基礎量
+
+	autoStuckSw   =   50;
+	autoMinSw     =  140;
+	StucktimeSw   =   30;
+
+	ExpedSw       =    1;   //遠征開關
+	ExpedHeroSw   =    1;   //每個遠征最大人數
+	ExpedstarSw   =    2;   //刷目標的星級(以上)
+	ExpeditemSw   =    0;   //刷目標的物品
+
+	arenaSw       =    1;   //競技開關
+	arenaticksSw  =    0;   //保留票數
+	arenaFightpw  = 27500;  //對戰戰力
+	arenatkchgSw  =    0;   //打不過刷新
+
+	getADBoxSw    =    1;   //撿寶箱開關
+	tapBOXmodSw   =    2;   //寶箱亂點之術  1:刷關強化  2:點寶箱強化
+	tapRLtimeSw   =    2;   //(A) 點左右頁面次數(按住50ms，間隔50ms)
+	afterRLDySw   =   80;   //(B) 點完左右頁面等待時間 ms
+	crystalCKSw   =    2;   //(C) 檢查左右水晶次數 (每次35ms)
+	tapSkillSw    =    1;   //(D)放大技開關
+	skillslepSw   =  300;   //(E)放大技後延遲 ms
+	//動作流程與時間差說明
+	//① 點擊左邊(A)次 → 等待(B)毫秒 → 檢查左水晶(C)次 → 點擊 210~710(每50pix)
+	//② 點擊右邊(A)次 → 等待(B)毫秒 → 檢查右水晶(C)次 → 點擊  10~510(每50pix)
+	//③ 施放大技(D) → 等待(E)毫秒 →  回到 ①
+
+	guildchatSw   =    1;   //工會求幫助開關
+	guildmaldSw   =    1;   //工會求勛章開關
+	heroattribSw  =    5;   //周一~周六：屬性代碼：1:水  2:火  3:木  4:光  5:暗  0:關閉
+	herocodeSw    =    4;   //周一~周六：英雄代碼請見設定頁最下方
+	heroattrib2Sw =    1;   //周日：1:水  2:火  3:木  4:光  5:暗  0:關閉
+	herocode2Sw   =   11;   //周日：英雄代碼請見設定頁最下方
+	maldhelpupTSw =    5;   //提早進入求助時間
+
+	guildbossSw   =    1;   //工會打BOSS開關
+	guildbosshdSw =    3;   //工會打BOSS難度 1:弱, 2:中, 3:強
+	guildbossthSw =    1;   //工會打BOSS閃電用量 1:100, 2:300
+	failureth3Sw  =    0;   //打不過閃電改 300
+	failuredwlvSw =    0;   //閃電300 打不過降級打
+
+	admodeSw      =    2;   //看廣告模式
+	adtimesetSw   =   75;   //廣告檢查總時間
+	resetappTm    =   50;   //卡畫面重啟時間
+	upStartlvSw   =    0;   //英雄自動升星
+
+	receiveMailSw =    1;   //收mail
+	loginDailySw  =    1;   //每日登入獎勵
+
+	//************預計功能********************
+	artifactsSw   =    0;   //自動刷寶物
+	buyartifactSw =    0;   //買刷到的寶物
+	getmaterialSw =    0;   //打要買寶物的材料
+	buyclstoneSw  =    0;   //買彩石
+	artif1starSw  =    0;   //刷寶物1星級
+	artif1codeSw  =    0;   //刷寶物1代碼
+	artif2starSw  =    0;   //刷寶物2星級
+	artif2codeSw  =    0;   //刷寶物2代碼
+	artif3starSw  =    0;   //刷寶物3星級
+	artif3codeSw  =    0;   //刷寶物3代碼
+				
+	artiflvupSw   =    0;   //現有寶物升級
+	getmaterialSw =    0;   //自動打寶物材料
+	artlvup1starSw=    0;   //升級寶物1星級
+	artlvup1codeSw=    0;   //升級寶物1代碼
+	artlvup2starSw=    0;   //升級寶物2星級
+	artlvup2codeSw=    0;   //升級寶物2代碼
+	artlvup3starSw=    0;   //升級寶物3星級
+	artlvup3codeSw=    0;   //升級寶物3代碼
+}
+
 function test(cycle){
 	rbm.init();
 	config.isRunning = true;               //腳本測試用function
@@ -3380,129 +3491,18 @@ function test(cycle){
 		if (!config.isRunning) return false;
 		
 		if (n == 0) { 
-			lvupHeroSw    =    1;   //英雄升級開關
-			lvupHeroDi    =    3;   //升級量級次 1:x1, 2:x10, 3:x100, 4:MAX
-			lvupHerostgSw = 2500;   //設定開始升級關卡
-			lvupheromdSw  =    3;   //1:定時, 2:自動, 3:設定
-			lvuptimeSw    =   60;   //英雄升級檢查間隔
-			lvuplimitSw   =  969;   //金幣等級到達不檢查
-			//自動判斷是以魔晶+金幣等級-100為下次檢查關卡
-			
-			lvupVillageSw =    1;
-			lvupVillageDi =    2;
-			
-			autoWeekSw    =    1;   //每日可打材料屬性【1:水  2:火  3:木  4:光  5:暗】
-			dgticksSw     =    0;   //保留票數
-			
-			spdongeonSw   =    0;   //活動boss，9:雪怪，8:豬怪
-			spdstageSw    =  300;
-			
-			menuW0Sw      =    1;   //星期日：木、水、暗 (3, 1, 5)
-			menuW1Sw      =    5;   //星期一：火、暗 (2, 5)
-			menuW2Sw      =    4;   //星期二：木、光 (3, 4)
-			menuW3Sw      =    2;   //星期三：水、火 (1, 2)
-			menuW4Sw      =    4;   //星期四：木、光 (3, 4)
-			menuW5Sw      =    5;   //星期五：水、暗 (1, 5)
-			menuW6Sw      =    4;   //星期六：光、火 (4, 2)
-			
-			toRincarnSw   =    1;
-			ministageSw   = 3800;
-			rintimes1Sw   =    1;
-			
-			mlvupautoSw   =    1;   //自動升級魔晶等級
-			mlvuptargetSw = 2600;   //魔晶等級目標值(0:自動以最小等級為基準)
-			mlvupwaterSw  =  200;   //水屬性等級差(正值)(-1:不升級)
-			mlvupfireSw   =    0;   //火屬性等級差(正值)(-1:不升級)
-			mlvupwoodSw   =    0;   //木屬性等級差(正值)(-1:不升級)
-			mlvuplightSw  =    0;   //光屬性等級差(正值)(-1:不升級)
-			mlvupdarkSw   =    0;   //暗屬性等級差(正值)(-1:不升級)
-			//以最低等級為基礎進行等級差加級
-			//由級別差值大到小進行升級
-			//每次升級以10級為基礎量
-			
-			autoStuckSw   =   50;
-			autoMinSw     =  140;
-			StucktimeSw   =   30;
-			
-			ExpedSw       =    1;   //遠征開關
-			ExpedHeroSw   =    1;   //每個遠征最大人數
-			ExpedstarSw   =    2;   //刷目標的星級(以上)
-			ExpeditemSw   =    0;   //刷目標的物品
-			
-			arenaSw       =    1;   //競技開關
-			arenaticksSw  =    0;   //保留票數
-			arenaFightpw  = 27500;  //對戰戰力
-			arenatkchgSw  =    0;   //打不過刷新
-			
-			getADBoxSw    =    1;   //撿寶箱開關
-			tapBOXmodSw   =    2;   //寶箱亂點之術  1:刷關強化  2:點寶箱強化
-			tapRLtimeSw   =    3;   //(A) 點左右頁面次數(按住50ms，間隔50ms)
-			afterRLDySw   =   80;   //(B) 點完左右頁面等待時間 ms
-			crystalCKSw   =    4;   //(C) 檢查左右水晶次數 (每次35ms)
-			tapSkillSw    =    1;   //(D)放大技開關
-			skillslepSw   =  400;   //(E)放大技後延遲 ms
-			//動作流程與時間差說明
-			//① 點擊左邊(A)次 → 等待(B)毫秒 → 檢查左水晶(C)次 → 點擊 210~710(每50pix)
-			//② 點擊右邊(A)次 → 等待(B)毫秒 → 檢查右水晶(C)次 → 點擊  10~510(每50pix)
-			//③ 施放大技(D) → 等待(E)毫秒 →  回到 ①
-			
-			guildchatSw   =    1;   //工會求幫助開關
-			guildmaldSw   =    1;   //工會求勛章開關
-			heroattribSw  =    5;   //周一~周六：屬性代碼：1:水  2:火  3:木  4:光  5:暗  0:關閉
-			herocodeSw    =    4;   //周一~周六：英雄代碼請見設定頁最下方
-			heroattrib2Sw =    1;   //周日：1:水  2:火  3:木  4:光  5:暗  0:關閉
-			herocode2Sw   =   11;   //周日：英雄代碼請見設定頁最下方
-			maldhelpupTSw =    5;   //提早進入求助時間
-			
-			guildbossSw   =    1;   //工會打BOSS開關
-			guildbosshdSw =    3;   //工會打BOSS難度 1:弱, 2:中, 3:強
-			guildbossthSw =    1;   //工會打BOSS閃電用量 1:100, 2:300
-			failureth3Sw  =    0;   //打不過閃電改 300
-			failuredwlvSw =    0;   //閃電300 打不過降級打
-			
-			admodeSw      =    2;   //看廣告模式
-			adtimesetSw   =   75;   //廣告檢查總時間
-			resetappTm    =   50;   //卡畫面重啟時間
-			upStartlvSw   =    0;   //英雄自動升星
-	
-			receiveMailSw =    1;   //收mail
-			loginDailySw  =    1;   //每日登入獎勵
-			
-			//************預計功能********************
-			artifactsSw   =    0;   //自動刷寶物
-			buyartifactSw =    0;   //買刷到的寶物
-			getmaterialSw =    0;   //打要買寶物的材料
-			buyclstoneSw  =    0;   //買彩石
-			artif1starSw  =    0;   //刷寶物1星級
-			artif1codeSw  =    0;   //刷寶物1代碼
-			artif2starSw  =    0;   //刷寶物2星級
-			artif2codeSw  =    0;   //刷寶物2代碼
-			artif3starSw  =    0;   //刷寶物3星級
-			artif3codeSw  =    0;   //刷寶物3代碼
-						
-			artiflvupSw   =    0;   //現有寶物升級
-			getmaterialSw =    0;   //自動打寶物材料
-			artlvup1starSw=    0;   //升級寶物1星級
-			artlvup1codeSw=    0;   //升級寶物1代碼
-			artlvup2starSw=    0;   //升級寶物2星級
-			artlvup2codeSw=    0;   //升級寶物2代碼
-			artlvup3starSw=    0;   //升級寶物3星級
-			artlvup3codeSw=    0;   //升級寶物3代碼
-			
-			// commandsetting();    //設定值列表
-			setFirstTimer();     //設定初始值
+			setFirstsetting();   //設定初值設定值
+			setFirstTimer();     //設定初始時間值
+			// commandsetting();    //初始設定值顯示
 		}
 		else if (n >= 1) {
 			stage = recoNum(1) * 1
 			// console.log('============================================================================')
 			console.log('n = ', n, ', CRA 腳本開始', stage);
-			// tapFor(360, 400, 1, 50, 200);
-			while(config.isRunning) { main(); }
-			// lvupVillageTimer  = -1;
-			// lvupVillage2(2, 60)
+			
+			while(config.isRunning) {main();}
 			sleep(1000)
 			// console.log('n = ', n, ', CRA 腳本結束');
-
 		}
 	}
 }
@@ -3518,9 +3518,7 @@ function start(settingString) {
 	
 	var settings = JSON.parse(settingString);
 	// console.log(settingString, settings);
-	for(var key in settings) {
-		global[key] = settings[key] * 1;
-	}
+	for(var key in settings) {global[key] = settings[key] * 1;};
   
 	ministageSw = ministage1UI * 1 + ministage2UI * 1 + ministage3UI * 1 + ministage4UI * 1;
 	if (ministageSw <= 140) ministageSw = 140;

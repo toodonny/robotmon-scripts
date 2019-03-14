@@ -518,7 +518,7 @@ function FindStonesImages2(stoneslv1,stoneslv2) {
 		if (stones.stonelv0 > 9) {characterbubble2(15);}
 		sleep(s);
 
-		RubyBox(7);
+		RubyBox(5);
 		sleep(s);
 	}
 	else {
@@ -751,29 +751,30 @@ function RubyBox(Timer) { //檢查寶箱拿鑽&看廣告拿鑽 main
 
 		if (RubyButtonCheck) {
 			var RubyBoxpaobj = convertImgcheck(30, 1815, 480, 1890, 0.85, 'rubybox100pa3.png')
-			// rbm.log('RubyBoxpa:', RubyBoxpaobj);
-			// rbm.log('RubyBoxpa1:', RubyBoxpa1);
+			rbm.log('RubyBoxpa:', RubyBoxpaobj);
+			rbm.log('RubyBoxpa1:', RubyBoxpa1);
 			// var RubyBoxpa = RubyBoxpaobj.result;
+			rbm.log('RubyBoxpa:', RubyBoxpa, ', Timer:', Timer);
 
 			var RubyBoxpa = false;
 			if (RubyBoxpaobj.result) {
 				var RubyBoxscoreD =  RubyBoxpa1.score - RubyBoxpaobj.score;
 				console.log('RubyBoxscoreD:', RubyBoxscoreD);
 				if (RubyBoxpaobj.x == RubyBoxpa1.x && RubyBoxscoreD >= 0 && RubyBoxscoreD < 0.01 ){
-					Timer = (Date.now()-RubyBoxpa1.startT)/1000 - 8;
-					RubyBoxpa1.startT = Date.now();
+					// Timer = (Date.now()-RubyBoxpa1.startT)/1000 - 8;
+					// RubyBoxpa1.startT = Date.now();
 					var RubyBoxpa = true;
-				} else if (RubyBoxpaobj.score > RubyBoxpa1.score){
+				} else if (RubyBoxpaobj.score != RubyBoxpa1.score){
 					RubyBoxpa1 = RubyBoxpaobj;
 					var RubyBoxpa = false;
 				}
 			}
-			rbm.log('RubyBoxpa:', RubyBoxpa, ', Timer:', Timer);
+			
 			sleep(s);
 
 			if (RubyBoxpa) {
 				console.log('RubyBoxFull_Open')
-				var randelaytime = 400 + getRandom(-200,200)
+				var randelaytime = 900 + getRandom(-200,200)
 
 				sleep(randelaytime);
 				DIY_swipe_conv(62 + 30, 1065 + j * 140 + 30, 62, 1065 + j * 140, 25, randelaytime);
@@ -949,7 +950,7 @@ function AD_watch(ADtimer) {
 	}
 }
 
-function ScreenShottoPath() { //全畫面截圖存檔
+function ScreenShottoPath() { //畫面截圖存檔
 	var DateName = Math.floor(Date.now()/1000);
 	var QuizShotFilename = 'QuizShot' + DateName.toString() + '.png';
 	var PicSharePath = '/storage/emulated/legacy/Pictures/StoneQuizPic';
@@ -1089,14 +1090,14 @@ function QuizAnswer() { //小測驗解答判斷1
 		else {
 			console.log('人物坐標不符4個，重開!')
 			sleep(500);
-			ScreenShottoPath();
+			// ScreenShottoPath();
 			RubyBoxClick = 0;
 			//RestartApp();
 		}
 	}
 	else if (targetCharacter1 == -1) {
 		sleep(500);
-		ScreenShottoPath();
+		// ScreenShottoPath();
 		console.log('沒找到目標，不做答!')
 	}
 }
@@ -1255,7 +1256,7 @@ function QuizAnswer2() { //小測驗解答判斷1
 	}
 	else if (targetCharacter1 == -1) {
 		sleep(500);
-		ScreenShottoPath();
+		// ScreenShottoPath();
 		console.log('沒找到目標，不做答!')
 	}
 }
@@ -1267,7 +1268,7 @@ function QuizRestart2() {
 	rbm.releaseScreenshot();
 	if (QuizTest) {
 		sleep(1500);
-		ScreenShottoPath();
+		// ScreenShottoPath();
 		
 		sleep(1000);
 		RubyBoxClick = 0;
@@ -2666,30 +2667,69 @@ function setFirstTimer() {   //預設值設定
 }
 
 function testsetting() {
-	DougeonWFStoneswitch = 0;   //打水火石             0:關  1:開
-	DungeonTicketsset    = 0;   //打水火石剩餘票設定    0:打光所有票  11:時間為 0:00
-	DungeonRoomset       = 1;   //打水火石等級設定      0:不打     1:Beginner  2:Easy  
-															//                     3:Normal   4:Hard      5:Hell
+	combinecount = 0;
+	ScreenCheck = 0;
+	RubyBoxClick = 0;
+	EDbackminigmooncount = 0;
+	
+	//整體時間調整
+	s = s_timesUI;
 
 	//合成方式調整
-	dectcompraw1 =    1;       //1:正常模式  2:手抖模式  3:手殘模式
-	dectcompraw2 =  100;
-	dectcompraw3 =  300;
-	dectcompraw4 =  100;										
-								
-	eightdragonchangswitch = 0;
-	mooncompswitch         = 0;
-	combinecount           = 0;
-	friendheartswitch      = 0;
-	RubyBoxClick           = 0;
-	characterbubbleSwitch  = 1;
-	AD_GetRubyswitch       = 0;
-	eightdragonhuntermap   = 3;
-	RestartAppswitch       = 1;
-		
-	stonelvmin = 7;
+	dectcompraw1 = 1;
+	dectcompraw2 = 0;
+	dectcompraw3 = 300;
+	dectcompraw4 = 0;
+	MergermoveSW = 60;
+	console.log('合成方式調整防偵測:', dectcompraw1, dectcompraw2, dectcompraw3, dectcompraw4, MergermoveSW);
 	
-	RestartApptimeset = 120;
+	
+	stonelvmin = 4;            //合成，石頭最"低"等級        0:關  1:開
+	normalstonelvmax = 13;      //一般合成，石頭最"高"等級    0:關  1:開
+	rainstonelvmax = 24;    //雨天合成，石頭最"高"等級    0:關  1:開
+	//console.log('石頭等級設定:', stonelvmin, normalstonelvmax, rainstonelvmax)
+	
+	friendheartswitch = 0;      //朋友送愛心開關        0:關  1:開
+	AD_GetRubyswitch = 0;           //看廣告拿鑽            0:關  1:開
+	characterbubbleSwitch = 1;  //角色對話泡包點擊      0:關  1:開
+	rain_fastdigswitch = 0;     //下雨天快速挖礦        0:關  1:開
+	//console.log('雜項設定:', friendheart, ad_ruby, charabubble, rainfastdig)
+	
+	WhiteCrystalswitch = 0;      //白水晶製作(彎月)      0:關  1:開
+	mooncompswitch = 0;          //彎月保留量(作水晶用)  0:不保留
+	//console.log('製作水晶設定', WCrystal, moonkeep)
+
+	CraftsMake1switch = 0;    //工藝1
+	CraftsMake2switch = 0;    //工藝2
+	CraftsMake3switch = 0;    //工藝3
+	CraftsMake4switch = 0;    //工藝4
+	console.log('食針 冰針:', CraftsMake1, CraftsMake2, CraftsMake3)
+	
+	DougeonWFStoneswitch = 0;    //打水火石地城          0:關  1:開
+	DungeonTicketsset = 10;       //打水火石地城票        設定值：0~10
+	DungeonRoomset = 1;         //打水火石地城等級      1:Beginner  2:Easy  3:Normal  4:Hard  5:Hell
+	//console.log('打水火石地城設定', DWFStone, DTickets, DWFroomlv)
+	
+	eightdragonswitch = 0;        //8龍專用(含鳳凰)，合成限制(雨天加速:關，合成：5~14) EightDragon
+	eightdragonmoonset = 0;        //8龍專用(含鳳凰)，合成停止(彎月數量) EDmoonkeep
+	eightdragonchangswitch = 0;  //8龍專用(含鳳凰)，打獵←→打礦切換  EDareachange
+	EDbackminigmoonset = 0;        //8龍專用(含鳳凰)，回到礦區(彎月數量) EDmoonback
+	eightdragonhuntermap = 0;    //設定要打獵地圖 ，1:70, 2:80, 3:90-E, 4:90-N, 5:90-H
+	//console.log('8龍模式UI:', EightDragon, EDmoonkeep, EDareachange, EDmoonback, EDgotohunter)
+	//console.log('8龍模式SC:', eightdragonswitch, eightdragonmoonset, eightdragonchangswitch, EDbackminigmoonset, eightdragonhuntermap)
+	
+	RestartAppswitch = 1;           //異常檢查自動重開app    0:關  1:開  resetapp
+	RestartApptimeset = 90;      //異常檢查自動重開時間   檢查時間 "秒" resetapptime
+	//console.log('異常重開設定:', resetapp, resetapptime)	
+	
+	AD_Goldx2switch = 0;              //打圖 廣告 金幣x2 自動重生    0:關  1:開  goldx2
+	AD_Goldx2timeset = 40;            //打圖 廣告 金幣重生檢查時間   檢查時間 "秒" goldx2T
+	CHLpersonswitch = 0            //打圖 頻道 切換至少人頻道     0:關  1:開  goldx2
+	CHLpersontimeset = 40          //打圖 頻道 切換至少人頻道     切換時間 "秒"
+	//console.log('廣告 金幣x2 自動重生:', goldx2, goldx2T, CHLperson, CHLpersonT)
+	
+	Dailyswitch = 0          //領取每日獎勵       0:關  1:開  
+		
 }
 
 function test(n) {
@@ -2714,10 +2754,14 @@ function test(n) {
 			// QuizRestart();
 			// var stones = MergerStone(1, 24);
 			// if (stones.AllStone == 0 && stones.stonelv0 == 0) QuizRestart();
-			// RubyBox(3)
+			// RubyBox(5)
 			// if (stones.stonelv0 > 9) characterbubble2(6);
 
-			FindStonesImages2(1, 24);
+			// sleep(500);
+
+
+
+			FindStonesImages2(stonelvmin, normalstonelvmax);
 			sleep(1000);
 			// while(config.isRunning) {StoneCompound(stonelvmin, normalstonelvmax, rainstonelvmax);}    //合成  5  ==> 8		
 			
@@ -2837,7 +2881,7 @@ function start( s_timesUI, dectcomprawT1, dectcomprawT2, dectcomprawT3, dectcomp
 	setFirstTimer();
 
 	while(config.isRunning) {
-		FindStonesImages2(1, 24);
+		FindStonesImages2(stonelvmin, normalstonelvmax);
 		sleep(1000);
 
 		// StoneCompound(stonelvmin, normalstonelvmax, rainstonelvmax);
