@@ -2638,6 +2638,15 @@ function test(n) {
 }
 
 function UIsetting() {   //UI用，設定值
+
+}
+
+function stop() {
+	config.isRunning=false;
+}
+
+function start(s_timesUI, dectcomprawT1, dectcomprawT2, dectcomprawT3, dectcomprawT4, MergermoveUI, min, max, rainmax, friendheart, ad_ruby, charabubble, rainfastdig, WCrystal, moonkeep, CraftsMake1, CraftsMake2, CraftsMake3, CraftsMake4, DWFStone, DTickets, DWFroomlv, EightDragon, EDmoonkeep, EDareachange, EDmoonback, EDgotohunter, resetapp, resetapptime, goldx2, goldx2T, CHLperson, CHLpersonT, DailyAchieveneT) {
+	config.isRunning = true;
 	combinecount = 0;
 	ScreenCheck = 0;
 	RubyBoxClick = 0;
@@ -2700,16 +2709,7 @@ function UIsetting() {   //UI用，設定值
 	//console.log('廣告 金幣x2 自動重生:', goldx2, goldx2T, CHLperson, CHLpersonT)
 	
 	Dailyswitch = DailyAchieveneT          //領取每日獎勵       0:關  1:開  
-}
-
-function stop() {
-	config.isRunning=false;
-}
-
-function start( s_timesUI, dectcomprawT1, dectcomprawT2, dectcomprawT3, dectcomprawT4, MergermoveUI, min, max, rainmax, friendheart, ad_ruby, charabubble, rainfastdig, WCrystal, moonkeep, CraftsMake1, CraftsMake2, CraftsMake3, CraftsMake4, DWFStone, DTickets, DWFroomlv, EightDragon, EDmoonkeep, EDareachange, EDmoonback, EDgotohunter, resetapp, resetapptime, goldx2, goldx2T, CHLperson, CHLpersonT, DailyAchieveneT) {
-	config.isRunning = true;
 	
-	UIsetting();
 	setFirstTimer();
 
 	while(config.isRunning) {
