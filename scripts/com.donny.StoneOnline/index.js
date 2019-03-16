@@ -295,6 +295,18 @@ function convertImgcheck(intX1, intY1, intX2, intY2, siml, ImageName) {
 	return target;
 }
 
+function converColorcheck(intX1, intY1, Vb, Vg, Vr, Vdiff) {
+	if (!config.isRunning) return false;
+
+	var cdin = convXY(intX1, intY1, intX1, intY1);
+	var img = getScreenshot();
+	var Color = getImageColor(img, cdin.x1, cdin.y1);
+	var ColorCheck = isSameColor({b:Vb, g:Vg, r:Vr, a: 0}, Color, Vdiff);
+	releaseImage(img);
+
+	return ColorCheck;
+}
+
 function convXY(intX1, intY1, intX2, intY2) {
 	if(intX1 != undefined) {var x1 = Math.round(intX1 * widthF);}
 	else {var x1 = -1;}
@@ -311,6 +323,16 @@ function convXY(intX1, intY1, intX2, intY2) {
 	else {var ordY = -1; var codY = -1;}
 
 	return {'x1':x1, 'y1':y1, 'x2':x2, 'y2':y2, 'codX':codX, 'codY':codY, 'ordX':ordX, 'ordY':ordY};
+}
+
+function ScreenShottoPath() { //畫面截圖存檔
+	var DateName = Math.floor(Date.now()/1000);
+	var QuizShotFilename = 'QuizShot' + DateName.toString() + '.png';
+	var PicSharePath = '/storage/emulated/legacy/Pictures/StoneQuizPic';
+	var QuizSavefile = PicSharePath + '/' + QuizShotFilename;	
+	var QuizShot = getScreenshot();
+	saveImage(QuizShot, QuizSavefile);
+	releaseImage(QuizShot);
 }
 
 function usingTimeString(startTime) {
@@ -494,7 +516,6 @@ function FindStonesImages(stoneslv1,stoneslv2,column) {
 function FindStonesImages2(stoneslv1,stoneslv2) { 
 	if (!config.isRunning) return false;
 
-
 	var a = 0
 	var now = Date.now();
 	var StonesImages = []; // [] array,  {} object
@@ -502,34 +523,24 @@ function FindStonesImages2(stoneslv1,stoneslv2) {
 	if (eightdragonchangswitch == 0) var stone15findmax = mooncompswitch * 2 + 4;
 	if (eightdragonchangswitch == 1) var stone15findmax = eightdragonmoonset * 2 + 4;
 
-	var BagOpenCheckobj = convertImgcheck(956, 1403, 1022, 1424, 0.9, 'BagOpen_-.png')
-	// rbm.log('BagOpenCheckobj:', BagOpenCheckobj);
+	var BagOpenCheckobj = convertImgcheck(956, 1403, 1022, 1424, 0.9, 'BagOpen_-.png');
 	var BagOpenCheck = BagOpenCheckobj.result;
-	rbm.log('BagOpenCheck:', BagOpenCheck);
+	// rbm.log('BagOpenCheckobj:', BagOpenCheckobj);
+	// rbm.log('BagOpenCheck:', BagOpenCheck);
 	sleep(s);
 	
 	if (BagOpenCheck) {
-		var stones = MergerStone(stoneslv1, stoneslv2);
-		sleep(s);
-		
-		if (stones.AllStone == 0 && stones.stonelv0 == 0) QuizRestart();
-		sleep(s);
-
-		if (stones.stonelv0 > 9) {characterbubble2(15);}
-		sleep(s);
-
-		RubyBox(5);
-		sleep(s);
+		sleep(s); var stones = MergerStone(stoneslv1, stoneslv2);
+		sleep(s); if (stones.AllStone == 0 && stones.stonelv0 == 0) QuizRestart(); 
+		sleep(s); if (stones.stonelv0 > 9) {characterbubble2(10);} 
+		sleep(s); RubyBox(5);	
+		sleep(s); AD_GetRuby(150);
 	}
 	else {
 		
-		sleep(100);
-		console.log('背包找不到，畫面檢查');
-		
-		// DIY_swipe_conv(980, 1830, 980 + 30, 1830 + 30, 25, 2000);
-		AttackMode(1); //檢查背包打開/自動攻擊
-		QuizRestart();
-		sleep(s);
+		sleep(s);	console.log('背包找不到，畫面檢查');
+		sleep(s);	AttackMode(1);   //檢查背包打開+自動攻擊
+		sleep(s);	QuizRestart();
 		
 		CheckImageTap(455,  575, 180,  60, 0.9, 'exitstone.png', 680, 1280, 1, 150, 0); //Exit Grow Stone Online
 		CheckImageTap(490, 1060, 100, 600, 0.9, 'ok_button.png', 1, 1, 1, 150, 1); //OK_Button
@@ -733,28 +744,18 @@ function AttackMode(Mode) { //攻擊模式：1:自動攻擊  2:定點攻擊  3:�
 
 function RubyBox(Timer) { //檢查寶箱拿鑽&看廣告拿鑽 main
 	if (!config.isRunning) return false;
-	if (Date.now() < RubyBoxTimer) {console.log('時間未到，待', (RubyBoxTimer-Date.now())/1000, '秒'); return false;}
-	// console.log('檢查寶箱/廣告拿寶石');
+	if (Date.now() < RubyBoxTimer) {console.log('寶箱拿鑽等待:', (RubyBoxTimer-Date.now())/1000, '秒'); return false;}
+	console.log('檢查寶箱/廣告拿寶石');
 	
 	for (var j = 0; j < 2; j++) {
 		if (!config.isRunning) return false;
-		console.log('檢查寶箱/廣告拿寶石', 'j:', j);
-		
-		var cdin = convXY(60, 1060 + j * 140, 60, 1060 + j * 140);
-		var img = getScreenshot();
-		var RubyButton = getImageColor(img, cdin.x1, cdin.y1);
-		var RubyButtonCheck = isSameColor({b: 57, g:53, r: 160, a: 0}, RubyButton, 80);
-		releaseImage(img);
-		rbm.log('RubyButtonCheck:', RubyButtonCheck);
-		
-		sleep(s);
+		// console.log('檢查寶箱/廣告拿寶石', 'j:', j);
 
+		var RubyButtonCheck = converColorcheck(60, 1060 + j * 140, 57, 53, 160, 80)
+		rbm.log('RubyButtonCheck:', RubyButtonCheck);
 		if (RubyButtonCheck) {
 			var RubyBoxpaobj = convertImgcheck(30, 1815, 480, 1890, 0.85, 'rubybox100pa3.png');
 			// rbm.log('RubyBoxpa:', RubyBoxpaobj);
-			// rbm.log('RubyBoxpa1:', RubyBoxpa1);
-			// var RubyBoxpa = RubyBoxpaobj.result;
-			// rbm.log('RubyBoxpa:', RubyBoxpa, ', Timer:', Timer);
 
 			var RubyBoxpa = false;
 			if (RubyBoxpaobj.result) {
@@ -790,13 +791,13 @@ function RubyBox(Timer) { //檢查寶箱拿鑽&看廣告拿鑽 main
 
 					if (rubyboxget) {
 						sleep(randelaytime);
-						DIY_swipe_conv(300 + 10, 1100 + j * 140 + 40, 300 - 35, 1100 + j * 140 - 10, 35, randelaytime);
-						DIY_swipe_conv(880, 1750, 660, 1750, 35, randelaytime);
+						DIY_swipe_conv(300 + 10, 1100 + j * 140 + 40, 300 - 35, 1100 + j * 140 - 10, 25, randelaytime);
+						DIY_swipe_conv(880, 1750, 660, 1750, 25, randelaytime);
 
 						// Timer = (Date.now()-RubyBoxpa1.startT)/1000 - 20;
 						// RubyBoxget1.startT = Date.now();
 						rbm.log('RubyBoxget1.startT:', RubyBoxget1.startT, ', Timer:', Timer);
-						RubyBoxTimer = Date.now() + (Timer + 90) * 1000;
+						RubyBoxTimer = Date.now() + (Timer + 110) * 1000;
 						return true;
 					}
 				}
@@ -809,7 +810,6 @@ function RubyBox(Timer) { //檢查寶箱拿鑽&看廣告拿鑽 main
 		}
 		else {
 			CheckImageTap(600, 200, 470, 750, 0.9, 'closeboard.png', 1, 1, 1, 150, 1); //closeboard
-		
 		}
 	}
 
@@ -818,148 +818,91 @@ function RubyBox(Timer) { //檢查寶箱拿鑽&看廣告拿鑽 main
 }
 
 function AD_GetRuby(Timer) { //看廣告拿寶石
-	if (!config.isRunning || Date.now() < AD_GetRubyTimer) return false;
+	if (!config.isRunning) return false;
+	if (Date.now() < AD_GetRubyTimer) {console.log('廣告拿鑽等待:', (AD_GetRubyTimer-Date.now())/1000, '秒'); return false;}
 	if (!AD_GetRubyswitch) return false;
-	var AD_GetRubyTD = Date.now() - AD_GetRubyTimer
-
-
 	console.log('看廣告拿寶石')
+
 	for (var j = 0; j < 2; j++) {
 		if (!config.isRunning) return false;
 
-		var cdin = convXY(60, 1060 + j * 140, 60, 1060 + j * 140);
-		var img = getScreenshot();
-		var GetRuby = getImageColor(img, cdin.x1, cdin.y1);
-		var GetRubyCheck = isSameColor({b: 63, g:58, r: 169, a: 0}, GetRuby, 80)
-		releaseImage(img);
+		var RubyButtonCheck = converColorcheck(60, 1060 + j * 140, 57, 53, 160, 80)
+		rbm.log('RubyButtonCheck:', RubyButtonCheck);
+		if (RubyButtonCheck) {
+			sleep(200)
+			console.log('RubyBoxFull_Open');
+			
+			DIY_swipe_conv( 62 + 30, 1065 + j * 140 + 30,  62, 1065 + j * 140, 25, 1500);
+			DIY_swipe_conv(130 + 30, 1105 + j * 140 + 30, 130, 1105 + j * 140, 25, 1000);
 
+			// // tapFor(510, 1000, 60, 2, 60, 1000, 200);
+			// tapFor(60, 1060 + j * 140, 1, 60, 200, 250);  //點拿鑽小圖示
+			// // tapFor(290, 1100 + j * 140, 1, 60, 700, 700); // 寶箱-寶石
+			// tapFor(160, 1100 + j * 140, 1, 60, 200, 700); // 廣告-寶石
+			// // tapFor(510, 1000, 1, 60, 200, 700);
 
-		if (GetRubyCheck) {
-			console.log('GetRubyCheck:', GetRubyCheck);
+			for (var i = 0; i < 4 ; i++) {
+				if (!config.isRunning) return false;
+				sleep(500);
 
-			var cdin = convXY(60, 1060 + j * 140, 60, 1060 + j * 140);
-			var img = getScreenshot();
-			var RubyButton = getImageColor(img, cdin.x1, cdin.y1);
-			var RubyButtonCheck = isSameColor({b: 57, g:53, r: 160, a: 0}, RubyButton, 80)
-			releaseImage(img);
-			rbm.log('RubyButtonCheck:', RubyButtonCheck);
-	
-			if (RubyButtonCheck) {
-				sleep(200)
-				console.log('RubyBoxFull_Open')
-
-				tapFor(510, 1000, 60, 2, 60, 1000, 200);
-
-				tapFor(60, 1060 + j * 140, 1, 60, 200, 250);
-
-				tapFor(290, 1100 + j * 140, 1, 60, 700, 700); // 寶箱-寶石
-				tapFor(160, 1100 + j * 140, 1, 60, 200, 700); // 廣告-寶石
-
-				tapFor(510, 1000, 1, 60, 200, 700);
-
-
-				for (var i = 0; i < 6 ; i++) {
-					if (!config.isRunning) return false;
-
-					sleep(500);
-
-					// rbm.keepScreenshotPartial(512, 920, 647, 960); // x1, y1, x2, y2
-					// var checkimg = rbm.imageExists('ruby_5free.png', 0.9);
-					// rbm.releaseScreenshot();
-
-					var cdin = convXY(512, 920, 647, 960);
-					rbm.log(cdin);
-					var image = getScreenshotModify(cdin.x1, cdin.y1, cdin.codX, cdin.codY, cdin.ordX, cdin.ordY, 100);
-					console.log(cdin.x1, cdin.y1, cdin.codX, cdin.codY, cdin.ordX, cdin.ordY);
-					var filename = config.stonePath + '/ruby_5free.png';
-					var tImg = openImage(filename);
-					var checkimg = findImage(image, tImg);
-					releaseImage(image);
-					releaseImage(tImg);
-					rbm.log('checkimg:', checkimg)
-
-					if (checkimg) {
-						tapFor(420, 1120, 1, 60, 200, 500);
-						//break;
-					}
-
-
-					// rbm.keepScreenshotPartial(385, 935, 695, 1185); // x1, y1, x2, y2
-					// var checkImg3 = rbm.imageExists('AD_non.png', 0.95);
-					// rbm.releaseScreenshot();
-
-					var cdin = convXY(385, 935, 695, 1185);
-					rbm.log(cdin);
-					var image = getScreenshotModify(cdin.x1, cdin.y1, cdin.codX, cdin.codY, cdin.ordX, cdin.ordY, 100);
-					// console.log(cdin.x1, cdin.y1, cdin.codX, cdin.codY, cdin.ordX, cdin.ordY);
-					var filename = config.stonePath + '/AD_non.png';
-					var tImg = openImage(filename);
-					var checkimg = findImage(image, tImg);
-					releaseImage(image);
-					releaseImage(tImg);
-					rbm.log('checkimg:', checkimg)
-
-					if (checkImg3.score > 0.85) {
-						AD_GetRubyTimer = Date.now() + 600 * 1000;
-						console.log('廣告不夠，延10分檢查')
-						return false;
-					}
+				var ruby_5freeobj = convertImgcheck(512, 920, 647, 960, 0.90, 'ruby_5free.png');
+				var ruby_5free =ruby_5freeobj.result;
+				rbm.log('ruby_5free:', ruby_5free);
+				if (ruby_5free) {
+					DIY_swipe_conv(420, 1120, 420 + 20, 1120 + 20, 25, 1000);
+					QuizRestart();
+					AD_watch(90);
 				}
 
-				// QuizRestart();
-				// AD_watch(90);
-				AD_GetRubyTimer = AD_GetRubyTimer + Timer * 1000;
+				var AD_nonobj = convertImgcheck(385, 935, 695, 1185, 0.90, 'AD_non.png');
+				var AD_non = AD_nonobj.result;
+				rbm.log('AD_non:', AD_non);
+				if (AD_non) {
+					AD_GetRubyTimer = Date.now() + 600 * 1000;
+					console.log('廣告不夠，延10分檢查')
+					return false;
+				}
 			}
+			
+			DIY_swipe_conv(880, 1750, 660, 1750, 25, 500);
+			AD_GetRubyTimer = AD_GetRubyTimer + Timer * 1000;
 		}
 	}
 }
 
 function AD_watch(ADtimer) {
 	if (!config.isRunning) return false;
-	console.log('自動看廣告檢查')
+	console.log('自動看廣告檢查');
+
 	for (var i = 0; i < ADtimer; i++) {
 		if (!config.isRunning) return false;
 		
 		if (i > 4) {
-			rbm.keepScreenshotPartial(935, 454 - 190, 935 + 55, 454 + 65);
-			var Disconnect = rbm.imageExists('main_fbmark.png', 0.9);
-			rbm.releaseScreenshot();
-			if (Disconnect) {
-				break;
-			}
+			var Disconnectobj = convertImgcheck(935, 264, 990, 519, 0.90, 'main_fbmark.png');
+			var Disconnect = Disconnectobj.result;
+			rbm.log('Disconnect:', Disconnect);
+			if (Disconnect) {break;}
 			
-			rbm.keepScreenshotPartial(431, 510, 431 + 161, 510 + 54);
-			var QuizTest = rbm.imageExists('Quiz_Lable.png', 0.9);
-			rbm.releaseScreenshot();
-			if (QuizTest) {
-				break;
-			}
+			var QuizTestobj = convertImgcheck(420, 450, 610, 570, 0.90, 'Quiz_Lable.png');
+			var QuizTest = QuizTestobj.result;
+			rbm.log('QuizTest:', QuizTest);
+			if (QuizTest) {break;}
 			
-			rbm.keepScreenshotPartial(490, 1060, 490 + 100, 1060 + 160);
-			var OKbutton = rbm.imageExists('ok_button.png', 0.9);
-			rbm.releaseScreenshot();
+			var OKbuttonobj = convertImgcheck(490, 1060, 590, 1220, 0.94, 'ok_button.png');
+			var OKbutton = OKbuttonobj.result;
+			rbm.log('OKbutton:', OKbutton);
 			if (OKbutton) {
-				CheckImageTap(490, 1060, 100, 160, 0.9, 'ok_button.png', 1, 1, 1, 200, 1); //OK_Button
-				CheckImageTap(490, 1060, 100, 160, 0.9, 'ok_button.png', 1, 1, 1, 200, 1); //OK_Button
+				DIY_swipe_conv(OKbuttonobj.x, OKbuttonobj.y, OKbuttonobj.x + 20, OKbuttonobj.y + 20, 25, 500);
 				break;
 			}
 			
-			console.log('廣告觀看計時 = ' + i);
-			keycode('BACK', 40);
 		}
 		
+		if (i > 40) keycode('BACK', 40);
+			
+		console.log('廣告觀看計時 = ' + i);
 		sleep(1000)
 	}
-}
-
-function ScreenShottoPath() { //畫面截圖存檔
-	var DateName = Math.floor(Date.now()/1000);
-	var QuizShotFilename = 'QuizShot' + DateName.toString() + '.png';
-	var PicSharePath = '/storage/emulated/legacy/Pictures/StoneQuizPic';
-	var QuizSavefile = PicSharePath + '/' + QuizShotFilename;	
-	var QuizShot = getScreenshot();
-	saveImage(QuizShot, QuizSavefile);
-	releaseImage(QuizShot);
 }
 
 function QuizRestart() {   // 小測驗判斷與解答 main
@@ -967,32 +910,13 @@ function QuizRestart() {   // 小測驗判斷與解答 main
 	console.log('小測驗檢查')
 	
 	for (var i = 0; i < 6; i++) {
-		var cdin = convXY(420, 450, 610, 530);
-		rbm.log('QuizRestart  cdin:', cdin);
-		var image = getScreenshotModify(cdin.x1, cdin.y1, cdin.codX, cdin.codY, cdin.ordX, cdin.ordY, 100);
-		console.log('QuizRestart  cdinRST:', cdin.x1, cdin.y1, cdin.codX, cdin.codY, cdin.ordX, cdin.ordY);
-		var filename = config.stonePath + '/Quiz_Lable.png';
-		var tImg = openImage(filename);
-		var target = findImage(image, tImg);
-		releaseImage(image);
-		releaseImage(tImg);
-		rbm.log('QuizRestart  target:', target)
-
-		if (target != undefined && target.score > 0.90) {var QuizTest = true;}
-		else {var QuizTest = false;}		
-
-		// rbm.keepScreenshotPartial(420, 450, 610, 530); // x1, y1, x2, y2
-		// var QuizTest = rbm.imageExists('Quiz_Lable.png', 0.9);
-		// rbm.releaseScreenshot();
-
+		var QuizTestobj = convertImgcheck(420, 450, 610, 570, 0.90, 'Quiz_Lable.png');
+		var QuizTest = QuizTestobj.result;
+		// rbm.log('QuizTest:', QuizTest);
 		if (QuizTest) {break;}
 		sleep(150);
 	}
-	if (QuizTest) {
-		// tapFor(850, 1000, 1, 60, 400, 300);	
-		// QuizAnswer();
-		QuizAnswer2();
-	}	
+	if (QuizTest) {QuizAnswer2();}	
 }
 
 function QuizAnswer2() { //小測驗解答判斷1
@@ -1154,30 +1078,6 @@ function QuizAnswer2() { //小測驗解答判斷1
 	}
 }
 
-function QuizRestart2() {
-	console.log('小測驗無法解-重開礦山')
-	rbm.keepScreenshotPartial(431, 510, 431 + 161, 510 + 54); // x1, y1, x2, y2
-	var QuizTest = rbm.imageExists('Quiz_Lable.png', 0.9);
-	rbm.releaseScreenshot();
-	if (QuizTest) {
-		sleep(1500);
-		// ScreenShottoPath();
-		
-		sleep(1000);
-		RubyBoxClick = 0;
-		
-	}	
-}
-
-function timetoRestarApp(CycleTimer) {
-	console.log('設定時間-重開礦山')
-	var Timerremainder = (Date.now() / 1000) % CycleTimer
-	console.log('Date.now = ' + Date.now(),CycleTimer,Timerremainder)
-	if (Timerremainder < 15) {
-		RestartApp()
-	}
-}
-
 function timetoRestarApp2(CycleTimer) { //重開app，時間控制 main
 	if (!config.isRunning || RestartAppswitch == 0) return false;
 	console.log('設定時間-重開礦山2');
@@ -1185,48 +1085,20 @@ function timetoRestarApp2(CycleTimer) { //重開app，時間控制 main
 	var Timerremainder = (Date.now() - ResterTimerSet) / 1000 ;
 	console.log(Timerremainder,'/',CycleTimer);
 	
-	
-	
 	var BACKtremainder = combinecount % 3
-	if (Timerremainder <= 40) {
-		sleep(1000);
-	}
+	if (Timerremainder <= 40) {sleep(1000);}
 	else if (Timerremainder > 40) {
+		var Disconnectobj = convertImgcheck(935, 264, 990, 519, 0.90, 'main_fbmark.png');
+		var Disconnect = Disconnectobj.result;
+		rbm.log('Disconnect:', Disconnect);
 
+		if (Disconnect) {	return false;	}
+		else {keycode('BACK', 100);}
 
-		var cdin = convXY(935, 454 - 190, 935 + 55, 454 + 65);
-		rbm.log('timetoRestarApp2:', cdin);
-
-		var image = getScreenshotModify(cdin.x1, cdin.y1, cdin.codX, cdin.codY, cdin.ordX, cdin.ordY, 100);
-		rbm.log('timetoRestarApp2:', cdin.x1, cdin.y1, cdin.codX, cdin.codY, cdin.ordX, cdin.ordY);
-
-		var filename = config.stonePath + '/main_fbmark.png';
-		var tImg = openImage(filename);
-		var target = findImage(image, tImg);
-		releaseImage(image);
-		releaseImage(tImg);
-		rbm.log('timetoRestarApp2:', target)
-
-		if (target != undefined && target.score > 0.90) {var Disconnect = true;}
-		else {var Disconnect = false;}
-
-		// rbm.keepScreenshotPartial(935, 454 - 190, 935 + 55, 454 + 65); // x1, y1, x2, y2
-		// var Disconnect = rbm.imageExists('main_fbmark.png', 0.9);
-		// rbm.releaseScreenshot();
-
-
-		if (Disconnect) {
-			return false;
-		}
-		else {
-			keycode('BACK', 100);
-		}
 		sleep(1000)
 	}
 	
-	if (Timerremainder > CycleTimer) {
-		RestartApp(120);
-	}
+	if (Timerremainder > CycleTimer) {RestartApp(120);}
 }
 
 function canceltoRestartApp() {
@@ -2489,7 +2361,7 @@ function releaseStones() {
 
 function setFirstTimer() {   //通用，時間預設值設定
 	friendheartTimer     = Date.now() + 30 * 1000;
-	AD_GetRubyTimer      = Date.now() + 50 * 1000;
+	AD_GetRubyTimer      = Date.now() +  5 * 1000;
 	ResterTimerSet       = Date.now() +  0 * 1000;
 	WhiteCrystalTimer    = Date.now() + 10 * 1000;
 	Dougeon_WFStoneTimer = Date.now() + 40 * 1000;  //打水火石
@@ -2526,59 +2398,58 @@ function testsetting() {     //test用，預設值設定
 	EDbackminigmooncount = 0;
 	
 	//整體時間調整
-	s = 10;
+	s = 200;
 
 	//合成方式調整
-	dectcompraw1 = 1;
-	dectcompraw2 = 0;
-	dectcompraw3 = 200;
-	dectcompraw4 = 0;
-	MergermoveSW = 30;
+	dectcompraw1 =   1;
+	dectcompraw2 =   0;
+	dectcompraw3 = 500;
+	dectcompraw4 =   0;
+	MergermoveSW =  40;
 	console.log('合成方式調整防偵測:', dectcompraw1, dectcompraw2, dectcompraw3, dectcompraw4, MergermoveSW);
 	
-	
-	stonelvmin = 4;            //合成，石頭最"低"等級        0:關  1:開
+	stonelvmin       =  4;      //合成，石頭最"低"等級        0:關  1:開
 	normalstonelvmax = 24;      //一般合成，石頭最"高"等級    0:關  1:開
-	rainstonelvmax = 24;    //雨天合成，石頭最"高"等級    0:關  1:開
+	rainstonelvmax   = 24;      //雨天合成，石頭最"高"等級    0:關  1:開
 	//console.log('石頭等級設定:', stonelvmin, normalstonelvmax, rainstonelvmax)
 	
-	friendheartswitch = 0;      //朋友送愛心開關        0:關  1:開
-	AD_GetRubyswitch = 0;           //看廣告拿鑽            0:關  1:開
-	characterbubbleSwitch = 1;  //角色對話泡包點擊      0:關  1:開
-	rain_fastdigswitch = 0;     //下雨天快速挖礦        0:關  1:開
+	friendheartswitch     = 0;      //朋友送愛心開關        0:關  1:開
+	AD_GetRubyswitch      = 1;      //看廣告拿鑽            0:關  1:開
+	characterbubbleSwitch = 1;      //角色對話泡包點擊      0:關  1:開
+	rain_fastdigswitch    = 0;      //下雨天快速挖礦        0:關  1:開
 	//console.log('雜項設定:', friendheart, ad_ruby, charabubble, rainfastdig)
 	
 	WhiteCrystalswitch = 0;      //白水晶製作(彎月)      0:關  1:開
-	mooncompswitch = 0;          //彎月保留量(作水晶用)  0:不保留
+	mooncompswitch     = 0;      //彎月保留量(作水晶用)  0:不保留
 	//console.log('製作水晶設定', WCrystal, moonkeep)
 
 	CraftsMake1switch = 0;    //工藝1
 	CraftsMake2switch = 0;    //工藝2
 	CraftsMake3switch = 0;    //工藝3
 	CraftsMake4switch = 0;    //工藝4
-	console.log('食針 冰針:', CraftsMake1switch, CraftsMake2switch, CraftsMake3switch)
+	console.log('工藝:', CraftsMake1switch, CraftsMake2switch, CraftsMake3switch)
 	
-	DougeonWFStoneswitch = 0;    //打水火石地城          0:關  1:開
-	DungeonTicketsset = 10;       //打水火石地城票        設定值：0~10
-	DungeonRoomset = 1;         //打水火石地城等級      1:Beginner  2:Easy  3:Normal  4:Hard  5:Hell
+	DougeonWFStoneswitch =  0;     //打水火石地城          0:關  1:開
+	DungeonTicketsset    = 10;     //打水火石地城票        設定值：0~10
+	DungeonRoomset       =  1;     //打水火石地城等級      1:Beginner  2:Easy  3:Normal  4:Hard  5:Hell
 	//console.log('打水火石地城設定', DWFStone, DTickets, DWFroomlv)
 	
-	eightdragonswitch = 0;        //8龍專用(含鳳凰)，合成限制(雨天加速:關，合成：5~14) EightDragon
-	eightdragonmoonset = 0;        //8龍專用(含鳳凰)，合成停止(彎月數量) EDmoonkeep
-	eightdragonchangswitch = 0;  //8龍專用(含鳳凰)，打獵←→打礦切換  EDareachange
-	EDbackminigmoonset = 0;        //8龍專用(含鳳凰)，回到礦區(彎月數量) EDmoonback
-	eightdragonhuntermap = 0;    //設定要打獵地圖 ，1:70, 2:80, 3:90-E, 4:90-N, 5:90-H
+	eightdragonswitch      = 0;    //8龍專用(含鳳凰)，合成限制(雨天加速:關，合成：5~14) EightDragon
+	eightdragonmoonset     = 0;    //8龍專用(含鳳凰)，合成停止(彎月數量) EDmoonkeep
+	eightdragonchangswitch = 0;    //8龍專用(含鳳凰)，打獵←→打礦切換  EDareachange
+	EDbackminigmoonset     = 0;    //8龍專用(含鳳凰)，回到礦區(彎月數量) EDmoonback
+	eightdragonhuntermap   = 0;    //設定要打獵地圖 ，1:70, 2:80, 3:90-E, 4:90-N, 5:90-H
 	//console.log('8龍模式UI:', EightDragon, EDmoonkeep, EDareachange, EDmoonback, EDgotohunter)
 	//console.log('8龍模式SC:', eightdragonswitch, eightdragonmoonset, eightdragonchangswitch, EDbackminigmoonset, eightdragonhuntermap)
 	
-	RestartAppswitch = 1;           //異常檢查自動重開app    0:關  1:開  resetapp
+	RestartAppswitch  =  1;      //異常檢查自動重開app    0:關  1:開  resetapp
 	RestartApptimeset = 90;      //異常檢查自動重開時間   檢查時間 "秒" resetapptime
 	//console.log('異常重開設定:', resetapp, resetapptime)	
 	
-	AD_Goldx2switch = 0;              //打圖 廣告 金幣x2 自動重生    0:關  1:開  goldx2
-	AD_Goldx2timeset = 40;            //打圖 廣告 金幣重生檢查時間   檢查時間 "秒" goldx2T
-	CHLpersonswitch = 0            //打圖 頻道 切換至少人頻道     0:關  1:開  goldx2
-	CHLpersontimeset = 40          //打圖 頻道 切換至少人頻道     切換時間 "秒"
+	AD_Goldx2switch  =  0;       //打圖 廣告 金幣x2 自動重生    0:關  1:開  goldx2
+	AD_Goldx2timeset = 40;       //打圖 廣告 金幣重生檢查時間   檢查時間 "秒" goldx2T
+	CHLpersonswitch  =  0;       //打圖 頻道 切換至少人頻道     0:關  1:開  goldx2
+	CHLpersontimeset = 40;       //打圖 頻道 切換至少人頻道     切換時間 "秒"
 	//console.log('廣告 金幣x2 自動重生:', goldx2, goldx2T, CHLperson, CHLpersonT)
 	
 	Dailyswitch = 0          //領取每日獎勵       0:關  1:開  
@@ -2600,20 +2471,17 @@ function test(n) {
 		}
 		else if (i > 0) {
 			console.log('n:', i, '/', n, ', 腳本測試開始');
-			// var j = 1;
+			var j = 1;
 			// var aa = 0;
 			// CraftsMakeSelect(n);
 			// QuizAnswer2();
 			// QuizRestart();
-			// var stones = MergerStone(1, 24);
-			// if (stones.AllStone == 0 && stones.stonelv0 == 0) QuizRestart();
-			// RubyBox(5)
-			// if (stones.stonelv0 > 9) characterbubble2(6);
+			// AD_GetRuby(10);
 
 			FindStonesImages2(stonelvmin, normalstonelvmax);
 			sleep(1000);
 			// while(config.isRunning) {StoneCompound(stonelvmin, normalstonelvmax, rainstonelvmax);}    //合成  5  ==> 8		
-			
+			console.log('')
 			 /*
 			//製作裝備
 			var stoneDir = config.stoneDir;
@@ -2709,7 +2577,7 @@ function start(s_timesUI, dectcomprawT1, dectcomprawT2, dectcomprawT3, dectcompr
 	//console.log('廣告 金幣x2 自動重生:', goldx2, goldx2T, CHLperson, CHLpersonT)
 	
 	Dailyswitch = DailyAchieveneT          //領取每日獎勵       0:關  1:開  
-	
+
 	setFirstTimer();
 
 	while(config.isRunning) {

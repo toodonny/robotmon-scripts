@@ -2687,7 +2687,7 @@ function Areafight(Timer) {  //競技場
 		rbm.keepScreenshotPartial( 120, 10, 200, 60);  //檢查競技票數
 		for (var l = 6; l >= 0; l--) {
 			//rbm.log('1 arenaticks:', l);
-			var Img4 = rbm.findImage('arenaticks_' + l + '.png', 0.92);
+			var Img4 = rbm.findImage('arenaticks_' + l + '.png', 0.94);
 			//rbm.log('2 arenaticks:', l, Img4);
 			if (Img4 != undefined) {
 				arenatick = l;
