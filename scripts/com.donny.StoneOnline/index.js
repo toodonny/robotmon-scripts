@@ -553,10 +553,10 @@ function RubyBox(Timer) { //檢查寶箱拿鑽&看廣告拿鑽 main
 					// rbm.log('rubyboxget:', rubyboxget);
 
 					if (rubyboxget) {
-						sleep(500);
-						DIY_swipe_conv(300 + 10, 1100 + j * 140 + 40, 300 - 35, 1100 + j * 140 - 10, 20, 500);
+						sleep(1000);
+						DIY_swipe_conv(300 + 10, 1100 + j * 140 + 40, 300 - 35, 1100 + j * 140 - 10, 20, 1000);
 						QuizRestart();
-						DIY_swipe_conv(880, 1750, 660, 1750, 20, 500);
+						DIY_swipe_conv(880, 1750, 660, 1750, 20, 1000);
 						
 
 						rbm.log('RubyBoxget1.startT:', RubyBoxget1.startT, ', Timer:', Timer);
