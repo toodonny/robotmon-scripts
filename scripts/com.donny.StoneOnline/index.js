@@ -160,7 +160,7 @@ function DIY_swipe(intx, inty, finax, finay, moveD, sleeptime) {
 
 	var MoveXD = (finax - intx) / moveD
 	var MoveYD = (finay - inty) / moveD
-	console.log(intx, inty, finax, finay)
+	// console.log('DIY_swipe', intx, inty, finax, finay)
 	tapDown(intx, inty, 70);
 	for (var i = 0; i < moveD; i++) {
 		if (!config.isRunning) { tapUp(intx, i, 200); break; }
@@ -175,14 +175,14 @@ function DIY_swipe(intx, inty, finax, finay, moveD, sleeptime) {
 
 function DIY_swipe_conv(intx, inty, finax, finay, moveD, sleeptime) {
 	if (!config.isRunning) return false;
-	// console.log(intx, inty, finax, finay, moveD, sleeptime)
+	// console.log('DIY_swipe_conv1', intx, inty, finax, finay, moveD, sleeptime)
 	var cdin = convXY(intx, inty, finax, finay);
 	var intx = Math.round(cdin.x1);
 	var inty = Math.round(cdin.y1);
 	var finax = Math.round(cdin.x2);
 	var finay = Math.round(cdin.y2);
 
-	console.log(intx, inty, finax, finay, moveD, sleeptime)
+	// console.log('DIY_swipe_conv2', intx, inty, finax, finay, moveD, sleeptime)
 	var movedistance = (finay - inty) / moveD
 
 	var MoveXD = (finax - intx) / moveD
@@ -361,21 +361,21 @@ function FindStonesImages2() {   //石頭合成全動作
 		sleep(s); if (stones.stonelv15 > 0 && stones.stonelv0 > 4) WhiteCrystalMake(300);
 		sleep(s); if (!RubyBox(5)) {sleep(s); AD_GetRuby(150);}
 		
-		var OKbtnobj = convertImgcheck(440, 860, 640, 1800, 0.94, 'ok_button.png');
+		var OKbtnobj = convertImgcheck(485, 1120, 595, 1360, 0.96, 'ok_button.png');
 		if (OKbtnobj.result) { DIY_swipe(OKbtnobj.x2, OKbtnobj.y2, OKbtnobj.x2 + 20, OKbtnobj.y2 + 20, 25, 500); }
 		} else {
 		sleep(s); console.log('背包找不到，畫面檢查');
 		sleep(s); AttackMode(1);   //檢查背包打開+自動攻擊
 		sleep(s); QuizRestart();
 
-		CheckImageTap(455, 575, 180, 60, 0.9, 'exitstone.png', 680, 1280, 1, 150, 0); //Exit Grow Stone Online
-		CheckImageTap(490, 890, 100, 940, 0.9, 'ok_button.png', 1, 1, 1, 150, 1); //OK_Button
-		CheckImageTap(600, 200, 470, 750, 0.9, 'closeboard.png', 1, 1, 1, 150, 1); //closeboard
-		CheckImageTap(470, 1100, 133, 95, 0.9, 'Receiveaward.png', 1, 1, 1, 150, 1); //Receiveaward
-		CheckImageTap(626, 868, 154, 51, 0.9, 'fastdig_ok.png', 430, 1130, 1, 150, 0);   //fast dig OK button
-		CheckImageTap(299, 897, 207, 39, 0.9, 'UpdataFailed.png', 540, 1120, 1, 150, 0); //wifi or lan disconnected
-		CheckImageTap(438, 825, 109, 42, 0.9, 'break_down.png', 650, 1150, 1, 150, 0);   //break down stone : cancle
-		CheckImageTap(570, 1190, 205, 78, 0.9, 'dungeon_backtomini.png', 1, 1, 1, 150, 1); //dungeon_backtomini
+		CheckImageTap(455, 575, 180, 60, 0.90, 'exitstone.png', 680, 1280, 1, 150, 0); //Exit Grow Stone Online
+		CheckImageTap(490, 890, 100, 940, 0.90, 'ok_button.png', 1, 1, 1, 150, 1); //OK_Button
+		CheckImageTap(600, 200, 470, 750, 0.90, 'closeboard.png', 1, 1, 1, 150, 1); //closeboard
+		CheckImageTap(470, 1100, 133, 95, 0.90, 'Receiveaward.png', 1, 1, 1, 150, 1); //Receiveaward
+		CheckImageTap(626, 868, 154, 51, 0.90, 'fastdig_ok.png', 430, 1130, 1, 150, 0);   //fast dig OK button
+		CheckImageTap(299, 897, 207, 39, 0.90, 'UpdataFailed.png', 540, 1120, 1, 150, 0); //wifi or lan disconnected
+		CheckImageTap(438, 825, 109, 42, 0.90, 'break_down.png', 650, 1150, 1, 150, 0);   //break down stone : cancle
+		CheckImageTap(570, 1190, 205, 78, 0.90, 'dungeon_backtomini.png', 1, 1, 1, 150, 1); //dungeon_backtomini
 
 		//CheckImageTap(441, 648, 113, 39, 0.8, 'Unlock_Stone.png', 540, 1210, 1, 150, 0); //stone lv_up : ok
 
@@ -2159,41 +2159,11 @@ function test(n) {
 		}
 		else if (i > 0) {
 			console.log('n:', i, '/', n, ', 腳本測試開始');
-			var j = 1;
-			// var aa = 0;
-			// CraftsMakeSelect(i);
-			// QuizAnswer2();
-			// QuizRestart();
-			// AD_GetRuby(10);
-			// CraftsMake(11, 11, 11, 11);
-			
-			// MergerStone2(stonelvmin, normalstonelvmax, dectcompraw1);
 
-			// AttackMode(3);
-			// BagMenu(0);
-			// CraftsMakeSelect(i)
 			FindStonesImages2();
 			sleep(500);
-			// while(config.isRunning) {StoneCompound(stonelvmin, normalstonelvmax, rainstonelvmax);}    //合成  5  ==> 8		
+
 			console.log('')
-			/*
-		 //製作裝備
-		 var stoneDir = config.stoneDir;
-		 var StonesPath = getStoragePath() + '/' + stoneDir;
-		 var filename2 = StonesPath + '/CraftsMake.png';	
-		 var tImg2 = openImage(filename2);
-		 var image2 = getScreenshotModify(60, 940, 1020, 960,  1020, 960, 100);
-		 var results2 = findImages(image2, tImg2, 0.90, 4, true);
-		 releaseImage(tImg2);
-		 releaseImage(image2);
-	 	
-		 for(var index in results2) {
-			 var result2 = results2[index];
-			 rbm.log('1:', result2);
-		 }	
-		 */
-
-
 		}
 	}
 	releaseStones();
