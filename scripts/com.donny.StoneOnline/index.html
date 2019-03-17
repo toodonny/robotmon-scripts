@@ -146,11 +146,12 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
     <script>
-      VERSION = 1.62;
+      VERSION = 1.69;
 
       var settings = [
         [
-          { title: "1.68版，更新 2019.03.16 攻擊模式自動判斷，提高獵區收寶石判斷。",  title_zh_TW: "",  },
+          { title: "1.69版，更新 2019.03.17 彎月石保留，工藝品收取/製作。",  title_zh_TW: "",  },
+          { title: "1.68版，更新 2019.03.16 攻擊模式判斷，提高獵區寶石判斷。",  title_zh_TW: "",  },
           { title: "1.65版，更新 2019.03.13 合成方式更新，新增合成時間設定。",  title_zh_TW: "",  },
           { title: "1.62版，更新 2019.03.10 更新適應720解析度，防偵測修正。",  title_zh_TW: "",  },
           { title: "1.60版，更新 2019.01.23，工藝製作4格可選，感謝易宸提供圖文 ",  title_zh_TW: "",  },
@@ -168,24 +169,24 @@
 		    ],
 		    [
           { title: "防偵測合成調整(延遲愈短易偵測，自行調整)",            title_zh_TW: "", },  //OK
-          { title: ['移動模式(1:正常, 2:手抖, 3:手殘)'],  default:   2,  step:   1,  max:    3,  min:   1, },  //OK
-          { title: ['--------------(無效)           '],  default:   0,  step:   0,  max:    0,  min:   0, },  //OK
-          { title: ['每次合成後延遲(100~4000毫秒)    '],  default: 500,  step: 100,  max: 4000,  min: 200, },  //OK
-          { title: ['--------------(無效)           '],  default:   0,  step:   0,  max:    0,  min:   0, },  //OK
-          { title: ['合成速度設定(小->快,30~200)     '],  default:  45,  step:   5,  max:  200,  min:  30, },  //OK
+          { title: ['移動模式(1:正常, 2:手抖, 3:手殘) '],  default:   1,  step:   1,  max:    3,  min:   1, },  //OK
+          { title: ['每級合成間隔(0~2000ms)        '],  default: 200,  step: 50,  max: 2000,  min: 0, },  //OK
+          { title: ['每次合成後延遲(0~3000ms)      '],  default: 500,  step: 50,  max: 3000,  min: 0, },  //OK
+          { title: ['合成一輪後延遲(0~3000ms)      '],  default: 200,  step: 50,  max: 2000,  min: 0, },  //OK
+          { title: ['合成速度(小->快,30~200ms)     '],  default:  45,  step:   5,  max:  200,  min:  30, },  //OK
 	    	],
         [
           { title: ['合成，石頭最"低"等級(1~8)       '],  default:   1,  step:  1,  max:   8,  min:  1, },
           { title: ['一般合成，最"高"級(2~24)        '],  default:  18,  step:  1,  max:  24,  min:  2, },
-          { title: ['雨天合成，最"高"級(2~24)        '],  default:  24,  step:  1,  max:  24,  min:  2, },
+          { title: ['雨天合成，最"高"級(2~24) X      '],  default:  24,  step:  1,  max:  24,  min:  2, },
           { title: "本腳本不提供 25級(三星球)以上合成，留點樂趣給玩家",  title_zh_TW: "",   },
         ],
         [
-          { title: "朋友送愛心", title_zh_TW: "", default: false},
+          { title: "朋友送愛心 X", title_zh_TW: "", default: false},
           { title: "看廣告拿鑽", title_zh_TW: "", default: false},
           { title: "角色對話泡泡點擊", title_zh_TW: "", default: false},  //OK
 		      { 
-            title: ['快速挖礦-藍   (0:關, 1:雨, 2:全天)'],
+            title: ['快速挖礦-藍(0:關, 1:雨, 2:全天)X'],
             default: 0,
             step: 1,
             max: 2,
@@ -211,10 +212,11 @@
           { title: "1★太陽石,_____2★高級卡,_____3★中級卡,___4★初級卡,     ",  title_zh_TW: "",  },
           { title: "5★鳳凰,_______6★背包卷,_____7★帽子卷,___8★裝備卷,     ",  title_zh_TW: "",  },
           { title: "9★太陽水晶,__10★閃亮水晶,__11★白水晶, 	    ",  title_zh_TW: "",  },
+          { title: "圖片顯示請看設定頁最底部                	    ",  title_zh_TW: "",  },
         ],
         [		  
 		      { 
-            title: ['打地城選擇 (0:關, 1:水火, 2:500k, 3:1m )'],
+            title: ['打地城選擇 (0:關, 1:水火, 2:500k, 3:1m ) X'],
             default: 0,
             step: 1,
             max: 3,
@@ -222,14 +224,14 @@
           },
 		  
 		      { 
-            title: ['打地城票(剩餘量)(0~10)'],
+            title: ['打地城票(剩餘量)(0~10) X'],
             default: 10,
             step: 1,
             max: 10,
             min: 0,
           },
 		      { 
-            title: ['打水火石地城等級(1~5)'],
+            title: ['打水火石地城等級(1~5) X'],
             default: 1,
             step: 1,
             max: 5,
@@ -242,24 +244,24 @@
             title_zh_TW: "",
           },
 
-          { title: "8龍模式(含鳳凰)", title_zh_TW: "", default: false},
+          { title: "8龍模式(含鳳凰) X", title_zh_TW: "", default: false},
 		  { 
-            title: ['合成停止(彎月數量以上)(觸發轉打獵)(0~12)'],
+            title: ['合成停止(彎月數量以上)(觸發轉打獵)(0~12) X'],
             default: 9,
             step: 1,
             max: 12,
             min: 0,
           },
-          { title: "打獵←→打礦切換", title_zh_TW: "", default: false},
+          { title: "打獵←→打礦切換 X", title_zh_TW: "", default: false},
 		  { 
-            title: ['回礦區(彎月數量以下)(0~12)'],
+            title: ['回礦區(彎月數量以下)(0~12) X'],
             default: 3,
             step: 1,
             max: 12,
             min: 0,
           },
 		  { 
-            title: ['自動打圖(1:70, 2:80, 3:90-E, 4:90-N, 5:90-H)'],
+            title: ['自動打圖(1:70, 2:80, 3:90-E, 4:90-N, 5:90-H) X'],
             default: 2,
             step: 1,
             max: 5,
@@ -281,17 +283,17 @@
             title: "---===打獵圖功能設定===---",
             title_zh_TW: "",
           },
-          { title: "看廣告 <金幣2倍 && 自動重生>", title_zh_TW: "", default: false},
+          { title: "看廣告 <金幣2倍 && 自動重生> X", title_zh_TW: "", default: false},
           {
-            title: "看廣告金幣&重生 檢查時間(0~1200)",
+            title: "看廣告金幣&重生 檢查時間(0~1200) X",
             default: 15,
             step: 5,
             max: 1200,
             min: 0,
           },
-          { title: "打圖 切換少人頻道", title_zh_TW: "", default: false},
+          { title: "打圖 切換少人頻道 X", title_zh_TW: "", default: false},
           {
-            title: "打圖 切換少人頻道切換時間(120~1200)",
+            title: "打圖 切換少人頻道切換時間(120~1200) X",
             default: 100,
             step: 10,
             max: 1200,
@@ -299,8 +301,8 @@
           },
         ],
         [
-          { title: "每日獎勵，自動領", title_zh_TW: "", default: true},
-          { title: "信件獎勵，自動領(無功能)", title_zh_TW: "", default: false},
+          { title: "每日獎勵，自動領 X", title_zh_TW: "", default: true},
+          { title: "信件獎勵，自動領 X", title_zh_TW: "", default: false},
         ],
 		
 		[
@@ -540,17 +542,35 @@
     <div class="container">
       <div id="settings"></div>
       <button id="goToTop" class="btn btn-plus">Go Top</button>
-      <br /> 1.<img src="images/craftlist_1 _Copy.png">    2.<img src="images/craftlist_2 _Copy.png">
-      <br /> 
-      <br /> 3.<img src="images/craftlist_3 _Copy.png">    4.<img src="images/craftlist_4 _Copy.png">
-      <br /> 
-      <br /> 5.<img src="images/craftlist_5 _Copy.png">    6.<img src="images/craftlist_6 _Copy.png">
-      <br /> 
-      <br /> 7.<img src="images/craftlist_7 _Copy.png">    8.<img src="images/craftlist_8 _Copy.png">
-      <br /> 
-      <br /> 9.<img src="images/craftlist_9 _Copy.png">   10.<img src="images/craftlist_10 _Copy.png">
-      <br /> 
-      <br />11.<img src="images/craftlist_11 _Copy.png">
+      
+      <br />=================工藝品代碼=================
+      <br />
+      <table cellpadding="8" border="0">
+        <tr>
+          <td style="height:80px;width:340px;" align='center' valign="middle">1.<img src="images/craftlist_img/craftlist_1 _Copy.png" width="240"></td>
+          <td style="height:80px;width:340px;" align='center' valign="middle">2.<img src="images/craftlist_img/craftlist_2 _Copy.png" width="240"></td>
+      　</tr>
+        <tr>
+          <td style="height:80px;width:340px;" align='center' valign="middle">3.<img src="images/craftlist_img/craftlist_3 _Copy.png" width="240"></td>
+          <td style="height:80px;width:340px;" align='center' valign="middle">4.<img src="images/craftlist_img/craftlist_4 _Copy.png" width="240"></td>
+      　</tr>
+        <tr>
+          <td style="height:80px;width:340px;" align='center' valign="middle">5.<img src="images/craftlist_img/craftlist_5 _Copy.png" width="240"></td>
+          <td style="height:80px;width:340px;" align='center' valign="middle">6.<img src="images/craftlist_img/craftlist_6 _Copy.png" width="240"></td>
+      　</tr>
+        <tr>
+          <td style="height:80px;width:340px;" align='center' valign="middle">7.<img src="images/craftlist_img/craftlist_7 _Copy.png" width="240"></td>
+          <td style="height:80px;width:340px;" align='center' valign="middle">8.<img src="images/craftlist_img/craftlist_8 _Copy.png" width="240"></td>
+      　</tr>
+        <tr>
+          <td style="height:80px;width:340px;" align='center' valign="middle">9.<img src="images/craftlist_img/craftlist_9 _Copy.png" width="240"></td>
+          <td style="height:80px;width:340px;" align='center' valign="middle">10.<img src="images/craftlist_img/craftlist_10 _Copy.png" width="240"></td>
+      　</tr>
+        <tr>
+          <td style="height:80px;width:340px;" align='center' valign="middle">11.<img src="images/craftlist_img/craftlist_11 _Copy.png" width="240"></td>
+          <td style="height:80px;width:340px;" align='center' valign="middle"></td>
+        </tr>
+      </table>
       <br />
     </div>
   </body>
