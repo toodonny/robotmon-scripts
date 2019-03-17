@@ -518,7 +518,7 @@ function RubyBox(Timer) { //檢查寶箱拿鑽&看廣告拿鑽 main
 		// console.log('檢查寶箱/廣告拿寶石', 'j:', j);
 
 		var RubyButtonCheck = converColorcheck(60, 1060 + j * 140, 57, 53, 160, 80)
-		rbm.log('RubyButtonCheck:', RubyButtonCheck);
+		// rbm.log('RubyButtonCheck:', RubyButtonCheck);
 		if (RubyButtonCheck) {
 			var RubyBoxpaobj = convertImgcheck(30, 1815, 480, 1890, 0.85, 'rubybox100pa3.png');
 			// rbm.log('RubyBoxpa:', RubyBoxpaobj);
@@ -632,15 +632,15 @@ function AD_watch(ADtimer) {
 
 		if (i > 4) {
 			var Disconnectobj = convertImgcheck(935, 264, 990, 519, 0.90, 'main_fbmark.png');
-			rbm.log('Disconnectobj:', Disconnectobj);
+			// rbm.log('Disconnectobj:', Disconnectobj);
 			if (Disconnectobj.result) { break; }
 
 			var QuizTestobj = convertImgcheck(420, 450, 610, 570, 0.90, 'Quiz_Lable.png');
-			rbm.log('QuizTestobj:', QuizTestobj);
+			// rbm.log('QuizTestobj:', QuizTestobj);
 			if (QuizTestobj.result) { break; }
 
 			var OKbtnobj = convertImgcheck(440, 860, 640, 1800, 0.94, 'ok_button.png');
-			rbm.log('OKbtnobj:', OKbtnobj);
+			// rbm.log('OKbtnobj:', OKbtnobj);
 			if (OKbtnobj.result) {
 				DIY_swipe(OKbtnobj.x2, OKbtnobj.y2, OKbtnobj.x2 + 20, OKbtnobj.y2 + 20, 25, 500);
 				break;
@@ -1002,7 +1002,7 @@ function CraftsRecive() {  //收工藝品
 	var image = getScreenshotModify(cdin.x1, cdin.y1, cdin.codX, cdin.codY, cdin.ordX, cdin.ordY, 100);
 	var filename = config.stonePath + '/craftsokopen.png';
 	var tImg = openImage(filename);
-	var results = findImages(image, tImg, 0.90, 4, true);
+	var results = findImages(image, tImg, 0.80, 4, true);
 	releaseImage(image);
 	releaseImage(tImg);
 
@@ -1022,7 +1022,7 @@ function CraftsRecive() {  //收工藝品
 
 			for (var j = 1; j <= 6; j++) {
 				var OKbtnobj = convertImgcheck(490, 860, 590, 1800, 0.94, 'ok_button.png');
-				rbm.log('OKbtnobj:', OKbtnobj);
+				// rbm.log('OKbtnobj:', OKbtnobj);
 				if (OKbtnobj.result) { DIY_swipe(OKbtnobj.x2, OKbtnobj.y2, OKbtnobj.x2 + 20, OKbtnobj.y2 + 20, 25, 2500); }
 				sleep(300);
 			}
@@ -1045,7 +1045,7 @@ function CraftsMake(item1, item2, item3, item4) {
 	console.log(cdin.x1, cdin.y1, cdin.codX, cdin.codY, cdin.ordX, cdin.ordY, 100);
 	var filename  = config.stonePath + '/CraftsMake.png';
 	var tImg  = openImage( filename);
-	var results  = findImages( image,  tImg, 0.80, 4, true);
+	var results  = findImages( image,  tImg, 0.75, 4, true);
 	rbm.log('results:', results)
 	rbm.log('')
 
