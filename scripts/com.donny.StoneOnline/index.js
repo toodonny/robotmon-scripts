@@ -359,8 +359,7 @@ function FindStonesImages2() {   //石頭合成全動作
 		sleep(s); if (stones.AllStone == 0 && stones.stonelv0 == 0) QuizRestart();
 		sleep(s); if (stones.stonelv0 > 7) characterbubble2(8);
 		sleep(s); if (stones.stonelv15 > 0 && stones.stonelv0 > 4) WhiteCrystalMake(300);
-		sleep(s); RubyBox(5);
-		sleep(s); AD_GetRuby(150);
+		sleep(s); if (!RubyBox(5)) {sleep(s); AD_GetRuby(150);}
 		
 		var OKbtnobj = convertImgcheck(440, 860, 640, 1800, 0.94, 'ok_button.png');
 		if (OKbtnobj.result) { DIY_swipe(OKbtnobj.x2, OKbtnobj.y2, OKbtnobj.x2 + 20, OKbtnobj.y2 + 20, 25, 500); }
