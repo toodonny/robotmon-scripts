@@ -590,8 +590,9 @@ function AD_GetRuby(Timer) { //看廣告拿寶石
 			sleep(200)
 			console.log('RubyButton OK');
 
-			DIY_swipe_conv(62 + 30, 1065 + j * 140 + 30, 62, 1065 + j * 140, 25, 1500);
-			DIY_swipe_conv(130 + 30, 1105 + j * 140 + 30, 130, 1105 + j * 140, 25, 1000);
+			DIY_swipe_conv(62 + 30, 1065 + j * 140 + 30, 62, 1065 + j * 140, 20, 800);
+			DIY_swipe_conv(130 + 30, 1105 + j * 140 + 30, 130, 1105 + j * 140, 20, 1000);
+			QuizRestart();
 
 			for (var i = 0; i < 4; i++) {
 				if (!config.isRunning) return false;
@@ -602,7 +603,6 @@ function AD_GetRuby(Timer) { //看廣告拿寶石
 				// rbm.log('ruby_5free:', ruby_5free);
 				if (ruby_5free) {
 					DIY_swipe_conv(420, 1120, 420 + 20, 1120 + 20, 25, 1000);
-					QuizRestart();
 					AD_watch(90);
 				}
 
@@ -650,7 +650,7 @@ function AD_watch(ADtimer) {
 		if (i > 35) keycode('BACK', 100);
 		if (i > 45) {
 			console.log('廣告觀看計時 = ' + i, '回桌面，再回遊戲，切廣告')
-			keycode('HOME', 300); sleep(5000);
+			keycode('HOME', 300); sleep(4000);
 			rbm.startApp(config.PackangName, config.LaunchActivityName);
 			sleep(3000);
 		}
@@ -669,7 +669,7 @@ function QuizRestart() {   // 小測驗判斷與解答 main
 		var QuizTest = QuizTestobj.result;
 		// rbm.log('QuizTest:', QuizTest);
 		if (QuizTest) { break; }
-		sleep(150);
+		sleep(250);
 	}
 	if (QuizTest) { QuizAnswer2(); }
 }
