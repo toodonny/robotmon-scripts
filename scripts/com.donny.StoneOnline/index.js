@@ -539,7 +539,7 @@ function RubyBox(Timer) { //檢查寶箱拿鑽&看廣告拿鑽 main
 				console.log('RubyBoxFull_Open')
 
 				sleep(500);
-				DIY_swipe_conv(62 + 30, 1065 + j * 140 + 30, 62, 1065 + j * 140, 25, 500);
+				DIY_swipe_conv(62 + 30, 1065 + j * 140 + 30, 62, 1065 + j * 140, 20, 500);
 
 				for (var i = 0; i < 40; i++) {
 					if (!config.isRunning) return false;
@@ -554,8 +554,10 @@ function RubyBox(Timer) { //檢查寶箱拿鑽&看廣告拿鑽 main
 
 					if (rubyboxget) {
 						sleep(500);
-						DIY_swipe_conv(300 + 10, 1100 + j * 140 + 40, 300 - 35, 1100 + j * 140 - 10, 25, 500);
-						DIY_swipe_conv(880, 1750, 660, 1750, 25, 500);
+						DIY_swipe_conv(300 + 10, 1100 + j * 140 + 40, 300 - 35, 1100 + j * 140 - 10, 20, 500);
+						QuizRestart();
+						DIY_swipe_conv(880, 1750, 660, 1750, 20, 500);
+						
 
 						rbm.log('RubyBoxget1.startT:', RubyBoxget1.startT, ', Timer:', Timer);
 						RubyBoxTimer = Date.now() + (Timer + 110) * 1000;
@@ -789,12 +791,12 @@ function QuizAnswer2() {   //小測驗解答判斷1
 				if (target != undefined && target.score > 0.90) { var Rank = true; }
 				else { var Rank = false; }
 
-				// console.log(120 + target.x, 1370 + target.y);
-				// rbm.log(convXY(120 + target.x, 1370 + target.y))
+				console.log(120 + target.x, 1370 + target.y);
+				rbm.log(convXY(120 + target.x, 1370 + target.y))
 
 				if (Rank) {
 					// tapFor(120 + target.x, 1370 + target.y, 1, 60, 200, 5000);
-					DIY_swipe_conv(120 + target.x, 1370 + target.y, 120 + target.x + 30, 1370 + target.y + 30, 10, 3000);
+					// DIY_swipe_conv(120 + target.x, 1370 + target.y, 120 + target.x + 30, 1370 + target.y + 30, 10, 3000);
 				}
 				ResterTimerSet = Date.now()
 				break;
