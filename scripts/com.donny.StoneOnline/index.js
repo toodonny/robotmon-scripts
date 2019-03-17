@@ -160,7 +160,7 @@ function DIY_swipe(intx, inty, finax, finay, moveD, sleeptime) {
 
 	var MoveXD = (finax - intx) / moveD
 	var MoveYD = (finay - inty) / moveD
-
+	console.log(intx, inty, finax, finay)
 	tapDown(intx, inty, 70);
 	for (var i = 0; i < moveD; i++) {
 		if (!config.isRunning) { tapUp(intx, i, 200); break; }
@@ -182,7 +182,7 @@ function DIY_swipe_conv(intx, inty, finax, finay, moveD, sleeptime) {
 	var finax = Math.round(cdin.x2);
 	var finay = Math.round(cdin.y2);
 
-	// console.log(intx, inty, finax, finay, moveD, sleeptime)
+	console.log(intx, inty, finax, finay, moveD, sleeptime)
 	var movedistance = (finay - inty) / moveD
 
 	var MoveXD = (finax - intx) / moveD
@@ -787,7 +787,7 @@ function QuizAnswer2() {   //小測驗解答判斷1
 				releaseImage(tImg);
 				rbm.log('QuizAnswer2  Rank:', target)
 
-				if (target != undefined && target.score > 0.90) { var Rank = true; }
+				if (target != undefined && target.score > 0.91) { var Rank = true; }
 				else { var Rank = false; }
 
 				console.log(120 + target.x, 1370 + target.y);
@@ -795,7 +795,7 @@ function QuizAnswer2() {   //小測驗解答判斷1
 
 				if (Rank) {
 					// tapFor(120 + target.x, 1370 + target.y, 1, 60, 200, 5000);
-					// DIY_swipe_conv(120 + target.x, 1370 + target.y, 120 + target.x + 30, 1370 + target.y + 30, 10, 3000);
+					DIY_swipe_conv(120 + target.x, 1370 + target.y, 120 + target.x + 30, 1370 + target.y + 30, 10, 3000);
 				}
 				ResterTimerSet = Date.now()
 				break;
