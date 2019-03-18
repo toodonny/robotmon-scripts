@@ -640,7 +640,7 @@ function AD_watch(ADtimer) {
 			// rbm.log('QuizTestobj:', QuizTestobj);
 			if (QuizTestobj.result) { break; }
 
-			var OKbtnobj = convertImgcheck(440, 860, 640, 1800, 0.94, 'ok_button.png');
+			var OKbtnobj = convertImgcheck(485, 1120, 595, 1360, 0.94, 'ok_button.png');
 			// rbm.log('OKbtnobj:', OKbtnobj);
 			if (OKbtnobj.result) {
 				DIY_swipe(OKbtnobj.x2, OKbtnobj.y2, OKbtnobj.x2 + 20, OKbtnobj.y2 + 20, 25, 500);
@@ -1022,7 +1022,7 @@ function CraftsRecive() {  //收工藝品
 			DIY_swipe_conv(x1, y1, x1 + 20, y1 + 20, 25, 3000);
 
 			for (var j = 1; j <= 6; j++) {
-				var OKbtnobj = convertImgcheck(490, 860, 590, 1800, 0.94, 'ok_button.png');
+				var OKbtnobj = convertImgcheck(485, 1120, 595, 1360, 0.94, 'ok_button.png');
 				// rbm.log('OKbtnobj:', OKbtnobj);
 				if (OKbtnobj.result) { DIY_swipe(OKbtnobj.x2, OKbtnobj.y2, OKbtnobj.x2 + 20, OKbtnobj.y2 + 20, 25, 2500); }
 				sleep(300);
@@ -1678,7 +1678,7 @@ function Dougeon_WFFight(dbtimes) {  //地城 打水火石
 
 			AttackMode(1); //檢查背包打開/自動攻擊
 
-			rbm.keepScreenshotPartial(490, 1060, 590, 1220); // x1, y1, x2, y2
+			rbm.keepScreenshotPartial(485, 1120, 595, 1360); // x1, y1, x2, y2
 			var target3 = rbm.imageExists('ok_button.png', 0.90);
 			if (target3) {                   //確認領石頭
 				rbm.imageClick('ok_button.png', 0.90)
@@ -2102,13 +2102,13 @@ function testsetting() {     //test用，預設值設定
 	//console.log('石頭等級設定:', stonelvmin, normalstonelvmax, rainstonelvmax)
 
 	friendheartswitch     = 0;      //朋友送愛心開關        0:關  1:開
-	AD_GetRubyswitch      = 1;      //看廣告拿鑽            0:關  1:開
+	AD_GetRubyswitch      = 0;      //看廣告拿鑽            0:關  1:開
 	characterbubbleSwitch = 1;      //角色對話泡包點擊      0:關  1:開
 	rain_fastdigswitch    = 0;      //下雨天快速挖礦        0:關  1:開
 	//console.log('雜項設定:', friendheart, ad_ruby, charabubble, rainfastdig)
 
 	WhiteCrystalswitch = 1;      //工藝製作(預設彎月)      0:關  1:開
-	mooncompswitch     = 3;      //彎月保留量(作水晶用)  0:不保留
+	mooncompswitch     = 2;      //彎月保留量(作水晶用)  0:不保留
 	//console.log('製作水晶設定', WCrystal, moonkeep)
 
 	CraftsMake1switch = 11;    //工藝1
