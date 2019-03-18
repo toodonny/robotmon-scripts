@@ -601,7 +601,7 @@ function AD_GetRuby(Timer) { //看廣告拿寶石
 
 				var ruby_5freeobj = convertImgcheck(512, 920, 647, 960, 0.90, 'ruby_5free.png');
 				var ruby_5free = ruby_5freeobj.result;
-				// rbm.log('ruby_5free:', ruby_5free);
+				rbm.log('ruby_5free:', ruby_5free);
 				if (ruby_5free) {
 					DIY_swipe_conv(420, 1120, 420 + 20, 1120 + 20, 25, 1000);
 					AD_watch(90);
