@@ -65,7 +65,7 @@
     },
     "com.donny.StoneOnline": {
       "title": "StoneOnline",
-      "versionCode": 1.695,
+      "versionCode": 1.694,
       "description": "<div>Grow Stone online / 礦山之旅</div><ul><li>1.695版，更新 2019.03.17 修正小測驗誤按bug。</li></ul>",
       "packageName": "net.supercat.stone",
       "downloadURL": "https://github.com/toodonny/robotmon-scripts/raw/master/scripts/com.donny.StoneOnline/index.zip",
