@@ -170,7 +170,7 @@ function DIY_swipe(intx, inty, finax, finay, moveD, sleeptime) {
 	}
 	moveTo(finax, finay, 10)
 	tapUp(finax, finay, 60)
-	if (sleeptime != undefined) sleep(sleeptime);
+	if (sleeptime != undefined) {sleep(sleeptime);}
 }
 
 function DIY_swipe_conv(intx, inty, finax, finay, moveD, sleeptime) {
@@ -197,7 +197,7 @@ function DIY_swipe_conv(intx, inty, finax, finay, moveD, sleeptime) {
 	}
 	moveTo(finax, finay, 10)
 	tapUp(finax, finay, 10)
-	if (sleeptime != undefined) sleep(sleeptime);
+	if (sleeptime != undefined) {sleep(sleeptime);}
 }
 
 function DIY_radomswipe1(intx, inty, finax, finay, moveD, sleeptime) {
@@ -1019,7 +1019,7 @@ function CraftsRecive() {  //收工藝品
 			var cdin1 = convXY(x1, y1);
 			console.log('可收工藝:', 'x:', cdin1.x1, 'y:', cdin1.y1);
 
-			DIY_swipe_conv(x1, y1, x1 + 20, y1 + 20, 25, 3000);
+			DIY_swipe_conv(x1 + 15, y1, x1 + 15, y1 + 10, 25, 3000);
 
 			for (var j = 1; j <= 6; j++) {
 				var OKbtnobj = convertImgcheck(485, 1120, 595, 1360, 0.94, 'ok_button.png');
