@@ -950,7 +950,7 @@ function BagMenu(menu) {  //0:關包包  1:開包包  2:強化   3:寵物  4:手
 			if (BagMenuobj.result) {
 				DIY_swipe(BagMenuobj.x2, BagMenuobj.y2, BagMenuobj.x2 + 20, BagMenuobj.y2 + 20, 25, 300);
 			}
-			sleep(200);
+			sleep(100);
 		}
 	}
 
@@ -965,7 +965,7 @@ function BagMenu(menu) {  //0:關包包  1:開包包  2:強化   3:寵物  4:手
 		}
 		sleep(100);
 	}
-	sleep(3000);
+	sleep(1000);
 	return false;
 }
 
@@ -979,6 +979,8 @@ function WhiteCrystalMake(Timer) { //主：收工藝裝備，製作工藝
 
 	var attack3 = AttackMode(3);
 	if (attack3) var menu4 = BagMenu(4);
+	console.log('wait 5 sec')
+	sleep(5000);
 	if (menu4) CraftsRecive();
 	// console.log('attack3:', attack3);
 	// console.log('menu4:', menu4);
@@ -1019,7 +1021,7 @@ function CraftsRecive() {  //收工藝品
 			var cdin1 = convXY(x1, y1);
 			console.log('可收工藝:', 'x:', cdin1.x1, 'y:', cdin1.y1);
 
-			DIY_swipe_conv(x1 + 15, y1, x1 + 15, y1 + 10, 25, 3000);
+			DIY_swipe_conv(x1, y1, x1 - 5, y1, 30, 2000);
 
 			for (var j = 1; j <= 6; j++) {
 				var OKbtnobj = convertImgcheck(485, 1120, 595, 1360, 0.94, 'ok_button.png');
@@ -1061,7 +1063,7 @@ function CraftsMake(item1, item2, item3, item4) {
 			var y1 =  (940 + result.y) * heightF;
 			for (var i = 1; i <=4; i++) {
 				if (x1 > TableX[i] && x1 < TableX[i + 1]) {
-					DIY_swipe(x1, y1, x1 + 20, y1, 25, 3000);
+					DIY_swipe(x1, y1, x1 - 20, y1, 30, 3000);
 					console.log('第', i, '格, 開始找', itemID[i]);
 					CraftsMakeSelect(itemID[i]);
 					break;
@@ -2051,7 +2053,7 @@ function setFirstTimer() {   //通用，時間預設值設定
 	friendheartTimer     = Date.now() + 30 * 1000;
 	AD_GetRubyTimer      = Date.now() +  5 * 1000;
 	ResterTimerSet       = Date.now() +  0 * 1000;
-	WhiteCrystalTimer    = Date.now() + 10 * 1000;
+	WhiteCrystalTimer    = Date.now() +  3 * 1000;
 	Dougeon_WFStoneTimer = Date.now() + 40 * 1000;  //打水火石
 	AD_Goldx2Timer       = Date.now() + 10 * 1000;  //打獵區金幣2倍&重生
 	DailyAchieveneTimer  = Date.now() + 20 * 1000;  //
