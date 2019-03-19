@@ -1008,7 +1008,7 @@ function CraftsRecive() {  //收工藝品
 	releaseImage(tImg);
 
 	if (results != '') {
-		results = results.sort(function (a, b) { return a.x > b.x ? 1 : -1; });
+		// results = results.sort(function (a, b) { return a.x > b.x ? 1 : -1; });
 
 		for (var index in results) {
 			var result = results[index];
@@ -1051,7 +1051,7 @@ function CraftsMake(item1, item2, item3, item4) {
 	rbm.log('')
 
 	if (results != '') {
-		results = results.sort(function (a, b) { return a.x > b.x ? 1 : -1; });
+		// results = results.sort(function (a, b) { return a.x > b.x ? 1 : -1; });
 
 		for (var index in results) {
 			var result = results[index];
