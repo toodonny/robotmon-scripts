@@ -960,12 +960,12 @@ function BagMenu(menu) {  //0:關包包  1:開包包  2:強化   3:寵物  4:手
 		var BagMenuobj = convertImgcheck(940, 1360, 1035, 1900, 0.90, 'BagMenu_' + menu + '.png');
 		// rbm.log('BagMenuobj:', menu, BagMenuobj);
 		if (BagMenuobj.result) {
-			DIY_swipe(BagMenuobj.x2, BagMenuobj.y2, BagMenuobj.x2 + 20, BagMenuobj.y2 + 20, 25, 300);
+			DIY_swipe(BagMenuobj.x2, BagMenuobj.y2, BagMenuobj.x2 + 20, BagMenuobj.y2 + 20, 25, 500);
 			if (i == 2) return true;
 		}
 		sleep(100);
 	}
-	sleep(1800);
+	sleep(3000);
 	return false;
 }
 
@@ -1051,7 +1051,7 @@ function CraftsMake(item1, item2, item3, item4) {
 	rbm.log('')
 
 	if (results != '') {
-		// results = results.sort(function (a, b) { return a.x > b.x ? 1 : -1; });
+		// results = results.sort(function 	(a, b) { return a.x > b.x ? 1 : -1; });
 
 		for (var index in results) {
 			var result = results[index];
@@ -1061,7 +1061,7 @@ function CraftsMake(item1, item2, item3, item4) {
 			var y1 =  (940 + result.y) * heightF;
 			for (var i = 1; i <=4; i++) {
 				if (x1 > TableX[i] && x1 < TableX[i + 1]) {
-					DIY_swipe(x1, y1, x1 + 20, y1, 15, 3000);
+					DIY_swipe(x1, y1, x1 + 20, y1, 25, 3000);
 					console.log('第', i, '格, 開始找', itemID[i]);
 					CraftsMakeSelect(itemID[i]);
 					break;
