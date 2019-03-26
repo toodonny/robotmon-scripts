@@ -137,6 +137,13 @@
       "description": "<h3>Crush Them All / 粉碎他們!</h3><ul><li>0.434 測試版！</li><li>3/10 修正畫面異常重啟判斷。</li><li>感謝 Jim Chen !!</li><li>① 英雄/村莊自動升級</li><li>② 地圖寶箱自動撿</li><li>③ 自動看廣告加速/金幣</li><li>④ 自動輪迴(關卡設定)</li><li>⑤ 每日地牢設定自動打</li><li>⑥ 遠征自動收/發(不含勛章)</li><li>⑦ 工會自動求勛章/幫助</li><li>⑧ 工會BOSS自動打(簡易)</li><li>⑨ 自動打競技場(極簡易)</li><li>⑩ 其它(每日任務/獎勵/收信)</li></ul>",
       "packageName": "com.godzilab.idlerpg",
       "downloadURL": "https://github.com/toodonny/robotmon-scripts/raw/master/scripts/com.donny.idlerpg/index.zip"
+    },    
+    "com.donny.taptitans2": {
+      "title": "Tap Titains 2 by Donny",
+      "versionCode": 0.10,
+      "description": "<h3>Tap Titain 2 / 點擊泰坦 吐!</h3><ul><li>0.10 測試版！</li></ul>",
+      "packageName": "com.gamehivecorp.taptitans2",
+      "downloadURL": "https://github.com/toodonny/robotmon-scripts/raw/master/scripts/com.donny.taptitans2/index.zip"
     }
   },
   "libs": {

@@ -215,9 +215,8 @@ function DIY_radomswipe1(intx, inty, finax, finay, moveD, sleeptime) {
 		intx = intx + MoveXD
 		inty = inty + MoveYD
 
-		intxR = intx + getRandom(-30, 30);
-		intyR = inty + getRandom(-30, 30);
-
+		intxR = intx + getRandom(-10, 10);
+		intyR = inty + getRandom(-10, 10);
 		moveTo(intxR, intyR, 10 + getRandom(-5, 5));
 	}
 	moveTo(finax, finay, 40)
@@ -237,8 +236,8 @@ function DIY_radomswipe2(intx, inty, finax, finay, moveD, sleeptime) {
 			tapUp(intx, i, 200);
 			break;
 		}
-		intx = intx + MoveXD + getRandom(-30, 30);
-		inty = inty + MoveYD + getRandom(-30, 30);
+		intx = intx + MoveXD + getRandom(-10, 10);
+		inty = inty + MoveYD + getRandom(-10, 10);
 		moveTo(intx, inty, 10 + getRandom(-5, 5));
 	}
 	moveTo(finax, finay, 40)
@@ -413,7 +412,6 @@ function MergerStone2(intLv, finLv, mvMode) {  //石頭合成秘法2
 
 		for (var m = 0; m <= stonelvk - 2; m = m + 2) {
 			if (!config.isRunning) return false;
-
 			var x0 = (46 + stonelvks[m].x * 2 + 40) * widthF;
 			var y0 = (1479 + stonelvks[m].y * 2 + 40) * heightF;
 			var x1 = (46 + stonelvks[m + 1].x * 2 + 40) * widthF;
@@ -428,7 +426,6 @@ function MergerStone2(intLv, finLv, mvMode) {  //石頭合成秘法2
 				case 2: DIY_radomswipe1(mvx0, mvy0, mvx1, mvy1, MergermoveSW, randomtime); break;
 				case 3: DIY_radomswipe2(mvx0, mvy0, mvx1, mvy1, MergermoveSW, randomtime); break;
 			}
-
 			ResterTimerSet = Date.now();
 		}
 		sleep(dectcompraw2);
@@ -537,13 +534,12 @@ function RubyBox(Timer) { //檢查寶箱拿鑽&看廣告拿鑽 main
 			if (RubyBoxpa) {
 				console.log('RubyBoxFull_Open')
 
-				sleep(500);
-				DIY_swipe_conv(62 + 30, 1065 + j * 140 + 30, 62, 1065 + j * 140, 20, 500);
+				// sleep(500);
+				DIY_swipe_conv(62 + 30, 1065 + j * 140 + 30, 62, 1065 + j * 140, 10, 300);
 
 				for (var i = 0; i < 40; i++) {
 					if (!config.isRunning) return false;
 
-					sleep(500);
 					var intY1 = 1060 + j * 140;
 					var intY2 = 1190 + j * 140;
 					var rubyboxgetobj = convertImgcheck(220, intY1, 330, intY2, 0.85, 'rubyboxget1-1.png')
@@ -552,16 +548,17 @@ function RubyBox(Timer) { //檢查寶箱拿鑽&看廣告拿鑽 main
 					// rbm.log('rubyboxget:', rubyboxget);
 
 					if (rubyboxget) {
-						sleep(1000);
-						DIY_swipe_conv(300 + 10, 1100 + j * 140 + 40, 300 - 35, 1100 + j * 140 - 10, 20, 1000);
+						// sleep(1000);
+						DIY_swipe_conv(300 + 10, 1100 + j * 140 + 40, 300 - 35, 1100 + j * 140 - 10, 10, 500);
 						QuizRestart();
-						DIY_swipe_conv(880, 1750, 660, 1750, 20, 1000);
+						DIY_swipe_conv(880, 1750, 660, 1750, 20, 500);
 						
 
 						rbm.log('RubyBoxget1.startT:', RubyBoxget1.startT, ', Timer:', Timer);
 						RubyBoxTimer = Date.now() + (Timer + 110) * 1000;
 						return true;
 					}
+					sleep(200);
 				}
 
 				RubyBoxClick = RubyBoxClick + 1;
@@ -591,19 +588,18 @@ function AD_GetRuby(Timer) { //看廣告拿寶石
 			sleep(200)
 			console.log('RubyButton OK');
 
-			DIY_swipe_conv(62 + 30, 1065 + j * 140 + 30, 62, 1065 + j * 140, 20, 800);
-			DIY_swipe_conv(130 + 30, 1105 + j * 140 + 30, 130, 1105 + j * 140, 20, 1000);
-			QuizRestart();
+			DIY_swipe_conv(62 + 30, 1065 + j * 140 + 30, 62, 1065 + j * 140, 10, 500);
+			DIY_swipe_conv(130 + 30, 1105 + j * 140 + 30, 130, 1105 + j * 140, 10, 600);
 
 			for (var i = 0; i < 4; i++) {
 				if (!config.isRunning) return false;
-				sleep(500);
 
 				var ruby_5freeobj = convertImgcheck(512, 920, 647, 960, 0.90, 'ruby_5free.png');
 				var ruby_5free = ruby_5freeobj.result;
 				rbm.log('ruby_5free:', ruby_5free);
 				if (ruby_5free) {
 					DIY_swipe_conv(420, 1120, 420 + 20, 1120 + 20, 25, 1000);
+					QuizRestart();
 					AD_watch(90);
 				}
 
@@ -616,6 +612,7 @@ function AD_GetRuby(Timer) { //看廣告拿寶石
 					console.log('廣告不夠，延10分檢查')
 					return false;
 				}
+				sleep(300);
 			}
 
 			DIY_swipe_conv(880, 1750, 660, 1750, 25, 500);
@@ -932,6 +929,50 @@ function characterbubble2(Timer) {  //角色對話泡包點擊 main
 	characterbubbleTimer = Date.now() + Timer * 1000;
 }
 
+function characterbubble2(Timer) {  //角色對話泡包點擊 main
+	if (!config.isRunning || Date.now() <= characterbubbleTimer) return false;
+	if (!characterbubbleSwitch) return false;
+	console.log('角色對話泡包點擊 2');
+
+	var cdin = convXY(5, 255, 5 + 1070, 255 + 1645);
+	var image = getScreenshotModify(cdin.x1, cdin.y1, cdin.codX, cdin.codY, cdin.ordX, cdin.ordY, 100);
+	var filename1 = config.stonePath + '/characterbubble.png';
+	var tImg1 = openImage(filename1);
+	var results1 = findImages(image, tImg1, 0.8, 2, true);
+
+	if (results1 != '') {
+		for (var index in results1) {
+			var result1 = results1[index];
+			// rbm.log('bubble result1:', result1);
+			var x1 =   5 + result1.x + 0
+			var y1 = 255 + result1.y + 0
+
+			var cdin1 = convXY(x1, y1);
+			var cdinobj = [
+				{ 'x1': 640, 'y1': 175, 'x2': 1080, 'y2':  575 },
+				{ 'x1':   0, 'y1': 730, 'x2':  151, 'y2': 1322 },
+				{ 'x1': 565, 'y1': 560, 'x2':  600, 'y2':  590 }
+			]
+			console.log('找到人物:', 'x:', cdin1.x1, 'y:', cdin1.y1);
+
+			var swipbubble = true
+			for (var j = 0; j <= 2; j++) {
+				if (cdin1.x1 > cdinobj[j].x1 && cdin1.x1 < cdinobj[j].x2 && cdin1.y1 > cdinobj[j].y1 & cdin1.y1 < cdinobj[j].y2) {
+					swipbubble = false;
+					console.log('bubble out:', j)
+					break;
+				}
+			}
+			if (swipbubble) { DIY_swipe_conv(x1, y1, x1 + 10, y1 + 10, 10, 300); }
+		}
+	}
+	sleep(100);
+	releaseImage(image);
+	releaseImage(tImg1);
+
+	characterbubbleTimer = Date.now() + Timer * 1000;
+}
+
 function BagMenu(menu) {  //0:關包包  1:開包包  2:強化   3:寵物  4:手藝  5:商店
 	if (!config.isRunning) return false;
 	var BagMenuLab = ['(0)關包包', '(1)開包包', '(2)強化', '(3)寵物', '(4)手藝', '(5)商店'];
@@ -942,13 +983,11 @@ function BagMenu(menu) {  //0:關包包  1:開包包  2:強化   3:寵物  4:手
 			if (!config.isRunning) return false;
 
 			var BagMenuobj = convertImgcheck(940, 1360, 1035, 1900, 0.90, 'BagMenu_' + 0 + '.png');
-			// rbm.log('BagMenuobj: 0', BagMenuobj);
 			if (BagMenuobj.result) break;
 
 			var BagMenuobj = convertImgcheck(940, 1360, 1035, 1900, 0.90, 'BagMenu_' + 1 + '.png');
-			// rbm.log('BagMenuobj: 1', BagMenuobj);
 			if (BagMenuobj.result) {
-				DIY_swipe(BagMenuobj.x2, BagMenuobj.y2, BagMenuobj.x2 + 20, BagMenuobj.y2 + 20, 25, 300);
+				DIY_swipe(BagMenuobj.x2, BagMenuobj.y2, BagMenuobj.x2 + 20, BagMenuobj.y2 + 20, 10, 200);
 			}
 			sleep(100);
 		}
@@ -958,18 +997,15 @@ function BagMenu(menu) {  //0:關包包  1:開包包  2:強化   3:寵物  4:手
 		if (!config.isRunning) return false;
 
 		var BagMenuobj = convertImgcheck(940, 1360, 1035, 1900, 0.90, 'BagMenu_' + menu + '.png');
-		// rbm.log('BagMenuobj:', menu, BagMenuobj);
 		if (BagMenuobj.result) {
-			DIY_swipe(BagMenuobj.x2, BagMenuobj.y2, BagMenuobj.x2 + 20, BagMenuobj.y2 + 20, 25, 500);
+			DIY_swipe(BagMenuobj.x2, BagMenuobj.y2, BagMenuobj.x2 + 20, BagMenuobj.y2 + 20, 10, 200);
 			if (i == 2) return true;
 		}
 		sleep(100);
 	}
-	sleep(1000);
+	sleep(500);
 	return false;
 }
-
-//=======================待轉換測試==================================
 
 function WhiteCrystalMake(Timer) { //主：收工藝裝備，製作工藝
 	if (!config.isRunning) return false;
@@ -979,11 +1015,9 @@ function WhiteCrystalMake(Timer) { //主：收工藝裝備，製作工藝
 
 	var attack3 = AttackMode(3);
 	if (attack3) var menu4 = BagMenu(4);
-	console.log('wait 5 sec')
-	sleep(5000);
+	console.log('wait 2 sec'); 
+	sleep(2000);
 	if (menu4) CraftsRecive();
-	// console.log('attack3:', attack3);
-	// console.log('menu4:', menu4);
 	
 	CraftsMake(CraftsMake1switch, CraftsMake2switch, CraftsMake3switch, CraftsMake4switch);
 
@@ -995,11 +1029,7 @@ function WhiteCrystalMake(Timer) { //主：收工藝裝備，製作工藝
 
 function CraftsRecive() {  //收工藝品
 	if (!config.isRunning) return false;
-	// if (!Date.now() < WhiteCrystalTimer)  {console.log('收工藝等待:', (RubyBoxTimer-Date.now())/1000, '秒'); return false;}
-	// if (!WhiteCrystalswitch) return false;
 	console.log('收工藝品')
-
-	//收裝備
 
 	var cdin = convXY(110, 1100, 110 + 870, 1100 + 140);
 	var image = getScreenshotModify(cdin.x1, cdin.y1, cdin.codX, cdin.codY, cdin.ordX, cdin.ordY, 100);
@@ -1021,12 +1051,12 @@ function CraftsRecive() {  //收工藝品
 			var cdin1 = convXY(x1, y1);
 			console.log('可收工藝:', 'x:', cdin1.x1, 'y:', cdin1.y1);
 
-			DIY_swipe_conv(x1, y1, x1 - 5, y1, 30, 2000);
+			DIY_swipe_conv(x1, y1, x1 - 5, y1, 10, 500);
 
 			for (var j = 1; j <= 6; j++) {
 				var OKbtnobj = convertImgcheck(485, 1120, 595, 1360, 0.94, 'ok_button.png');
 				// rbm.log('OKbtnobj:', OKbtnobj);
-				if (OKbtnobj.result) { DIY_swipe(OKbtnobj.x2, OKbtnobj.y2, OKbtnobj.x2 + 20, OKbtnobj.y2 + 20, 25, 2500); }
+				if (OKbtnobj.result) { DIY_swipe(OKbtnobj.x2, OKbtnobj.y2, OKbtnobj.x2 + 10, OKbtnobj.y2 + 10, 10, 2000); }
 				sleep(300);
 			}
 		}
@@ -1048,22 +1078,22 @@ function CraftsMake(item1, item2, item3, item4) {
 	console.log(cdin.x1, cdin.y1, cdin.codX, cdin.codY, cdin.ordX, cdin.ordY, 100);
 	var filename  = config.stonePath + '/CraftsMake.png';
 	var tImg  = openImage( filename);
-	var results  = findImages( image,  tImg, 0.75, 4, true);
-	rbm.log('results:', results)
-	rbm.log('')
+	var results  = findImages( image,  tImg, 0.85, 4, true);
+	// rbm.log('results:', results)
+	// rbm.log('')
 
 	if (results != '') {
-		// results = results.sort(function 	(a, b) { return a.x > b.x ? 1 : -1; });
+		results = results.sort(function (a, b) { return a.x > b.x ? 1 : -1; });
 
 		for (var index in results) {
 			var result = results[index];
-			rbm.log('restlt:', index, result);
+			// rbm.log('restlt:', index, result);
 
 			var x1 =  (55 + result.x) * widthF;
 			var y1 =  (940 + result.y) * heightF;
 			for (var i = 1; i <=4; i++) {
 				if (x1 > TableX[i] && x1 < TableX[i + 1]) {
-					DIY_swipe(x1, y1, x1 - 20, y1, 30, 3000);
+					DIY_swipe(x1, y1, x1 - 20, y1, 10, 2000);
 					console.log('第', i, '格, 開始找', itemID[i]);
 					CraftsMakeSelect(itemID[i]);
 					break;
@@ -1108,20 +1138,15 @@ function CraftsMakeSelect(CraftsSelect) { //工藝品選擇 1.太陽石, 2.高�
 		if (Crafsobj.result) {
 			// console.log('Find:', itemTCnew[CraftsSelect]);
 
-			DIY_swipe(Crafsobj.x2 + 25, Crafsobj.y2 + 20, Crafsobj.x2 + 20, Crafsobj.y2 + 20, 20, 1200);
+			DIY_swipe(Crafsobj.x2 + 25, Crafsobj.y2 + 20, Crafsobj.x2 + 20, Crafsobj.y2 + 20, 10, 800);
 			console.log('Tap Found:', itemTCnew[CraftsSelect]);
 
 			var craftsbtnOKobj = convertImgcheck(280, 1050, 800, 1840, 0.85, 'craftsbuttonOK.png');
 			// rbm.log('craftsbtnOKobj:', craftsbtnOKobj);
 			if (craftsbtnOKobj.result) {
-				DIY_swipe(craftsbtnOKobj.x2, craftsbtnOKobj.y2, craftsbtnOKobj.x2 + 5, craftsbtnOKobj.y2, 15, 2500);
+				DIY_swipe(craftsbtnOKobj.x2, craftsbtnOKobj.y2, craftsbtnOKobj.x2 + 5, craftsbtnOKobj.y2, 10, 2000);
 				break;
 			}
-
-			
-		// keycode('BACK', 500); sleep(500);
-		// CheckImageTap(600, 200, 470, 750, 0.9, 'closeboard.png', 1, 1, 1, 150, 1); //closeboard
-		// break;
 
 		}	else {
 
@@ -1139,17 +1164,19 @@ function CraftsMakeSelect(CraftsSelect) { //工藝品選擇 1.太陽石, 2.高�
 				}
 			}
 			
-			if (swipelist) DIY_swipe_conv(980, 1020, 980, 530, 200, 800);
+			if (swipelist) DIY_swipe_conv(980, 1300, 980, 530, 100, 500);
 		}
 		releaseImage(tImg);
 		releaseImage(image);
 
-		sleep(1000);
+		sleep(300);
 		ResterTimerSet = Date.now();
 
 	}
 	return false;
 }
+
+//=======================待轉換測試==================================
 
 function rain_fastdig() { //雨天加速挖 main
 	if (!config.isRunning || rain_fastdigswitch == 0 || eightdragonswitch == 1) return false;
@@ -1176,50 +1203,6 @@ function rain_fastdig() { //雨天加速挖 main
 		sleep(2000);
 		CheckImageTap(626, 868, 154, 51, 0.95, 'fastdig_ok.png', 430, 1130, 1, 200, 0);   //fast dig OK button
 	}
-}
-
-function characterbubble2(Timer) {  //角色對話泡包點擊 main
-	if (!config.isRunning || Date.now() <= characterbubbleTimer) return false;
-	if (!characterbubbleSwitch) return false;
-	console.log('角色對話泡包點擊 2');
-
-	var cdin = convXY(5, 255, 5 + 1070, 255 + 1645);
-	var image = getScreenshotModify(cdin.x1, cdin.y1, cdin.codX, cdin.codY, cdin.ordX, cdin.ordY, 100);
-	var filename1 = config.stonePath + '/characterbubble.png';
-	var tImg1 = openImage(filename1);
-	var results1 = findImages(image, tImg1, 0.8, 2, true);
-
-	if (results1 != '') {
-		for (var index in results1) {
-			var result1 = results1[index];
-			// rbm.log('bubble result1:', result1);
-			var x1 = 5 + result1.x + 0
-			var y1 = 255 + result1.y + 0
-
-			var cdin1 = convXY(x1, y1);
-			var cdinobj = [
-				{ 'x1': 640, 'y1': 175, 'x2': 1080, 'y2': 575 },
-				{ 'x1': 0, 'y1': 730, 'x2': 141, 'y2': 1322 },
-				{ 'x1': 565, 'y1': 560, 'x2': 600, 'y2': 590 }
-			]
-			console.log('找到人物:', 'x:', cdin1.x1, 'y:', cdin1.y1);
-
-			var swipbubble = true
-			for (var j = 0; j <= 2; j++) {
-				if (cdin1.x1 > cdinobj[j].x1 && cdin1.x1 < cdinobj[j].x2 && cdin1.y1 > cdinobj[j].y1 & cdin1.y1 < cdinobj[j].y2) {
-					swipbubble = false;
-					console.log('bubble out:', j)
-					break;
-				}
-			}
-			if (swipbubble) { DIY_swipe_conv(x1, y1, x1 + 20, y1 + 20, 25, 400); }
-		}
-	}
-	sleep(100);
-	releaseImage(image);
-	releaseImage(tImg1);
-
-	characterbubbleTimer = Date.now() + Timer * 1000;
 }
 
 function friendheartfind() {  //朋友送愛心尋找 藍→黃

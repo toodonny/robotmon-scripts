@@ -662,29 +662,6 @@ function usingTimeString(startTime) {
   return '循環時間：' + (Date.now() - startTime) + 'ms';
 }
 
-// 对Date的扩展，将 Date 转化为指定格式的String
-// 月(M)、日(d)、小时(h)、分(m)、秒(s)、季度(q) 可以用 1-2 个占位符， 
-// 年(y)可以用 1-4 个占位符，毫秒(S)只能用 1 个占位符(是 1-3 位的数字) 
-// 例子： 
-// (new Date()).Format("yyyy-MM-dd hh:mm:ss.S") ==> 2006-07-02 08:09:04.423 
-// (new Date()).Format("yyyy-M-d h:m:s.S")      ==> 2006-7-2 8:9:4.18 
-// Date.prototype.Format = function (fmt) {  
-//     var o = {
-//         "M+": this.getMonth() + 1, //月份 
-//         "d+": this.getDate(), //日 
-//         "h+": this.getHours(), //小时 
-//         "m+": this.getMinutes(), //分 
-//         "s+": this.getSeconds(), //秒 
-//         "q+": Math.floor((this.getMonth() + 3) / 3), //季度 
-//         "S": this.getMilliseconds() //毫秒 
-//     };
-//     if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
-//     for (var k in o)
-//     if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
-//     return fmt;
-// }
-
-
 //==============================選單function=====================================//
 
 function choiceMenu(page, listtype){    //切換頁面   page: 0:技能頁面  1:主角  2: 英雄  3:裝備  4:寵物  5:神器  6:商城 ； listtype: 0:不變  1:短  2:長
@@ -1917,6 +1894,43 @@ function main(){                        //主流程
 	//console.log('main-end')
 }
 
+function testsetting() {
+
+	ctrlSkillcode = '111111';
+	ctrlFairyADcode = '10000';
+
+	swVIP   = 0         //VIP無廣告開關	
+	
+	SwMastSw   = 1      //劍術大師 升級開關
+	SwMastTm   = 240    //劍術大師 升級檢查時間
+	SwMastLvLm = 12500  //劍術大師 升級限制
+	SwMastLvRu = 0      //劍術大師 cost -90%升級
+	
+	SwHeroSw   = 1      //全  體 英雄 升級開關
+	SwHrfsTm   = 20     //第一頁 英雄 升級檢查時間
+	SwHeroTm   = 180    //全  體 英雄 升級檢查時間
+	SwHeroLvLm = 4000   //第一位 英雄 優先升級等級
+	SwHeroLvRu = 0      //全  體 英雄 cost -90%升級
+	
+	SwBossReT = 5       //卡boss，等待再打時間
+	
+	SwPrestig = 1       //蛻變開關
+	SwBossPrs = 3       //卡關的次數轉生
+	SwPrgolds = 435     //金幣級次蛻變
+	SwPrgoldT = 3       //金幣蛻變檢查次數
+	SwPrSaScr = 1       //蛻變時自動抓圖
+	
+	SwArtifDv = 0       //自動開神器(轉生後觸發)
+	SwRedbook = 0       //自動點紅書(開神器後觸發)
+	
+	swClanbos = 1       //打工會boss
+	
+	swPksrain = 0       //Perks : 天降黃金
+	swRaintms = 0       //Perks : 天降黃金次數	
+	
+	ScreenErrorTime1 = Date.now()
+}
+
 function setFirstTimer() {
 	MasterLvUpTimer = Date.now() + 20 * 1000;
 	HerosLvUpTimer  = Date.now() + 15 * 1000;
@@ -1953,54 +1967,22 @@ function test(cycle){
 		if (!config.isRunning) return false;
 		
 		if (n == 0) {
-			//pauseswitch = 0;
-			ctrlSkillcode = '111111';
-			ctrlFairyADcode = '10000';
-
-			swVIP   = 0         //VIP無廣告開關	
-			
-			SwMastSw   = 1      //劍術大師 升級開關
-			SwMastTm   = 240    //劍術大師 升級檢查時間
-			SwMastLvLm = 12500  //劍術大師 升級限制
-			SwMastLvRu = 0      //劍術大師 cost -90%升級
-			
-			SwHeroSw   = 1      //全  體 英雄 升級開關
-			SwHrfsTm   = 20     //第一頁 英雄 升級檢查時間
-			SwHeroTm   = 180    //全  體 英雄 升級檢查時間
-			SwHeroLvLm = 4000   //第一位 英雄 優先升級等級
-			SwHeroLvRu = 0      //全  體 英雄 cost -90%升級
-			
-			SwBossReT = 5       //卡boss，等待再打時間
-			
-			SwPrestig = 1       //蛻變開關
-			SwBossPrs = 3       //卡關的次數轉生
-			SwPrgolds = 435     //金幣級次蛻變
-			SwPrgoldT = 3       //金幣蛻變檢查次數
-			SwPrSaScr = 1       //蛻變時自動抓圖
-			
-			SwArtifDv = 0       //自動開神器(轉生後觸發)
-			SwRedbook = 0       //自動點紅書(開神器後觸發)
-			
-			swClanbos = 1       //打工會boss
-			
-			swPksrain = 0       //Perks : 天降黃金
-			swRaintms = 0       //Perks : 天降黃金次數	
 				
 			
+			testsetting()       //載入測試設定值
 			setFirstTimer()     //設定初始值
-			ScreenErrorTime1 = Date.now()
 		}
 		
 		else if (n >= 1) {
 
 			// var attack = checkReturn(1);
 			// if(attack){
-				var stage = recoNumgroup(9);
+				// var stage = recoNumgroup(9);
 				// var stageD = stage - stagebk
 				// console.log(stagebk, stage, stageD);
 				// if (stagebk != -1 && stageD >= 0 && stageD < 100 && stage < 20000) {
 					// stagebk = stage;
-					console.log('n = '+ n, ', stage:', stage);
+					// console.log('n = '+ n, ', stage:', stage);
 				// } else if (stagebk == -1) {
 					// stagebk = stage;
 				// }
@@ -2010,7 +1992,7 @@ function test(cycle){
 			
 			
 			// if (stage > 0 && stage < 55000) stageck = stage;
-			// while(config.isRunning) { main(); }
+			while(config.isRunning) { main(); }
 			
 			sleep(200);
 		}
