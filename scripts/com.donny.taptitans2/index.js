@@ -770,7 +770,7 @@ function choiceMenu(page, listtype){    //切換頁面   page: 0:技能頁面  1
 function buyMode(modef) {               //切換加級數量   1:x1， 2:x10，3:x100，4:xMAX
 	if (!config.isRunning) return false;
 
-	var buyModearray = new Array( '', 'x1', 'x10', 'x100', 'xMax');
+	var buyModearray = new Array( '', 'x1', 'x10', 'x100', 'xMAX');
 	var buyXYarray = new Array( '', 430, 305, 185, 60);	
 	
 	//console.log('升級數量切換');
@@ -1816,7 +1816,7 @@ function checkScreenStop(Time1, Time2, Timer) {
 	if (!config.isRunning || Date.now() < ScreenStoptimer ) return false;
 	//console.log('CkScSt : Check Screen Stop');
 	
-	var stoptimes = ScreenStopTimes( 360 - 30, 460 - 30, 360 + 30, 460 + 30, 'checkSCstop.png', 10)
+	var stoptimes = ScreenStopTimes( 330, 430, 390, 490, 'checkSCstop.png', 10)
 	if ( stoptimes >= Time2 ) {
 		console.log('CkScSt : Restart App');
 		startApp(160)
@@ -1866,32 +1866,41 @@ function startApp(Timer) {  //app重開
 
 function main(){                        //主流程
 	if (!config.isRunning) return false;
+	var s = 100;
 
-	//console.log('HerosLvUp 英雄升級');
+	console.log('HerosLvUp 英雄升級');
 	HerosLvUp(SwHeroLvLm, SwHrfsTm, SwHeroTm);    //英雄升級
+	sleep(s);
 	
-	//console.log('tapMain 畫面連點');
+	console.log('tapMain 畫面連點');
 	tapMain(4, 21);
+	sleep(s);
 	
-	//console.log('leftbuffer 左側獎勵嬐');
+	console.log('leftbuffer 左側獎勵嬐');
 	leftbuffer(900);
+	sleep(s);
 	
-	//console.log('MasterLvUp 劍術大師升級');
+	console.log('MasterLvUp 劍術大師升級');
 	MasterLvUp(SwMastLvLm, SwMastTm);  //劍術大師升級
+	sleep(s);
 	
-	//console.log('debug 卡畫面檢查');
+	console.log('debug 卡畫面檢查');
 	debug(10);
+	sleep(s);
 	
-	//console.log('fightClanboss 打工會BOSS');
+	console.log('fightClanboss 打工會BOSS');
 	fightClanboss();
+	sleep(s);
 	
-	//console.log('Artifact 神器檢查');
+	console.log('Artifact 神器檢查');
 	Artifact(600);
+	sleep(s);
 	
-	//console.log('ScreenStop 畫面停止檢查')
+	console.log('ScreenStop 畫面停止檢查')
 	checkScreenStop(20, 65, 20);
+	sleep(s);
 	
-	//console.log('main-end')
+	console.log('main-end')
 }
 
 function testsetting() {
@@ -1929,6 +1938,7 @@ function testsetting() {
 	swRaintms = 0       //Perks : 天降黃金次數	
 	
 	ScreenErrorTime1 = Date.now()
+	rbm.screencrop('checkSCstop.png', 330, 430, 390, 490)
 }
 
 function setFirstTimer() {
