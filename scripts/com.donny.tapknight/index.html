@@ -1,0 +1,1739 @@
+<html>
+  <head>
+    <style>
+
+	 #top-bar{
+		 width:720px;
+		 height:100px;
+		 background:#C0C0C0;
+		 position:fixed;
+		 top:-65px;
+
+		 /* CSS3 陰影*/
+		-webkit-box-shadow: 0px 4px 8px #AAAAAA;
+		-moz-box-shadow: 0px 4px 8px #AAAAAA;
+		box-shadow: 0px 4px 8px #AAAAAA; 
+		z-index:2;
+	} 
+
+		#menu{width:900px; margin:0 auto; line-height:50px;}
+		#menu b, #menu a{color:#fff; padding:0 20px;}
+	
+	
+
+		/* Button CSS */
+
+		.centered {
+		  margin:50px auto;
+		  text-align:center;
+		}
+
+		.button::-moz-focus-inner{
+		  border: 0;
+		  padding: 0;
+		}
+
+		.button{
+		  display: inline-block;
+		  *display: inline;
+		  zoom: 1;
+		  padding: 6px 20px;
+		  margin: 0;
+		  cursor: pointer;
+		  border: 1px solid #bbb;
+		  overflow: visible;
+		  font: bold 13px arial, helvetica, sans-serif;
+		  text-decoration: none;
+		  white-space: nowrap;
+		  color: #555;
+		  
+		  background-color: #ddd;
+		  background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(255,255,255,1)), to(rgba(255,255,255,0)));
+		  background-image: -webkit-linear-gradient(top, rgba(255,255,255,1), rgba(255,255,255,0));
+		  background-image: -moz-linear-gradient(top, rgba(255,255,255,1), rgba(255,255,255,0));
+		  background-image: -ms-linear-gradient(top, rgba(255,255,255,1), rgba(255,255,255,0));
+		  background-image: -o-linear-gradient(top, rgba(255,255,255,1), rgba(255,255,255,0));
+		  background-image: linear-gradient(top, rgba(255,255,255,1), rgba(255,255,255,0));
+		  
+		  -webkit-transition: background-color .2s ease-out;
+		  -moz-transition: background-color .2s ease-out;
+		  -ms-transition: background-color .2s ease-out;
+		  -o-transition: background-color .2s ease-out;
+		  transition: background-color .2s ease-out;
+		  background-clip: padding-box; /* Fix bleeding */
+		  -moz-border-radius: 3px;
+		  -webkit-border-radius: 3px;
+		  border-radius: 3px;
+		  -moz-box-shadow: 0 1px 0 rgba(0, 0, 0, .3), 0 2px 2px -1px rgba(0, 0, 0, .5), 0 1px 0 rgba(255, 255, 255, .3) inset;
+		  -webkit-box-shadow: 0 1px 0 rgba(0, 0, 0, .3), 0 2px 2px -1px rgba(0, 0, 0, .5), 0 1px 0 rgba(255, 255, 255, .3) inset;
+		  box-shadow: 0 1px 0 rgba(0, 0, 0, .3), 0 2px 2px -1px rgba(0, 0, 0, .5), 0 1px 0 rgba(255, 255, 255, .3) inset;
+		  text-shadow: 0 1px 0 rgba(255,255,255, .9);
+		  
+		  -webkit-touch-callout: none;
+		  -webkit-user-select: none;
+		  -khtml-user-select: none;
+		  -moz-user-select: none;
+		  -ms-user-select: none;
+		  user-select: none;
+		}
+
+		.button:hover{
+		  background-color: #eee;
+		  color: #555;
+		}
+
+		.button:active{
+		  background: #e9e9e9;
+		  position: relative;
+		  top: 1px;
+		  text-shadow: none;
+		  -moz-box-shadow: 0 1px 1px rgba(0, 0, 0, .3) inset;
+		  -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, .3) inset;
+		  box-shadow: 0 1px 1px rgba(0, 0, 0, .3) inset;
+		}
+
+		.button[disabled], .button[disabled]:hover, .button[disabled]:active{
+		  border-color: #eaeaea;
+		  background: #fafafa;
+		  cursor: default;
+		  position: static;
+		  color: #999;
+		  /* Usually, !important should be avoided but here it's really needed :) */
+		  -moz-box-shadow: none !important;
+		  -webkit-box-shadow: none !important;
+		  box-shadow: none !important;
+		  text-shadow: none !important;
+		}
+
+		/* Smaller buttons styles */
+
+		.button.small{
+		  padding: 5px 4px;
+		}
+
+		/* Larger buttons styles */
+
+		.button.large{
+		  padding: 12px 30px;
+		  text-transform: uppercase;
+		}
+
+		.button.large:active{
+		  top: 2px;
+		}
+
+		/* Colored buttons styles */
+
+		.button.green, .button.red, .button.blue {
+		  color: #fff;
+		  text-shadow: 0 1px 0 rgba(0,0,0,.2);
+		  
+		  background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(255,255,255,.3)), to(rgba(255,255,255,0)));
+		  background-image: -webkit-linear-gradient(top, rgba(255,255,255,.3), rgba(255,255,255,0));
+		  background-image: -moz-linear-gradient(top, rgba(255,255,255,.3), rgba(255,255,255,0));
+		  background-image: -ms-linear-gradient(top, rgba(255,255,255,.3), rgba(255,255,255,0));
+		  background-image: -o-linear-gradient(top, rgba(255,255,255,.3), rgba(255,255,255,0));
+		  background-image: linear-gradient(top, rgba(255,255,255,.3), rgba(255,255,255,0));
+		}
+
+		/* */
+
+		.button.green{
+		  background-color: #57a957;
+		  border-color: #57a957;
+		}
+
+		.button.green:hover{
+		  background-color: #62c462;
+		}
+
+		.button.green:active{
+		  background: #57a957;
+		}
+
+		/* */
+
+		.button.red{
+		  background-color: #ca3535;
+		  border-color: #c43c35;
+		}
+
+		.button.red:hover{
+		  background-color: #ee5f5b;
+		}
+
+		.button.red:active{
+		  background: #c43c35;
+		}
+
+		/* */
+
+		.button.blue{
+		  background-color: #269CE9;
+		  border-color: #269CE9;
+		}
+
+		.button.blue:hover{
+		  background-color: #70B9E8;
+		}
+
+		.button.blue:active{
+		  background: #269CE9;
+		}
+
+		/* */
+
+		.green[disabled], .green[disabled]:hover, .green[disabled]:active{
+		  border-color: #57A957;
+		  background: #57A957;
+		  color: #D2FFD2;
+		}
+
+		.red[disabled], .red[disabled]:hover, .red[disabled]:active{
+		  border-color: #C43C35;
+		  background: #C43C35;
+		  color: #FFD3D3;
+		}
+
+		.blue[disabled], .blue[disabled]:hover, .blue[disabled]:active{
+		  border-color: #269CE9;
+		  background: #269CE9;
+		  color: #93D5FF;
+		}
+
+		/* Group buttons */
+
+		.button-group,
+		.button-group li{
+		  display: inline-block;
+		  *display: inline;
+		  zoom: 1;
+		}
+
+		.button-group{
+		  font-size: 0; /* Inline block elements gap - fix */
+		  margin: 0;
+		  padding: 0;
+		  background: rgba(0, 0, 0, .1);
+		  border-bottom: 1px solid rgba(0, 0, 0, .1);
+		  padding: 7px;
+		  -moz-border-radius: 7px;
+		  -webkit-border-radius: 7px;
+		  border-radius: 7px;
+		}
+
+		.button-group li{
+		  margin-right: -1px; /* Overlap each right button border */
+		}
+
+		.button-group .button{
+		  font-size: 13px; /* Set the font size, different from inherited 0 */
+		  -moz-border-radius: 0;
+		  -webkit-border-radius: 0;
+		  border-radius: 0;
+		}
+
+		.button-group .button:active{
+		  -moz-box-shadow: 0 0 1px rgba(0, 0, 0, .2) inset, 5px 0 5px -3px rgba(0, 0, 0, .2) inset, -5px 0 5px -3px rgba(0, 0, 0, .2) inset;
+		  -webkit-box-shadow: 0 0 1px rgba(0, 0, 0, .2) inset, 5px 0 5px -3px rgba(0, 0, 0, .2) inset, -5px 0 5px -3px rgba(0, 0, 0, .2) inset;
+		  box-shadow: 0 0 1px rgba(0, 0, 0, .2) inset, 5px 0 5px -3px rgba(0, 0, 0, .2) inset, -5px 0 5px -3px rgba(0, 0, 0, .2) inset;
+		}
+
+		.button-group li:first-child .button{
+		  -moz-border-radius: 3px 0 0 3px;
+		  -webkit-border-radius: 3px 0 0 3px;
+		  border-radius: 3px 0 0 3px;
+		}
+
+		.button-group li:first-child .button:active{
+		  -moz-box-shadow: 0 0 1px rgba(0, 0, 0, .2) inset, -5px 0 5px -3px rgba(0, 0, 0, .2) inset;
+		  -webkit-box-shadow: 0 0 1px rgba(0, 0, 0, .2) inset, -5px 0 5px -3px rgba(0, 0, 0, .2) inset;
+		  box-shadow: 0 0 1px rgba(0, 0, 0, .2) inset, -5px 0 5px -3px rgba(0, 0, 0, .2) inset;
+		}
+
+		.button-group li:last-child .button{
+		  -moz-border-radius: 0 3px 3px 0;
+		  -webkit-border-radius: 0 3px 3px 0;
+		  border-radius: 0 3px 3px 0;
+		}
+
+		.button-group li:last-child .button:active{
+		  -moz-box-shadow: 0 0 1px rgba(0, 0, 0, .2) inset, 5px 0 5px -3px rgba(0, 0, 0, .2) inset;
+		  -webkit-box-shadow: 0 0 1px rgba(0, 0, 0, .2) inset, 5px 0 5px -3px rgba(0, 0, 0, .2) inset;
+		  box-shadow: 0 0 1px rgba(0, 0, 0, .2) inset, 5px 0 5px -3px rgba(0, 0, 0, .2) inset;
+		}	
+	
+	
+	
+	
+	
+	
+	
+      .navbar-custom {
+        border-radius: 0 !important;
+        background-color: #2196F3;
+        color: #FFFFFF;
+      }
+      .navbar-custom > a {
+        width: 100%;
+        color: #FFFFFF;
+        text-align: center;
+      }
+      .navbar-custom > a:hover {
+        color: #FFFFFF;
+      }
+
+      .list-group-item {
+        padding: 6px 10px !important;
+      }
+
+      /* The switch - the box around the slider */
+      .switch {
+        position: relative; 
+        display: inline-block;
+        vertical-align: middle;
+        margin: 0px;
+        width: 52px;
+        height: 28px;
+      }
+
+      ul {
+        padding-left: 5px;
+      }
+
+      /* Hide default HTML checkbox */
+      .switch input {display:none;}
+
+      /* The slider */
+      .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #ccc;
+        -webkit-transition: .4s;
+        transition: .4s;
+      }
+
+      .slider:before {
+        position: absolute;
+        content: "";
+        height: 24px;
+        width: 24px;
+        left: 2px;
+        bottom: 4px;
+        top: 2px;
+        background-color: white;
+        -webkit-transition: .4s;
+        transition: .4s;
+      }
+
+      input:checked + .slider {
+        background-color: #2196F3;
+      }
+
+      input:focus + .slider {
+        box-shadow: 0 0 1px #2196F3;
+      }
+
+      input:checked + .slider:before {
+        -webkit-transform: translateX(24px);
+        -ms-transform: translateX(24px);
+        transform: translateX(24px);
+      }
+
+      /* Rounded sliders */
+      .slider.round {
+        border-radius: 28px;
+      }
+
+      .slider.round:before {
+        border-radius: 50%;
+      }
+
+      .btn {
+        margin-left: 5px;
+      }
+      .btn-plus {
+        color:#FFFFFF;
+        background-color: #2196F3;
+        border-color: #2196F3;
+      }
+      .btn-plus:hover,
+      .btn-plus:focus,
+      .btn-plus:active,
+      .btn-plus.active {
+        color:#FFFFFF !important; 
+        background-color: #0d8aee;
+        border-color: #0c7cd5;
+      }
+      .btn-plus.disabled:hover,
+      .btn-plus.disabled:focus,
+      .btn-plus.disabled:active,
+      .btn-plus.disabled.active,
+      .btn-plus[disabled]:hover,
+      .btn-plus[disabled]:focus,
+      .btn-plus[disabled]:active,
+      .btn-plus[disabled].active,
+      fieldset[disabled] .btn-plus:hover,
+      fieldset[disabled] .btn-plus:focus,
+      fieldset[disabled] .btn-plus:active,
+      fieldset[disabled] .btn-plus.active {
+        color:#FFFFFF;
+        background-color: #2196F3;
+        border-color: #2196F3;
+      }
+      .btn-plus,
+      .btn-danger {
+        min-width: 35px;
+        padding: 3px 0px 3px 0px !important;
+      }
+      .setting_input_value {
+        width: 60px;
+        text-align: right;
+      }
+      .setting_input_value[type=text] {
+        width: 80%;
+      }
+      .row {
+          display: flex;
+          align-items: center;
+      }
+      #goToTop {
+        position: fixed;
+        bottom: 10px;
+        right: 10px;
+      }
+    </style>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
+	<script>
+		$(function(){
+			$(window).load(function(){
+				$(window).bind('scroll resize', function(){
+					var $this = $(this);
+					var $this_Top=$this.scrollTop();
+					
+					//當高度小於100時，關閉區塊	
+					if($this_Top < -1){
+						$('#top-bar').stop().animate({top:"-100px"}, 800);
+						}
+					if($this_Top > -1){
+						$('#top-bar').stop().animate({top:"0px"}, 800);
+								
+					}
+				}).scroll();
+			});
+		});
+	</script>		
+	
+    <script>
+      VERSION = 0.42;
+
+	  var pow10 = 0; 
+      var settings = [
+        [
+          {
+            key: 'strg', 
+            title: "☆★☆★☆==============Notes==============☆★☆★☆",
+            title_zh_TW: "☆★☆★☆==============注意事項==============☆★☆★☆",
+          },
+          {
+            title: "Language setting / 語言設定",
+            title_zh_TW: "Language setting / 語言設定",
+            buttons: [{
+              title: "En",
+              onclick: "saveLocale('en-US')"
+            }, {
+              title: "中文",
+              onclick: "saveLocale('zh-TW')"
+            }],
+          },
+          {
+            key: 'strg', 
+            title: "Ver 0.434, This script is for 720x1280 resolution, CH/EN interface.",   
+            title_zh_TW: "Ver 0.434, 本腳本僅適用 720x1280 240dip 解析度，中/英文介面。",
+          },
+        ],
+        [
+          {
+            key: 'title1', 
+            title: "☆★☆★☆============Hero Setting============☆★☆★☆",
+            title_zh_TW: "☆★☆★☆==============英雄設定==============☆★☆★☆",
+          },
+          {
+            key: 'lvupHeroSw', 
+            title: "Heros Upgraud", 
+            title_zh_TW: "英雄升級", 
+            default: false,
+          },
+          {
+            key: 'lvupHeroDi', 
+            title: "LvUp (1:x1, 2:x10, 3:x100, 4:MAX)",
+            title_zh_TW: "級次 (1:x1, 2:x10, 3:x100, 4:MAX)", 
+            default: 3, 
+            step: 1,
+            max: 4, 
+            min: 1,
+          },
+          {
+            key: 'lvupHerostgSw', 
+            title: "Start upgrade stage (1~9000)",
+            title_zh_TW: "英雄開始升級關卡 (1~9000)", 
+            default: 2200, 
+            step: 50, 
+            max: 9000, 
+            min: 1,
+          },
+          
+          {
+            key: 'title', 
+            title: "☆★☆★☆========Upgrade Mode Setting========☆★☆★☆",
+            title_zh_TW: "☆★☆★☆==============升級檢查==============☆★☆★☆",
+          },
+          {
+            key: 'lvupheromdSw', 
+            title: "Check mode(1:timer, 2:auto, 3:menu)",
+            title_zh_TW: "檢查模式(1:定時, 2:自動, 3:設定)", 
+            default: 2, 
+            step: 1, 
+            max: 3, 
+            min: 1,
+          },
+          {
+            key: 'lvuptimeSw', 
+            title: "Upgrade check timer (50~120)",
+            title_zh_TW: "英雄升級檢查間隔 (50~120)", 
+            default: 60, 
+            step: 10, 
+            max: 120, 
+            min: 50, 
+          },
+          {
+            key: 'lvuplimitSw', 
+            title: "Hero gold Lv limit (10~5000)",
+            title_zh_TW: "英雄金幣等級限制 (10~5000)", 
+            default: 400, 
+            step: 10, 
+            max: 5000, 
+            min: 10, 
+          },
+          {
+            key: 'title', 
+            title: "☆ Mode 2:Next check satge = PrismLv + GoldLv - 100",   
+            title_zh_TW: "☆ 模式2:下次檢查關卡 = 魔晶等級+金幣等級-100",
+          },
+          {
+            key: 'title', 
+            title: "☆ Mode 3:Hero goldLv set arrival, stop upgrad check",   
+            title_zh_TW: "☆ 模式3:英雄金幣等級到達，停止進行升級檢查",
+          },
+          {
+            key: 'title', 
+            title: "☆ Script does not use VIP3 full hero upgrade",   
+            title_zh_TW: "☆ 腳本不採用 VIP3 全英雄升級功能",
+          },
+		  
+        ],
+        [
+          {
+            key: 'title2', 
+            title: "☆★☆★☆========Village Upgrade Setting========☆★☆★☆",   
+            title_zh_TW: "☆★☆★☆==============村莊設定==============☆★☆★☆",
+          },
+          {
+            key: 'lvupVillageSw', 
+            title: "Village Upgrade", 
+            title_zh_TW: "村莊升級", 
+            default: false},
+          {
+            key: 'lvupVillageDi',
+            title: "LvUp (1:x1, 2:x10, 3:x100)",
+            title_zh_TW: "級次 (1:x1, 2:x10, 3:x100)", 
+            default: 2, 
+            step: 1, 
+            max: 3, 
+            min: 1,
+          },
+          {
+            key: 'title', 
+            title: "☆ Script automatic VIP4 upgrade function",   
+            title_zh_TW: "☆ 腳本會自動判斷VIP4升級功能",
+          },
+        ],
+        [
+          {
+            key: 'title4', 
+            title: "☆★☆★☆==========Ascend Setting==========☆★☆★☆",   
+            title_zh_TW: "☆★☆★☆============指定輪迴============☆★☆★☆",
+          },
+          {
+            key: 'toRincarnSw', 
+            title: "Auto Ascend", 
+            title_zh_TW: "自動輪迴開關", 
+            default: false,
+          },
+          {
+            key: 'ministage1UI', 
+            title: "Ascend Stage (thousands)",
+            title_zh_TW: "輪迴關卡 (仟位)", 
+            default: 0, 
+            step: 1000, 
+            max: 9000, 
+            min: 0,
+          },
+          {
+            key: 'ministage2UI', 
+            title: "Ascend Stage (hundreds)",
+            title_zh_TW: "輪迴關卡 (百位)", 
+            default: 0, 
+            step: 100, 
+            max: 900, 
+            min: 0,
+          },
+          {
+            key: 'ministage3UI', 
+            title: "Ascend Stage (tens)",
+            title_zh_TW: "輪迴關卡 (十位)", 
+            default: 0, 
+            step: 10, 
+            max: 90, 
+            min: 0,
+          },
+          {
+            key: 'ministage4UI', 
+            title: "Ascend Stage (units)",
+            title_zh_TW: "輪迴關卡 (個位)", 
+            default: 0, 
+            step: 1, 
+            max: 9, 
+            min: 0,
+          },
+          {
+            key: 'rintimes1Sw', 
+            title: "Set stage, number of stuck (1~90)",
+            title_zh_TW: "目標關卡卡關(1~90次)", 
+            default: 1, 
+            step: 1, 
+            max: 90, 
+            min: 1
+          },
+          {
+            key: 'strg', 
+            title: "☆★☆★☆=======Stuck stage ascend setting=======☆★☆★☆   ",   
+            title_zh_TW: "☆★☆★☆============卡關輪迴============☆★☆★☆   ",   
+          },
+          {
+            key: 'autoMinSw', 
+            title: "Ascend min stage (140~9000)",
+            title_zh_TW: "開始檢查關卡 (140~9000)", 
+            default: 140, 
+            step: 10, 
+            max: 9000, 
+            min: 140,
+          },
+          {
+            key: 'autoStuckSw', 
+            title: "Stage kickbacks to ascend (1~60)",
+            title_zh_TW: "擊退次數輪回 (1~60)", 
+            default: 50, 
+            step: 1, 
+            max: 60, 
+            min: 1,
+          },
+          {
+            key: 'StucktimeSw', 
+            title: "Current stage, time limit to ascend (10~300s)",
+            title_zh_TW: "當前關卡時限 (10~300秒)", 
+            default: 30, 
+            step: 10, 
+            max: 300, 
+            min: 10,
+          },
+        ],
+        [
+          {
+            key: 'title3', 
+            title: "☆★☆★☆============Daly Dungeons============☆★☆★☆",   
+            title_zh_TW: "☆★☆★☆==============每日地牢==============☆★☆★☆",
+          },
+          {
+            key: 'strg', 
+            title: "Element code【1:Water, 2:Fire, 3:Earth, 4:Light, 5:Dark】",   
+            title_zh_TW: "元素代碼【1:水  2:火  3:木  4:光  5:暗】", 
+          },
+          {
+            key: 'strg', 
+            title: "☆ Note1：The Element setting wrong, use Err setting.",   
+            title_zh_TW: "☆ 注意：若指定元素當日不存在會以預設值進行",   
+          },
+          {
+            key: 'strg', 
+            title: "☆ Note2：The week is based on UTC time 00:00.",   
+            title_zh_TW: "☆ 注意：星期判斷，以UTC時間 00:00為準",   
+          },
+          {
+            key: 'autoWeekSw', 
+            title: "Auto fight Daly Dungeons", 
+            title_zh_TW: "自動打地牢", 
+            default: false,
+          },
+          {
+            key: 'dgticksSw',
+            title: "Reservation ticket (0~10)",
+            title_zh_TW: "保留票數 (0~10)", 
+            default: 0, 
+            step: 1, 
+            max: 10, 
+            min: 0,
+          },
+          {
+            key: 'spdongeonSw',
+            title: "Event BOSS (0:off)",
+            title_zh_TW: "活動BOSS (0:關)", 
+            default: 0, 
+            step: 1, 
+            max: 9, 
+            min: 0,
+          },
+          {
+            key: 'strg', 
+            title: "☆BOSS code：9:snow, 8:pig",   
+            title_zh_TW: "☆BOSS代碼：9:雪怪,8:豬怪",
+          },
+          {
+            key: 'spdstageSw',
+            title: "Event BOOS stage(1~3000)(0:off)",
+            title_zh_TW: "打活動關卡(1~3000)(0:關)", 
+            default: 150, 
+            step: 100, 
+            max: 3000, 
+            min: 1,
+          },
+          {
+            key: 'menuW0Sw',
+            title: "Sun:[Earth:3, Water:1, Dark:5](Err:5)",
+            title_zh_TW: "日:[木:3, 水:1 ,暗:5](0:關, 設錯:5)", 
+            default: 0, 
+            step: 1, 
+            max: 5, 
+            min: 0,
+          },
+         {
+            key: 'menuW1Sw',
+            title: "Mon:[Fire:2, Dark:5](Err:2)",
+            title_zh_TW: "一:[火:2, 暗:5](0:關, 設錯:2)", 
+            default: 0, 
+            step: 1, 
+            max: 5, 
+            min: 0,
+          },
+          {
+            key: 'menuW2Sw',
+            title: "Tue:[Earth:3, Light:4](Err:4)",
+            title_zh_TW: "二:[木:3, 光:4](0:關, 設錯:4)", 
+            default: 0, 
+            step: 1, 
+            max: 5, 
+            min: 0,
+          },
+          {
+            key: 'menuW3Sw',
+            title: "Wed:[Water:1, Fire:2](Err:1)",
+            title_zh_TW: "三:[水:1, 火:2](設錯:1)", 
+            default: 0, 
+            step: 1, 
+            max: 5, 
+            min: 0,
+          },
+          {
+            key: 'menuW4Sw',
+            title: "Thu:[Earth:3, Light:4](Err:3)",
+            title_zh_TW: "四:[木:3, 光:4](設錯:3)", 
+            default: 0, 
+            step: 1, 
+            max: 5, 
+            min: 0,},
+          {
+            key: 'menuW5Sw',
+            title: "Fri:[Water:1, Dark:5](Err:5)",
+            title_zh_TW: "五:[水:1, 暗:5](設錯:5)", 
+            default: 0, 
+            step: 1, 
+            max: 5, 
+            min: 0,
+          },
+          {
+            key: 'menuW6Sw',
+            title: "Sat:[Light:4, Fire:2](Err:4)",
+            title_zh_TW: "六:[光:4, 火:2](設錯:4)", 
+            default: 0, 
+            step: 1, 
+            max: 5,
+            min: 0,
+          },
+        ],
+        [
+          {
+            key: 'title5', 
+            title: "☆★☆★☆========Expeditions Setting========☆★☆★☆",   
+            title_zh_TW: "☆★☆★☆============遠征設定============☆★☆★☆",
+          },
+          {
+            key: 'ExpedSw', 
+            title: "Auto Expeditions", 
+            title_zh_TW: "自動遠征", 
+            default: false,
+          },
+          {
+            key: 'ExpedHeroSw', 
+            title: "Number of expeditions (1~5)",
+            title_zh_TW: "遠征人數  (1~5)", 
+            default: 1, 
+            step: 1, 
+            max: 5, 
+            min: 1,
+          },
+          {
+            key: 'ExpedstarSw', 
+            title: "Targe start Lv (1~5)(0:off)",
+            title_zh_TW: "刷目標星級 (1~5)(0:關)", 
+            default: 0, 
+            step: 1, 
+            max: 5, 
+            min: 0,
+          },
+          {
+            key: 'ExpeditemSw', 
+            title: "Target material (1~9)(0:off)",
+            title_zh_TW: "目標材料 (1~9)(0:關)", 
+            default: 0, 
+            step: 1, 
+            max: 9, 
+            min: 0,
+          },
+          {
+            key: 'strg', 
+            title: "Material Code: The button below or above the page",   
+            title_zh_TW: "遠征材料代碼：頁面下方或上方按鈕。"
+          },
+        ],
+        [
+          {
+            key: 'title6', title: "☆★☆★☆==========Areafight Setting==========☆★☆★☆",   
+            title_zh_TW: "☆★☆★☆==============競技場設定==============☆★☆★☆",
+          },
+          {
+            key: 'arenaSw', 
+            title: "Auto Areafight", 
+            title_zh_TW: "自動打競技場", 
+            default: false,
+          },
+          {
+            key: 'arenaticksSw', 
+            title: "Reservation ticket (0~6)",
+            title_zh_TW: "保留票數 (0~6)", 
+            default: 6, 
+            step: 1, 
+            max: 6, 
+            min: 0,
+          },
+          
+          {
+            key: 'arenaFgpw1UI', 
+            title: "Max fight power (million )",
+            title_zh_TW: "對戰戰力max (百萬)", 
+            default: 0, 
+            step: 1000000, 
+            max: 9000000, 
+            min: 0,
+          },
+          {
+            key: 'arenaFgpw2UI', 
+            title: "Max fight power (hundred thousands)",
+            title_zh_TW: "對戰戰力max (十萬)", 
+            default: 0, 
+            step: 100000, 
+            max: 900000, 
+            min: 0,
+          },
+          {
+            key: 'arenaFgpw3UI', 
+            title: "Max fight power (ten thousands)",
+            title_zh_TW: "對戰戰力max (萬位)", 
+            default: 0, 
+            step: 10000, 
+            max: 90000, 
+            min: 0,
+          },
+          {
+            key: 'arenaFgpw4UI', 
+            title: "Max fight power (thousands )",
+            title_zh_TW: "對戰戰力max (千位)", 
+            default: 0, 
+            step: 1000, 
+            max: 9000, 
+            in: 0,
+          },
+          {
+            key: 'arenatkchgSw', 
+            title: "Power not  match refresh(No Use)", 
+            title_zh_TW: "戰力不符刷新(無功能)", 
+            default: false,
+          },
+        ],
+        [
+          {
+            key: 'title8', 
+            title: "☆★☆★☆=============Guild help=============☆★☆★☆",   
+            title_zh_TW: "☆★☆★☆=============公會幫助=============☆★☆★☆",
+          },
+          {
+            key: 'guildchatSw', 
+            title: "Auto give guild help", 
+            title_zh_TW: "自動公會送幫助", 
+            default: false,
+          },
+          {
+            key: 'strg', 
+            title: "☆★☆★☆=============Guild medal=============☆★☆★☆",   
+            title_zh_TW: "☆★☆★☆=============公會勛章=============☆★☆★☆",
+          },
+          {
+            key: 'guildmaldSw', 
+            title: "Ask for a medal in guild", 
+            title_zh_TW: "公會求勛章開關", 
+            default: false,
+          },
+          {
+            key: 'heroattribSw', 
+            title: "Mon~Sat：Hero element (1~5, 0:off)",
+            title_zh_TW: "一~六：英雄元素 (1~5, 0:關)", 
+            default: 0, 
+            step: 1, 
+            max: 5, 
+            min: 0,
+          },
+          {
+            key: 'herocodeSw', 
+            title: "Mon~Sat：Hero code (1~19, 0:off)",
+            title_zh_TW: "一~六：英雄代碼 (1~19, 0:關)", 
+            default: 0, 
+            step: 1, 
+            max: 19, 
+            min: 0,
+          },
+          {
+            key: 'heroattrib2Sw', 
+            title: "Sun：Hero element (1~5, 0:off)",
+            title_zh_TW: "日：英雄元素 (1~5, 0:關)", 
+            default: 0, 
+            step: 1, 
+            max: 5, 
+            min: 0,
+          },
+          {
+            key: 'herocode2Sw', 
+            title: "Sun：Hero code (1~19, 0:off)",
+            title_zh_TW: "日：英雄代碼 (1~19, 0:關)", 
+            default: 0, 
+            step: 1, 
+            max: 19, 
+            min: 0,
+          },
+          {
+            key: 'maldhelpupTSw', 
+            title: "Time of early enter to wait",
+            title_zh_TW: "求勛章提早進入等待", 
+            default: 15, 
+            step: 5, 
+            max: 120, 
+            min: 0,
+          },
+          {
+            key: 'strg', 
+            title: "Element code：1:Water, 2:Fire, 3:Earth, 4:Light, 5:Dark",   
+            title_zh_TW: "元素代碼：1:水, 2:火, 3:木, 4:光, 5:暗",
+          },
+          {
+            key: 'strg', 
+            title: "Hero code：The button below or above the page",   
+            title_zh_TW: "英雄代碼：見設定頁最下方或上方按鈕",
+          },
+        ],
+        [
+          {
+            key: 'title9', 
+            title: "☆★☆★☆============Guild BOSS============☆★☆★☆",   
+            title_zh_TW: "☆★☆★☆=============公會BOSS=============☆★☆★☆",
+          },
+          {
+            key: 'guildbossSw', 
+            title: "Auto Challenge Guild BOSS", 
+            title_zh_TW: "自動打公會BOSS", 
+            default: false,
+          },
+          {
+            key: 'guildbosshdSw', 
+            title: "BOSS level (1:low, 2:mid, 3:high)",
+            title_zh_TW: "BOSS難度 (1:弱, 2:中, 3:強)", 
+            default: 3, 
+            step: 1, 
+            max: 3, 
+            min: 1,
+          },
+          {
+            key: 'guildbossthSw', 
+            title: "Thunder use (1:100, 2:300)",
+            title_zh_TW: "閃電用量 (1:100, 2:300)", 
+            default: 1, 
+            step: 1, 
+            max: 2, 
+            min: 1,
+          },
+          {
+            key: 'failureth3Sw', 
+            title: "100 thunder fail，use 300 thunder(no use)", 
+            title_zh_TW: "100電扛不住，切300電(無功能)", 
+            default: false,
+          },
+          {
+            key: 'failuredwlvSw', 
+            title: "300 thunder fail，boss lv down(no use)", 
+            title_zh_TW: "300電扛不住，切降級 (無功能)", 
+            default: false,
+          },
+        ],
+        [
+          {
+            key: 'title7', 
+            title: "☆★☆★☆=========Tap & Treasure chest==========☆★☆★☆",   
+            title_zh_TW: "☆★☆★☆==============點寶刷關==============☆★☆★☆",
+          },
+          {
+            key: 'getADBoxSw', 
+            title: "Tap to get chests", 
+            title_zh_TW: "點擊撿寶箱", 
+            default: true,
+          },
+	    	  {
+            key: 'tapBOXmodSw', 
+            title: "Mode (1:stage fist, 2:chest fist)",
+            title_zh_TW: "模式 (1:刷關強化, 2:點寶箱強化)", 
+            default: 1, 
+            step: 1, 
+            max: 2, 
+            min: 1,
+          },
+          {
+            key: 'strg', 
+            title: "☆★☆★☆=======Chest fist setting=======☆★☆★☆",   
+            title_zh_TW: "☆★☆★☆============寶箱強化設定========☆★☆★☆",
+          },
+          {
+            key: 'tapRLtimeSw', 
+            title: "(A) Left/Right tap times (1~5)",
+            title_zh_TW: "(A)點左右次數 (1~5)", 
+            default: 3, 
+            step: 1, 
+            max: 5, 
+            min: 1,
+          },
+          {
+            key: 'afterRLDySw', 
+            title: "(B) After tap wait time (20~600ms)",
+            title_zh_TW: "(B)點左右等待 (20~600ms)", 
+            default: 100, 
+            step: 10, 
+            max: 600, 
+            min: 20,
+          },
+          {
+            key: 'crystalCKSw', 
+            title: "(C) Check crystal times (2~10)",
+            title_zh_TW: "(C)檢查水晶次數 (2~10)", 
+            default: 4, 
+            step: 1, 
+            max: 10, 
+            min: 2,
+          },
+          {
+            key: 'tapSkillSw', 
+            title: "(D)Skill use", 
+            title_zh_TW: "(D)放大技開關", 
+            default: true,
+          },
+	    	  {
+            key: 'skillslepSw', 
+            title: "(E) After skill wait time (100~900ms)",
+            title_zh_TW: "(E)放大技後延遲 (100~900ms)", 
+            default: 400, 
+            step: 100, 
+            max: 1500, 
+            min: 100,
+          },
+          {
+            key: 'strg', 
+            title: "☆★☆★☆=============Action flow=============☆★☆★☆",   
+            title_zh_TW: "☆★☆★☆==============動作流程=============☆★☆★☆",   
+          },
+          {
+            key: 'strg', 
+            title: "① left tap (A) times→ wait (B)ms→ check crystal (C) times→ tap screen 11 times",   
+            title_zh_TW: "① 點左邊(A)次→ 等(B)ms→ 檢查左水晶(C)次→ 點畫面11下",   
+          },
+          {
+            key: 'strg', 
+            title: "② right tap (A) times→ wait (B)ms→ check crystal (C) times→ tap screen 11 times",   
+            title_zh_TW: "② 點右邊(A)次→ 等(B)ms→ 檢查右水晶(C)次→ 點畫面11下",   
+          },
+          {
+            key: 'strg', 
+            title: "③ skill use (D) → wait (E) time→  back ①	",   
+            title_zh_TW: "③ 施放大技(D)→ 等待(E)毫秒→  回到 ①	",   
+          },
+        ],
+        [
+          {
+            key: 'title10',
+            title: "☆★☆★☆============Other Setting===========☆★☆★☆",   
+            title_zh_TW: "☆★☆★☆=============其它設定============☆★☆★☆",
+          },
+          {
+            key: 'receiveMailSw', 
+            title: "Auto receive mail", 
+            title_zh_TW: "收mail", 
+            default: false,
+          },
+          {
+            key: 'loginDailySw', 
+            title: "Daily login reward", 
+            title_zh_TW: "收每日登入獎勵", 
+            default: false,
+          },
+        ],
+        [
+          {
+            key: 'admodeSw', 
+            title: "AD check mode (1:Timer, 2:Auto)",
+            title_zh_TW: "看廣告模式 (1:定時, 2:自動判斷)", 
+            default: 2, 
+            step: 1, 
+            max: 2, 
+            min: 1,
+          },
+          {
+            key: 'adtimesetSw',
+            title: "AD wait/check timer (35~105秒)",
+            title_zh_TW: "等待/檢查時間 (35~105秒)",
+            default: 75, 
+            step: 5, 
+            max: 105, 
+            min: 35,
+          },
+        ],
+        [
+		      {
+            key: 'resetappTm',
+            title: "Screen stop restart APP (30~240s)",
+            title_zh_TW: "卡畫面重啟APP (30~240秒)", 
+            default: 50, 
+            step: 5, 
+            max: 240, 
+            min: 30, 
+          },
+        ],
+        [
+          {
+            key: 'upStartlvSw', 
+            title: "Auto hero start up", 
+            title_zh_TW: "英雄自動升星", 
+            default: false,
+          },
+        ]
+      ];
+	  
+      function saveLocale(locale) {
+        if (localStorage !== undefined) {
+          localStorage.setItem('idlerpglanguage', locale);
+          location.reload();
+        }
+      }
+	  
+      function loadSettings(settings) {
+        var recordSettings = {};
+        if (localStorage = undefined) {
+          return;
+        }
+        var version = +localStorage.getItem('idlerpgversion');
+        if (!version || VERSION != version) {
+          return;
+        }
+        var settingsJSON = localStorage.getItem('idlerpgsettings');
+        if (!settingsJSON) {
+          return;
+        }
+        recordSettings = JSON.parse(settingsJSON);
+        if (!recordSettings) {
+          return;
+        }
+        for (var i in settings) {
+          for (var g in settings[i]) {
+            var id =  i + "_" + g;
+            var setting = settings[i][g];
+            if (recordSettings[id] != undefined) {
+              setting.default = recordSettings[id];
+            }
+          }
+        }
+        console.log('Load settings');
+      }
+	  
+      function saveSettings(settings) {
+        if (localStorage != undefined) {
+          var recordSettings = {};
+          for (var i in settings) {
+            for (var g in settings[i]) {
+              var id =  i + "_" + g;
+              var setting = settings[i][g];
+              if (typeof setting.default === "boolean") {
+                recordSettings[id] = $("#setting_value_" + id).is(':checked');
+              } else if (typeof setting.default === "number") {
+                recordSettings[id] = +$("#setting_value_" + id).val();
+              } else if (typeof setting.default === "string") {
+                recordSettings[id] = $("#setting_value_" + id).val();
+              }
+            }
+          }
+          localStorage.setItem('idlerpgversion', VERSION);
+          localStorage.setItem('idlerpgsettings', JSON.stringify(recordSettings));
+          console.log('Save settings');
+        }
+      }
+	  
+      function genStartCommand(settings) {
+		//var settingArray = [];
+		var settingObject = {};
+		var command = "start(";
+        for (var i in settings) {
+          for (var g in settings[i]) {
+            var id =  i + "_" + g;
+            var setting = settings[i][g];
+			//if (settingArray[i] == undefined) {
+			//	settingArray[i] = [];
+			//}
+			
+            if (typeof setting.default === "boolean") {
+              command += $("#setting_value_" + id).is(':checked') + ", ";
+			  //settingArray[i][g] = $("#setting_value_" + id).is(':checked');
+			  settingObject[setting.key] = $("#setting_value_" + id).is(':checked');
+            } else if (typeof setting.default === "number") {
+              command += $("#setting_value_" + id).val() + ", ";
+			  //settingArray[i][g] = $("#setting_value_" + id).val();
+			  settingObject[setting.key] = $("#setting_value_" + id).val();
+            } else if (typeof setting.default === "string") {
+              command += "'" + $("#setting_value_" + id).val() + "', ";
+			  //settingArray[i][g] = $("#setting_value_" + id).val();
+			  settingObject[setting.key] = $("#setting_value_" + id).val();
+            }
+          }
+        }
+        command += "undefined);"
+		//console.log(settingArray, JSON.stringify(settingArray));
+		//command = 'start(\'' + JSON.stringify(settingArray) + '\')';
+		//console.log(settingObject, JSON.stringify(settingObject));
+		command = 'start(\'' + JSON.stringify(settingObject) + '\')';
+        //console.log("Start command: " + command);
+        return command;
+      }
+
+      function getTitle(setting) {
+        if (localStorage === undefined) {
+          return setting.title;
+        }
+        var lang = localStorage.getItem('idlerpglanguage');
+        if (!lang) {
+          return setting.title;
+        } else if (lang === "zh-TW") {
+          return setting.title_zh_TW;
+        }
+        return setting.title;
+      }
+
+      function appendTitle(jSetting, title) {
+        jSetting.append("<div class='col-xs-6'>" + title + "</div>");
+      }
+
+      function appendCol(jSetting, jContent) {
+        var jDiv = $('<div class="pull-right"></div>');
+        var jCol = $('<div class="col-xs-6"></div>');
+        if (Array.isArray(jContent)) {
+          for (var j in jContent) {
+            jDiv.append(jContent[j]);
+          }
+        } else {
+          jDiv.append(jContent);
+        }
+        jCol.append(jDiv);
+        jSetting.append(jCol);
+      }
+
+      function getSwitchButton(id, checked) {
+        var jLabel = $('<label class="switch pull-right"></label>');
+        var jInput = $("<input id='setting_value_" + id + "' class='setting_input_value' type='checkbox' " + (checked ? 'checked' : '') + "/>");
+        jInput.change(function() {saveSettings(settings);});
+        jLabel.append(jInput);
+        jLabel.append('<a class="slider round"></a>');
+        return jLabel;
+      }
+
+      function genSettings(jContainer, settings) {
+        for (var i in settings) {
+          var jGroup = $("<div class='list-group'></div>");
+          for (var g in settings[i]) {
+            var id =  i + "_" + g;
+            var setting = settings[i][g];
+            var title = getTitle(setting);
+            var jGroupItem = $("<div id='setting_" + id + "' class='list-group-item'></div>");
+            var jSetting = $("<div class='row'></div>");
+            if (typeof setting.default === "boolean") {
+              appendTitle(jSetting, title);
+              appendCol(jSetting, getSwitchButton(id, setting.default));
+            } else if (typeof setting.default === "number") {
+              var step = setting.step;
+              var max = setting.max;
+              var min = setting.min;
+              var jBtns = [];
+              var jInput = $("<input id='setting_value_" + id + "' class='setting_input_value' type='number' value='" + setting.default + "' readonly/>");
+              var jBtnP = $('<button id="setting_value_p_' + id + '" class="btn btn-danger">+' + step + '</button>');
+              var jBtnM = $('<button id="setting_value_m_' + id + '" class="btn btn-danger">-' + step + '</button>');
+			  
+              jBtnP.click((function(jInput, min, max, step){
+                return function() {
+                  var newValue = (+jInput.val()) + step;
+                  //var newValue = (+jInput.val()) + step * Math.pow(10, pow10);
+                  if (newValue < max) {
+                    jInput.val(newValue);
+                  }
+                  else if (newValue >= max) {
+                    jInput.val(max)
+                  }
+                  saveSettings(settings);
+                }
+              })(jInput, min, max, step));
+
+              jBtnM.click((function(jInput, min, max, step){
+                return function() {
+                  var newValue = (+jInput.val()) - step;
+                 // var newValue = (+jInput.val()) - step * Math.pow(10, pow10);
+                  if (newValue > min) {
+                    jInput.val(newValue);
+                  }
+                  else if (newValue <= min) {
+                    jInput.val(min)
+                  }
+                  saveSettings(settings);
+                }
+              })(jInput, min, max, step));
+			  
+              jBtns.push(jInput);
+              jBtns.push(jBtnP);
+              jBtns.push(jBtnM);
+              jInput.change(function() {saveSettings(settings);});
+              appendTitle(jSetting, title);
+              appendCol(jSetting, jBtns);
+            } else if (typeof setting.default === "string") {
+              var jInput = $("<input id='setting_value_" + id + "' class='setting_input_value' type='text' value='" + setting.default + "'/>");
+              jInput.change(function() {saveSettings(settings);});
+              appendTitle(jSetting, title);
+              appendCol(jSetting, jInput);
+            } else if (setting.buttons !== undefined) {
+              var jBtns = [];
+              for (var j in setting.buttons) {
+                var jBtn = $('<button id="setting_value_b_' + id + '" onclick=' + setting.buttons[j].onclick + ' class="btn btn-plus">' + setting.buttons[j].title + '</button>');
+                jBtns.push(jBtn);
+              }
+              appendTitle(jSetting, title);
+              appendCol(jSetting, jBtns);
+            } else if (title !== undefined) {
+              jSetting.append("<div class='col-xs-12'>" + title + "</div>");
+            }
+            jGroupItem.append(jSetting);
+            jGroup.append(jGroupItem);
+          }
+          jContainer.append(jGroup)
+        }
+      }
+    </script>
+
+    <script>
+      $(function() {
+        $("#version").html("Crush Them All ");
+
+        loadSettings(settings);
+        genSettings($("#settings"), settings);
+
+        $("#goToTop").click(function() {
+		  	$('html,body').animate({scrollTop:'0px'}, 1000);
+        });
+
+        if (localStorage !== undefined && localStorage.getItem('idlerpglanguage') === "zh-TW") {
+          $("#goToTop").text("回頁面頂端");
+        } else {
+          $("#goToTop").text("Go Top");
+        }
+      });
+
+      var topdistance = 110;
+      $(function() {
+        $("#button_1").click(function() {
+        $('html,body').animate({scrollTop: ($('#setting_1_0').offset().top-topdistance) + 'px'}, 600); //hero
+        });
+      });
+
+      $(function() {
+        $("#button_2").click(function() {
+        $('html,body').animate({scrollTop: ($('#setting_2_0').offset().top-topdistance) + 'px'}, 600); //village
+        });
+      });
+
+      $(function() {
+        $("#button_3").click(function() {
+        $('html,body').animate({scrollTop: ($('#setting_3_0').offset().top-topdistance) + 'px'}, 600); //ascend
+        });
+      });
+
+      $(function() {
+        $("#button_4").click(function() {
+        $('html,body').animate({scrollTop: ($('#setting_4_0').offset().top-topdistance) + 'px'}, 600); //dungeon
+        });
+      });
+
+      $(function() {
+        $("#button_5").click(function() {
+        $('html,body').animate({scrollTop: ($('#setting_5_0').offset().top-topdistance) + 'px'}, 600); //expedition
+        });
+      });
+
+      $(function() {
+        $("#button_6").click(function() {
+        $('html,body').animate({scrollTop: ($('#setting_6_0').offset().top-topdistance) + 'px'}, 600); //area
+        });
+      });
+
+      $(function() {
+        $("#button_7").click(function() {
+        $('html,body').animate({scrollTop: ($('#setting_7_0').offset().top-topdistance) + 'px'}, 600); //guild help/medal
+        });
+      });
+
+      $(function() {
+        $("#button_8").click(function() {
+        $('html,body').animate({scrollTop: ($('#setting_8_0').offset().top-topdistance) + 'px'}, 600); //guild boss
+        });
+      });
+
+      $(function() {
+        $("#button_9").click(function() {
+        $('html,body').animate({scrollTop: ($('#setting_9_0').offset().top-topdistance) + 'px'}, 600); //tap & treasure chest
+        });
+      });
+
+      $(function() {
+        $("#button_10").click(function() {
+        $('html,body').animate({scrollTop: ($('#setting_10_0').offset().top-topdistance) + 'px'}, 600); //Other
+        });
+      });
+
+      $(function() {
+        $("#button_11").click(function() {
+        $('html,body').animate({scrollTop: ($('#table_1_1').offset().top-130) + 'px'}, 600); //expedition material code
+        });
+      });
+
+      $(function() {
+        $("#button_12").click(function() {
+        $('html,body').animate({scrollTop: ($('#table_2_1').offset().top-150) + 'px'}, 600); //hero code
+        });
+      });
+
+      $(function() {
+        $("#button_13").click(function() {
+        $('html,body').animate({scrollTop: ($('#table_3_1').offset().top-340) + 'px'}, 600); //update story
+        });
+      });
+
+	  
+      $(function() {
+        $("#button_14").click(function() {
+        // $('html,body').animate({scrollTop: ($('#setting_2_0').offset().top-140) + 'px'}, 600); //note go top
+		  	$('html,body').animate({scrollTop:'0px'}, 800);    
+        });
+      });
+
+	  
+      function onEvent(eventType) {
+        if (eventType == 'OnPlayClick') {
+          var startCommand = genStartCommand(settings);
+          JavaScriptInterface.runScript(startCommand);
+		      JavaScriptInterface.setXY(0, 160)
+
+        } else if (eventType == 'OnPauseClick') {
+          JavaScriptInterface.runScript('stop();')
+        }
+      }
+    </script>
+  </head>
+  <body>
+    <br /><br /><br /><br /><br />
+
+    <nav class="navbar navbar-custom" role="navigation">
+      <a id="version" class="navbar-brand"></a>
+    </nav>
+	  <div id="top-bar">
+		<div id="menu">
+		  <tr>
+			<td>&nbsp;&nbsp;&nbsp;</td>
+			<td><button id="button_1" class="small blue button">英雄</button></td><td>｜</td>
+			<td><button id="button_2" class="small blue button">村莊</button></td><td>｜</td>
+			<td><button id="button_3" class="small blue button">輪迴</button></td><td>｜</td>
+			<td><button id="button_4" class="small blue button">地城</button></td><td>｜</td>
+			<td><button id="button_5" class="small blue button">遠征</button></td><td>｜</td>
+			<td><button id="button_6" class="small blue button">競技</button></td><td>&nbsp;&nbsp;||&nbsp;</td>
+			<td><button id="button_11" class="small red button">遠征物品</button></td><td>&nbsp;&nbsp;||&nbsp;</td>
+			<td><button id="button_14" class="small button">注意事項</button></td>
+		　</tr>
+		　<br />
+		  <tr>
+			<td>&nbsp;&nbsp;&nbsp;</td>
+			<td><button id="button_7" class="small green button">勛章幫助</button></td><td>｜</td>
+			<td><button id="button_8" class="small green button">公會BOSS</button></td><td>｜</td>
+			<td><button id="button_9" class="small green button">點寶刷關</button></td><td>｜</td>
+			<td><button id="button_10" class="small green button">其它設定</button></td><td>&nbsp;&nbsp;||&nbsp;</td>
+			<td><button id="button_12" class="small red button">勛章英雄</button></td><td>&nbsp;&nbsp;||&nbsp;</td>
+			<td><button id="button_13" class="small button">更新日誌</button></td>
+		　</tr>
+		</div>
+	</div>  
+    <div class="container">
+      <div id="settings"></div>
+      <button id="goToTop" class="btn btn-plus">Go Top</button>
+    </div>
+
+    <div class='container'>
+      <br />
+      <br />========Expendition material code/ 遠征材料代碼========
+      <!-- <br /> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[Expendition material code/ 遠征材料代碼] -->
+      <table id="table_1_1" cellpadding="8" border="0">
+        <tr>
+          <td style="height:80px;width:94px;" align='center' valign="middle">1.<img src="images/exped_item/exped_item_1.png"></td>
+          <td style="height:80px;width:94px;" align='center' valign="middle">2.<img src="images/exped_item/exped_item_2.png"></td>
+          <td style="height:80px;width:94px;" align='center' valign="middle">3.<img src="images/exped_item/exped_item_3.png"></td>
+          <td style="height:80px;width:94px;" align='center' valign="middle">4.<img src="images/exped_item/exped_item_4.png"></td>
+          <td style="height:80px;width:94px;" align='center' valign="middle">5.<img src="images/exped_item/exped_item_5.png"></td>
+      　</tr>
+        <tr>
+          <td style="height:80px;width:94px;" align='center' valign="middle">6.<img src="images/exped_item/exped_item_6.png"></td>
+          <td style="height:80px;width:94px;" align='center' valign="middle">7.<img src="images/exped_item/exped_item_7.png"></td>
+          <td style="height:80px;width:94px;" align='center' valign="middle">8.<img src="images/exped_item/exped_item_8.png"></td>
+          <td style="height:80px;width:94px;" align='center' valign="middle">9.<img src="images/exped_item/exped_item_9.png"></td>
+          <td></td>
+        </tr>
+      </table>
+      <br />
+      <br />==================Hero Code / 英雄代碼==================
+      <br /> &nbsp;&nbsp;[1: Water Element / 水元素]
+      <table id="table_2_1" cellpadding="8" border="0">
+        <tr>
+          <td style="height:80px;width:94px;" align='center' valign="middle">1.<img src="images/hero_list/1_water/herolist_1_1.png"></td>
+          <td style="height:80px;width:94px;" align='center' valign="middle">2.<img src="images/hero_list/1_water/herolist_1_2.png"></td>
+          <td style="height:80px;width:94px;" align='center' valign="middle">3.<img src="images/hero_list/1_water/herolist_1_3.png"></td>
+          <td style="height:80px;width:94px;" align='center' valign="middle">4.<img src="images/hero_list/1_water/herolist_1_4.png"></td>
+          <td style="height:80px;width:94px;" align='center' valign="middle">5.<img src="images/hero_list/1_water/herolist_1_5.png"></td>
+          <td style="height:80px;width:94px;" align='center' valign="middle">6.<img src="images/hero_list/1_water/herolist_1_6.png"></td>
+          <td style="height:80px;width:94px;" align='center' valign="middle">7.<img src="images/hero_list/1_water/herolist_1_7.png"></td>
+      　</tr>
+        <tr>
+          <td style="height:80px;width:94px;" align='center' valign="middle">8.<img src="images/hero_list/1_water/herolist_1_8.png"></td>
+          <td style="height:80px;width:94px;" align='center' valign="middle">9.<img src="images/hero_list/1_water/herolist_1_9.png"></td>
+          <td style="height:80px;width:94px;" align='center' valign="middle">10.<img src="images/hero_list/1_water/herolist_1_10.png"></td>
+          <td style="height:80px;width:94px;" align='center' valign="middle">11.<img src="images/hero_list/1_water/herolist_1_11.png"></td>
+          <td style="height:80px;width:94px;" align='center' valign="middle">10.<img src="images/hero_list/1_water/herolist_1_12.png"></td>
+          <td style="height:80px;width:94px;" align='center' valign="middle">13.<img src="images/hero_list/1_water/herolist_1_13.png"></td>
+          <td style="height:80px;width:94px;" align='center' valign="middle">14.<img src="images/hero_list/1_water/herolist_1_14.png"></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td style="height:80px;width:94px;" align='center' valign="middle">15.<img src="images/hero_list/1_water/herolist_1_15.png"></td>
+          <td style="height:80px;width:94px;" align='center' valign="middle">16.<img src="images/hero_list/1_water/herolist_1_16.png"></td>
+          <td style="height:80px;width:94px;" align='center' valign="middle">17.<img src="images/hero_list/1_water/herolist_1_17.png"></td>
+          <td style="height:80px;width:94px;" align='center' valign="middle">18.<img src="images/hero_list/1_water/herolist_1_18.png"></td>
+          <td style="height:80px;width:94px;" align='center' valign="middle">19.<img src="images/hero_list/1_water/herolist_1_19.png"></td>
+          <td style="height:80px;width:94px;" align='center' valign="middle">20.<img src="images/hero_list/1_water/herolist_1_20.png"></td>
+          <td style="height:80px;width:94px;" align='center' valign="middle">21.<img src="images/hero_list/1_water/herolist_1_21.png"></td>
+          <td></td>
+        </tr>
+      </table>
+      <br />
+      <br /> &nbsp;&nbsp;[2: Fire Element / 火元素]
+      <table id="table_2_2" cellpadding="8" border="0">
+        <tr>
+          <td style="height:80px;width:94px;" align='center' valign="middle">1.<img src="images/hero_list/2_fire/herolist_2_1.png"></td>
+          <td style="height:80px;width:94px;" align='center' valign="middle">2.<img src="images/hero_list/2_fire/herolist_2_2.png"></td>
+          <td style="height:80px;width:94px;" align='center' valign="middle">3.<img src="images/hero_list/2_fire/herolist_2_3.png"></td>
+          <td style="height:80px;width:94px;" align='center' valign="middle">4.<img src="images/hero_list/2_fire/herolist_2_4.png"></td>
+          <td style="height:80px;width:94px;" align='center' valign="middle">5.<img src="images/hero_list/2_fire/herolist_2_5.png"></td>
+          <td style="height:80px;width:94px;" align='center' valign="middle">6.<img src="images/hero_list/2_fire/herolist_2_6.png"></td>
+          <td style="height:80px;width:94px;" align='center' valign="middle">7.<img src="images/hero_list/2_fire/herolist_2_7.png"></td>
+      　</tr>
+        <tr>
+          <td style="height:80px;width:94px;" align='center' valign="middle">8.<img src="images/hero_list/2_fire/herolist_2_8.png"></td>
+          <td style="height:80px;width:94px;" align='center' valign="middle">9.<img src="images/hero_list/2_fire/herolist_2_9.png"></td>
+          <td style="height:80px;width:94px;" align='center' valign="middle">10.<img src="images/hero_list/2_fire/herolist_2_10.png"></td>
+          <td style="height:80px;width:94px;" align='center' valign="middle">11.<img src="images/hero_list/2_fire/herolist_2_11.png"></td>
+          <td style="height:80px;width:94px;" align='center' valign="middle">10.<img src="images/hero_list/2_fire/herolist_2_12.png"></td>
+          <td style="height:80px;width:94px;" align='center' valign="middle">13.<img src="images/hero_list/2_fire/herolist_2_13.png"></td>
+          <td style="height:80px;width:94px;" align='center' valign="middle">14.<img src="images/hero_list/2_fire/herolist_2_14.png"></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td style="height:80px;width:94px;" align='center' valign="middle">15.<img src="images/hero_list/2_fire/herolist_2_15.png"></td>
+          <td style="height:80px;width:94px;" align='center' valign="middle">16.<img src="images/hero_list/2_fire/herolist_2_16.png"></td>
+          <td style="height:80px;width:94px;" align='center' valign="middle">17.<img src="images/hero_list/2_fire/herolist_2_17.png"></td>
+          <td style="height:80px;width:94px;" align='center' valign="middle">18.<img src="images/hero_list/2_fire/herolist_2_18.png"></td>
+          <td style="height:80px;width:94px;" align='center' valign="middle">19.<img src="images/hero_list/2_fire/herolist_2_19.png"></td>
+          <td style="height:80px;width:94px;" align='center' valign="middle">20.<img src="images/hero_list/2_fire/herolist_2_20.png"></td>
+          <td style="height:80px;width:94px;" align='center' valign="middle">21.<img src="images/hero_list/2_fire/herolist_2_21.png"></td>
+          <td></td>
+        </tr>
+      </table>
+      <br /> 
+      <br /> &nbsp;&nbsp;[3: Earth Element / 地元素]
+      <table id="table_2_3" cellpadding="8" border="0">
+        <tr>
+          <td style="height:80px;width:94px;" align='center' valign="middle">1.<img src="images/hero_list/3_wood/herolist_3_1.png"></td>
+          <td style="height:80px;width:94px;" align='center' valign="middle">2.<img src="images/hero_list/3_wood/herolist_3_2.png"></td>
+          <td style="height:80px;width:94px;" align='center' valign="middle">3.<img src="images/hero_list/3_wood/herolist_3_3.png"></td>
+          <td style="height:80px;width:94px;" align='center' valign="middle">4.<img src="images/hero_list/3_wood/herolist_3_4.png"></td>
+          <td style="height:80px;width:94px;" align='center' valign="middle">5.<img src="images/hero_list/3_wood/herolist_3_5.png"></td>
+          <td style="height:80px;width:94px;" align='center' valign="middle">6.<img src="images/hero_list/3_wood/herolist_3_6.png"></td>
+          <td style="height:80px;width:94px;" align='center' valign="middle">7.<img src="images/hero_list/3_wood/herolist_3_7.png"></td>
+      　</tr>
+        <tr>
+          <td style="height:80px;width:94px;" align='center' valign="middle">8.<img src="images/hero_list/3_wood/herolist_3_8.png"></td>
+          <td style="height:80px;width:94px;" align='center' valign="middle">9.<img src="images/hero_list/3_wood/herolist_3_9.png"></td>
+          <td style="height:80px;width:94px;" align='center' valign="middle">10.<img src="images/hero_list/3_wood/herolist_3_10.png"></td>
+          <td style="height:80px;width:94px;" align='center' valign="middle">11.<img src="images/hero_list/3_wood/herolist_3_11.png"></td>
+          <td style="height:80px;width:94px;" align='center' valign="middle">10.<img src="images/hero_list/3_wood/herolist_3_12.png"></td>
+          <td style="height:80px;width:94px;" align='center' valign="middle">13.<img src="images/hero_list/3_wood/herolist_3_13.png"></td>
+          <td style="height:80px;width:94px;" align='center' valign="middle">14.<img src="images/hero_list/3_wood/herolist_3_14.png"></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td style="height:80px;width:94px;" align='center' valign="middle">15.<img src="images/hero_list/3_wood/herolist_3_15.png"></td>
+          <td style="height:80px;width:94px;" align='center' valign="middle">16.<img src="images/hero_list/3_wood/herolist_3_16.png"></td>
+          <td style="height:80px;width:94px;" align='center' valign="middle">17.<img src="images/hero_list/3_wood/herolist_3_17.png"></td>
+          <td style="height:80px;width:94px;" align='center' valign="middle">18.<img src="images/hero_list/3_wood/herolist_3_18.png"></td>
+          <td style="height:80px;width:94px;" align='center' valign="middle">19.<img src="images/hero_list/3_wood/herolist_3_19.png"></td>
+          <td style="height:80px;width:94px;" align='center' valign="middle">20.<img src="images/hero_list/3_wood/herolist_3_20.png"></td>
+          <td style="height:80px;width:94px;" align='center' valign="middle">21.<img src="images/hero_list/3_wood/herolist_3_21.png"></td>
+          <td></td>
+        </tr>
+      </table>
+      <br /> 
+      <br /> &nbsp;&nbsp;[4: Light Element / 光元素]
+      <table id="table_2_4" cellpadding="8" border="0">
+        <tr>
+          <td style="height:80px;width:94px;" align='center' valign="middle">1.<img src="images/hero_list/4_light/herolist_4_1.png"></td>
+          <td style="height:80px;width:94px;" align='center' valign="middle">2.<img src="images/hero_list/4_light/herolist_4_2.png"></td>
+          <td style="height:80px;width:94px;" align='center' valign="middle">3.<img src="images/hero_list/4_light/herolist_4_3.png"></td>
+          <td style="height:80px;width:94px;" align='center' valign="middle">4.<img src="images/hero_list/4_light/herolist_4_4.png"></td>
+          <td style="height:80px;width:94px;" align='center' valign="middle">5.<img src="images/hero_list/4_light/herolist_4_5.png"></td>
+          <td style="height:80px;width:94px;" align='center' valign="middle">6.<img src="images/hero_list/4_light/herolist_4_6.png"></td>
+          <td style="height:80px;width:94px;" align='center' valign="middle">7.<img src="images/hero_list/4_light/herolist_4_7.png"></td>
+      　</tr>
+        <tr>
+          <td style="height:80px;width:94px;" align='center' valign="middle">8.<img src="images/hero_list/4_light/herolist_4_8.png"></td>
+          <td style="height:80px;width:94px;" align='center' valign="middle">9.<img src="images/hero_list/4_light/herolist_4_9.png"></td>
+          <td style="height:80px;width:94px;" align='center' valign="middle">10.<img src="images/hero_list/4_light/herolist_4_10.png"></td>
+          <td style="height:80px;width:94px;" align='center' valign="middle">11.<img src="images/hero_list/4_light/herolist_4_11.png"></td>
+          <td style="height:80px;width:94px;" align='center' valign="middle">10.<img src="images/hero_list/4_light/herolist_4_12.png"></td>
+          <td style="height:80px;width:94px;" align='center' valign="middle">13.<img src="images/hero_list/4_light/herolist_4_13.png"></td>
+          <td style="height:80px;width:94px;" align='center' valign="middle">14.<img src="images/hero_list/4_light/herolist_4_14.png"></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td style="height:80px;width:94px;" align='center' valign="middle">15.<img src="images/hero_list/4_light/herolist_4_15.png"></td>
+          <td style="height:80px;width:94px;" align='center' valign="middle">16.<img src="images/hero_list/4_light/herolist_4_16.png"></td>
+          <td style="height:80px;width:94px;" align='center' valign="middle">17.<img src="images/hero_list/4_light/herolist_4_17.png"></td>
+          <td style="height:80px;width:94px;" align='center' valign="middle">18.<img src="images/hero_list/4_light/herolist_4_18.png"></td>
+          <td style="height:80px;width:94px;" align='center' valign="middle">19.<img src="images/hero_list/4_light/herolist_4_19.png"></td>
+          <td style="height:80px;width:94px;" align='center' valign="middle">20.<img src="images/hero_list/4_light/herolist_4_20.png"></td>
+          <td style="height:80px;width:94px;" align='center' valign="middle">21.<img src="images/hero_list/4_light/herolist_4_21.png"></td>
+          <td></td>
+        </tr>
+      </table>
+      <br /> 
+      <br /> &nbsp;&nbsp;[5: Dark Element / 暗元素]
+      <table id="table_2_5" cellpadding="8" border="0">
+        <tr>
+          <td style="height:80px;width:94px;" align='center' valign="middle">1.<img src="images/hero_list/5_dark/herolist_5_1.png"></td>
+          <td style="height:80px;width:94px;" align='center' valign="middle">2.<img src="images/hero_list/5_dark/herolist_5_2.png"></td>
+          <td style="height:80px;width:94px;" align='center' valign="middle">3.<img src="images/hero_list/5_dark/herolist_5_3.png"></td>
+          <td style="height:80px;width:94px;" align='center' valign="middle">4.<img src="images/hero_list/5_dark/herolist_5_4.png"></td>
+          <td style="height:80px;width:94px;" align='center' valign="middle">5.<img src="images/hero_list/5_dark/herolist_5_5.png"></td>
+          <td style="height:80px;width:94px;" align='center' valign="middle">6.<img src="images/hero_list/5_dark/herolist_5_6.png"></td>
+          <td style="height:80px;width:94px;" align='center' valign="middle">7.<img src="images/hero_list/5_dark/herolist_5_7.png"></td>
+      　</tr>
+        <tr>
+          <td style="height:80px;width:94px;" align='center' valign="middle">8.<img src="images/hero_list/5_dark/herolist_5_8.png"></td>
+          <td style="height:80px;width:94px;" align='center' valign="middle">9.<img src="images/hero_list/5_dark/herolist_5_9.png"></td>
+          <td style="height:80px;width:94px;" align='center' valign="middle">10.<img src="images/hero_list/5_dark/herolist_5_10.png"></td>
+          <td style="height:80px;width:94px;" align='center' valign="middle">11.<img src="images/hero_list/5_dark/herolist_5_11.png"></td>
+          <td style="height:80px;width:94px;" align='center' valign="middle">12.<img src="images/hero_list/5_dark/herolist_5_12.png"></td>
+          <td style="height:80px;width:94px;" align='center' valign="middle">13.<img src="images/hero_list/5_dark/herolist_5_13.png"></td>
+          <td style="height:80px;width:94px;" align='center' valign="middle">14.<img src="images/hero_list/5_dark/herolist_5_14.png"></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td style="height:80px;width:94px;" align='center' valign="middle">15.<img src="images/hero_list/5_dark/herolist_5_15.png"></td>
+          <td style="height:80px;width:94px;" align='center' valign="middle">16.<img src="images/hero_list/5_dark/herolist_5_16.png"></td>
+          <td style="height:80px;width:94px;" align='center' valign="middle">17.<img src="images/hero_list/5_dark/herolist_5_17.png"></td>
+          <td style="height:80px;width:94px;" align='center' valign="middle">18.<img src="images/hero_list/5_dark/herolist_5_18.png"></td>
+          <td style="height:80px;width:94px;" align='center' valign="middle">19.<img src="images/hero_list/5_dark/herolist_5_19.png"></td>
+          <td style="height:80px;width:94px;" align='center' valign="middle">20.<img src="images/hero_list/5_dark/herolist_5_20.png"></td>
+          <td style="height:80px;width:94px;" align='center' valign="middle">21.<img src="images/hero_list/5_dark/herolist_5_21.png"></td>
+          <td></td>
+        </tr>
+      </table>
+      <table id='table_3_1' cellpadding="8" border="0">
+        <br />==================Updata 更新日誌==================
+        <br />20190310 v0.43 繼續修正bug，長期間(周)測試
+        <br />20190302 v0.40 正式上傳Robotmon商店測試 
+        <br />20190228 v0.39 英雄/村莊升級方式改寫 
+        <br />20190220 v0.38 修正遠征bug
+        <br />20190213 v0.37 修改廣告判定準確度
+        <br />20190207 v0.36 Robotmon作者，指導UI修正
+        <br />20190206 v0.35 求勛章及遠征debug,部份項目效率優化
+        <br />20190205 v0.34 新增求勛章及代碼列表(圖)
+        <br />20190204 v0.33 點寶箱模式及調整，自動遠征及代碼列表(圖)
+        <br />20190203 v0.32 新增工會求勛章
+        <br />20190131 v0.31 更新打豬怪
+      </table>
+        <br /><br /><br /><br /><br />
+        <br /><br /><br /><br /><br />
+        <br /><br /><br /><br /><br />
+        <br /><br /><br /><br /><br />
+        <br /><br /><br /><br /><br />
+        <br /><br /><br /><br /><br />
+      <br />
+      <br />!!!!!!!!!!!!!!!!!!同學，到底了喔!!!!!!!!!!!!!!!!!!
+    </div>
+  </body>
+</html>
