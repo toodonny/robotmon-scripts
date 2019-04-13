@@ -739,7 +739,7 @@ function lvupHero(stageMin, lvupl, Timer) {  //
 				var a = 1;
 				for (var j = 1; j <= 5; j++){
 					if (!config.isRunning) return false;
-					//console.log('Hero Lvup click', i, j);
+					console.log('Hero Lvup click', i, j);
 					sleep(300);
 					
 					rbm.keepScreenshotPartial( 230, 550, 280, 1180);  //確認"愛心"按鈕出現量
@@ -751,24 +751,26 @@ function lvupHero(stageMin, lvupl, Timer) {  //
 							return a.y > b.y ? 1 : -1;
 						});
 						var Img2 = Img2s[0];
-						// rbm.log('Img2:', Img2);	
+						rbm.log('Img2:', Img2);	
 						
 						var harts = Object.keys(Img2s).length;
 						console.log('自動判定人數:', harts, '人'); //取物件長度
 					}
 
 					if (Img2 != undefined && Img2.y > 720) {
+						console.log('Img2.y > 720');
 						DIY_swipe(Img2.x, Img2.y, 700, 720, 70, 100);
 						tapFor(700, 720, 1, 50, 300);
 					}
 					else if (Img2 != undefined && Img2.y < 680) {
+						console.log('Img2.y > 680');
 						DIY_swipe(Img2.x, Img2.y, 700, 680, 70, 100);- 
 						tapFor(700, 680, 1, 50, 300);
 					}
 					else if (Img2 != undefined) {
 						
 						var totallv = heroinformation(Img2.x, Img2.y);
-						// rbm.log(totallv);
+						rbm.log(totallv);
 						if (lvupheromdSw == 2) {
 							totallvupstage = totallv.tolvmax - 100;
 						}
@@ -777,10 +779,10 @@ function lvupHero(stageMin, lvupl, Timer) {  //
 						}
 						
 						var tapY =  Img2.y - 5 + 106 * (5 - 1)
-						if (checkPointcolor(580, tapY, 20, '8C4800')) {  //最後一人不能升級跳出
-							lvupHeroTimer =  Date.now() + Timer * 1000;
-							return false;
-						}
+						// if (checkPointcolor(580, tapY, 20, '8C4800')) {  //最後一人不能升級跳出
+						// 	lvupHeroTimer =  Date.now() + Timer * 1000;
+						// 	return false;
+						// }
 						
 						for (var k = 1; k <= harts; k++){
 							if (!config.isRunning) return false;
@@ -1093,7 +1095,7 @@ function lvupTap(uplv, intY, strOK, strNG) {  //英雄、村莊升級
 	if (lvupCheckNG) {return false;}
 	if (lvupCheckOK) {
 		if (uplv > 1) {		
-			DIY_swipe(lvupX[1], intY, 160, intY, 80, 120);
+			DIY_swipe(lvupX[1], intY, 160, intY, 120, 50);
 		}
 		for (var j = uplv; j >= 1; j--){
 			// checkPointcolorTap(lvupX[j], intY, 40, strOK, 1, 1, lvupTaps[j], 80, 1);
@@ -3376,10 +3378,10 @@ function commandsetting() {
 function setFirstsetting() {
 	lvupHeroSw    =    1;   //英雄升級開關
 	lvupHeroDi    =    3;   //升級量級次 1:x1, 2:x10, 3:x100, 4:MAX
-	lvupHerostgSw = 2500;   //設定開始升級關卡
+	lvupHerostgSw = 1500;   //設定開始升級關卡
 	lvupheromdSw  =    3;   //1:定時, 2:自動, 3:設定
-	lvuptimeSw    =   60;   //英雄升級檢查間隔
-	lvuplimitSw   =  999;   //金幣等級到達不檢查
+	lvuptimeSw    =   90;   //英雄升級檢查間隔
+	lvuplimitSw   =  980;   //金幣等級到達不檢查
 	//自動判斷是以魔晶+金幣等級-100為下次檢查關卡
 
 	lvupVillageSw =    1;
@@ -3400,7 +3402,7 @@ function setFirstsetting() {
 	menuW6Sw      =    4;   //星期六：光、火 (4, 2)
 
 	toRincarnSw   =    1;
-	ministageSw   = 3800;
+	ministageSw   = 4300;
 	rintimes1Sw   =    1;
 
 	mlvupautoSw   =    1;   //自動升級魔晶等級
@@ -3425,7 +3427,7 @@ function setFirstsetting() {
 
 	arenaSw       =    1;   //競技開關
 	arenaticksSw  =    0;   //保留票數
-	arenaFightpw  = 27500;  //對戰戰力
+	arenaFightpw  = 97500;  //對戰戰力
 	arenatkchgSw  =    0;   //打不過刷新
 
 	getADBoxSw    =    1;   //撿寶箱開關
@@ -3499,7 +3501,8 @@ function test(cycle){
 			stage = recoNum(1) * 1
 			// console.log('============================================================================')
 			console.log('n = ', n, ', CRA 腳本開始', stage);
-			
+			// lvupHeroTimer     = 0;
+			// lvupHero(lvupHerostgSw, lvupHeroDi, lvuptimeSw);
 			while(config.isRunning) {main();}
 			sleep(1000)
 			// console.log('n = ', n, ', CRA 腳本結束');

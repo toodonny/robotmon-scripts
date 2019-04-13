@@ -144,6 +144,13 @@
       "description": "<h3>Tap Titain 2 / 點擊泰坦 吐!</h3><ul><li>0.10 測試版！</li></ul>",
       "packageName": "com.gamehivecorp.taptitans2",
       "downloadURL": "https://github.com/toodonny/robotmon-scripts/raw/master/scripts/com.donny.taptitans2/index.zip"
+    },    
+    "com.donny.dragonsky": {
+      "title": "Dragon sky",
+      "versionCode": 0.001,
+      "description": "<h3>Dragon Sky / 龍天空</h3><ul><li>0.001 爛爛版！</li></ul>",
+      "packageName": "com.manacore.mod",
+      "downloadURL": "https://github.com/toodonny/robotmon-scripts/raw/master/scripts/com.donny.dragonsky/index.zip"
     }
   },
   "libs": {
