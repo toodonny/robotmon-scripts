@@ -1228,17 +1228,14 @@ function main(){       //主流程
 
 	// console.log('main 確認畫面');
 	var mainBook = useReturn(1);
-	// var coinDown = useReturn(3);
 
+	if (mainBook) {              // 主畫面檢查，右上紅寶石
+		mergerdragon2(1, 2, 0);  // 合成1~2級龍
+		mergerdragon2(1, 4, 5);  // 合成1~4級龍
+		tapBox2(5);              // 檢查寶箱來點
+		tapEgg(7);               // 檢查蛋蛋來點
+		ranSwiptap(12);          // 中間的龍向右下再拉回 (360, 960)
 
-	if (mainBook) {
-		mergerdragon2(1, 2, 0);
-		mergerdragon2(1, 4, 5);
-		tapBox2(5);
-		tapEgg(7);
-		ranSwiptap(12);
-
-		sleep(1000);
 
 		mainError = 0;
 	}  else { 
@@ -1256,6 +1253,8 @@ function main(){       //主流程
 
 	// console.log('main Debug檢查')
 	// debug(5); sleep(s);             //Debug檢查
+
+	sleep(1000);             // 所有間格 1000毫秒
 }
 
 function setFirstTimer() {   //預設值設定
