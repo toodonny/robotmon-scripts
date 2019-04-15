@@ -626,7 +626,7 @@ function useReturn(choiceF){          //各項回授點檢查
 			var Img1 = rbm.findImage('rubyicon.png', 0.90);
 			rbm.releaseScreenshot();
 
-			if (Img1 != undefined) {rbm.log('rubyicon:', Img1);}
+			// if (Img1 != undefined) {rbm.log('rubyicon:', Img1);}
 			if (Img1 != undefined) {return true;} else {return false;}
 
 		case  2:   //物品獲得圖示點選(中間)
@@ -645,55 +645,21 @@ function useReturn(choiceF){          //各項回授點檢查
 			} else {return false;}
 
 		case  3:    //無廣告可看
-			rbm.keepScreenshotPartial( 270,  500, 450, 550);  //(無廣告可看)
-			var Img1 = rbm.findImage('noAD.png', 0.95);
+			rbm.keepScreenshotPartial( 467,  687, 623, 819);  //(用太多蛋蛋)
+			var Img1 = rbm.findImage('usemoreegg.png', 0.90);
 			rbm.releaseScreenshot();
 
-			// if (Img1 != undefined) {rbm.log('noAD:', Img1);}
+			if (Img1 != undefined) {rbm.log('usemoreegg:', Img1);}
 			if (Img1 != undefined) {return true;} else {return false;}
 			
-		case  4:
-			rbm.keepScreenshotPartial( 370,  1005, 400, 1040);  //(金幣下排)
-			var Img1 = rbm.findImage('gold_icon.png', 0.95);
+		case  4:    //看廣告
+			rbm.keepScreenshotPartial( 185,  949, 236, 994);  //(用太多蛋蛋)
+			var Img1 = rbm.findImage('watchADbutton.png', 0.90);
 			rbm.releaseScreenshot();
 
-			// if (Img1 != undefined) {rbm.log('gold_icon_down:', Img1);}
+			if (Img1 != undefined) {rbm.log('watchADbutton:', Img1);}
 			if (Img1 != undefined) {return true;} else {return false;}
 			
-		case  5:
-			rbm.keepScreenshotPartial( 290,  610, 420, 660);  //(退出選單)
-			var Img1 = rbm.findImage('exit_game.png', 0.98);
-			rbm.releaseScreenshot();
-
-			// if (Img1 != undefined) {rbm.log('exit_game:', Img1);}
-			if (Img1 != undefined) {return true;} else {return false;}
-	
-		case  6:
-			rbm.keepScreenshotPartial( 396,  59, 406, 69);  //(退出選單)
-			var Img1 = rbm.findImage('no_AutoBoss.png', 0.90);
-			rbm.releaseScreenshot();
-
-			// if (Img1 != undefined) {rbm.log('no_AutoBoss:', Img1);}
-			if (Img1 != undefined) {return true;} else {return false;}
-
-		case  7:
-			rbm.keepScreenshotPartial( 65,  385, 120, 450);  //(TIP&LOADING)
-			var Img1 = rbm.findImage('TIP_mark.png', 0.90);
-			rbm.releaseScreenshot();
-
-			// if (Img1 != undefined) {rbm.log('TIP_mark:', Img1);}
-			if (Img1 != undefined) {return true;} else {return false;}
-			
-		case  8:
-			rbm.keepScreenshotPartial( 370,  586, 400, 628);  //(金幣上排)
-			var Img1 = rbm.findImage('gold_icon.png', 0.95);
-			rbm.releaseScreenshot();
-
-			// if (Img1 != undefined) {rbm.log('gold_icon_up:', Img1);}
-			if (Img1 != undefined) {return true;} else {return false;}
-		
-		
-
 	}
 }
 
@@ -880,83 +846,6 @@ function getQuestgold(Timer) {
 	getQuestgoldTimer = Date.now() + Timer * 1000;
 }
 
-function getADraward(Timer) {
-	if (!config.isRunning || Date.now() < getADrawardTimer) return false;
-	if (!useReturn(4)) return false;
-	console.log('getADraward');
-
-	var timeup = 0;
-	for (var i = 1; i <= 6; i++) {
-		rbm.keepScreenshotPartial( 154,  116, 164, 131);  //驚嘆號
-		var Img1 = rbm.findImage('!.png', 0.85);
-		rbm.releaseScreenshot();	
-
-		// if (Img1 != undefined) { rbm.log('getADraward:', Img1, ', timeup:', timeup); }
-		if (Img1 != undefined) {
-			swipFor(Img1.x, Img1.y, 1, 100, 200, 2000);
-			// var adOK = waitAD2(55);
-			// if (adOK == 3){swipFor(360, 750, 1, 50, 100, 100); Timer = 180; break;}
-			timeup = 1;
-		} else if (timeup == 1) {
-			var adOK = waitAD2(55);
-			if (adOK == 3){swipFor(360, 750, 1, 50, 100, 100); Timer = 180; break;}
-			break;
-		}
-
-		sleep(150);
-	}
-
-	getADrawardTimer = Date.now() + Timer * 1000;
-}
-
-function waitAD2(timer) {
-	if (!config.isRunning) return false;
-	console.log('等待廣告');
-	
-	a = 0;
-	for (var i = 1; i <= timer; i++){
-		if (!config.isRunning) return false;
-		
-		var sizeObj = getScreenSize();
-		if (sizeObj.width == 720 && i >= 5) {
-			var stoptime1 = ScreenStopTimes( 180, 270, 590, 860, 0.999, 'checkADstop.png', 1)
-			// console.log('stoptime1:', stoptime1)
-			if (stoptime1 >= 3 || i >= 35) {
-				console.log('廣告結束，畫面停3秒，回遊戲');
-				keycode('BACK', 200);
-				stoptime1 = 0;
-			}
-			var mainpage = useReturn(1); //主畫面書本圖示
-			if (mainpage) {
-				a = a + 1;
-				if (i < 10 && a >= 10) {console.log('選單鈕，出現10秒，異常'); return false;}
-				else if (i > 10 && a >=  5) {console.log('選單鈕，出現 5秒，回到遊戲'); return false;}
-			} else {
-				a = 0;
-				if(useReturn(2)) {return false}; //獲取物品(中間)
-				if(useReturn(3)) {return 3}; //無廣告(中間)
-				if(useReturn(5)) {return false;}
-				CkImgSwip(300,  570, 430,  700, 0.98, 'playAD.png',    1, 1, 1, 300, 1, 0);      //點擊播放廣告
-				CkImgSwip(500, 1050, 720, 1280, 0.98, 'skipAD01.png',  1, 1, 1, 300, 1, 0);      //點擊右下略過廣告(中字)
-				CkImgSwip(440,  660, 610,  750, 0.98, 'KPwatchAD.png', 1, 1, 1, 3000, 1, 0);     //點擊繼續看廣告
-				CkImgSwip(440,  660, 610,  750, 0.98, 'KPwatchAD2.png', 1, 1, 1, 3000, 1, 0);     //點擊繼續看廣告2
-				CkImgSwip(579,   12, 704,   44, 0.99, 'AD_rightup_01.png', 1,  1, 1, 300, 0, 0);   //右上叉叉01
-				CkImgSwip(  0,    0, 110,   80, 0.98, 'AD_XX_03.png', 1,  1, 1, 3000, 1, 0);     //廣告結束，左上叉叉
-				CkImgSwip(  0,    0, 110,   80, 0.98, 'AD_XX_04.png',   1,  1, 1, 3000, 1, 0);     //廣告結束，左上叉叉
-			}
-		} else if (i >= 45) {
-			console.log('畫面轉向，計時 = ' + i, '回桌面，再回遊戲，切廣告')
-			keycode('HOME', 300); sleep(5000);
-			rbm.startApp(config.PackangName,config.LaunchActivityName);
-			sleep(3000);
-		} else if (i >= 35) {
-			console.log('畫面轉向，計時 = ' + i, '按 BACK，切廣告')
-			keycode('BACK', 200); sleep(500);
-		}
-		sleep(900);
-		console.log('Wait Time: ', i, '/', timer, ', stoptime1:', stoptime1);
-	}
-}
 
 function buyPosition(Timer) {
 	if (!config.isRunning || Date.now() < buyPositionTimer) return false;
@@ -1089,24 +978,24 @@ function mergerdragon2(lvmin, lvmax, Timer) {
 	// 201,994  570,1222  範圍
 	// 370,1110
 	// 530,900  定點
-	rbm.keepScreenshotPartial( 201, 994, 570, 1275);  //找武器，等級i
-
+	rbm.keepScreenshotPartial( 201, 994, 570, 1275);  //找龍
 	for (var i = lvmin; i <= lvmax; i++) {
 		if (!config.isRunning) return false;
 
-		var results = rbm.findImages('dragonLV_0' + i + '.png', 0.90, 5, true, false);
+		var results = rbm.findImages('dragonLV_0' + i + '.png', 0.90, 3, true, false);
 	
 		// if (results != '')  {rbm.log('dragonLV_0', i, Object.keys(results).length);}
 		if (results != '')  {
 
 			for (var index in results) {
 				if (!config.isRunning) return false;
+				if (!useReturn(1)) return false;
 
 				var result = results[index];
 				rbm.log('dragonLV_0' + i + '.png:', result);
 					var x0 = result.x;
 					var y0 = result.y;
-					DIY_swipe(x0, y0, 360, 980, 40, 300);
+					DIY_swipe(x0, y0, 360, 980, 20, 200);
 
 				// var mergerI = index % 2
 				// if (mergerI == 0) {
@@ -1142,7 +1031,9 @@ function tapEgg(Timer) {
 	console.log('Tap Egg')
 
 	var dots = dragonsdot();
-	if(dots <= 10) {swipFor(645, 1200, 4, 60, 100, 200);}
+	var nondots = 13 - dots;
+	if (nondots > 3) nondots = 3;
+	if (nondots > 0) {swipFor(645, 1200, nondots, 60, 100, 200);}
 	
 	tapEggTimer =  Date.now() + Timer * 1000;
 }
@@ -1155,7 +1046,7 @@ function tapBox2(Timer) {
 
 	rbm.keepScreenshotPartial( 628,  1004, 673, 1068);  //找魔力取出按鈕
 	for (var i = 1; i<= 3; i++) {
-		var Img1 = rbm.findImage(boxname[i], 0.90);
+		var Img1 = rbm.findImage(boxname[i], 0.85);
 		if (Img1 != undefined) break;
 	}
 	rbm.releaseScreenshot();
@@ -1176,16 +1067,91 @@ function ranSwiptap(Timer) {
 		var x0 = 360 + randXY;
 		var y0 = 960 + randXY;
 		for (var i = 1; i <= 7; i++) {
-			DIY_swipe(360, 960, x0, y0, 30, 200);
+			if (!config.isRunning) return false;
+			if (!useReturn(1)) return false;
+			DIY_swipe(360, 960, x0, y0, 20, 200);
 		}
 		for (var i = 1; i <= 7; i++) {
-			DIY_swipe(x0, y0, 360, 960, 30, 200);
+			if (!config.isRunning) return false;
+			if (!useReturn(1)) return false;
+			DIY_swipe(x0, y0, 360, 960, 20, 200);
 		}
 	}
 	ranSwiptapTimer =  Date.now() + Timer * 1000;
 
 }
 
+function getADraward(Timer) {
+	if (!config.isRunning || Date.now() < getADrawardTimer) return false;
+	console.log('getADraward');
+
+	var timeup = 0;
+	for (var i = 1; i <= 6; i++) {
+		rbm.keepScreenshotPartial( 587,  1269, 592, 1276);  //蛋蛋時間黃色
+		var Img1 = rbm.findImage('eggyellow.png', 0.90);
+		rbm.releaseScreenshot();	
+
+		if (Img1 != undefined) { rbm.log('getADraward:', Img1, ', timeup:', timeup); }
+		if (Img1 != undefined) {
+			swipFor(670, 500, 1, 50, 100, 500);
+			timeup = 1;
+		} else if (timeup == 1) {
+			var adOK = waitAD2(55);
+			break;
+		}
+
+		sleep(150);
+	}
+
+	getADrawardTimer = Date.now() + Timer * 1000;
+}
+
+function waitAD2(timer) {
+	if (!config.isRunning) return false;
+	console.log('等待廣告');
+	
+	a = 0;
+	for (var i = 1; i <= timer; i++){
+		if (!config.isRunning) return false;
+		
+		var sizeObj = getScreenSize();
+		if (sizeObj.width == 720 && i >= 5) {
+			var stoptime1 = ScreenStopTimes( 180, 270, 590, 860, 0.999, 'checkADstop.png', 1)
+			// console.log('stoptime1:', stoptime1)
+			if (stoptime1 >= 3 || i >= 35) {
+				console.log('廣告結束，畫面停3秒，回遊戲');
+				keycode('BACK', 200);
+				stoptime1 = 0;
+			}
+			var mainpage = useReturn(1); //主畫面書本圖示
+			if (mainpage) {
+				a = a + 1;
+				if (i < 10 && a >= 10) {console.log('選單鈕，出現10秒，異常'); return false;}
+				else if (i > 10 && a >=  4) {console.log('選單鈕，出現 5秒，回到遊戲'); return false;}
+			} else {
+				a = 0;
+				if (useReturn(4)) {swipFor(150, 970, 1, 50, 100, 100);}
+				CkImgSwip(300,  570, 430,  700, 0.98, 'playAD.png',    1, 1, 1, 300, 1, 0);      //點擊播放廣告
+				CkImgSwip(500, 1050, 720, 1280, 0.98, 'skipAD01.png',  1, 1, 1, 300, 1, 0);      //點擊右下略過廣告(中字)
+				CkImgSwip(440,  660, 610,  750, 0.98, 'KPwatchAD.png', 1, 1, 1, 3000, 1, 0);     //點擊繼續看廣告
+				CkImgSwip(440,  660, 610,  750, 0.98, 'KPwatchAD2.png', 1, 1, 1, 3000, 1, 0);     //點擊繼續看廣告2
+				CkImgSwip(579,   12, 704,   44, 0.99, 'AD_rightup_01.png', 1,  1, 1, 300, 0, 0);   //右上叉叉01
+				CkImgSwip(  0,    0, 110,   80, 0.98, 'AD_XX_03.png', 1,  1, 1, 3000, 1, 0);     //廣告結束，左上叉叉
+				CkImgSwip(  0,    0, 110,   80, 0.98, 'AD_XX_04.png',   1,  1, 1, 3000, 1, 0);     //廣告結束，左上叉叉
+			}
+		} else if (i >= 45) {
+			console.log('畫面轉向，計時 = ' + i, '回桌面，再回遊戲，切廣告')
+			keycode('HOME', 300); sleep(5000);
+			rbm.startApp(config.PackangName,config.LaunchActivityName);
+			sleep(3000);
+		} else if (i >= 35) {
+			console.log('畫面轉向，計時 = ' + i, '按 BACK，切廣告')
+			keycode('BACK', 200); sleep(500);
+		}
+		sleep(900);
+		console.log('Wait Time: ', i, '/', timer, ', stoptime1:', stoptime1);
+	}
+}
 function debug(Timer){       //異常檢查檢查
 	if (Timer == 0) debugTimer = 0;
 	if (!config.isRunning || Date.now() < debugTimer) return false;
@@ -1193,24 +1159,14 @@ function debug(Timer){       //異常檢查檢查
 
 	if (useReturn(1)) {
 		mainError = 0;
-		if (useReturn(8)) {keycode('BACK', 400);} //金幣在上
-	}
-	else {
-		useReturn(2); //獲取物品(中間)
-		if (useReturn(3)) {swipFor(360, 750, 1, 50, 100, 100);}	//沒廣告可看
-		// if (useReturn(5)) {swipFor(300, 730, 1, 100, 100, 100);} //退出選單
-		if (useReturn(5)) {keycode('BACK', 400); mainError = 0;} //退出選單
+		
+		if (useReturn(3)) {swipFor(540, 750, 1, 50, 100, 100);}	//蛋蛋用太多
 
-		if (mainError >= 5) {
-			console.log('沒有書 ' + mainError + ' 次，按退回');
-			keycode('BACK', 200); sleep(3000);
-		}
+	} else {
 
-		for (var i = 0; i <= 15; i++) {
-			if (!useReturn(7)) return false;
-			console.log('TIP & NOW LOADING...:', i * 2, '秒');
-			sleep(2000);
-			mainError = 0;
+		if (mainError >= 10) {
+			console.log('不在主畫面 ' + mainError + ' 次，按退回');
+			// keycode('BACK', 200); sleep(1000);
 		}
 	}
 
@@ -1232,10 +1188,11 @@ function main(){       //主流程
 	if (mainBook) {              // 主畫面檢查，右上紅寶石
 		mergerdragon2(1, 2, 0);  // 合成1~2級龍
 		mergerdragon2(1, 4, 5);  // 合成1~4級龍
-		tapBox2(5);              // 檢查寶箱來點
-		tapEgg(7);               // 檢查蛋蛋來點
+		tapBox2(3);              // 檢查寶箱來點
+		tapEgg(15);               // 檢查蛋蛋來點
 		ranSwiptap(12);          // 中間的龍向右下再拉回 (360, 960)
 
+		getADraward(10)          //檢查蛋蛋黃色
 
 		mainError = 0;
 	}  else { 
@@ -1252,9 +1209,9 @@ function main(){       //主流程
 	}
 
 	// console.log('main Debug檢查')
-	// debug(5); sleep(s);             //Debug檢查
+	debug(10);               //Debug檢查
 
-	sleep(1000);             // 所有間格 1000毫秒
+	sleep(500);             // 所有間格 500毫秒
 }
 
 function setFirstTimer() {   //預設值設定
@@ -1262,10 +1219,12 @@ function setFirstTimer() {   //預設值設定
 	mergerdragonTimer = Date.now() +   1 * 1000;
 	tapEggTimer       = Date.now() +   5 * 1000;
 	ranSwiptapTimer   = Date.now() +   5 * 1000;
+	getADrawardTimer  = Date.now() +   3 * 1000;
+	debugTimer        = Date.now() +   5 * 1000;
+	checkScreenTimer  = Date.now() +   5 * 1000;  //畫面停止檢查用，不可刪
 
 
-	clearnBagTimer    = Date.now() +   3 * 1000;
-	lvmaxHeroTimer    = Date.now() +   5 * 1000;
+	ScreenTimer  = Date.now() +   5 * 1000;
 	
 	stoptime       = new Array( '', 0, 0, 0, 0, 0, 0);
 	autoStuckstage = new Array(  0, 0, 0, 0, 0, 0, 0);

@@ -2074,7 +2074,6 @@ function Guildmedal(attrib, herocode, Timer) {  //工會求勛章
 							rbm.releaseScreenshot()
 							
 							// if (Img6 != undefined) {rbm.log('Img6:', Img6);}
-							
 							if (Img6 != undefined) {
 								rbm.log('確定求勛章按鈕出現，可求勛章');
 								tapFor(Img6.x, Img6.y, 21, 60, 500);
