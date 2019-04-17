@@ -660,7 +660,7 @@ function recoNum(choiceF) {        //各項數字辨識
 	//console.log('各項數字辨識', choiceF);
 	
 	switch (choiceF) {
-		case  1: return	num_Recognition(320, 16, 395, 50, 0.90, 'num_Reco/idle_stage_num/idle_stage_num2_'); break;  //關卡數
+		case  1: return	num_Recognition(320, 16, 395, 50, 0.90, 'num_Reco/idle_stage_num/idle_stage_num3_'); break;  //關卡數
 		case  2:
 			//每日地城目前票數
 			rbm.keepScreenshotPartial(180, 525, 370, 545);  //Indentification Ticks
@@ -2835,10 +2835,15 @@ function choiceDungeon(F1, F2) {  //【F1:地城類別 1:材料 2:突襲 3:遠�
 				rbm.keepScreenshotPartial( 500, 525, 560, 1140);  //地城選單圖示範圍
 				var targetImg = rbm.findImage('Dungeon_0' + F1 + '.png', 0.90);
 				if (F1 == 1 && targetImg == undefined) {
-					var targetImg = rbm.findImage('Dungeon_0' + F1 + 'b.png', 0.90);
-					if (F1 == 1 && targetImg == undefined) {
-						var targetImg = rbm.findImage('Dungeon_0' + F1 + 'c.png', 0.90);
+
+					for (var k = 1; k <= 3; k++) {
+						var targetImg = rbm.findImage('Dungeon_0' + F1 + '_' + k + '.png', 0.90);  //活動boss主選單畫面
+						if (targetImg != undefined) break;
 					}
+					// var targetImg = rbm.findImage('Dungeon_0' + F1 + 'b.png', 0.90);  //
+					// if (F1 == 1 && targetImg == undefined) {
+					// 	var targetImg = rbm.findImage('Dungeon_0' + F1 + 'c.png', 0.90);
+					// }
 				}
 				
 				rbm.releaseScreenshot();
@@ -2851,17 +2856,21 @@ function choiceDungeon(F1, F2) {  //【F1:地城類別 1:材料 2:突襲 3:遠�
 						//console.log('case 1', F1);
 						rbm.keepScreenshotPartial( 200, 560, 280, 1180);  //boss選單圖示範圍  屬性圖示
 						var targetImg2 = rbm.findImage('materialBoss/materialBoss2_0' + F2 + '.png', 0.90);
-						//rbm.log('targetImg2:', targetImg2);
+						rbm.log('targetImg2:', targetImg2);
 						rbm.releaseScreenshot();
 						if (targetImg2 != undefined && targetImg2.score >= 0.90) {
 							
-							rbm.keepScreenshotPartial( targetImg2.x + 330, targetImg2.y - 150, targetImg2.x + 480, targetImg2.y + 40);  //boss選單圖示範圍
+							if (F2 == 7) {var spY = 50;} 
+							rbm.keepScreenshotPartial( targetImg2.x + 330, targetImg2.y - 140, targetImg2.x + 480, targetImg2.y + 40 + spY);  //boss選單圖示範圍
+							console.log( targetImg2.x + 330, targetImg2.y - 140, targetImg2.x + 480, targetImg2.y + 40 + spY);
 							var targetImg7 = rbm.findImage('enterbossroom.png', 0.90);
-							//rbm.log('targetImg7:', targetImg7);
+							var targetImg72 = rbm.findImage('enterbossroom2.png', 0.90);
+							rbm.log('targetImg7:', targetImg7);
+							rbm.log('targetImg72:', targetImg72);
 							rbm.releaseScreenshot();
 							
 							if (targetImg7 != undefined && targetImg7.score >= 0.90) {
-								//console.log('tap targetImg7');
+								console.log('tap targetImg7');
 								tapFor(targetImg7.x, targetImg7.y, 1, 60, 300);
 							}
 						}
@@ -2871,7 +2880,7 @@ function choiceDungeon(F1, F2) {  //【F1:地城類別 1:材料 2:突襲 3:遠�
 							
 							var countchl = Object.keys(results).length;
 							//console.log(countchl); //取物件長度，挑戰鈕數量
-							if (countchl >= 2) {console.log('挑戰鈕 >= 2個，BOSS選擇完成'); return false;}
+							if (countchl >= 1) {console.log('挑戰鈕 >= 2個，BOSS選擇完成'); return false;}
 						
 					case 2 : if (useReturn(27)) {a = a + 1; if ( a >= 2 ) {sleep(300); return false;}}; break;  //遠征問號圖示
 					case 3 : if (useReturn(26)) {a = a + 1; if ( a >= 2 ) {sleep(300); return false;}}; break;  //突襲幣圖示
@@ -3377,10 +3386,10 @@ function commandsetting() {
 function setFirstsetting() {
 	lvupHeroSw    =    1;   //英雄升級開關
 	lvupHeroDi    =    3;   //升級量級次 1:x1, 2:x10, 3:x100, 4:MAX
-	lvupHerostgSw = 1500;   //設定開始升級關卡
+	lvupHerostgSw = 2200;   //設定開始升級關卡
 	lvupheromdSw  =    3;   //1:定時, 2:自動, 3:設定
-	lvuptimeSw    =   90;   //英雄升級檢查間隔
-	lvuplimitSw   =  980;   //金幣等級到達不檢查
+	lvuptimeSw    =   60;   //英雄升級檢查間隔
+	lvuplimitSw   = 1120;   //金幣等級到達不檢查
 	//自動判斷是以魔晶+金幣等級-100為下次檢查關卡
 
 	lvupVillageSw =    1;
@@ -3389,7 +3398,7 @@ function setFirstsetting() {
 	autoWeekSw    =    1;   //每日可打材料屬性【1:水  2:火  3:木  4:光  5:暗】
 	dgticksSw     =    0;   //保留票數
 
-	spdongeonSw   =    0;   //活動boss，9:雪怪，8:豬怪
+	spdongeonSw   =    7;   //活動boss，9:雪怪，8:豬怪，7:龍怪
 	spdstageSw    =  300;
 
 	menuW0Sw      =    1;   //星期日：木、水、暗 (3, 1, 5)
@@ -3400,9 +3409,9 @@ function setFirstsetting() {
 	menuW5Sw      =    5;   //星期五：水、暗 (1, 5)
 	menuW6Sw      =    4;   //星期六：光、火 (4, 2)
 
-	toRincarnSw   =    1;
-	ministageSw   = 4300;
-	rintimes1Sw   =    1;
+	toRincarnSw   =    1;   //輪迴開關
+	ministageSw   = 4300;   //輪迴關卡
+	rintimes1Sw   =    1;   //輪迴關卡檢查次數
 
 	mlvupautoSw   =    1;   //自動升級魔晶等級
 	mlvuptargetSw = 2600;   //魔晶等級目標值(0:自動以最小等級為基準)
@@ -3502,6 +3511,10 @@ function test(cycle){
 			console.log('n = ', n, ', CRA 腳本開始', stage);
 			// lvupHeroTimer     = 0;
 			// lvupHero(lvupHerostgSw, lvupHeroDi, lvuptimeSw);
+
+			// choiceDungeon(1, 7)
+
+
 			while(config.isRunning) {main();}
 			sleep(1000)
 			// console.log('n = ', n, ', CRA 腳本結束');

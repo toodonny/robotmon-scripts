@@ -629,26 +629,21 @@ function useReturn(choiceF){          //各項回授點檢查
 			// if (Img1 != undefined) {rbm.log('rubyicon:', Img1);}
 			if (Img1 != undefined) {return true;} else {return false;}
 
-		case  2:   //物品獲得圖示點選(中間)
-			rbm.keepScreenshotPartial(324, 470, 397, 544);  ///點擊獲取
-			for (var k = 1; k <= 3; k++) {
-				var Img = rbm.findImage('getitem_' + k + '.png', 0.95);
+		case  2:   //回歸屬性畫面確認
+			rbm.keepScreenshotPartial(415, 755, 570, 915);  ///點擊獲取
+			for (var k = 1; k <= 4; k++) {
+				var Img = rbm.findImage('attrib_' + k + '.png', 0.90);
+				if (Img != undefined) {rbm.log('CHECK attrib_' + k + '.png', Img);}
 				if (Img != undefined) break;
 			}
 			rbm.releaseScreenshot();
-			// if (Img != undefined) { rbm.log('getitem_' + k + '.png', Img); }
-			if (Img != undefined) {
-				console.log('出現獲取鈕，點擊跳出')
-				sleep(300);
-				swipFor(Img.x , Img.y, 1, 80, 500, 600);
-				return true;
-			} else {return false;}
+			if (Img != undefined) {return true;} 
+			else {return false;}
 
 		case  3:    //無廣告可看
 			rbm.keepScreenshotPartial( 467,  687, 623, 819);  //(用太多蛋蛋)
 			var Img1 = rbm.findImage('usemoreegg.png', 0.90);
 			rbm.releaseScreenshot();
-
 			if (Img1 != undefined) {rbm.log('usemoreegg:', Img1);}
 			if (Img1 != undefined) {return true;} else {return false;}
 			
@@ -659,6 +654,48 @@ function useReturn(choiceF){          //各項回授點檢查
 
 			if (Img1 != undefined) {rbm.log('watchADbutton:', Img1);}
 			if (Img1 != undefined) {return true;} else {return false;}
+			
+		case  5:    //退出遊戲對話框
+			rbm.keepScreenshotPartial( 295,  495, 430, 540);  //(用太多蛋蛋)
+			var Img1 = rbm.findImage('exitgame.png', 0.90);
+			rbm.releaseScreenshot();
+			if (Img1 != undefined) {rbm.log('exitgame:', Img1);}
+			if (Img1 != undefined) {return true;} else {return false;}
+			
+		case  6:    //關閉xx
+			rbm.keepScreenshotPartial( 26, 960, 705, 1215);  //(用太多蛋蛋)
+			var Img1 = rbm.findImage('closebox.png', 0.90);
+			rbm.releaseScreenshot();
+			if (Img1 != undefined) {rbm.log('closebox:', Img1);}
+			if (Img1 != undefined) {return Img1;} else {return false;}
+			
+		case  7:    //關閉xx
+			rbm.keepScreenshotPartial( 26, 1034, 705, 1215);  //(用太多蛋蛋)
+			var Img1 = rbm.findImage('closebox.png', 0.90);
+			rbm.releaseScreenshot();
+			if (Img1 != undefined) {rbm.log('closebox:', Img1);}
+			if (Img1 != undefined) {return Img1;} else {return false;}
+
+		case  8:    //回歸BUTTON 上
+			rbm.keepScreenshotPartial( 330, 297, 394, 337);  //(用太多蛋蛋)
+			var Img1 = rbm.findImage('goback1.png', 0.90);
+			rbm.releaseScreenshot();
+			if (Img1 != undefined) {rbm.log('goback1:', Img1);}
+			if (Img1 != undefined) {return Img1;} else {return false;}
+
+		case  9:    //回歸BUTTON 下
+			rbm.keepScreenshotPartial( 463, 1065, 547, 1120);  //(用太多蛋蛋)
+			var Img1 = rbm.findImage('goback2.png', 0.90);
+			rbm.releaseScreenshot();
+			if (Img1 != undefined) {rbm.log('goback2:', Img1);}
+			if (Img1 != undefined) {return Img1;} else {return false;}
+			
+		case 10:    //回歸確認BUTTON
+			rbm.keepScreenshotPartial( 327, 911, 401, 959);  //(用太多蛋蛋)
+			var Img1 = rbm.findImage('ok.png', 0.90);
+			rbm.releaseScreenshot();
+			if (Img1 != undefined) {rbm.log('ok:', Img1);}
+			if (Img1 != undefined) {return Img1;} else {return false;}
 			
 	}
 }
@@ -974,11 +1011,11 @@ function mergerdragon2(lvmin, lvmax, Timer) {
 	if (!config.isRunning || Date.now() < mergerdragonTimer) return false;
 	console.log('mergerdragon2');
 
-
 	// 201,994  570,1222  範圍
 	// 370,1110
 	// 530,900  定點
 	rbm.keepScreenshotPartial( 201, 994, 570, 1275);  //找龍
+	// var image = getScreenshotModify(201, 994, 570-201, 1275-994, 570-201, 1275-994, 100);
 	for (var i = lvmin; i <= lvmax; i++) {
 		if (!config.isRunning) return false;
 
@@ -993,9 +1030,13 @@ function mergerdragon2(lvmin, lvmax, Timer) {
 
 				var result = results[index];
 				rbm.log('dragonLV_0' + i + '.png:', result);
-					var x0 = result.x;
-					var y0 = result.y;
-					DIY_swipe(x0, y0, 360, 980, 20, 200);
+				var x0 = result.x;
+				var y0 = result.y;
+				if (y0 > 990) {DIY_swipe(x0, y0, 360, 980, 20, 200);}
+				else {
+					// saveImage(image, "/sdcard/Robotmon/test.png");
+					console.log('y0 <= 990 : 不移動。')
+				}
 
 				// var mergerI = index % 2
 				// if (mergerI == 0) {
@@ -1005,10 +1046,10 @@ function mergerdragon2(lvmin, lvmax, Timer) {
 				// 	var x1 = result.x;
 				// 	var y1 = result.y;
 				// 	DIY_swipe(x1, y1, x0, y0, 50, 1000);
-				// }
 			}
 		}
 	}
+	// releaseImage(image);
 	rbm.releaseScreenshot();
 	
 	mergerdragonTimer =  Date.now() + Timer * 1000;
@@ -1032,7 +1073,7 @@ function tapEgg(Timer) {
 
 	var dots = dragonsdot();
 	var nondots = 13 - dots;
-	if (nondots > 3) nondots = 3;
+	if (nondots > 3) nondots = 4;
 	if (nondots > 0) {swipFor(645, 1200, nondots, 60, 100, 200);}
 	
 	tapEggTimer =  Date.now() + Timer * 1000;
@@ -1116,13 +1157,6 @@ function waitAD2(timer) {
 		
 		var sizeObj = getScreenSize();
 		if (sizeObj.width == 720 && i >= 5) {
-			var stoptime1 = ScreenStopTimes( 180, 270, 590, 860, 0.999, 'checkADstop.png', 1)
-			// console.log('stoptime1:', stoptime1)
-			if (stoptime1 >= 3 || i >= 35) {
-				console.log('廣告結束，畫面停3秒，回遊戲');
-				keycode('BACK', 200);
-				stoptime1 = 0;
-			}
 			var mainpage = useReturn(1); //主畫面書本圖示
 			if (mainpage) {
 				a = a + 1;
@@ -1130,7 +1164,17 @@ function waitAD2(timer) {
 				else if (i > 10 && a >=  4) {console.log('選單鈕，出現 5秒，回到遊戲'); return false;}
 			} else {
 				a = 0;
-				if (useReturn(4)) {swipFor(150, 970, 1, 50, 100, 100);}
+
+				var stoptime1 = ScreenStopTimes( 180, 270, 590, 860, 0.999, 'checkADstop.png', 1)
+				// console.log('stoptime1:', stoptime1)
+				if (stoptime1 >= 3 || i >= 35) {
+					console.log('廣告結束，畫面停3秒，回遊戲');
+					keycode('BACK', 200);
+					stoptime1 = 0;
+				}
+
+				if (useReturn(5)) {swipFor(200, 750, 1, 50, 100, 100);}	 //離開遊戲按取消
+				if (useReturn(4)) {swipFor(150, 970, 1, 50, 100, 100);}  //按看廣告
 				CkImgSwip(300,  570, 430,  700, 0.98, 'playAD.png',    1, 1, 1, 300, 1, 0);      //點擊播放廣告
 				CkImgSwip(500, 1050, 720, 1280, 0.98, 'skipAD01.png',  1, 1, 1, 300, 1, 0);      //點擊右下略過廣告(中字)
 				CkImgSwip(440,  660, 610,  750, 0.98, 'KPwatchAD.png', 1, 1, 1, 3000, 1, 0);     //點擊繼續看廣告
@@ -1152,6 +1196,60 @@ function waitAD2(timer) {
 		console.log('Wait Time: ', i, '/', timer, ', stoptime1:', stoptime1);
 	}
 }
+
+function goback(Timer) {
+	if (!config.isRunning || Date.now() < gobackTimer) return false;
+	console.log('回歸檢查');
+
+	var goback1 = useReturn(8);
+	var goback2 = useReturn(9);
+
+	if (goback1.x > 0 || goback2.x > 0) {
+		for (var i = 1; i <= 10; i++) {
+			console.log('回歸檢查成立', i);
+			if (goback1.x > 0) {swipFor(goback1.x, goback1.y, 1, 80, 100, 1000);}
+			if (goback2.x > 0) {swipFor(goback2.x, goback2.y, 1, 80, 100, 1000);}
+
+			var gobackok = useReturn(10);
+			if (gobackok.x > 0) {swipFor(gobackok.x, gobackok.y, 1, 80, 100, 1000);}
+
+			// backattrib(3); //選回歸屬性  1:中  2:木  3:火  4:水
+
+			sleep(200);
+		}
+	}
+	
+	gobackTimer = Date.now() + Timer * 1000;
+}
+
+function backattrib(att) {   //回歸屬性選擇  1:中  2:木  3:火  4:水
+	if (!config.isRunning) return false;
+	console.log('回歸屬性選擇');
+
+	var attribstr = ['', '中', '木', '火', '水']
+
+	if (useReturn(2)) {
+		for (var i = 1; i <= 5; i++) {
+			if (!config.isRunning) return false;
+			
+			rbm.keepScreenshotPartial( 415, 755, 570, 915);  //(選擇回歸屬性)
+			var Img1 = rbm.findImage('attrib_' + att + '.png', 0.90);
+			rbm.releaseScreenshot();
+
+			if (Img1 != undefined) {rbm.log('FIND attrib_' + att + '.png', Img1);}
+			if (Img1 != undefined) {
+				console.log('找到目標屬性:', attribstr[att], '屬性')
+				swipFor(Img1.x - 20, Img1.y + 80, 1, 50, 100, 100);
+				break;
+			} else {
+				DIY_swipe(670, 760, 670, 1070, 100, 1000);
+			}
+			
+			sleep(500);
+		}
+	}
+}
+
 function debug(Timer){       //異常檢查檢查
 	if (Timer == 0) debugTimer = 0;
 	if (!config.isRunning || Date.now() < debugTimer) return false;
@@ -1160,9 +1258,16 @@ function debug(Timer){       //異常檢查檢查
 	if (useReturn(1)) {
 		mainError = 0;
 		
-		if (useReturn(3)) {swipFor(540, 750, 1, 50, 100, 100);}	//蛋蛋用太多
+		if (useReturn(3)) {swipFor(540, 750, 1, 50, 100, 100);}	 //蛋蛋用太多
 
 	} else {
+		if (useReturn(5)) {swipFor(200, 750, 1, 50, 100, 100);}	 //離開遊戲按取消
+
+		var closebox = useReturn(6);  //關叉叉
+		if (closebox.x > 0){swipFor(closebox.x, closebox.y, 1, 50, 100, 100);}
+
+
+		backattrib(3); //選回歸屬性  1:中  2:木  3:火  4:水
 
 		if (mainError >= 10) {
 			console.log('不在主畫面 ' + mainError + ' 次，按退回');
@@ -1208,6 +1313,8 @@ function main(){       //主流程
 		sleep(1000);
 	}
 
+	goback(30);
+
 	// console.log('main Debug檢查')
 	debug(10);               //Debug檢查
 
@@ -1222,6 +1329,7 @@ function setFirstTimer() {   //預設值設定
 	getADrawardTimer  = Date.now() +   3 * 1000;
 	debugTimer        = Date.now() +   5 * 1000;
 	checkScreenTimer  = Date.now() +   5 * 1000;  //畫面停止檢查用，不可刪
+	gobackTimer       = Date.now() +   5 * 1000;
 
 
 	ScreenTimer  = Date.now() +   5 * 1000;
