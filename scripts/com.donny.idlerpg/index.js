@@ -619,7 +619,7 @@ function useReturn(choiceF){          //各項回授點檢查
 		case 21: return CheckImageTap(  45,  530, 110,  570, 0.80, 'retreatBoss.png', 1, 1, 1, 50, 2);       return;  //BOSS戰鬥，撤退鈕
 		case 22: return CheckImageTap( 135,  510, 560,  560, 0.80, 'bossticks.png', 1, 1, 1, 50, 2);         return;  //地城BOSS選關(門票字樣)
 		case 23: return CheckImageTap2( 220, 510, 390,  560, 0.95, 'bossticks_0.png', 'bossticks2_0.png', 1, 1, 1, 50, 2);   return;  //地城BOSS票=0
-		case 24: return CheckImageTap( 480,  610, 610,  660, 0.96, 'spdongeon_0.png', 1, 1, 1, 50, 2, 0);       return;  //活動BOSS票=0 //地城BOSS票=0
+		case 24: return CheckImageTap( 480,  610, 610,  660, 0.96, 'spdongeon_0_2.png', 1, 1, 1, 50, 2, 0);       return;  //活動BOSS票=0 //地城BOSS票=0
 		case 25: return CheckImageTap(  15,  510,  90,  570, 0.95, 'backarry.png', 1, 1, 1, 50, 2);             return;  //
 		
 		
@@ -2860,13 +2860,11 @@ function choiceDungeon(F1, F2) {  //【F1:地城類別 1:材料 2:突襲 3:遠�
 						rbm.releaseScreenshot();
 						if (targetImg2 != undefined && targetImg2.score >= 0.90) {
 							
+							var spY = 0;
 							if (F2 == 7) {var spY = 50;} 
 							rbm.keepScreenshotPartial( targetImg2.x + 330, targetImg2.y - 140, targetImg2.x + 480, targetImg2.y + 40 + spY);  //boss選單圖示範圍
-							console.log( targetImg2.x + 330, targetImg2.y - 140, targetImg2.x + 480, targetImg2.y + 40 + spY);
 							var targetImg7 = rbm.findImage('enterbossroom.png', 0.90);
-							var targetImg72 = rbm.findImage('enterbossroom2.png', 0.90);
 							rbm.log('targetImg7:', targetImg7);
-							rbm.log('targetImg72:', targetImg72);
 							rbm.releaseScreenshot();
 							
 							if (targetImg7 != undefined && targetImg7.score >= 0.90) {
