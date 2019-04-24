@@ -663,7 +663,7 @@ function useReturn(choiceF){          //各項回授點檢查
 			if (Img1 != undefined) {return true;} else {return false;}
 			
 		case  6:    //關閉xx
-			rbm.keepScreenshotPartial( 26, 960, 705, 1215);  //(用太多蛋蛋)
+			rbm.keepScreenshotPartial( 5, 1060, 715, 1275);  //(用太多蛋蛋)
 			var Img1 = rbm.findImage('closebox.png', 0.90);
 			rbm.releaseScreenshot();
 			if (Img1 != undefined) {rbm.log('closebox:', Img1);}
@@ -1205,7 +1205,7 @@ function goback(Timer) {
 	var goback2 = useReturn(9);
 
 	if (goback1.x > 0 || goback2.x > 0) {
-		for (var i = 1; i <= 10; i++) {
+		for (var i = 1; i <= 20; i++) {
 			console.log('回歸檢查成立', i);
 			if (goback1.x > 0) {swipFor(goback1.x, goback1.y, 1, 80, 100, 1000);}
 			if (goback2.x > 0) {swipFor(goback2.x, goback2.y, 1, 80, 100, 1000);}
@@ -1213,9 +1213,12 @@ function goback(Timer) {
 			var gobackok = useReturn(10);
 			if (gobackok.x > 0) {swipFor(gobackok.x, gobackok.y, 1, 80, 100, 1000);}
 
-			// backattrib(3); //選回歸屬性  1:中  2:木  3:火  4:水
+			var backatt = backattrib(3); //選回歸屬性  1:中  2:木  3:火  4:水
+			if (backatt) break;
+			goback1 = useReturn(8);
+			goback2 = useReturn(9);
 
-			sleep(200);
+			sleep(1000);
 		}
 	}
 	
@@ -1240,7 +1243,7 @@ function backattrib(att) {   //回歸屬性選擇  1:中  2:木  3:火  4:水
 			if (Img1 != undefined) {
 				console.log('找到目標屬性:', attribstr[att], '屬性')
 				swipFor(Img1.x - 20, Img1.y + 80, 1, 50, 100, 100);
-				break;
+				return true;
 			} else {
 				DIY_swipe(670, 760, 670, 1070, 100, 1000);
 			}
@@ -1248,6 +1251,7 @@ function backattrib(att) {   //回歸屬性選擇  1:中  2:木  3:火  4:水
 			sleep(500);
 		}
 	}
+	return false;
 }
 
 function debug(Timer){       //異常檢查檢查
@@ -1261,13 +1265,12 @@ function debug(Timer){       //異常檢查檢查
 		if (useReturn(3)) {swipFor(540, 750, 1, 50, 100, 100);}	 //蛋蛋用太多
 
 	} else {
+		backattrib(3); //選回歸屬性  1:中  2:木  3:火  4:水
+
 		if (useReturn(5)) {swipFor(200, 750, 1, 50, 100, 100);}	 //離開遊戲按取消
 
 		var closebox = useReturn(6);  //關叉叉
 		if (closebox.x > 0){swipFor(closebox.x, closebox.y, 1, 50, 100, 100);}
-
-
-		backattrib(3); //選回歸屬性  1:中  2:木  3:火  4:水
 
 		if (mainError >= 10) {
 			console.log('不在主畫面 ' + mainError + ' 次，按退回');
@@ -1298,6 +1301,7 @@ function main(){       //主流程
 		ranSwiptap(12);          // 中間的龍向右下再拉回 (360, 960)
 
 		getADraward(10)          //檢查蛋蛋黃色
+		goback(8);
 
 		mainError = 0;
 	}  else { 
@@ -1313,10 +1317,10 @@ function main(){       //主流程
 		sleep(1000);
 	}
 
-	goback(30);
+	goback(8);
 
 	// console.log('main Debug檢查')
-	debug(10);               //Debug檢查
+	debug(20);               //Debug檢查
 
 	sleep(500);             // 所有間格 500毫秒
 }
