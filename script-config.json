@@ -148,7 +148,7 @@
     "com.donny.dragonsky": {
       "title": "Dragon sky",
       "versionCode": 0.002,
-      "description": "<h3>Dragon Sky / 龍天空</h3><ul><li>0.002 爛爛版！</li><li>2019.04.15 新增看廣告取buffer，合成效率調整。</li></ul>",
+      "description": "<h3>Dragon Sky / 龍天空</h3><ul><li>0.003 爛爛版！</li><li>2019.04.29 改版修正 & UI新增回歸設定。</li><li>2019.04.15 新增看廣告取buffer，合成效率調整。</li></ul>",
       "packageName": "com.manacore.mod",
       "downloadURL": "https://github.com/toodonny/robotmon-scripts/raw/master/scripts/com.donny.dragonsky/index.zip"
     }

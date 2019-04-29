@@ -464,11 +464,25 @@
         [
           {
             key: 'title1', 
-            title: "☆★☆★☆============No Any Setting============☆★☆★☆",
-            title_zh_TW: "☆★☆★☆==============沒有設定==============☆★☆★☆",
+            title: "☆★☆★☆============Return Setting============☆★☆★☆",
+            title_zh_TW: "☆★☆★☆==============回歸設定==============☆★☆★☆",
+          },
+          {
+            key: 'gamereturn', 
+            title: "return switch", 
+            title_zh_TW: "自動回歸", 
+            default: false,
+          },
+          {
+            key: 'returnattrib', 
+            title: "Return attrib ( 0:off  1:non  2:wood  3:fire  4:water)",
+            title_zh_TW: "回歸屬性 ( 0:關  1:中  2:木  3:火  4:水)", 
+            default: 0, 
+            step: 1,
+            max: 4, 
+            min: 0,
           },
         ],
-        
 
         []
       ];
@@ -715,7 +729,7 @@
         if (eventType == 'OnPlayClick') {
           var startCommand = genStartCommand(settings);
           JavaScriptInterface.runScript(startCommand);
-		      JavaScriptInterface.setXY(0, 160)
+		      JavaScriptInterface.setXY(0, 110)
 
         } else if (eventType == 'OnPauseClick') {
           JavaScriptInterface.runScript('stop();')
@@ -763,6 +777,7 @@
       <br /><br /><br /><br />
       <table id='table_3_1' cellpadding="8" border="0">
         <br />==================Updata 更新日誌==================
+        <br />20190429 v0.003 UI新增回歸設定。
         <br />20190415 v0.002 新增看廣告取buffer，合成效率調整。
         <br />20190410 v0.001 亂寫的腳本，竟然有人要用。
       </table>

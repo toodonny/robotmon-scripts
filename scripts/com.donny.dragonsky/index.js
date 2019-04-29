@@ -697,6 +697,13 @@ function useReturn(choiceF){          //各項回授點檢查
 			if (Img1 != undefined) {rbm.log('ok:', Img1);}
 			if (Img1 != undefined) {return Img1;} else {return false;}
 			
+		case 11:    //看廣告 x2 加速
+			rbm.keepScreenshotPartial( 525, 543, 574, 588);  //(用太多蛋蛋)
+			var Img1 = rbm.findImage('watchADbutton2.png', 0.90);
+			rbm.releaseScreenshot();
+			if (Img1 != undefined) {rbm.log('watchADbutton2:', Img1);}
+			if (Img1 != undefined) {return Img1;} else {return false;}
+			
 	}
 }
 
@@ -1059,11 +1066,11 @@ function dragonsdot() {
 	if (!config.isRunning) return false;
 
 	rbm.keepScreenshotPartial( 299, 1216, 421, 1248);  //找武器，等級i
-	var results = rbm.findImages('dragons_dot.png', 0.85, 12, true, false);
+	var results = rbm.findImages('dragons_dot3.png', 0.85, 12, true, false);
 	rbm.releaseScreenshot();
 	var length = Object.keys(results).length;
 
-	if (results != '')  {rbm.log('dragons_dot:', length);}
+	if (results != '')  {rbm.log('dragons_dot3:', length);}
 	if (results != '')  {return length}
 }
 
@@ -1073,7 +1080,7 @@ function tapEgg(Timer) {
 
 	var dots = dragonsdot();
 	var nondots = 13 - dots;
-	if (nondots > 3) nondots = 4;
+	if (nondots > 3) nondots = 5;
 	if (nondots > 0) {swipFor(645, 1200, nondots, 60, 100, 200);}
 	
 	tapEggTimer =  Date.now() + Timer * 1000;
@@ -1130,6 +1137,7 @@ function getADraward(Timer) {
 	for (var i = 1; i <= 6; i++) {
 		rbm.keepScreenshotPartial( 587,  1269, 592, 1276);  //蛋蛋時間黃色
 		var Img1 = rbm.findImage('eggyellow.png', 0.90);
+		if (Img1 == undefined) {Img1 =  rbm.findImage('eggyellow2.png', 0.90);}
 		rbm.releaseScreenshot();	
 
 		if (Img1 != undefined) { rbm.log('getADraward:', Img1, ', timeup:', timeup); }
@@ -1156,8 +1164,11 @@ function waitAD2(timer) {
 		if (!config.isRunning) return false;
 		
 		var sizeObj = getScreenSize();
-		if (sizeObj.width == 720 && i >= 5) {
+		if (sizeObj.width == 720 && i >= 4) {
 			var mainpage = useReturn(1); //主畫面書本圖示
+			var watchADbtn = useReturn(11);
+			if (watchADbtn.score > 0.95) {swipFor(540, 560, 1, 50, 100, 100);}  //按看廣告2
+			else if (watchADbtn.score > 0.90 && watchADbtn.score < 0.95) {swipFor(360, 1090, 1, 50, 100, 100); return false;}  //無廣告退出
 			if (mainpage) {
 				a = a + 1;
 				if (i < 10 && a >= 10) {console.log('選單鈕，出現10秒，異常'); return false;}
@@ -1174,7 +1185,10 @@ function waitAD2(timer) {
 				}
 
 				if (useReturn(5)) {swipFor(200, 750, 1, 50, 100, 100);}	 //離開遊戲按取消
-				if (useReturn(4)) {swipFor(150, 970, 1, 50, 100, 100);}  //按看廣告
+				// if (useReturn(4)) {swipFor(150, 970, 1, 50, 100, 100);}  //按看廣告1
+				// if (useReturn(11)) {swipFor(540, 560, 1, 50, 100, 100);}  //按看廣告1
+
+
 				CkImgSwip(300,  570, 430,  700, 0.98, 'playAD.png',    1, 1, 1, 300, 1, 0);      //點擊播放廣告
 				CkImgSwip(500, 1050, 720, 1280, 0.98, 'skipAD01.png',  1, 1, 1, 300, 1, 0);      //點擊右下略過廣告(中字)
 				CkImgSwip(440,  660, 610,  750, 0.98, 'KPwatchAD.png', 1, 1, 1, 3000, 1, 0);     //點擊繼續看廣告
@@ -1197,8 +1211,10 @@ function waitAD2(timer) {
 	}
 }
 
-function goback(Timer) {
+function goback(attrib, Timer) {
 	if (!config.isRunning || Date.now() < gobackTimer) return false;
+	if (!gamereturn) return false;
+	if (returnattrib == 0) return false;
 	console.log('回歸檢查');
 
 	var goback1 = useReturn(8);
@@ -1213,7 +1229,7 @@ function goback(Timer) {
 			var gobackok = useReturn(10);
 			if (gobackok.x > 0) {swipFor(gobackok.x, gobackok.y, 1, 80, 100, 1000);}
 
-			var backatt = backattrib(3); //選回歸屬性  1:中  2:木  3:火  4:水
+			var backatt = backattrib(attrib); //選回歸屬性  1:中  2:木  3:火  4:水
 			if (backatt) break;
 			goback1 = useReturn(8);
 			goback2 = useReturn(9);
@@ -1274,7 +1290,7 @@ function debug(Timer){       //異常檢查檢查
 
 		if (mainError >= 10) {
 			console.log('不在主畫面 ' + mainError + ' 次，按退回');
-			// keycode('BACK', 200); sleep(1000);
+			keycode('BACK', 200); sleep(1000);
 		}
 	}
 
@@ -1300,8 +1316,8 @@ function main(){       //主流程
 		tapEgg(15);               // 檢查蛋蛋來點
 		ranSwiptap(12);          // 中間的龍向右下再拉回 (360, 960)
 
-		getADraward(10)          //檢查蛋蛋黃色
-		goback(8);
+		getADraward(90)          //檢查蛋蛋黃色
+		goback(returnattrib, 8);
 
 		mainError = 0;
 	}  else { 
@@ -1317,7 +1333,7 @@ function main(){       //主流程
 		sleep(1000);
 	}
 
-	goback(8);
+	goback(returnattrib, 8);
 
 	// console.log('main Debug檢查')
 	debug(20);               //Debug檢查
@@ -1351,7 +1367,8 @@ function setFirstTimer() {   //預設值設定
 }
 
 function setFirstsetting() {
-
+	gamereturn = 1;   //回歸開關
+	returnattrib = 3; //回歸屬性選擇
 	
 }
 
