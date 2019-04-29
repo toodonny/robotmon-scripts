@@ -620,7 +620,7 @@ function useReturn(choiceF){          //各項回授點檢查
 		case 22: return CheckImageTap( 135,  510, 560,  560, 0.80, 'bossticks.png', 1, 1, 1, 50, 2);         return;  //地城BOSS選關(門票字樣)
 		case 23: return CheckImageTap2( 220, 510, 390,  560, 0.95, 'bossticks_0.png', 'bossticks2_0.png', 1, 1, 1, 50, 2);   return;  //地城BOSS票=0
 		case 24: return CheckImageTap( 480,  610, 610,  660, 0.96, 'spdongeon_0_2.png', 1, 1, 1, 50, 2, 0);       return;  //活動BOSS票=0 //地城BOSS票=0
-		case 25: return CheckImageTap(  15,  510,  90,  570, 0.95, 'backarry.png', 1, 1, 1, 50, 2);             return;  //
+		case 25: return CheckImageTap(  15,  510,  90,  570, 0.95, 'backarry2.png', 1, 1, 1, 50, 2);             return;  //
 		
 		
 		case 26: return CheckImageTap( 640,  200, 700,  260, 0.95, 'exped_help.png', 1, 1, 1, 50, 2);        return;  //遠征問號圖示
@@ -2620,7 +2620,7 @@ function Expeditions(Timer) {   //遠征
 						}
 						else if (Img10 != undefined) {
 							console.log('人數正確', ExpedHeroSw, '人');
-							CheckImageTap(  5,  230,  105,  275, 0.90, 'backarry.png', 1, 1, 1, 50, 1);
+							CheckImageTap(  5,  230,  105,  275, 0.90, 'backarry2.png', 1, 1, 1, 50, 1);
 							break;
 						}
 						sleep(100);
