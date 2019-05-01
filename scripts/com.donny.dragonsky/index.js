@@ -1212,11 +1212,12 @@ function waitAD2(timer) {
 				}
 			}
 			
-			if (i >= 50) {
+			if (i >= 52) {
 				console.log('畫面轉向，計時 = ' + i, '回桌面，再回遊戲，切廣告')
-				keycode('HOME', 300); sleep(5000);
-				rbm.startApp(config.PackangName,config.LaunchActivityName);
-				sleep(3000);
+				swipFor(685, 25, 1, 50, 100, 100);
+				// keycode('HOME', 300); sleep(5000);
+				// rbm.startApp(config.PackangName,config.LaunchActivityName);
+				// sleep(3000);
 			} else if (i >= 40) {
 				console.log('畫面轉向，計時 = ' + i, '按 BACK，切廣告')
 				keycode('BACK', 200); sleep(500);
@@ -1321,7 +1322,7 @@ function Donnylog() {
 
 function main(){       //主流程
 	if (!config.isRunning) return false;
-	var s = 400
+	var s = 150
 
 	// console.log('main 確認畫面');
 	var mainBook = useReturn(1);
@@ -1347,7 +1348,7 @@ function main(){       //主流程
 			mainError = 0;
 		}
 
-		sleep(1000);
+		sleep(300);
 	}
 
 	goback(returnattrib, 8);
@@ -1355,7 +1356,7 @@ function main(){       //主流程
 	// console.log('main Debug檢查')
 	debug(20);               //Debug檢查
 
-	sleep(500);             // 所有間格 500毫秒
+	sleep(200);             // 所有間格 500毫秒
 }
 
 function setFirstTimer() {   //預設值設定
@@ -1386,7 +1387,7 @@ function setFirstTimer() {   //預設值設定
 
 function setFirstsetting() {
 	gamereturn = 1;   //回歸開關
-	returnattrib = 1; //回歸屬性選擇
+	returnattrib = 2; //回歸屬性選擇    1:中  2:木  3:火  4:水
 	
 }
 
