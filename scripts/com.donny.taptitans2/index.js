@@ -1982,7 +1982,6 @@ function testsetting() {
 	swRaintms = 0       //Perks : 天降黃金次數	
 	
 	ScreenErrorTime1 = Date.now()
-	rbm.screencrop('checkSCstop.png', 330, 430, 390, 490)
 }
 
 function setFirstTimer() {
@@ -2011,6 +2010,7 @@ function setFirstTimer() {
 	pregold = -2;
 	
 	rbm.screencrop('stagecheck1.png', 338, 22, 390, 82)
+	rbm.screencrop('checkSCstop.png', 330, 430, 390, 490)
 
 	stagebk = -1;
 }
