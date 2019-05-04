@@ -919,7 +919,7 @@ function tapSkill(ctrlCode){            //大技施放控制  (20,1105)~(700,116
 				rbm.imageClick('mainSkill_' + i + '.png', 0.95);
 				rbm.imageClick('mainSkill_' + i + '.png', 0.95);
 			}
-			
+			sleep(300);
 			//console.log( 'i=', i, '; skilljump=', skilljump);
 		}
 		rbm.releaseScreenshot();
@@ -940,7 +940,9 @@ function tapSkillHS(ctrlCode){          //第一，大技施放控制  (20,1105)
 			var skilljump = ctrlCode.substr(i - 1, 1)
 			if ( skilljump == 1 ){
 				rbm.imageClick('mainSkill_' + i + '.png', 0.95);
+				sleep(150);
 				rbm.imageClick('mainSkill_' + i + '.png', 0.95);
+				sleep(150);
 			}
 			
 			//console.log( 'i=', i, '; skilljump=', skilljump);
@@ -1100,9 +1102,9 @@ function MasterLvUp(MaxLvup, Timer){    //劍術大師升級
 					console.log('劍術大師，Lv:', MasterLv, '>', MaxLvup, '，不升級');
 				}
 				
-				//sleep(300);
+				sleep(300);
 				SkillLvUp(0);
-				//Daily(1000);
+				Daily(900);
 				
 				if (!checkReturn(20)) {
 					console.log('沒有 Tap Damge，等待5秒');
@@ -1127,15 +1129,28 @@ function MasterLvUp(MaxLvup, Timer){    //劍術大師升級
 function SkillLvUp(clearF){                   //大技升級
 	if (!config.isRunning || checkReturn(11)) return false;
 	console.log('大技升級');
-	var buyModearray = new Array( '', 'unlockskill.png', 'upgradex1.png')
-	
-	if ( checkReturn(13)) {
+	var buyModearray = ['', 'unlockskill.png', 'upgradex1.png'];
+	var skillname = ['Heavenly Strike', 'Deadly strike', 'Hand of Midas', 'Fire Sword', 'War Cry', 'Shadow Clone'];
+
+	if ( checkReturn(13)) {             //大師畫面 Inbox
 		for (var k = 1; k <= 2; k++) {
+			var a = 0;
 			if (MasterLvUpTimer == 0 || clearF == 1) {
 				for (var l = 0; l < 6; l++){
-					var tapy = 343 + l * 113
-					tapFor(690, tapy, 1, 40, 60); 
+					var lvX1 = 107; 
+					var lvY1 = 340 + l * 113;
+					var lvX2 = 170;
+					var lvY2 = lvY1 + 24;
+					// console.log(lvX1, lvY1, lvX2, lvY2);
+					rbm.keepScreenshotPartial(lvX1, lvY1, lvX2, lvY2);  //確認大技等級 25
+					var Img1 = rbm.findImage('skill_lv25a.png', 0.96);
+					rbm.releaseScreenshot();
+					if (Img1 != undefined) {rbm.log('skill_lv25a.png', Img1);}
+					if (Img1 != undefined) {a = a + 1; console.log(skillname[l], 'LV 25, Skip', a);}
+					else { tapFor(690, lvY1, 1, 60, 100);}
+					sleep(200);
 				}
+				if (a >= 6) break;
 			}
 			
 			for (var j = 0; j < 5; j++) {
@@ -1175,26 +1190,46 @@ function Daily(Timer) {                //每日任務獎勵
 	console.log('每日任務獎勵');
 	
 	for (var i = 1; i <= 10; i++) {
-		CheckImageTap(285, 80, 315, 110, 0.90, 'icon_achieve.png', 1, 1, 1, 50, 1);        //領取任務獎勵icon
+		console.log('每日任務獎勵:', i);
+		CheckImageTap(285, 80, 315, 110, 0.90, 'icon_achieve.png', 1, 1, 1, 500, 1);        //領取任務獎勵icon
 		
-		rbm.keepScreenshotPartial( 180, 240, 250, 280);  //確認daily_achie畫面
-		var targetImg1 = rbm.imageExists('daily_achie.png', 0.95)
+		rbm.keepScreenshotPartial( 170, 50, 550, 120);  //確認achievement畫面
+		var targetImg1 = rbm.imageExists('achievement.png', 0.95)
 		rbm.releaseScreenshot();
+
+		console.log('achievement.png', targetImg1);
 		if (targetImg1) {
-			
-			CheckImageTap(510, 280, 630, 330, 0.90, 'collect.png', 1, 1, 3, 100, 1);
-			
-			rbm.keepScreenshotPartial( 480, 260, 655, 325);  //確認領取每日任務獎勵
-			var targetImg2 = rbm.imageExists('complete.png', 0.95)
-			if (!targetImg2) { var targetImg3 = rbm.imageExists('daily_reward.png', 0.95) }
+			CheckImageTap(44, 120, 680, 190, 0.95, 'daily_dark.png', 1, 1, 2, 100, 1);
+
+			rbm.keepScreenshotPartial( 460, 258, 670, 868);  //確認完成收集
+			var results = rbm.findImages("daily_collect.png", 0.90, 5, true, false);
 			rbm.releaseScreenshot();
-			if (targetImg2 || targetImg3) {
-				tapFor(640, 79, 3, 50, 100);
+			
+			if (results == '') {console.log('no daily_collect')}
+			if (results != '') {
+				for (var index in results) {
+					if (!config.isRunning) return false;
+					var result = results[index];
+					rbm.log('results:', result);
+					tapFor(result.x, result.y, 10, 200, 1000);
+				}
+			} else if (results == '' && i > 2) {
+				tapFor(640, 80, 2, 100, 500);
 				break;
 			}
+
+
+			// rbm.keepScreenshotPartial( 480, 260, 655, 325);  //確認領取每日任務獎勵
+			// var targetImg2 = rbm.imageExists('complete.png', 0.95)
+			// if (!targetImg2) { var targetImg3 = rbm.imageExists('daily_reward.png', 0.95) }
+			// rbm.releaseScreenshot();
+			// if (targetImg2 || targetImg3) {
+			// 	tapFor(640, 79, 3, 50, 100);
+			// 	break;
+			// }
 		}
 		
-		sleep(200);
+		sleep(300);
 	}
 	
 	DailyTimer = Date.now() + Timer * 1000
@@ -1357,7 +1392,7 @@ function HerosLvUp(oneMaxLv, Timer1, Timer2){    //英雄升級
 		}
 	}	
 }
- 
+
 function goldcheck() {
 	if (!config.isRunning) return false;
 	
@@ -1676,6 +1711,12 @@ function debug(Timer){                  //卡畫面檢查
 	
 	CheckImageTap(255, 815, 600, 1025, 0.90, 'prestigebutton.png', 635, 285, 3, 50, 0);   //Prestige 按鈕 兩個
 
+	rbm.keepScreenshotPartial( 170, 50, 550, 120);  //確認achievement畫面
+	var targetImg1 = rbm.imageExists('achievement.png', 0.95)
+	rbm.releaseScreenshot();
+	console.log('achievement.png', targetImg1);
+	if (targetImg1) {tapFor(620, 75, 2, 100, 500);}
+
 	
 	debugTimer =  Date.now() + Timer * 1000;
 }
@@ -1925,9 +1966,12 @@ function testsetting() {
 	
 	SwPrestig = 1       //蛻變開關
 	SwBossPrs = 3       //卡關的次數轉生
-	SwPrgolds = 435     //金幣級次蛻變
+	SwPrgolds = 670     //金幣級次蛻變
 	SwPrgoldT = 3       //金幣蛻變檢查次數
 	SwPrSaScr = 1       //蛻變時自動抓圖
+
+	
+	SwBossGd = 670      //金幣級次卡關轉生啟動
 	
 	SwArtifDv = 0       //自動開神器(轉生後觸發)
 	SwRedbook = 0       //自動點紅書(開神器後觸發)
@@ -1984,27 +2028,17 @@ function test(cycle){
 		}
 		
 		else if (n >= 1) {
+			console.log('腳本測試開始, n:', n);
 
-			// var attack = checkReturn(1);
-			// if(attack){
-				// var stage = recoNumgroup(9);
-				// var stageD = stage - stagebk
-				// console.log(stagebk, stage, stageD);
-				// if (stagebk != -1 && stageD >= 0 && stageD < 100 && stage < 20000) {
-					// stagebk = stage;
-					// console.log('n = '+ n, ', stage:', stage);
-				// } else if (stagebk == -1) {
-					// stagebk = stage;
-				// }
-			// } else if(!attack) {
-				// stagebk = -1;
-			// }
-			
+		
+			// SkillLvUp(1);
+			// DailyTimer      = Date.now() +  0 * 1000;
+			// Daily(10)
 			
 			// if (stage > 0 && stage < 55000) stageck = stage;
 			while(config.isRunning) { main(); }
 			
-			sleep(200);
+			sleep(1000);
 		}
 	}
 }
@@ -2012,6 +2046,11 @@ function test(cycle){
 function stop() {
 	config.isRunning=false;
 }
+
+
+
+
+
 
 function start(UIVIP, UISk_1, UISk_2, UISk_3, UISk_4, UISk_5, UISk_6, UIFaAD_1, UIFaAD_2, UIFaAD_3, UIFaAD_4, UIFaAD_5, UIFaADGD, UIMastSw, UIMastTm, UIMastLvLm, UIMastLvRu, UIHeroSw, UIHrfsTm, UIHeroTm, UIHeroLvLm, UIHeroLvRu, UIBossReT, UIPrestig, UIBossGd, UIBossPrs, UIPrgolds, UIPrgoldT, UIPrSaScr, UIArtifDv, UIRedbook, UIClanbos ) {
 	rbm.init();

@@ -703,7 +703,15 @@ function useReturn(choiceF){          //各項回授點檢查
 			rbm.releaseScreenshot();
 			if (Img1 != undefined) {rbm.log('watchADbutton2:', Img1);}
 			if (Img1 != undefined) {return Img1;} else {return false;}
+
+		case 12:    //回歸選區域確定
+			rbm.keepScreenshotPartial( 290, 330, 428, 380);  //(用太多蛋蛋)
+			var Img1 = rbm.findImage('choicearea.png', 0.90);
+			rbm.releaseScreenshot();
+			if (Img1 != undefined) {rbm.log('choicearea:', Img1);}
+			if (Img1 != undefined) {return Img1;} else {return false;}
 			
+
 	}
 }
 
@@ -1172,13 +1180,13 @@ function waitAD2(timer) {
 
 		if (sizeObj.width == 720) {
 
-			if ( i >= 1) {
+			if ( i >= 2) {
 				var watchADbtn = useReturn(11);
 				var ADbtnscore = watchADbtn.score;
 				if (ADbtnscore > 0.95) {                                //按看廣告2
-					swipFor(540, 560, 1, 50, 100, 100);
+					swipFor(540, 560, 2, 50, 100, 100);
 				} else if (ADbtnscore > 0.90 && ADbtnscore < 0.95) {    //無廣告退出
-					swipFor(360, 1090, 1, 50, 100, 100); return false;
+					swipFor(360, 1090, 2, 50, 100, 100); return false;
 				}
 			}
 
@@ -1248,10 +1256,15 @@ function goback(attrib, Timer) {
 			if (gobackok.x > 0) {swipFor(gobackok.x, gobackok.y, 1, 80, 100, 1000);}
 
 			var backatt = backattrib(attrib); //選回歸屬性  1:中  2:木  3:火  4:水
-			if (backatt) break;
+
+			var areaOK = useReturn(12);
+			if (areaOK.x > 0) {swipFor(520, 920, 1, 80, 100, 1000);}
+
+			// if (backatt) break;
 			goback1 = useReturn(8);
 			goback2 = useReturn(9);
 
+			if (i > 8 && useReturn(1)) break;
 			sleep(1000);
 		}
 	}
@@ -1270,7 +1283,7 @@ function backattrib(att) {   //回歸屬性選擇  1:中  2:木  3:火  4:水
 			if (!config.isRunning) return false;
 			
 			rbm.keepScreenshotPartial( 415, 755, 570, 915);  //(選擇回歸屬性)
-			var Img1 = rbm.findImage('attrib_' + att + '.png', 0.90);
+			var Img1 = rbm.findImage('attrib_' + att + '.png', 0.95);
 			rbm.releaseScreenshot();
 
 			if (Img1 != undefined) {rbm.log('FIND attrib_' + att + '.png', Img1);}
