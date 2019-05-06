@@ -2107,6 +2107,7 @@ function start(settingString) {
 	SwBossGd = SwBossGd1 * 1 + SwBossGd2 * 1 + SwBossGd3 * 1 + SwBossGd4 * 1;       //卡關檢查金幣級次
 	SwPrgolds = SwPrgolds1 * 1 + SwPrgolds2 * 1 + SwPrgolds3 * 1 + SwPrgolds4 * 1;  //蛻變到達金幣級次
 
+	SwArtifDv = 0       //自動開神器(轉生後觸發)
 	setFirstTimer()     //設定初始值
 	ScreenErrorTime1 = Date.now()
 	
