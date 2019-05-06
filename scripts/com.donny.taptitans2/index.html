@@ -1,6 +1,274 @@
 <html>
   <head>
     <style>
+
+	 #top-bar{
+		 width:720px;
+		 height:100px;
+		 background:#C0C0C0;
+		 position:fixed;
+		 top:-65px;
+
+		 /* CSS3 陰影*/
+		-webkit-box-shadow: 0px 4px 8px #AAAAAA;
+		-moz-box-shadow: 0px 4px 8px #AAAAAA;
+		box-shadow: 0px 4px 8px #AAAAAA; 
+		z-index:2;
+	} 
+
+		#menu{width:900px; margin:0 auto; line-height:50px;}
+		#menu b, #menu a{color:#fff; padding:0 20px;}
+	
+	
+
+		/* Button CSS */
+
+		.centered {
+		  margin:50px auto;
+		  text-align:center;
+		}
+
+		.button::-moz-focus-inner{
+		  border: 0;
+		  padding: 0;
+		}
+
+		.button{
+		  display: inline-block;
+		  *display: inline;
+		  zoom: 1;
+		  padding: 6px 20px;
+		  margin: 0;
+		  cursor: pointer;
+		  border: 1px solid #bbb;
+		  overflow: visible;
+		  font: bold 13px arial, helvetica, sans-serif;
+		  text-decoration: none;
+		  white-space: nowrap;
+		  color: #555;
+		  
+		  background-color: #ddd;
+		  background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(255,255,255,1)), to(rgba(255,255,255,0)));
+		  background-image: -webkit-linear-gradient(top, rgba(255,255,255,1), rgba(255,255,255,0));
+		  background-image: -moz-linear-gradient(top, rgba(255,255,255,1), rgba(255,255,255,0));
+		  background-image: -ms-linear-gradient(top, rgba(255,255,255,1), rgba(255,255,255,0));
+		  background-image: -o-linear-gradient(top, rgba(255,255,255,1), rgba(255,255,255,0));
+		  background-image: linear-gradient(top, rgba(255,255,255,1), rgba(255,255,255,0));
+		  
+		  -webkit-transition: background-color .2s ease-out;
+		  -moz-transition: background-color .2s ease-out;
+		  -ms-transition: background-color .2s ease-out;
+		  -o-transition: background-color .2s ease-out;
+		  transition: background-color .2s ease-out;
+		  background-clip: padding-box; /* Fix bleeding */
+		  -moz-border-radius: 3px;
+		  -webkit-border-radius: 3px;
+		  border-radius: 3px;
+		  -moz-box-shadow: 0 1px 0 rgba(0, 0, 0, .3), 0 2px 2px -1px rgba(0, 0, 0, .5), 0 1px 0 rgba(255, 255, 255, .3) inset;
+		  -webkit-box-shadow: 0 1px 0 rgba(0, 0, 0, .3), 0 2px 2px -1px rgba(0, 0, 0, .5), 0 1px 0 rgba(255, 255, 255, .3) inset;
+		  box-shadow: 0 1px 0 rgba(0, 0, 0, .3), 0 2px 2px -1px rgba(0, 0, 0, .5), 0 1px 0 rgba(255, 255, 255, .3) inset;
+		  text-shadow: 0 1px 0 rgba(255,255,255, .9);
+		  
+		  -webkit-touch-callout: none;
+		  -webkit-user-select: none;
+		  -khtml-user-select: none;
+		  -moz-user-select: none;
+		  -ms-user-select: none;
+		  user-select: none;
+		}
+
+		.button:hover{
+		  background-color: #eee;
+		  color: #555;
+		}
+
+		.button:active{
+		  background: #e9e9e9;
+		  position: relative;
+		  top: 1px;
+		  text-shadow: none;
+		  -moz-box-shadow: 0 1px 1px rgba(0, 0, 0, .3) inset;
+		  -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, .3) inset;
+		  box-shadow: 0 1px 1px rgba(0, 0, 0, .3) inset;
+		}
+
+		.button[disabled], .button[disabled]:hover, .button[disabled]:active{
+		  border-color: #eaeaea;
+		  background: #fafafa;
+		  cursor: default;
+		  position: static;
+		  color: #999;
+		  /* Usually, !important should be avoided but here it's really needed :) */
+		  -moz-box-shadow: none !important;
+		  -webkit-box-shadow: none !important;
+		  box-shadow: none !important;
+		  text-shadow: none !important;
+		}
+
+		/* Smaller buttons styles */
+
+		.button.small{
+		  padding: 5px 4px;
+		}
+
+		/* Larger buttons styles */
+
+		.button.large{
+		  padding: 12px 30px;
+		  text-transform: uppercase;
+		}
+
+		.button.large:active{
+		  top: 2px;
+		}
+
+		/* Colored buttons styles */
+
+		.button.green, .button.red, .button.blue {
+		  color: #fff;
+		  text-shadow: 0 1px 0 rgba(0,0,0,.2);
+		  
+		  background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(255,255,255,.3)), to(rgba(255,255,255,0)));
+		  background-image: -webkit-linear-gradient(top, rgba(255,255,255,.3), rgba(255,255,255,0));
+		  background-image: -moz-linear-gradient(top, rgba(255,255,255,.3), rgba(255,255,255,0));
+		  background-image: -ms-linear-gradient(top, rgba(255,255,255,.3), rgba(255,255,255,0));
+		  background-image: -o-linear-gradient(top, rgba(255,255,255,.3), rgba(255,255,255,0));
+		  background-image: linear-gradient(top, rgba(255,255,255,.3), rgba(255,255,255,0));
+		}
+
+		/* */
+
+		.button.green{
+		  background-color: #57a957;
+		  border-color: #57a957;
+		}
+
+		.button.green:hover{
+		  background-color: #62c462;
+		}
+
+		.button.green:active{
+		  background: #57a957;
+		}
+
+		/* */
+
+		.button.red{
+		  background-color: #ca3535;
+		  border-color: #c43c35;
+		}
+
+		.button.red:hover{
+		  background-color: #ee5f5b;
+		}
+
+		.button.red:active{
+		  background: #c43c35;
+		}
+
+		/* */
+
+		.button.blue{
+		  background-color: #269CE9;
+		  border-color: #269CE9;
+		}
+
+		.button.blue:hover{
+		  background-color: #70B9E8;
+		}
+
+		.button.blue:active{
+		  background: #269CE9;
+		}
+
+		/* */
+
+		.green[disabled], .green[disabled]:hover, .green[disabled]:active{
+		  border-color: #57A957;
+		  background: #57A957;
+		  color: #D2FFD2;
+		}
+
+		.red[disabled], .red[disabled]:hover, .red[disabled]:active{
+		  border-color: #C43C35;
+		  background: #C43C35;
+		  color: #FFD3D3;
+		}
+
+		.blue[disabled], .blue[disabled]:hover, .blue[disabled]:active{
+		  border-color: #269CE9;
+		  background: #269CE9;
+		  color: #93D5FF;
+		}
+
+		/* Group buttons */
+
+		.button-group,
+		.button-group li{
+		  display: inline-block;
+		  *display: inline;
+		  zoom: 1;
+		}
+
+		.button-group{
+		  font-size: 0; /* Inline block elements gap - fix */
+		  margin: 0;
+		  padding: 0;
+		  background: rgba(0, 0, 0, .1);
+		  border-bottom: 1px solid rgba(0, 0, 0, .1);
+		  padding: 7px;
+		  -moz-border-radius: 7px;
+		  -webkit-border-radius: 7px;
+		  border-radius: 7px;
+		}
+
+		.button-group li{
+		  margin-right: -1px; /* Overlap each right button border */
+		}
+
+		.button-group .button{
+		  font-size: 13px; /* Set the font size, different from inherited 0 */
+		  -moz-border-radius: 0;
+		  -webkit-border-radius: 0;
+		  border-radius: 0;
+		}
+
+		.button-group .button:active{
+		  -moz-box-shadow: 0 0 1px rgba(0, 0, 0, .2) inset, 5px 0 5px -3px rgba(0, 0, 0, .2) inset, -5px 0 5px -3px rgba(0, 0, 0, .2) inset;
+		  -webkit-box-shadow: 0 0 1px rgba(0, 0, 0, .2) inset, 5px 0 5px -3px rgba(0, 0, 0, .2) inset, -5px 0 5px -3px rgba(0, 0, 0, .2) inset;
+		  box-shadow: 0 0 1px rgba(0, 0, 0, .2) inset, 5px 0 5px -3px rgba(0, 0, 0, .2) inset, -5px 0 5px -3px rgba(0, 0, 0, .2) inset;
+		}
+
+		.button-group li:first-child .button{
+		  -moz-border-radius: 3px 0 0 3px;
+		  -webkit-border-radius: 3px 0 0 3px;
+		  border-radius: 3px 0 0 3px;
+		}
+
+		.button-group li:first-child .button:active{
+		  -moz-box-shadow: 0 0 1px rgba(0, 0, 0, .2) inset, -5px 0 5px -3px rgba(0, 0, 0, .2) inset;
+		  -webkit-box-shadow: 0 0 1px rgba(0, 0, 0, .2) inset, -5px 0 5px -3px rgba(0, 0, 0, .2) inset;
+		  box-shadow: 0 0 1px rgba(0, 0, 0, .2) inset, -5px 0 5px -3px rgba(0, 0, 0, .2) inset;
+		}
+
+		.button-group li:last-child .button{
+		  -moz-border-radius: 0 3px 3px 0;
+		  -webkit-border-radius: 0 3px 3px 0;
+		  border-radius: 0 3px 3px 0;
+		}
+
+		.button-group li:last-child .button:active{
+		  -moz-box-shadow: 0 0 1px rgba(0, 0, 0, .2) inset, 5px 0 5px -3px rgba(0, 0, 0, .2) inset;
+		  -webkit-box-shadow: 0 0 1px rgba(0, 0, 0, .2) inset, 5px 0 5px -3px rgba(0, 0, 0, .2) inset;
+		  box-shadow: 0 0 1px rgba(0, 0, 0, .2) inset, 5px 0 5px -3px rgba(0, 0, 0, .2) inset;
+		}	
+	
+	
+	
+	
+	
+	
+	
       .navbar-custom {
         border-radius: 0 !important;
         background-color: #2196F3;
@@ -123,8 +391,8 @@
         padding: 3px 0px 3px 0px !important;
       }
       .setting_input_value {
-        width: 40px;
-        text-align: center;
+        width: 60px;
+        text-align: right;
       }
       .setting_input_value[type=text] {
         width: 80%;
@@ -142,248 +410,486 @@
 
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 
+	<script>
+		$(function(){
+			$(window).load(function(){
+				$(window).bind('scroll resize', function(){
+					var $this = $(this);
+					var $this_Top=$this.scrollTop();
+					
+					//當高度小於100時，關閉區塊	
+					if($this_Top < -1){
+						$('#top-bar').stop().animate({top:"-100px"}, 800);
+						}
+					if($this_Top > -1){
+						$('#top-bar').stop().animate({top:"0px"}, 800);
+								
+					}
+				}).scroll();
+			});
+		});
+	</script>		
+	
     <script>
-      VERSION = 0.40;
+    //============================================TT2=======================
 
-      var settings = [
-        [
-          {title: "⊙_⊙ 特別感謝 小源學長硬要一個腳本，才有此腳本誕生 ⊙_⊙            ",   title_zh_TW: ""},
-        ],
-        [
-          {title: "0.40 Beta，2019.05.04，新版每日獎勵修整，優化大技滿級判斷      ",   title_zh_TW: ""},
-          {title: "0.36 Beta，2018.12.01，新增卡畫面自動重啟，優化打公會boss      ",   title_zh_TW: ""},
-          {title: "0.35 Beta，2018.10.27，優化程式碼及工會boss，取消perks設定     ",   title_zh_TW: ""},
-          {title: "0.30 Beta，2018.10.08，新增金幣控制 金錢buffer與卡關檢查       ",   title_zh_TW: ""},
-        ],
-        [
-          {title: "☆★☆★☆============注意事項============☆★☆★☆                    ",   title_zh_TW: ""},
-          {title: "本腳本僅適用 720x1280 解析度，英文介面。                       ",   title_zh_TW: ""},
-          {title: "遊戲內數字顯示模式設定為 eXXX 顯示。                           ",   title_zh_TW: ""},
-          {title: "轉生控制，是以卡BOSS與設定金幣值檢查次數觸發。                 ",   title_zh_TW: ""},
-        ],
-        [
-          {
-            title: "Language",
-            title_zh_TW: "Language",
-            buttons: [
-              {
-                title: "EN",
-                onclick: "saveLocale('en-US')"
-              },
+    VERSION = 0.45;
 
-            ]
-          },
-        ],
-        [
-          { title: "無廣告-VIP", title_zh_TW: "", default: false},
-        ],
-        [
-          {
-            title: "技能使用：",
-            title_zh_TW: "",
-          },
-          { title: "技能1-天堂聖擊", title_zh_TW: "", default: true},
-          { title: "技能2-致命打擊", title_zh_TW: "", default: true},
-          { title: "技能3-米達斯手", title_zh_TW: "", default: true},
-          { title: "技能4-火焰之劍", title_zh_TW: "", default: true},
-          { title: "技能5-戰嚎呦嗚", title_zh_TW: "", default: true},
-          { title: "技能6-旋渦嗚人", title_zh_TW: "", default: true},		  
-        ],
-        [
-          {
-            title: "小仙女廣告：",
-            title_zh_TW: "",
-          },
-          { title: "效果1-鑽石", title_zh_TW: "", default:  true},
-          { title: "效果2-金幣", title_zh_TW: "", default: false},
-          { title: "效果3-全技", title_zh_TW: "", default: false},
-          { title: "效果4-80趴", title_zh_TW: "", default: false},
-          { title: "效果5-回MP", title_zh_TW: "", default: false},
-          {
-            title: "註：全技關閉，不點擊小仙女。",
-            title_zh_TW: "",
-          },
-		  
-		  { 
-            title: ['金幣級次達到收金幣 (1~3000)'],
-            default: 500,
-            step: 5,
-            max: 3000,
-            min: 100,
-          },
-		  
-        ],
-        [
-          { title: "主角/大技升級開關", title_zh_TW: "", default:  true},
-		  { 
-            title: ['主角/大技升級,檢查時間(秒)'],
-            default: 240,
-            step: 15,
-            max: 600,
-            min: 30,
-          },
-		  { 
-            title: ['主角升級,等級限制 (0:不升)'],
-            default: 5000,
-            step: 200,
-            max: 50000,
-            min: 0,
-          },
-          { title: "效果4-80趴，才升級", title_zh_TW: "", default:  false},
-        ],
-        [
-          { title: "英雄升級開關", title_zh_TW: "", default:  true},
-		  { 
-            title: ['第一頁英雄升級,檢查時間(秒)'],
-            default: 40,
-            step: 10,
-            max: 60,
-            min: 10,
-          },
-		  { 
-            title: ['英雄升級,檢查時間(秒)'],
-            default: 180,
-            step: 15,
-            max: 600,
-            min: 30,
-          },
-		  { 
-            title: ['已開第1英雄升級,強制升級 (0:不升)'],
-            default: 3000,
-            step: 100,
-            max: 6000,
-            min: 0,
-          },
-          { title: "效果4-80趴，才升級", title_zh_TW: "", default:  false},
-        ],
-        [
-          {
-            title: "卡關/自動轉生：",
-            title_zh_TW: "",
-          },
-		  { 
-            title: ['卡BOSS，等待再打(秒) (0~3600)'],
-            default: 5,
-            step: 5,
-            max: 600,
-            min: 5,
-          },
-          { title: "自動蛻變", title_zh_TW: "", default: true},
-		  { 
-            title: ['金幣級次卡關轉生啟動 (1~3000)'],
-            default: 500,
-            step: 5,
-            max: 3000,
-            min: 100,
-          },
-		  { 
-            title: ['30秒BOSS不過連續 x次轉生 (0:關)'],
-            default: 3,
-            step: 1,
-            max: 20,
-            min: 1,
-          },
-		  { 
-            title: ['金幣級次轉生eXXXX (1~3000)'],
-            default: 500,
-            step: 5,
-            max: 3000,
-            min: 100,
-          },
-		  { 
-            title: ['金幣達設定 x次轉生 (1~30)'],
-            default: 3,
-            step: 1,
-            max: 30,
-            min: 1,
-          },
-		  
-		  
-          { title: "蛻變時自動抓圖(全屏)", title_zh_TW: "", default: false},
-          {
-            title: "自動存檔路徑:/storage/emulated/legacy/Pictures/TT2",
-            title_zh_TW: "",
-          },
-        ],
-        [
-          { title: "自動發掘文物(暫無功能)", title_zh_TW: "", default: false},
-          { title: "紅書自動升級", title_zh_TW: "", default: false},
-        ],
-        [
-          { title: "打工會boss", title_zh_TW: "", default: true},
-        ],
-		[
-		  { 
-            title: ['自動賣裝(暫無功能) (0:關; 1:白; 2:藍; 3:紫)'],
-            default: 0,
-            step: 1,
-            max: 3,
-            min: 0,
-          },
-        ],
-		[
-		
-          {
-            title: "===========更新記錄===========",
-            title_zh_TW: "",
-          },
-          {
-            title: "0.28 Beta版，2018.09.08，修改看廣告圖面偏移無法判斷",
-            title_zh_TW: "",
-          },
-          {
-            title: "0.26 Beta版，2018.08.22，沒有改什麼",
-            title_zh_TW: "",
-          },
-          {
-            title: "0.25 Beta版，2018.08.12，新增金幣量及檢查次數轉生條件",
-            title_zh_TW: "",
-          },
-          {
-            title: "0.22 Beta版，2018.08.11，新增每日任務獎勵自動領",
-            title_zh_TW: "",
-          },
-          {
-            title: "0.20 Beta版，2018.07.15，新增第1頁英雄升級控制",
-            title_zh_TW: "",
-          },
-          {
-            title: "0.19 Beta版，2018.07.09，新增自動升紅書/英雄升級優化",
-            title_zh_TW: "",
-          },
-          {
-            title: "0.17 Beta版，2018.07.06，新增打公會boss/天降黃金控制",
-            title_zh_TW: "",
-          },
-          {
-            title: "0.10 Beta版，2018.06.08，卡關判斷調校",
-            title_zh_TW: "",
-          },
-          {
-            title: "0.01 Beta版，2018.04.22，開始寫腳本.....",
-            title_zh_TW: "",
-          },
-		]
+    var settings = [
+      [
+        {
+          title: "☆★☆★☆============注意事項============☆★☆★☆",
+          title_zh_TW: "☆★☆★☆============注意事項============☆★☆★☆"
+        },
+        {
+          title: "⊙_⊙ 特別感謝 小源學長硬要一個腳本，才有此腳本誕生 ⊙_⊙",
+          title_zh_TW: "⊙_⊙ 特別感謝 小源學長硬要一個腳本，才有此腳本誕生 ⊙_⊙"
+        },
+        {
+          title: "2019.05.05，0.45 Beta，新增 大師/技能/每日獎勵 完成判斷",
+          title_zh_TW: "2019.05.04，0.45 Beta，新增 大師/技能/每日獎勵 完成判斷"
+        },
+        {
+          title: "2019.05.04，0.40 Beta，新版每日獎勵修整，優化大技滿級判斷",
+          title_zh_TW: "2019.05.04，0.40 Beta，新版每日獎勵修整，優化大技滿級判斷"
+        },
+        {
+          title: "★本腳本僅適用 720x1280 解析度，英文介面。",
+          title_zh_TW: "★本腳本僅適用 720x1280 解析度，英文介面。"
+        },
+        {
+          title: "★遊戲內語言限定「英語」腳本才可正常執行。",
+          title_zh_TW: "★遊戲內語言限定「英語」腳本才可正常執行。"
+        },
+        {
+          title: "★遊戲內數字顯示模式設定為 eXXX 顯示。",
+          title_zh_TW: "★遊戲內數字顯示模式設定為 eXXX 顯示。"
+        },
+        {
+          title: "★蛻變控制，是以卡BOSS與設定金幣值檢查次數觸發。",
+          title_zh_TW: "★蛻變控制，是以卡BOSS與設定金幣值檢查次數觸發。"
+        },
+      ],
+      [
+        {
+          key: '', 
+          title: "========General setting========",
+          title_zh_TW: "========一般設定========",
+        },
+        {
+          title: "Language setting / 語言設定",
+          title_zh_TW: "Language setting / 語言設定",
+          buttons: [{
+            title: "En",
+            onclick: "saveLocale('en-US')"
+          }, {
+            title: "中文",
+            onclick: "saveLocale('zh-TW')"
+          }],
+        },
+        {
+          key: 'swVIP', 
+          title: "VIP - NO AD",
+          title_zh_TW: "VIP - 無廣告",
+          default: false,
+        },
+      ],
+      [
+        {
+          key: '', 
+          title: "========Skills Setting========",
+          title_zh_TW: "========技能設定========",
+        },
+        {
+          key: 'UISk_1', 
+          title: "技能1-天堂聖擊",
+          title_zh_TW: "技能1-天堂聖擊",
+          default: true,
+        },
+        {
+          key: 'UISk_2', 
+          title: "技能2-致命打擊",
+          title_zh_TW: "技能2-致命打擊",
+          default: true,
+        },
+        { 
+          key: 'UISk_3', 
+          title: "技能3-米達斯手",
+          title_zh_TW: "技能3-米達斯手",
+          default: true,
+        },
+        {
+          key: 'UISk_4', 
+          title: "技能4-火焰之劍",
+          title_zh_TW: "技能4-火焰之劍",
+          default: true,
+        },
+        {
+          key: 'UISk_5', 
+          title: "技能5-戰嚎呦嗚",
+          title_zh_TW: "技能5-戰嚎呦嗚",
+          default: true,
+        },
+        {
+          key: 'UISk_6', 
+          title: "技能6-旋渦嗚人",
+          title_zh_TW: "技能6-旋渦嗚人",
+          default: true,
+        },		  
+      ],
+      [
+        {
+          key: '', 
+          title: "========Fairs AD Buffer========",
+          title_zh_TW: "========小仙女廣告========",
+        },
+        {
+          key: 'UIFaAD_1', 
+          title: "效果1-鑽石",
+          title_zh_TW: "效果1-鑽石",
+          default:  true,
+        },
+        {
+          key: 'UIFaAD_2', 
+          title: "效果2-金幣",
+          title_zh_TW: "效果2-金幣",
+          default: false,
+        },
+        {
+          key: 'UIFaAD_3', 
+          title: "效果3-全技",
+          title_zh_TW: "效果3-全技",
+          default: false,
+        },
+        {
+          key: 'UIFaAD_4', 
+          title: "效果4-90趴",
+          title_zh_TW: "效果4-90趴",
+          default: false,
+        },
+        {
+          key: 'UIFaAD_5', 
+          title: "效果5-回MP",
+          title_zh_TW: "效果5-回MP",
+          default: false,
+        },
+        {
+          key: '', 
+          title: "註：全技關閉，不點擊小仙女。",
+          title_zh_TW: "註：全技關閉，不點擊小仙女",
+        },
+        { 
+          key: 'SwFaADGD4', 
+          title: "金幣級次達到收金幣(仟位)",
+          title_zh_TW: "金幣級次達到收金幣(仟位)", 
+          default: 0,
+          step: 1000,
+          max: 9000,
+          min: 0,
+        },
+        { 
+          key: 'SwFaADGD3', 
+          title: "金幣級次達到收金幣(百位)",
+          title_zh_TW: "金幣級次達到收金幣(百位)", 
+          default: 0,
+          step: 100,
+          max: 900,
+          min: 0,
+        },
+        { 
+          key: 'SwFaADGD2', 
+          title: "金幣級次達到收金幣(十位)",
+          title_zh_TW: "金幣級次達到收金幣(十位)", 
+          default: 0,
+          step: 10,
+          max: 90,
+          min: 0,
+        },
+        { 
+          key: 'SwFaADGD1', 
+          title: "金幣級次達到收金幣(個位)",
+          title_zh_TW: "金幣級次達到收金幣(個位)", 
+          default: 0,
+          step: 1,
+          max: 9,
+          min: 0,
+        },
+      ],
+      [
+        {
+          key: '', 
+          title: "========Sword Master Setting========",
+          title_zh_TW: "========劍術大師設定========",
+        },
+        {
+          key: 'SwMastSw',
+          title: "Sword Master LvUp",
+          title_zh_TW: "主角/大技升級開關",
+          default:  false,
+        },
+        { 
+          key: 'SwMastTm',
+          title: "LvUp Check Interval Time(s)",
+          title_zh_TW: "主角/大技升級,檢查時間(秒)", 
+          default: 240,
+          step: 15,
+          max: 600,
+          min: 30,
+        },
+        { 
+          key: 'SwMastLvLm2',
+          title: "LvUp Max Limit(11000) (0:Non-LvUp)",
+          title_zh_TW: "主角升級,等級限制(萬、仟位) (0:不升)", 
+          default: 0,
+          step: 1000,
+          max: 90000,
+          min: 0,
+        },
+        { 
+          key: 'SwMastLvLm1',
+          title: "LvUp Max Limit(100) (0:Non-LvUp)",
+          title_zh_TW: "主角升級,等級限制(百位) (0:不升)", 
+          default: 0,
+          step: 100,
+          max: 900,
+          min: 0,
+        },
+        { 
+          key: 'SwMastLvRu',
+          title: "Have Buffer4-90% to LvUp",
+          title_zh_TW: "效果4-90趴，才升級",
+          default:  false,
+        },
+      ],
+      [
+        {
+          key: '', 
+          title: "========Hero Setting========",
+          title_zh_TW: "========英雄設定========",
+        },
+        {
+          key: 'SwHeroSw',
+          title: "Hero LvUp",
+          title_zh_TW: "英雄升級開關", 
+          default:  true,
+        },
+        { 
+          key: 'SwHrfsTm',
+          title: "1st Page Check Interval Time(s)",
+          title_zh_TW: "第一頁英雄升級,檢查時間(秒)", 
+          default: 40,
+          step: 10,
+          max: 60,
+          min: 10,
+        },
+        { 
+          key: 'SwHeroTm',
+          title: "All Heros Check Interval Time(s)",
+          title_zh_TW: "所有英雄升級,檢查時間(秒)", 
+          default: 180,
+          step: 15,
+          max: 600,
+          min: 30,
+        },
+        {
+          key: 'SwHeroLvRu',
+          title: "Have Buffer4-90% to LvUp",
+          title_zh_TW: "效果4-90趴，才升級", 
+          default:  false,
+        },
+      ],
+      [
+        {
+          key: '', 
+          title: "========Prestige Setting========",
+          title_zh_TW: "========蛻變設定========",
+        },
+        { 
+          key: 'SwBossReT',
+          title: "Stuck Stage Wait to hit again time(s) (0~3600)",
+          title_zh_TW: "卡BOSS，等待再打(秒) (0~3600)", 
+          default: 5,
+          step: 5,
+          max: 600,
+          min: 5,
+        },
+        {
+          key: 'SwPrestig',
+          title: "Auto Prestige",
+          title_zh_TW: "自動蛻變",
+          default: true,
+        },
+        { 
+          key: 'SwBossGd4', 
+          title: "金幣級次卡關蛻變啟動(仟位)",
+          title_zh_TW: "金幣級次卡關蛻變啟動(仟位)", 
+          default: 0,
+          step: 1000,
+          max: 9000,
+          min: 0,
+        },
+        { 
+          key: 'SwBossGd3', 
+          title: "金幣級次卡關蛻變啟動(百位)",
+          title_zh_TW: "金幣級次卡關蛻變啟動(百位)", 
+          default: 0,
+          step: 100,
+          max: 900,
+          min: 0,
+        },
+        { 
+          key: 'SwBossGd2', 
+          title: "金幣級次卡關蛻變啟動(十位)",
+          title_zh_TW: "金幣級次卡關蛻變啟動(十位)", 
+          default: 0,
+          step: 10,
+          max: 90,
+          min: 0,
+        },
+        { 
+          key: 'SwBossGd1', 
+          title: "金幣級次卡關蛻變啟動(個位)",
+          title_zh_TW: "金幣級次卡關蛻變啟動(個位)", 
+          default: 0,
+          step: 1,
+          max: 9,
+          min: 0,
+        },
+        { 
+          key: 'SwBossPrs',
+          title: "30sec Stuck BOSS  x Times to Prestige (0:off)",
+          title_zh_TW: "30秒BOSS不過連續 x次蛻變 (0:關)", 
+          default: 3,
+          step: 1,
+          max: 20,
+          min: 1,
+        },
+        { 
+          key: 'SwPrgolds4', 
+          title: "Gold eXXXX to Prestige(1000)",
+          title_zh_TW: "金幣級次蛻變eXXXX (仟位)", 
+          default: 0,
+          step: 1000,
+          max: 9000,
+          min: 0,
+        },
+        { 
+          key: 'SwPrgolds3', 
+          title: "Gold eXXXX to Prestige(100)",
+          title_zh_TW: "金幣級次蛻變eXXXX (百位)", 
+          default: 0,
+          step: 100,
+          max: 900,
+          min: 0,
+        },
+        { 
+          key: 'SwPrgolds2', 
+          title: "Gold eXXXX to Prestige(10)",
+          title_zh_TW: "金幣級次蛻變eXXXX (十位)", 
+          default: 0,
+          step: 10,
+          max: 90,
+          min: 0,
+        },
+        { 
+          key: 'SwPrgolds1', 
+          title: "Gold eXXXX to Prestige(1)",
+          title_zh_TW: "金幣級次蛻變eXXXX (個位)", 
+          default: 0,
+          step: 1,
+          max: 9,
+          min: 0,
+        },
+        { 
+          key: 'SwPrgoldT',
+          title: "Gold >= eXXXX x Times to Prestige (1~30)",
+          title_zh_TW: "金幣達設定 x次蛻變 (1~30)", 
+          default: 3,
+          step: 1,
+          max: 30,
+          min: 1,
+        },
+        {
+          key: 'SwPrSaScr',
+          title: "Screenshot at Prestige(All Screen)",
+          title_zh_TW: "蛻變時自動抓圖(全屏)", 
+          default: false
+        },
+        {
+          title: "Pic Save Path:/storage/emulated/legacy/Pictures/TT2",
+          title_zh_TW: "圖片存檔路徑:/storage/emulated/legacy/Pictures/TT2",
+        },
+      ],
+      [
+        {
+          key: '', 
+          title: "========Artifacts Setting========",
+          title_zh_TW: "========聖物設定========",
+        },
+        // {
+        //   key: 'SwArtifDv',
+        //   title: "Auto Descover Artifacts(No Use)",
+        //   title_zh_TW: "自動發掘文物(暫無功能)", 
+        //   default: false,
+        // },
+        {
+          key: 'SwRedbook',
+          title: "Auto Upgrade RedBook",
+          title_zh_TW: "紅書自動升級", 
+          default: false,
+        },
+      ],
+      [
+        {
+          key: '', 
+          title: "========Clan Setting========",
+          title_zh_TW: "========工會設定========"
+        },
+        {
+          key: 'swClanbos',
+          title: "Fight Clan Boss",
+          title_zh_TW: "打工會boss",
+          default: false,
+        },
+      ],
+      [
+        {
+          key: '', 
+          title: "========Equipment Setting========",
+          title_zh_TW: "========裝備設定========"
+        },
+        { 
+          key: '',
+          title: "Auto Sell(No Use) (0:off; 1. general; 2. rare; 3. legend)",
+          title_zh_TW: "自動賣裝(暫無功能) (0:關; 1:白; 2:藍; 3:紫)", 
+          default: 0,
+          step: 1,
+          max: 3,
+          min: 0,
+        },
+      ]
       ];
+	  
       function saveLocale(locale) {
         if (localStorage !== undefined) {
-          localStorage.setItem('taptitans2language', locale);
+          localStorage.setItem('idlerpglanguage', locale);
           location.reload();
         }
       }
+	  
       function loadSettings(settings) {
         var recordSettings = {};
         if (localStorage = undefined) {
           return;
         }
-        var version = +localStorage.getItem('taptitans2version');
+        var version = +localStorage.getItem('idlerpgversion');
         if (!version || VERSION != version) {
           return;
         }
-        var settingsJSON = localStorage.getItem('taptitans2settings');
+        var settingsJSON = localStorage.getItem('idlerpgsettings');
         if (!settingsJSON) {
           return;
         }
@@ -402,6 +908,7 @@
         }
         console.log('Load settings');
       }
+	  
       function saveSettings(settings) {
         if (localStorage != undefined) {
           var recordSettings = {};
@@ -418,28 +925,45 @@
               }
             }
           }
-          localStorage.setItem('taptitans2version', VERSION);
-          localStorage.setItem('taptitans2settings', JSON.stringify(recordSettings));
+          localStorage.setItem('idlerpgversion', VERSION);
+          localStorage.setItem('idlerpgsettings', JSON.stringify(recordSettings));
           console.log('Save settings');
         }
       }
+	  
       function genStartCommand(settings) {
-        var command = "start(";
+		//var settingArray = [];
+		var settingObject = {};
+		var command = "start(";
         for (var i in settings) {
           for (var g in settings[i]) {
             var id =  i + "_" + g;
             var setting = settings[i][g];
+			//if (settingArray[i] == undefined) {
+			//	settingArray[i] = [];
+			//}
+			
             if (typeof setting.default === "boolean") {
               command += $("#setting_value_" + id).is(':checked') + ", ";
+			  //settingArray[i][g] = $("#setting_value_" + id).is(':checked');
+			  settingObject[setting.key] = $("#setting_value_" + id).is(':checked');
             } else if (typeof setting.default === "number") {
               command += $("#setting_value_" + id).val() + ", ";
+			  //settingArray[i][g] = $("#setting_value_" + id).val();
+			  settingObject[setting.key] = $("#setting_value_" + id).val();
             } else if (typeof setting.default === "string") {
               command += "'" + $("#setting_value_" + id).val() + "', ";
+			  //settingArray[i][g] = $("#setting_value_" + id).val();
+			  settingObject[setting.key] = $("#setting_value_" + id).val();
             }
           }
         }
         command += "undefined);"
-        console.log("Start command: " + command);
+		//console.log(settingArray, JSON.stringify(settingArray));
+		//command = 'start(\'' + JSON.stringify(settingArray) + '\')';
+		//console.log(settingObject, JSON.stringify(settingObject));
+		command = 'start(\'' + JSON.stringify(settingObject) + '\')';
+        //console.log("Start command: " + command);
         return command;
       }
 
@@ -447,7 +971,7 @@
         if (localStorage === undefined) {
           return setting.title;
         }
-        var lang = localStorage.getItem('taptitans2language');
+        var lang = localStorage.getItem('idlerpglanguage');
         if (!lang) {
           return setting.title;
         } else if (lang === "zh-TW") {
@@ -503,24 +1027,35 @@
               var jInput = $("<input id='setting_value_" + id + "' class='setting_input_value' type='number' value='" + setting.default + "' readonly/>");
               var jBtnP = $('<button id="setting_value_p_' + id + '" class="btn btn-danger">+' + step + '</button>');
               var jBtnM = $('<button id="setting_value_m_' + id + '" class="btn btn-danger">-' + step + '</button>');
+			  
               jBtnP.click((function(jInput, min, max, step){
                 return function() {
                   var newValue = (+jInput.val()) + step;
-                  if (newValue <= max) {
+                  //var newValue = (+jInput.val()) + step * Math.pow(10, pow10);
+                  if (newValue < max) {
                     jInput.val(newValue);
+                  }
+                  else if (newValue >= max) {
+                    jInput.val(max)
                   }
                   saveSettings(settings);
                 }
               })(jInput, min, max, step));
+
               jBtnM.click((function(jInput, min, max, step){
                 return function() {
                   var newValue = (+jInput.val()) - step;
-                  if (newValue >= min) {
+                 // var newValue = (+jInput.val()) - step * Math.pow(10, pow10);
+                  if (newValue > min) {
                     jInput.val(newValue);
+                  }
+                  else if (newValue <= min) {
+                    jInput.val(min)
                   }
                   saveSettings(settings);
                 }
               })(jInput, min, max, step));
+			  
               jBtns.push(jInput);
               jBtns.push(jBtnP);
               jBtns.push(jBtnM);
@@ -553,44 +1088,219 @@
 
     <script>
       $(function() {
-        $("#version").html(" Tap Titans 2 / 點擊泰坦 2 ");
+        $("#version").html("Tap Tatians 2 (官方:3.0.1)");
 
         loadSettings(settings);
         genSettings($("#settings"), settings);
 
         $("#goToTop").click(function() {
-          window.scrollTo(0, 0);
+		  	$('html,body').animate({scrollTop:'0px'}, 1000);
         });
 
-        if (localStorage !== undefined && localStorage.getItem('taptitans2language') === "zh-TW") {
+        if (localStorage !== undefined && localStorage.getItem('idlerpglanguage') === "zh-TW") {
           $("#goToTop").text("回頁面頂端");
         } else {
           $("#goToTop").text("Go Top");
         }
       });
 
+      var topdistance = 110;
+      $(function() {
+        $("#button_1").click(function() {
+        $('html,body').animate({scrollTop: ($('#setting_1_0').offset().top-topdistance) + 'px'}, 600); //hero
+        });
+      });
+
+      $(function() {
+        $("#button_2").click(function() {
+        $('html,body').animate({scrollTop: ($('#setting_2_0').offset().top-topdistance) + 'px'}, 600); //village
+        });
+      });
+
+      $(function() {
+        $("#button_3").click(function() {
+        $('html,body').animate({scrollTop: ($('#setting_3_0').offset().top-topdistance) + 'px'}, 600); //ascend
+        });
+      });
+
+      $(function() {
+        $("#button_4").click(function() {
+        $('html,body').animate({scrollTop: ($('#setting_4_0').offset().top-topdistance) + 'px'}, 600); //dungeon
+        });
+      });
+
+      $(function() {
+        $("#button_5").click(function() {
+        $('html,body').animate({scrollTop: ($('#setting_5_0').offset().top-topdistance) + 'px'}, 600); //expedition
+        });
+      });
+
+      $(function() {
+        $("#button_6").click(function() {
+        $('html,body').animate({scrollTop: ($('#setting_6_0').offset().top-topdistance) + 'px'}, 600); //area
+        });
+      });
+
+      $(function() {
+        $("#button_7").click(function() {
+        $('html,body').animate({scrollTop: ($('#setting_7_0').offset().top-topdistance) + 'px'}, 600); //guild help/medal
+        });
+      });
+
+      $(function() {
+        $("#button_8").click(function() {
+        $('html,body').animate({scrollTop: ($('#setting_8_0').offset().top-topdistance) + 'px'}, 600); //guild boss
+        });
+      });
+
+      $(function() {
+        $("#button_9").click(function() {
+        $('html,body').animate({scrollTop: ($('#setting_9_0').offset().top-topdistance) + 'px'}, 600); //tap & treasure chest
+        });
+      });
+
+      $(function() {
+        $("#button_10").click(function() {
+        $('html,body').animate({scrollTop: ($('#setting_10_0').offset().top-topdistance) + 'px'}, 600); //Other
+        });
+      });
+
+      $(function() {
+        $("#button_11").click(function() {
+        $('html,body').animate({scrollTop: ($('#table_1_1').offset().top-130) + 'px'}, 600); //expedition material code
+        });
+      });
+
+      $(function() {
+        $("#button_12").click(function() {
+        $('html,body').animate({scrollTop: ($('#table_2_1').offset().top-150) + 'px'}, 600); //hero code
+        });
+      });
+
+      $(function() {
+        $("#button_13").click(function() {
+        $('html,body').animate({scrollTop: ($('#table_3_1').offset().top-380) + 'px'}, 600); //update story
+        });
+      });
+
+	  
+      $(function() {
+        $("#button_14").click(function() {
+        // $('html,body').animate({scrollTop: ($('#setting_2_0').offset().top-140) + 'px'}, 600); //note go top
+		  	$('html,body').animate({scrollTop:'0px'}, 800);    
+        });
+      });
+
+	  
       function onEvent(eventType) {
         if (eventType == 'OnPlayClick') {
-		  JavaScriptInterface.setXY(3, 480)
           var startCommand = genStartCommand(settings);
           JavaScriptInterface.runScript(startCommand);
+		  JavaScriptInterface.setXY(0, 480)
         } else if (eventType == 'OnPauseClick') {
-          JavaScriptInterface.runScript('stop();');
+          JavaScriptInterface.runScript('stop();')
         }
-		
       }
     </script>
   </head>
   <body>
+    <br /><br /><br /><br /><br />
+
     <nav class="navbar navbar-custom" role="navigation">
       <a id="version" class="navbar-brand"></a>
     </nav>
+	  <div id="top-bar">
+		<div id="menu">
+		  <tr>
+			<td>&nbsp;&nbsp;&nbsp;</td>
+			<td><button id="button_1" class="small blue button">一般</button></td><td>｜</td>
+			<td><button id="button_2" class="small blue button">技能</button></td><td>｜</td>
+			<td><button id="button_3" class="small blue button">仙女</button></td><td>｜</td>
+			<td><button id="button_4" class="small blue button">大師</button></td><td>｜</td>
+			<td><button id="button_5" class="small blue button">英雄</button></td><td>｜</td>
+			<td><button id="button_6" class="small blue button">蛻變</button></td><td>&nbsp;&nbsp;||&nbsp;</td>
+			<td><button id="button_11" class="small red button">－－－－</button></td><td>&nbsp;&nbsp;||&nbsp;</td>
+			<td><button id="button_14" class="small button">注意事項</button></td>
+		　</tr>
+		　<br />
+		  <tr>
+			<td>&nbsp;&nbsp;&nbsp;</td>
+			<td><button id="button_7" class="small green button">聖物設定</button></td><td>｜</td>
+			<td><button id="button_8" class="small green button">工會設定</button></td><td>｜</td>
+			<td><button id="button_9" class="small green button">裝備設定</button></td><td>｜</td>
+			<td><button id="button_10" class="small green button">－－－－</button></td><td>&nbsp;&nbsp;||&nbsp;</td>
+			<td><button id="button_12" class="small red button">卡片代碼</button></td><td>&nbsp;&nbsp;||&nbsp;</td>
+			<td><button id="button_13" class="small button">更新日誌</button></td>
+		　</tr>
+		</div>
+	</div>  
     <div class="container">
       <div id="settings"></div>
       <button id="goToTop" class="btn btn-plus">Go Top</button>
+    </div>
+
+    <div class='container'>
       <br />
+      <br />========Clan Fight Boss Cards Code/ 工會BOSS戰鬥卡 代碼========
+      <table id="table_2_1" cellpadding="8" border="0">
+        <tr>
+          <td style="height:80px;width:94px;" align='center' valign="middle">1.<img src="images/hero_list/1_water/herolist_1_1.png"></td>
+          <td style="height:80px;width:94px;" align='center' valign="middle">2.<img src="images/hero_list/1_water/herolist_1_2.png"></td>
+          <td style="height:80px;width:94px;" align='center' valign="middle">3.<img src="images/hero_list/1_water/herolist_1_3.png"></td>
+          <td style="height:80px;width:94px;" align='center' valign="middle">4.<img src="images/hero_list/1_water/herolist_1_4.png"></td>
+          <td style="height:80px;width:94px;" align='center' valign="middle">5.<img src="images/hero_list/1_water/herolist_1_5.png"></td>
+          <td style="height:80px;width:94px;" align='center' valign="middle">6.<img src="images/hero_list/1_water/herolist_1_6.png"></td>
+          <td style="height:80px;width:94px;" align='center' valign="middle">7.<img src="images/hero_list/1_water/herolist_1_7.png"></td>
+      　</tr>
+        <tr>
+          <td style="height:80px;width:94px;" align='center' valign="middle">8.<img src="images/hero_list/1_water/herolist_1_8.png"></td>
+          <td style="height:80px;width:94px;" align='center' valign="middle">9.<img src="images/hero_list/1_water/herolist_1_9.png"></td>
+          <td style="height:80px;width:94px;" align='center' valign="middle">10.<img src="images/hero_list/1_water/herolist_1_10.png"></td>
+          <td style="height:80px;width:94px;" align='center' valign="middle">11.<img src="images/hero_list/1_water/herolist_1_11.png"></td>
+          <td style="height:80px;width:94px;" align='center' valign="middle">10.<img src="images/hero_list/1_water/herolist_1_12.png"></td>
+          <td style="height:80px;width:94px;" align='center' valign="middle">13.<img src="images/hero_list/1_water/herolist_1_13.png"></td>
+          <td style="height:80px;width:94px;" align='center' valign="middle">14.<img src="images/hero_list/1_water/herolist_1_14.png"></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td style="height:80px;width:94px;" align='center' valign="middle">15.<img src="images/hero_list/1_water/herolist_1_15.png"></td>
+          <td style="height:80px;width:94px;" align='center' valign="middle">16.<img src="images/hero_list/1_water/herolist_1_16.png"></td>
+          <td style="height:80px;width:94px;" align='center' valign="middle">17.<img src="images/hero_list/1_water/herolist_1_17.png"></td>
+          <td style="height:80px;width:94px;" align='center' valign="middle">18.<img src="images/hero_list/1_water/herolist_1_18.png"></td>
+          <td style="height:80px;width:94px;" align='center' valign="middle">19.<img src="images/hero_list/1_water/herolist_1_19.png"></td>
+          <td style="height:80px;width:94px;" align='center' valign="middle">20.<img src="images/hero_list/1_water/herolist_1_20.png"></td>
+          <td style="height:80px;width:94px;" align='center' valign="middle">21.<img src="images/hero_list/1_water/herolist_1_21.png"></td>
+          <td></td>
+        </tr>
+      </table>
       <br />
+      <br /> 
+      <table id='table_3_1' cellpadding="8" border="0">
+        <br />==================Updata 更新日誌==================
+        <br />2018.12.01，0.36 Beta，新增卡畫面自動重啟，優化打公會boss
+        <br />2018.10.27，0.35 Beta，優化程式碼及工會boss，取消perks設定
+        <br />2018.10.08，0.30 Beta，新增金幣控制 金錢buffer與卡關檢查
+        <br />2018.09.08，0.28 Beta版，修改看廣告圖面偏移無法判斷
+        <br />2018.08.22，0.26 Beta版，沒有改什麼
+        <br />2018.08.12，0.25 Beta版，新增金幣量及檢查次數蛻變條件
+        <br />2018.08.11，0.22 Beta版，新增每日任務獎勵自動領
+        <br />2018.07.15，0.20 Beta版，新增第1頁英雄升級控制
+        <br />2018.07.09，0.19 Beta版，新增自動升紅書/英雄升級優化
+        <br />2018.07.06，0.17 Beta版，新增打公會boss/天降黃金控制
+        <br />2018.06.08，0.10 Beta版，卡關判斷調校
+        <br />2018.04.22，0.01 Beta版，開始寫腳本.....
+        <br />
+
+
+      </table>
+        <br /><br /><br /><br /><br />
+        <br /><br /><br /><br /><br />
+        <br /><br /><br /><br /><br />
+        <br /><br /><br /><br /><br />
+        <br /><br /><br /><br /><br />
+        <br /><br /><br /><br /><br />
       <br />
+      <br />!!!!!!!!!!!!!!!!!!同學，到底了喔!!!!!!!!!!!!!!!!!!
     </div>
   </body>
 </html>

@@ -1027,7 +1027,7 @@ function AD_watch(ADtimer) {            //看廣告等待檢查 ADtimer:看廣�
 
 	console.log('看廣告等待')
 	
-	for (var i = 0; i < ADtimer + 20; i++) {
+	for (var i = 0; i < ADtimer + 10; i++) {
 		if (!config.isRunning) return false;
 		
 		if (i > 10 && i < ADtimer) {
@@ -1042,11 +1042,13 @@ function AD_watch(ADtimer) {            //看廣告等待檢查 ADtimer:看廣�
 		
 		var sizeObj = getScreenSize();
 		if (i > 10 && sizeObj.width == 720){
-			var checkBreak1 = CheckImageTap(300, 400, 420,  460, 0.98, 'quitBOX.png', 180, 840, 1, 100, 2);
+			var checkBreak1 = CheckImageTap(300, 400, 420,  460, 0.90, 'quitBOX.png', 180, 840, 1, 100, 2);
+			console.log('quitBOX.png:', checkBreak1);
 			if (checkBreak1) { tap(180, 840, 50);}
 			
-			var checkBreak2 = CheckImageTap(230, 960, 490, 1030, 0.98, 'ADcollect.png', 1, 1, 1, 100, 2);
-			if (checkBreak2) { tap(360, 950, 50); break;}
+			var checkBreak2 = CheckImageTap(230, 850, 490, 1130, 0.90, 'ADcollect.png', 1, 1, 1, 100, 2);
+			console.log('ADcollect.png:', checkBreak2);
+			if (checkBreak2) {tap(360, 950, 50); break;}
 			
 			if (checkReturn(12)) {
 				for (var j = 0; j < 30; j++) {
@@ -1065,21 +1067,29 @@ function AD_watch(ADtimer) {            //看廣告等待檢查 ADtimer:看廣�
 		}
 		
 		sleep(1000)
-		//console.log('廣告觀看計時 = ' + i);
+		ScreenErrorTime1 = Date.now();
+		console.log('廣告觀看計時 = ' + i);
 	}
 }
 
 function MasterLvUp(MaxLvup, Timer){    //劍術大師升級
-	//console.log('8888');
 	if (!config.isRunning || !SwMastSw || Date.now() < MasterLvUpTimer) return false;
 	//if ( checkReturn(11) || checkReturn(14)) return false;
-	if ( SwMastLvRu && !checkReturn(2)) { console.log('Master-no90%', SwMastLvRu, checkReturn(2)); return false;}
+	if (SwMastLvRu && !checkReturn(2)) { console.log('Master-no90%', SwMastLvRu, checkReturn(2)); return false;}
 	if (HerosLvUpTimer <= 5) return false;
+
 	console.log('劍術大師升級');
 	
+	masterset[0] = masterset[1] + masterset[2] + masterset[3]
+	rbm.log('masterset:', masterset);
+	if (masterset[0] == 3) {
+		console.log('等級/技能/日獎 完成!!'); 
+		MasterLvUpTimer = Date.now() + 600 * 1000
+		return false;
+	}
+
 	var buyModearray = new Array( '', 'x1', 'x10', 'x100', 'xMax');
 	
-	//usePerks(swRaintms, 0)
 	choiceMenu(1, 2); sleep(300);
 	for (var i = 0; i < 14; i++) {
 		if (!config.isRunning) return false;
@@ -1091,7 +1101,6 @@ function MasterLvUp(MaxLvup, Timer){    //劍術大師升級
 				SkillLvUp(1);
 				
 				MasterLv = recoNumgroup(1)
-				
 				if (MasterLv < MaxLvup) {
 					console.log('劍術大師，Lv:', MasterLv, '<', MaxLvup, '，進行升級');
 					tapFor(695, 190, 3, 100, 150)
@@ -1100,6 +1109,7 @@ function MasterLvUp(MaxLvup, Timer){    //劍術大師升級
 				}
 				else {
 					console.log('劍術大師，Lv:', MasterLv, '>', MaxLvup, '，不升級');
+					masterset[1] = 1;
 				}
 				
 				sleep(300);
@@ -1110,7 +1120,10 @@ function MasterLvUp(MaxLvup, Timer){    //劍術大師升級
 					console.log('沒有 Tap Damge，等待5秒');
 					sleep(5000);
 					
-					if (!checkReturn(20)) { console.log('還是沒有 Tap Damge，跳出 Master Lvup'); return false; }
+					if (!checkReturn(20)) { 
+						console.log('還是沒有 Tap Damge，跳出 Master Lvup'); 
+						return false; 
+					}
 				}
 				
 				MasterLvUpTimer = Date.now() + Timer * 1000
@@ -1128,6 +1141,7 @@ function MasterLvUp(MaxLvup, Timer){    //劍術大師升級
 
 function SkillLvUp(clearF){                   //大技升級
 	if (!config.isRunning || checkReturn(11)) return false;
+	if (masterset[2] == 1) {console.log('技能全部LV25'); return false;}
 	console.log('大技升級');
 	var buyModearray = ['', 'unlockskill.png', 'upgradex1.png'];
 	var skillname = ['Heavenly Strike', 'Deadly strike', 'Hand of Midas', 'Fire Sword', 'War Cry', 'Shadow Clone'];
@@ -1150,7 +1164,7 @@ function SkillLvUp(clearF){                   //大技升級
 					else { tapFor(690, lvY1, 1, 60, 100);}
 					sleep(200);
 				}
-				if (a >= 6) break;
+				if (a >= 6) {console.log('技能全部LV25'); masterset[2] = 1; break;}
 			}
 			
 			for (var j = 0; j < 5; j++) {
@@ -1187,6 +1201,7 @@ function SkillLvUp(clearF){                   //大技升級
 
 function Daily(Timer) {                //每日任務獎勵
 	if (!config.isRunning || Date.now() < DailyTimer) return false;
+	if (masterset[3] == 1) {console.log('任務全部完成'); return false;}
 	console.log('每日任務獎勵');
 	
 	for (var i = 1; i <= 10; i++) {
@@ -1202,22 +1217,32 @@ function Daily(Timer) {                //每日任務獎勵
 			CheckImageTap(44, 120, 680, 190, 0.95, 'daily_dark.png', 1, 1, 2, 100, 1);
 
 			rbm.keepScreenshotPartial( 460, 258, 670, 868);  //確認完成收集
-			var results = rbm.findImages("daily_collect.png", 0.90, 5, true, false);
-			rbm.releaseScreenshot();
+			var results2 = rbm.findImages("daily_complete.png", 0.90, 5, true, false);
 			
-			if (results == '') {console.log('no daily_collect')}
-			if (results != '') {
-				for (var index in results) {
-					if (!config.isRunning) return false;
-					var result = results[index];
-					rbm.log('results:', result);
-					tapFor(result.x, result.y, 10, 200, 1000);
-				}
-			} else if (results == '' && i > 2) {
+			var completes = Object.keys(results2).length;
+			console.log('任務完成', completes, '個');
+			if (completes < 5) {var results = rbm.findImages("daily_collect.png", 0.90, 5, true, false);}
+			rbm.releaseScreenshot();
+
+			if (completes == 5) {
+				console.log('任務全部完成'); 
+				masterset[3] = 1; 
 				tapFor(640, 80, 2, 100, 500);
 				break;
+			} else {			
+				if (results == '') {console.log('no daily_collect')}
+				if (results != '') {
+					for (var index in results) {
+						if (!config.isRunning) return false;
+						var result = results[index];
+						rbm.log('results:', result);
+						tapFor(result.x, result.y, 10, 200, 1000);
+					}
+				} else if (results == '' && i > 2) {
+					tapFor(640, 80, 2, 100, 500);
+					break;
+				}
 			}
-
 
 			// rbm.keepScreenshotPartial( 480, 260, 655, 325);  //確認領取每日任務獎勵
 			// var targetImg2 = rbm.imageExists('complete.png', 0.95)
@@ -1235,7 +1260,7 @@ function Daily(Timer) {                //每日任務獎勵
 	DailyTimer = Date.now() + Timer * 1000
 }
 
-function HerosLvUp(oneMaxLv, Timer1, Timer2){    //英雄升級
+function HerosLvUp(Timer1, Timer2){    //英雄升級
 	//console.log('hero 1111');
 	if (!config.isRunning || !SwHeroSw ) return false;  
 	
@@ -1558,6 +1583,8 @@ function prestige(){                    //轉生
 					
 					if (targetImg) { 
 						console.log(j, '轉生完成'); 
+						
+						setFirstTimer(); 
 						maxgold = 0;
 						pregold = 0;
 						sleep(1000);
@@ -1580,7 +1607,6 @@ function prestige(){                    //轉生
 			DIY_swipe(350, 1090, 350, 690, 40, 400);
 		}
 		bossprestige = 0;
-		usePerksTimer = Date.now();
 	}
 	
 	//prestigeTimer = Date.now() + Timer * 1000
@@ -1721,7 +1747,7 @@ function debug(Timer){                  //卡畫面檢查
 	debugTimer =  Date.now() + Timer * 1000;
 }
 
-function fightClanboss(){
+function fightClanboss(){          //工會boss
 	if (!config.isRunning || !swClanbos) { return false; }
 	
 	rbm.keepScreenshotPartial( 95, 15, 155, 65);  //確認公會boss能打
@@ -1786,6 +1812,7 @@ function fightClanboss(){
 	}
 	//else { console.log('沒有公會boss打'); }
 }
+
 
 function Artifact(Timer) {
 	if (!config.isRunning || Date.now() < ArtifactTimer) { return false; }
@@ -1910,7 +1937,7 @@ function main(){                        //主流程
 	var s = 100;
 
 	console.log('HerosLvUp 英雄升級');
-	HerosLvUp(SwHeroLvLm, SwHrfsTm, SwHeroTm);    //英雄升級
+	HerosLvUp(SwHrfsTm, SwHeroTm);    //英雄升級
 	sleep(s);
 	
 	console.log('tapMain 畫面連點');
@@ -1946,10 +1973,11 @@ function main(){                        //主流程
 
 function testsetting() {
 
-	ctrlSkillcode = '111111';
-	ctrlFairyADcode = '10000';
-
 	swVIP   = 0         //VIP無廣告開關	
+
+	ctrlSkillcode = '111111';
+	ctrlFairyADcode = '11000';
+	SwFaADGD = 665;
 	
 	SwMastSw   = 1      //劍術大師 升級開關
 	SwMastTm   = 240    //劍術大師 升級檢查時間
@@ -1999,7 +2027,6 @@ function setFirstTimer() {
 	checkScreenTimer = Date.now() 
 	
 		
-	
 	bossbkTimer = new Array(Date.now(), Date.now(), 0, 0, 0, 0, 0 );
 	//function控制時間, 卡關起點, 卡關多久, 離開boss消失, 打boss出現, 離開boss同相次數
 
@@ -2009,6 +2036,8 @@ function setFirstTimer() {
 	maxgold =  0;
 	pregold = -2;
 	
+	masterset = [0, 0, 0, 0];
+
 	rbm.screencrop('stagecheck1.png', 338, 22, 390, 82)
 	rbm.screencrop('checkSCstop.png', 330, 430, 390, 490)
 
@@ -2030,7 +2059,15 @@ function test(cycle){
 		else if (n >= 1) {
 			console.log('腳本測試開始, n:', n);
 
-		
+			// var attpart = ['左上', '左下', '中上', '中下', '下左', '下右', '右上', '右下'];
+			// var chanBSX = [ 80,  80, 360, 360, 250, 440, 610, 610];
+			// var chanBSY = [440, 720, 400, 600, 815, 815, 440, 720];
+			// var hitSW = [1, 1, 1, 1, 1, 1, 1, 1];
+			// for (var i = 0; i <= 7; i++) {
+			// 	if (hitSW[i] == 1) {tapFor(chanBSX[i], chanBSY[i], 4, 10, 10);}
+			// }
+			// sleep(5);
+
 			// SkillLvUp(1);
 			// DailyTimer      = Date.now() +  0 * 1000;
 			// Daily(10)
@@ -2038,7 +2075,7 @@ function test(cycle){
 			// if (stage > 0 && stage < 55000) stageck = stage;
 			while(config.isRunning) { main(); }
 			
-			sleep(1000);
+			// sleep(1000);
 		}
 	}
 }
@@ -2047,11 +2084,38 @@ function stop() {
 	config.isRunning=false;
 }
 
+var global = this;
+function start(settingString) {
+	rbm.init();
+	config.isRunning = true;
+	
+	var settings = JSON.parse(settingString);
+	// console.log(settingString, settings);
+	for(var key in settings) {global[key] = settings[key] * 1;};
+
+	if(SwHeroLvRu || SwMastLvRu) { UIFaAD_4 = 1; }
+	// if(UIHeroLvRu || UIMastLvRu) { UIFaAD_4 = 1; }
+	
+	ctrlSkillcode = String(UISk_1 * 1) + String(UISk_2 * 1) + String(UISk_3 * 1) + String(UISk_4 * 1) + String(UISk_5 * 1) + String(UISk_6 * 1);
+	//console.log('ctrlSkillcode=', ctrlSkillcode)  //技能控制 CODE
+	
+	ctrlFairyADcode = String(UIFaAD_1 * 1) + String(UIFaAD_2 * 1) + String(UIFaAD_3 * 1) + String(UIFaAD_4 * 1) + String(UIFaAD_5 * 1);
+	//console.log('ctrlFairyADcode=', ctrlFairyADcode)  //廣告BUFFER CODE
+	
+	SwFaADGD = SwFaADGD1 * 1 + SwFaADGD2 * 1 + SwFaADGD3 * 1 + SwFaADGD4 * 1;       //收金幣buffer金幣級次
+	SwMastLvLm = SwMastLvLm1 * 1 + SwMastLvLm2 * 1;                                 //大師升級上限
+	SwBossGd = SwBossGd1 * 1 + SwBossGd2 * 1 + SwBossGd3 * 1 + SwBossGd4 * 1;       //卡關檢查金幣級次
+	SwPrgolds = SwPrgolds1 * 1 + SwPrgolds2 * 1 + SwPrgolds3 * 1 + SwPrgolds4 * 1;  //蛻變到達金幣級次
+
+	setFirstTimer()     //設定初始值
+	ScreenErrorTime1 = Date.now()
+	
+	console.log('TT2 - 腳本執行開始');
+	while(config.isRunning) { main(); }
+} 
 
 
-
-
-
+/*
 function start(UIVIP, UISk_1, UISk_2, UISk_3, UISk_4, UISk_5, UISk_6, UIFaAD_1, UIFaAD_2, UIFaAD_3, UIFaAD_4, UIFaAD_5, UIFaADGD, UIMastSw, UIMastTm, UIMastLvLm, UIMastLvRu, UIHeroSw, UIHrfsTm, UIHeroTm, UIHeroLvLm, UIHeroLvRu, UIBossReT, UIPrestig, UIBossGd, UIBossPrs, UIPrgolds, UIPrgoldT, UIPrSaScr, UIArtifDv, UIRedbook, UIClanbos ) {
 	rbm.init();
 	config.isRunning = true;
@@ -2107,3 +2171,4 @@ function start(UIVIP, UISk_1, UISk_2, UISk_3, UISk_4, UISk_5, UISk_6, UIFaAD_1, 
 	console.log('TT2 - 腳本執行開始');
 	while(config.isRunning) { main(); }
 }
+*/
