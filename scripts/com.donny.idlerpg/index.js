@@ -556,7 +556,7 @@ function ScreenStopTimes(intX, intY, finX, finY, siml, str, Timer) {  //Return s
 		rbm.screencrop( str, intX, intY, finX, finY)
 		ScreenErrorTime1 = Date.now()
 		ScreenErrorTime2 = 0;
-		console.log('畫面不同，重新抓圖, ScreenErrorTime2 = 0');
+		// console.log('畫面不同，重新抓圖, ScreenErrorTime2 = 0');
 	}
 	else if (targetImg.score >= siml) {
 		ScreenErrorTime2 = Date.now() - ScreenErrorTime1
@@ -571,27 +571,6 @@ function usingTimeString(startTime) {
   return '循環時間：' + (Date.now() - startTime) + 'ms';
 }
 
-// 对Date的扩展，将 Date 转化为指定格式的String
-// 月(M)、日(d)、小时(h)、分(m)、秒(s)、季度(q) 可以用 1-2 个占位符， 
-// 年(y)可以用 1-4 个占位符，毫秒(S)只能用 1 个占位符(是 1-3 位的数字) 
-// 例子： 
-// (new Date()).Format("yyyy-MM-dd hh:mm:ss.S") ==> 2006-07-02 08:09:04.423 
-// (new Date()).Format("yyyy-M-d h:m:s.S")      ==> 2006-7-2 8:9:4.18 
-// Date.prototype.Format = function (fmt) {  
-//     var o = {
-//         "M+": this.getMonth() + 1, //月份 
-//         "d+": this.getDate(), //日 
-//         "h+": this.getHours(), //小时 
-//         "m+": this.getMinutes(), //分 
-//         "s+": this.getSeconds(), //秒 
-//         "q+": Math.floor((this.getMonth() + 3) / 3), //季度 
-//         "S": this.getMilliseconds() //毫秒 
-//     };
-//     if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
-//     for (var k in o)
-//     if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
-//     return fmt;
-// }
 //==============================功能性function=====================================//
 
 function useReturn(choiceF){          //各項回授點檢查 
@@ -650,7 +629,8 @@ function useReturn(choiceF){          //各項回授點檢查
 		case 81: return CheckImageTap( 300,  340, 415,  380, 0.90, 'areafightchoice.png', 1, 1, 1, 50, 2);       return;   //競技場挑戰對手文字
 		case 82: return CheckImageTap( 390,   70, 440,  140, 0.90, 'arena_rest.png', 1, 1, 1, 50, 2);            return;   //競技場商店文字，當日停戰
 		
-		case 91: return CheckImageTap( 660,    0, 720,   60, 0.90, 'guildbosshelpRU.png', 1, 1, 1, 50, 2);       return;   //工會BOSS,右上?圖
+		//case 91: return CheckImageTap( 660,    0, 720,   60, 0.90, 'guildbosshelpRU.png', 1, 1, 1, 50, 2);       return;   //工會BOSS,右上?圖
+		case 91: return CheckImageTap( 660,    0, 720,   60, 0.90, 'guildbosshelpRY.png', 1, 1, 1, 50, 2);       return;   //工會BOSS,右上?圖
 		
 	}
 }
@@ -660,7 +640,7 @@ function recoNum(choiceF) {        //各項數字辨識
 	//console.log('各項數字辨識', choiceF);
 	
 	switch (choiceF) {
-		case  1: return	num_Recognition(320, 16, 395, 50, 0.90, 'num_Reco/idle_stage_num/idle_stage_num3_'); break;  //關卡數
+		case  1: return	num_Recognition(320, 16, 395, 50, 0.85, 'num_Reco/idle_stage_num/idle_stage_num3_'); break;  //關卡數
 		case  2:
 			//每日地城目前票數
 			rbm.keepScreenshotPartial(180, 525, 370, 545);  //Indentification Ticks
@@ -1845,8 +1825,9 @@ function GuildBossCK(bosslv, th13) {  //公會BOSS
 	console.log('工會BOSS, 選BOSS來打');
 	
 	
-	for (var i = 1; i <= 30; i++){
+	for (var i = 1; i <= 20; i++){
 		if (!config.isRunning) return false;
+		console.log('選boss，迴圈:', i);
 
 		rbm.keepScreenshotPartial( 475,  380, 565, 1105);  //找打BOSS組隊圖示
 		var Img0s = rbm.findImages('guildbossteamicon.png', 0.90, 4, true, false);
@@ -1874,8 +1855,8 @@ function GuildBossCK(bosslv, th13) {  //公會BOSS
 			var Img2 = rbm.findImage('guildbosshelpicon.png', 0.90);
 			rbm.releaseScreenshot();
 			
-			//if (Img1 != undefined) { rbm.log('Img1:',Img1); }
-			//if (Img2 != undefined) { rbm.log('Img2:',Img2); }	
+			if (Img1 != undefined) { rbm.log('Img1:',Img1); }
+			if (Img2 != undefined) { rbm.log('Img2:',Img2); }	
 			
 			if (Img1 != undefined && Img2 == undefined) {
 				tapFor( Img1.x, Img1.y, 1, 60, 200);
@@ -1935,6 +1916,7 @@ function GuildBossCK(bosslv, th13) {  //公會BOSS
 		
 		}
 		if (useReturn(21)){ break; }
+		if (i == 20){ return -1;}
 		sleep(200);
 	}
 }
@@ -3396,7 +3378,7 @@ function setFirstsetting() {
 	autoWeekSw    =    1;   //每日可打材料屬性【1:水  2:火  3:木  4:光  5:暗】
 	dgticksSw     =    0;   //保留票數
 
-	spdongeonSw   =    7;   //活動boss，9:雪怪，8:豬怪，7:龍怪
+	spdongeonSw   =    0;   //活動boss，9:雪怪，8:豬怪，7:龍怪
 	spdstageSw    =  300;
 
 	menuW0Sw      =    1;   //星期日：木、水、暗 (3, 1, 5)
@@ -3514,7 +3496,7 @@ function test(cycle){
 
 
 			while(config.isRunning) {main();}
-			sleep(1000)
+			// sleep(3000)
 			// console.log('n = ', n, ', CRA 腳本結束');
 		}
 	}

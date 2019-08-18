@@ -2059,21 +2059,21 @@ function test(cycle){
 		else if (n >= 1) {
 			console.log('腳本測試開始, n:', n);
 
-			// var attpart = ['左上', '左下', '中上', '中下', '下左', '下右', '右上', '右下'];
-			// var chanBSX = [ 80,  80, 360, 360, 250, 440, 610, 610];
-			// var chanBSY = [440, 720, 400, 600, 815, 815, 440, 720];
-			// var hitSW = [1, 1, 1, 1, 1, 1, 1, 1];
-			// for (var i = 0; i <= 7; i++) {
-			// 	if (hitSW[i] == 1) {tapFor(chanBSX[i], chanBSY[i], 4, 10, 10);}
-			// }
-			// sleep(5);
+			var attpart = ['左上', '左下', '中上', '中下', '下左', '下右', '右上', '右下'];
+			var chanBSX = [ 80,  80, 360, 360, 250, 440, 610, 610];
+			var chanBSY = [440, 720, 400, 600, 815, 815, 440, 720];
+			var hitSW = [1, 1, 1, 1, 1, 1, 1, 1];
+			for (var i = 0; i <= 7; i++) {
+				if (hitSW[i] == 1) {tapFor(chanBSX[i], chanBSY[i], 4, 10, 10);}
+			}
+			sleep(5);
 
 			// SkillLvUp(1);
 			// DailyTimer      = Date.now() +  0 * 1000;
 			// Daily(10)
 			
 			// if (stage > 0 && stage < 55000) stageck = stage;
-			while(config.isRunning) { main(); }
+			// while(config.isRunning) { main(); }
 			
 			// sleep(1000);
 		}

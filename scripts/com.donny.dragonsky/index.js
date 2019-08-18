@@ -641,14 +641,14 @@ function useReturn(choiceF){          //各項回授點檢查
 			else {return false;}
 
 		case  3:    //無廣告可看
-			rbm.keepScreenshotPartial( 467,  687, 623, 980);  //(用太多蛋蛋)
+			rbm.keepScreenshotPartial( 467,  687, 623, 980);  //()
 			var Img1 = rbm.findImage('usemoreegg.png', 0.85);
 			rbm.releaseScreenshot();
 			if (Img1 != undefined) {rbm.log('usemoreegg:', Img1);}
 			if (Img1 != undefined) {return true;} else {return false;}
 			
 		case  4:    //看廣告
-			rbm.keepScreenshotPartial( 185,  949, 236, 994);  //(用太多蛋蛋)
+			rbm.keepScreenshotPartial( 185,  949, 236, 994);  //()
 			var Img1 = rbm.findImage('watchADbutton.png', 0.90);
 			rbm.releaseScreenshot();
 
@@ -656,61 +656,67 @@ function useReturn(choiceF){          //各項回授點檢查
 			if (Img1 != undefined) {return true;} else {return false;}
 			
 		case  5:    //退出遊戲對話框
-			rbm.keepScreenshotPartial( 295,  495, 430, 540);  //(用太多蛋蛋)
+			rbm.keepScreenshotPartial( 295,  495, 430, 540);  //()
 			var Img1 = rbm.findImage('exitgame.png', 0.90);
 			rbm.releaseScreenshot();
 			if (Img1 != undefined) {rbm.log('exitgame:', Img1);}
 			if (Img1 != undefined) {return true;} else {return false;}
 			
 		case  6:    //關閉xx
-			rbm.keepScreenshotPartial( 5, 1060, 715, 1275);  //(用太多蛋蛋)
+			rbm.keepScreenshotPartial( 5, 1060, 715, 1275);  //()
 			var Img1 = rbm.findImage('closebox.png', 0.90);
 			rbm.releaseScreenshot();
 			if (Img1 != undefined) {rbm.log('closebox:', Img1);}
 			if (Img1 != undefined) {return Img1;} else {return false;}
 			
 		case  7:    //關閉xx
-			rbm.keepScreenshotPartial( 26, 1034, 705, 1215);  //(用太多蛋蛋)
+			rbm.keepScreenshotPartial( 26, 1034, 705, 1215);  //()
 			var Img1 = rbm.findImage('closebox.png', 0.90);
 			rbm.releaseScreenshot();
 			if (Img1 != undefined) {rbm.log('closebox:', Img1);}
 			if (Img1 != undefined) {return Img1;} else {return false;}
 
 		case  8:    //回歸BUTTON 上
-			rbm.keepScreenshotPartial( 330, 297, 394, 337);  //(用太多蛋蛋)
+			rbm.keepScreenshotPartial( 330, 297, 394, 337);  //()
 			var Img1 = rbm.findImage('goback1.png', 0.90);
 			rbm.releaseScreenshot();
 			if (Img1 != undefined) {rbm.log('goback1:', Img1);}
 			if (Img1 != undefined) {return Img1;} else {return false;}
 
 		case  9:    //回歸BUTTON 下
-			rbm.keepScreenshotPartial( 463, 1065, 547, 1120);  //(用太多蛋蛋)
+			rbm.keepScreenshotPartial( 463, 1065, 547, 1120);  //()
 			var Img1 = rbm.findImage('goback2.png', 0.90);
 			rbm.releaseScreenshot();
 			if (Img1 != undefined) {rbm.log('goback2:', Img1);}
 			if (Img1 != undefined) {return Img1;} else {return false;}
 			
 		case 10:    //回歸確認BUTTON
-			rbm.keepScreenshotPartial( 327, 911, 401, 959);  //(用太多蛋蛋)
+			rbm.keepScreenshotPartial( 327, 911, 401, 959);  //()
 			var Img1 = rbm.findImage('ok.png', 0.90);
 			rbm.releaseScreenshot();
 			if (Img1 != undefined) {rbm.log('ok:', Img1);}
 			if (Img1 != undefined) {return Img1;} else {return false;}
 			
 		case 11:    //看廣告 x2 加速
-			rbm.keepScreenshotPartial( 525, 543, 574, 588);  //(用太多蛋蛋)
+			rbm.keepScreenshotPartial( 525, 543, 574, 588);  //()
 			var Img1 = rbm.findImage('watchADbutton2.png', 0.90);
 			rbm.releaseScreenshot();
 			if (Img1 != undefined) {rbm.log('watchADbutton2:', Img1);}
 			if (Img1 != undefined) {return Img1;} else {return false;}
 
 		case 12:    //回歸選區域確定
-			rbm.keepScreenshotPartial( 290, 330, 428, 380);  //(用太多蛋蛋)
+			rbm.keepScreenshotPartial( 290, 330, 428, 380);  //()
 			var Img1 = rbm.findImage('choicearea.png', 0.90);
 			rbm.releaseScreenshot();
 			if (Img1 != undefined) {rbm.log('choicearea:', Img1);}
 			if (Img1 != undefined) {return Img1;} else {return false;}
 			
+		case  13:    //關閉xx
+			rbm.keepScreenshotPartial( 306, 982, 415, 1080);  //()
+			var Img1 = rbm.findImage('closebox.png', 0.90);
+			rbm.releaseScreenshot();
+			if (Img1 != undefined) {rbm.log('closebox:', Img1);}
+			if (Img1 != undefined) {return Img1;} else {return false;}
 
 	}
 }
@@ -1301,6 +1307,56 @@ function backattrib(att) {   //回歸屬性選擇  1:中  2:木  3:火  4:水
 	return false;
 }
 
+function searchDragon(Timer){
+	if (!config.isRunning || Date.now() < searchTimer) return false;
+	console.log('searchDragon');
+
+	// tapFor(0, 0, 1, 50, 50, 50);
+	var rubyaddC = 'BD3D7B';
+
+	var okBtnC = ['948A84', 'E69A29'];
+	var againBtnC = ['948A84', 'DE4D21'];
+	var TameBtnX = [240, 600, 600, ''];
+	var TameBtnY = [1240, 1100, 600, ''];
+	var TameBtnStr = ['leftdown', 'up', 'down', 'midd'];
+
+	var seachmenu = checkPointcolor(TameBtnX[0], TameBtnY[0], 20, okBtnC[1]);
+	var rubyadd =  checkPointcolor(200, 1170, 20, rubyaddC);
+	if (seachmenu && rubyadd){
+		var TameChk = ['', 1, 1];
+		for (var i = 1; i <= 2; i++){
+			console.log('searchDragon:', i);
+			var nowBtn = checkPointcolor(TameBtnX[i], TameBtnY[i], 20, okBtnC[1]);
+			if (nowBtn) {
+				swipFor(TameBtnX[i], TameBtnY[i], 1, 50, 100, 3000)
+				for (var j = 1; j <= 10; j++){
+					console.log('searchDragon:', i, j)
+					var xxBtn = useReturn(13);
+					rbm.log('xxBtn:', xxBtn);
+					// if(xxBtn.x > 0) {rbm.log('xxBtn:', xxBtn);}
+					if(xxBtn.x > 0){swipFor(xxBtn.x, xxBtn.y, 1, 50, 100, 100);}
+					var rubyadd =  checkPointcolor(200, 1170, 20, rubyaddC);
+					if (rubyadd) break;
+					sleep(1000);
+				}
+			} else {
+				TameChk[i] = 0;
+			}
+		}
+		TameChk[0] = TameChk[1] + TameChk[2];
+		rbm.log('TameChk:', TameChk);
+		if (TameChk[0] == 0) {
+			var againBtn =  checkPointcolor(700, 100, 30, againBtnC[1]);
+			if (againBtn){
+				swipFor(600, 100, 1, 50, 100, 2000);
+				swipFor(660, 1260, 1, 50, 100, 100);
+			}
+		}
+	}
+
+	searchTimer =  Date.now() + Timer * 1000;
+}
+
 function debug(Timer){       //異常檢查檢查
 	if (Timer == 0) debugTimer = 0;
 	if (!config.isRunning || Date.now() < debugTimer) return false;
@@ -1381,6 +1437,9 @@ function setFirstTimer() {   //預設值設定
 	debugTimer        = Date.now() +   5 * 1000;
 	checkScreenTimer  = Date.now() +   5 * 1000;  //畫面停止檢查用，不可刪
 	gobackTimer       = Date.now() +   5 * 1000;
+	searchTimer       = Date.now() +   5 * 1000;
+
+
 
 	ranmove = 1;
 
@@ -1415,8 +1474,9 @@ function test(cycle){
 			setFirstTimer();     //設定初始時間值
 		} else if (n >= 1) {
 			console.log('n = ', n, ', CRA 腳本開始');
-
-			while(config.isRunning) {main();}
+			searchDragon(10);
+			sleep(1000)
+			// while(config.isRunning) {main();}
 			// console.log('n = ', n, ', CRA 腳本結束');
 		}
 	}
