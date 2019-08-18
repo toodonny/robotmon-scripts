@@ -133,7 +133,7 @@
     },
     "com.donny.idlerpg": {
       "title": "Crush Them All",
-      "versionCode": 0.452,
+      "versionCode": 0.455,
       "description": "<h3>Crush Them All / 粉碎他們!</h3><ul><li>0.455 測試版！(官方:1.5.744)</li><li>___________________</li><li>8/17 v0.455 更新關卡辨識。</li><li>4/17 v0.45 更新打龍的活動地城及關卡辨識。</li><li>4/13 更新村莊升級至城堡建築師判斷。</li><li>3/10 修正畫面異常重啟判斷。</li><li>感謝 Jim Chen !!</li><li>① 英雄/村莊自動升級</li><li>② 地圖寶箱自動撿</li><li>③ 自動看廣告加速/金幣</li><li>④ 自動輪迴(關卡設定)</li><li>⑤ 每日地牢設定自動打</li><li>⑥ 遠征自動收/發(不含勛章)</li><li>⑦ 工會自動求勛章/幫助</li><li>⑧ 工會BOSS自動打(簡易)</li><li>⑨ 自動打競技場(極簡易)</li><li>⑩ 其它(每日任務/獎勵/收信)</li></ul>",
       "packageName": "com.godzilab.idlerpg",
       "downloadURL": "https://github.com/toodonny/robotmon-scripts/raw/master/scripts/com.donny.idlerpg/index.zip"
