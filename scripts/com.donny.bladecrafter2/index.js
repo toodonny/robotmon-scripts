@@ -1050,8 +1050,6 @@ function test(cycle){
 			console.log('n = ', n, '/', cycle, ', CRA 腳本開始');
 
 
-			farmermedia(totaltaptime, maintaptimes, lvuptaptimes);
-			rebirth(rebirthwait);
 
 			// mini3kickmonster(60);
 
@@ -1075,8 +1073,8 @@ function start(settingString) {
 	for(var key in settings) {global[key] = settings[key] * 1;};
 
 	// commandsetting();    //設定值列表
-	setFirstsetting();   //設定初值設定值
-	// setFirstTimer();     //設定初始時間值
+	// setFirstsetting();   //設定初值設定值
+	setFirstTimer();     //設定初始時間值
 	console.log('syousin50 腳本開始');	
 	while(config.isRunning) { main(); }
 } 
