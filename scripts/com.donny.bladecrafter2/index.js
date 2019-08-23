@@ -1076,7 +1076,7 @@ function start(settingString) {
 
 	// commandsetting();    //設定值列表
 	setFirstsetting();   //設定初值設定值
-	setFirstTimer();     //設定初始時間值
+	// setFirstTimer();     //設定初始時間值
 	console.log('syousin50 腳本開始');	
 	while(config.isRunning) { main(); }
 } 

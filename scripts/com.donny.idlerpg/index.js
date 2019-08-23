@@ -3519,7 +3519,7 @@ function start(settingString) {
 	if (ministageSw <= 140) ministageSw = 140;
 	arenaFightpw = arenaFgpw1UI * 1 + arenaFgpw2UI * 1 + arenaFgpw3UI * 1 + arenaFgpw4UI * 1;
 
-	commandsetting();    //設定值列表
+	// commandsetting();    //設定值列表
 	setFirstTimer();     //設定初始值
 
 	console.log('Crush Them All 腳本開始');	
