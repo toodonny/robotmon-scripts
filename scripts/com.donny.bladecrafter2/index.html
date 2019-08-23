@@ -1,0 +1,819 @@
+<html>
+  <head>
+    <style>
+
+	 #top-bar{
+		 width:720px;
+		 height:100px;
+		 background:#C0C0C0;
+		 position:fixed;
+		 top:-65px;
+
+		 /* CSS3 陰影*/
+		-webkit-box-shadow: 0px 4px 8px #AAAAAA;
+		-moz-box-shadow: 0px 4px 8px #AAAAAA;
+		box-shadow: 0px 4px 8px #AAAAAA; 
+		z-index:2;
+	} 
+
+		#menu{width:900px; margin:0 auto; line-height:50px;}
+		#menu b, #menu a{color:#fff; padding:0 20px;}
+	
+	
+
+		/* Button CSS */
+
+		.centered {
+		  margin:50px auto;
+		  text-align:center;
+		}
+
+		.button::-moz-focus-inner{
+		  border: 0;
+		  padding: 0;
+		}
+
+		.button{
+		  display: inline-block;
+		  *display: inline;
+		  zoom: 1;
+		  padding: 6px 20px;
+		  margin: 0;
+		  cursor: pointer;
+		  border: 1px solid #bbb;
+		  overflow: visible;
+		  font: bold 13px arial, helvetica, sans-serif;
+		  text-decoration: none;
+		  white-space: nowrap;
+		  color: #555;
+		  
+		  background-color: #ddd;
+		  background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(255,255,255,1)), to(rgba(255,255,255,0)));
+		  background-image: -webkit-linear-gradient(top, rgba(255,255,255,1), rgba(255,255,255,0));
+		  background-image: -moz-linear-gradient(top, rgba(255,255,255,1), rgba(255,255,255,0));
+		  background-image: -ms-linear-gradient(top, rgba(255,255,255,1), rgba(255,255,255,0));
+		  background-image: -o-linear-gradient(top, rgba(255,255,255,1), rgba(255,255,255,0));
+		  background-image: linear-gradient(top, rgba(255,255,255,1), rgba(255,255,255,0));
+		  
+		  -webkit-transition: background-color .2s ease-out;
+		  -moz-transition: background-color .2s ease-out;
+		  -ms-transition: background-color .2s ease-out;
+		  -o-transition: background-color .2s ease-out;
+		  transition: background-color .2s ease-out;
+		  background-clip: padding-box; /* Fix bleeding */
+		  -moz-border-radius: 3px;
+		  -webkit-border-radius: 3px;
+		  border-radius: 3px;
+		  -moz-box-shadow: 0 1px 0 rgba(0, 0, 0, .3), 0 2px 2px -1px rgba(0, 0, 0, .5), 0 1px 0 rgba(255, 255, 255, .3) inset;
+		  -webkit-box-shadow: 0 1px 0 rgba(0, 0, 0, .3), 0 2px 2px -1px rgba(0, 0, 0, .5), 0 1px 0 rgba(255, 255, 255, .3) inset;
+		  box-shadow: 0 1px 0 rgba(0, 0, 0, .3), 0 2px 2px -1px rgba(0, 0, 0, .5), 0 1px 0 rgba(255, 255, 255, .3) inset;
+		  text-shadow: 0 1px 0 rgba(255,255,255, .9);
+		  
+		  -webkit-touch-callout: none;
+		  -webkit-user-select: none;
+		  -khtml-user-select: none;
+		  -moz-user-select: none;
+		  -ms-user-select: none;
+		  user-select: none;
+		}
+
+		.button:hover{
+		  background-color: #eee;
+		  color: #555;
+		}
+
+		.button:active{
+		  background: #e9e9e9;
+		  position: relative;
+		  top: 1px;
+		  text-shadow: none;
+		  -moz-box-shadow: 0 1px 1px rgba(0, 0, 0, .3) inset;
+		  -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, .3) inset;
+		  box-shadow: 0 1px 1px rgba(0, 0, 0, .3) inset;
+		}
+
+		.button[disabled], .button[disabled]:hover, .button[disabled]:active{
+		  border-color: #eaeaea;
+		  background: #fafafa;
+		  cursor: default;
+		  position: static;
+		  color: #999;
+		  /* Usually, !important should be avoided but here it's really needed :) */
+		  -moz-box-shadow: none !important;
+		  -webkit-box-shadow: none !important;
+		  box-shadow: none !important;
+		  text-shadow: none !important;
+		}
+
+		/* Smaller buttons styles */
+
+		.button.small{
+		  padding: 5px 4px;
+		}
+
+		/* Larger buttons styles */
+
+		.button.large{
+		  padding: 12px 30px;
+		  text-transform: uppercase;
+		}
+
+		.button.large:active{
+		  top: 2px;
+		}
+
+		/* Colored buttons styles */
+
+		.button.green, .button.red, .button.blue {
+		  color: #fff;
+		  text-shadow: 0 1px 0 rgba(0,0,0,.2);
+		  
+		  background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(255,255,255,.3)), to(rgba(255,255,255,0)));
+		  background-image: -webkit-linear-gradient(top, rgba(255,255,255,.3), rgba(255,255,255,0));
+		  background-image: -moz-linear-gradient(top, rgba(255,255,255,.3), rgba(255,255,255,0));
+		  background-image: -ms-linear-gradient(top, rgba(255,255,255,.3), rgba(255,255,255,0));
+		  background-image: -o-linear-gradient(top, rgba(255,255,255,.3), rgba(255,255,255,0));
+		  background-image: linear-gradient(top, rgba(255,255,255,.3), rgba(255,255,255,0));
+		}
+
+		/* */
+
+		.button.green{
+		  background-color: #57a957;
+		  border-color: #57a957;
+		}
+
+		.button.green:hover{
+		  background-color: #62c462;
+		}
+
+		.button.green:active{
+		  background: #57a957;
+		}
+
+		/* */
+
+		.button.red{
+		  background-color: #ca3535;
+		  border-color: #c43c35;
+		}
+
+		.button.red:hover{
+		  background-color: #ee5f5b;
+		}
+
+		.button.red:active{
+		  background: #c43c35;
+		}
+
+		/* */
+
+		.button.blue{
+		  background-color: #269CE9;
+		  border-color: #269CE9;
+		}
+
+		.button.blue:hover{
+		  background-color: #70B9E8;
+		}
+
+		.button.blue:active{
+		  background: #269CE9;
+		}
+
+		/* */
+
+		.green[disabled], .green[disabled]:hover, .green[disabled]:active{
+		  border-color: #57A957;
+		  background: #57A957;
+		  color: #D2FFD2;
+		}
+
+		.red[disabled], .red[disabled]:hover, .red[disabled]:active{
+		  border-color: #C43C35;
+		  background: #C43C35;
+		  color: #FFD3D3;
+		}
+
+		.blue[disabled], .blue[disabled]:hover, .blue[disabled]:active{
+		  border-color: #269CE9;
+		  background: #269CE9;
+		  color: #93D5FF;
+		}
+
+		/* Group buttons */
+
+		.button-group,
+		.button-group li{
+		  display: inline-block;
+		  *display: inline;
+		  zoom: 1;
+		}
+
+		.button-group{
+		  font-size: 0; /* Inline block elements gap - fix */
+		  margin: 0;
+		  padding: 0;
+		  background: rgba(0, 0, 0, .1);
+		  border-bottom: 1px solid rgba(0, 0, 0, .1);
+		  padding: 7px;
+		  -moz-border-radius: 7px;
+		  -webkit-border-radius: 7px;
+		  border-radius: 7px;
+		}
+
+		.button-group li{
+		  margin-right: -1px; /* Overlap each right button border */
+		}
+
+		.button-group .button{
+		  font-size: 13px; /* Set the font size, different from inherited 0 */
+		  -moz-border-radius: 0;
+		  -webkit-border-radius: 0;
+		  border-radius: 0;
+		}
+
+		.button-group .button:active{
+		  -moz-box-shadow: 0 0 1px rgba(0, 0, 0, .2) inset, 5px 0 5px -3px rgba(0, 0, 0, .2) inset, -5px 0 5px -3px rgba(0, 0, 0, .2) inset;
+		  -webkit-box-shadow: 0 0 1px rgba(0, 0, 0, .2) inset, 5px 0 5px -3px rgba(0, 0, 0, .2) inset, -5px 0 5px -3px rgba(0, 0, 0, .2) inset;
+		  box-shadow: 0 0 1px rgba(0, 0, 0, .2) inset, 5px 0 5px -3px rgba(0, 0, 0, .2) inset, -5px 0 5px -3px rgba(0, 0, 0, .2) inset;
+		}
+
+		.button-group li:first-child .button{
+		  -moz-border-radius: 3px 0 0 3px;
+		  -webkit-border-radius: 3px 0 0 3px;
+		  border-radius: 3px 0 0 3px;
+		}
+
+		.button-group li:first-child .button:active{
+		  -moz-box-shadow: 0 0 1px rgba(0, 0, 0, .2) inset, -5px 0 5px -3px rgba(0, 0, 0, .2) inset;
+		  -webkit-box-shadow: 0 0 1px rgba(0, 0, 0, .2) inset, -5px 0 5px -3px rgba(0, 0, 0, .2) inset;
+		  box-shadow: 0 0 1px rgba(0, 0, 0, .2) inset, -5px 0 5px -3px rgba(0, 0, 0, .2) inset;
+		}
+
+		.button-group li:last-child .button{
+		  -moz-border-radius: 0 3px 3px 0;
+		  -webkit-border-radius: 0 3px 3px 0;
+		  border-radius: 0 3px 3px 0;
+		}
+
+		.button-group li:last-child .button:active{
+		  -moz-box-shadow: 0 0 1px rgba(0, 0, 0, .2) inset, 5px 0 5px -3px rgba(0, 0, 0, .2) inset;
+		  -webkit-box-shadow: 0 0 1px rgba(0, 0, 0, .2) inset, 5px 0 5px -3px rgba(0, 0, 0, .2) inset;
+		  box-shadow: 0 0 1px rgba(0, 0, 0, .2) inset, 5px 0 5px -3px rgba(0, 0, 0, .2) inset;
+		}	
+	
+	
+	
+	
+	
+	
+	
+      .navbar-custom {
+        border-radius: 0 !important;
+        background-color: #2196F3;
+        color: #FFFFFF;
+      }
+      .navbar-custom > a {
+        width: 100%;
+        color: #FFFFFF;
+        text-align: center;
+      }
+      .navbar-custom > a:hover {
+        color: #FFFFFF;
+      }
+
+      .list-group-item {
+        padding: 6px 10px !important;
+      }
+
+      /* The switch - the box around the slider */
+      .switch {
+        position: relative; 
+        display: inline-block;
+        vertical-align: middle;
+        margin: 0px;
+        width: 52px;
+        height: 28px;
+      }
+
+      ul {
+        padding-left: 5px;
+      }
+
+      /* Hide default HTML checkbox */
+      .switch input {display:none;}
+
+      /* The slider */
+      .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #ccc;
+        -webkit-transition: .4s;
+        transition: .4s;
+      }
+
+      .slider:before {
+        position: absolute;
+        content: "";
+        height: 24px;
+        width: 24px;
+        left: 2px;
+        bottom: 4px;
+        top: 2px;
+        background-color: white;
+        -webkit-transition: .4s;
+        transition: .4s;
+      }
+
+      input:checked + .slider {
+        background-color: #2196F3;
+      }
+
+      input:focus + .slider {
+        box-shadow: 0 0 1px #2196F3;
+      }
+
+      input:checked + .slider:before {
+        -webkit-transform: translateX(24px);
+        -ms-transform: translateX(24px);
+        transform: translateX(24px);
+      }
+
+      /* Rounded sliders */
+      .slider.round {
+        border-radius: 28px;
+      }
+
+      .slider.round:before {
+        border-radius: 50%;
+      }
+
+      .btn {
+        margin-left: 5px;
+      }
+      .btn-plus {
+        color:#FFFFFF;
+        background-color: #2196F3;
+        border-color: #2196F3;
+      }
+      .btn-plus:hover,
+      .btn-plus:focus,
+      .btn-plus:active,
+      .btn-plus.active {
+        color:#FFFFFF !important; 
+        background-color: #0d8aee;
+        border-color: #0c7cd5;
+      }
+      .btn-plus.disabled:hover,
+      .btn-plus.disabled:focus,
+      .btn-plus.disabled:active,
+      .btn-plus.disabled.active,
+      .btn-plus[disabled]:hover,
+      .btn-plus[disabled]:focus,
+      .btn-plus[disabled]:active,
+      .btn-plus[disabled].active,
+      fieldset[disabled] .btn-plus:hover,
+      fieldset[disabled] .btn-plus:focus,
+      fieldset[disabled] .btn-plus:active,
+      fieldset[disabled] .btn-plus.active {
+        color:#FFFFFF;
+        background-color: #2196F3;
+        border-color: #2196F3;
+      }
+      .btn-plus,
+      .btn-danger {
+        min-width: 35px;
+        padding: 3px 0px 3px 0px !important;
+      }
+      .setting_input_value {
+        width: 60px;
+        text-align: right;
+      }
+      .setting_input_value[type=text] {
+        width: 80%;
+      }
+      .row {
+          display: flex;
+          align-items: center;
+      }
+      #goToTop {
+        position: fixed;
+        bottom: 10px;
+        right: 10px;
+      }
+    </style>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
+	<script>
+		$(function(){
+			$(window).load(function(){
+				$(window).bind('scroll resize', function(){
+					var $this = $(this);
+					var $this_Top=$this.scrollTop();
+					
+					//當高度小於100時，關閉區塊	
+					if($this_Top < -1){
+						$('#top-bar').stop().animate({top:"-100px"}, 800);
+						}
+					if($this_Top > -1){
+						$('#top-bar').stop().animate({top:"0px"}, 800);
+								
+					}
+				}).scroll();
+			});
+		});
+	</script>		
+	
+    <script>
+      VERSION = 0.001;
+
+	  var pow10 = 0; 
+      var settings = [
+        [
+          {
+            key: 'strg', 
+            title: "☆★☆★☆==============Notes==============☆★☆★☆",
+            title_zh_TW: "☆★☆★☆==============注意事項==============☆★☆★☆",
+          },
+          {
+            title: "Language setting / 語言設定",
+            title_zh_TW: "Language setting / 語言設定",
+            buttons: [{
+              title: "En",
+              onclick: "saveLocale('en-US')"
+            }, {
+              title: "中文",
+              onclick: "saveLocale('zh-TW')"
+            }],
+          },
+          {
+            key: 'strg', 
+            title: "Ver 0.001, This script is for 720x1280 resolution, CH/EN interface.",   
+            title_zh_TW: "Ver 0.001, 本腳本僅適用 720x1280 240dip 解析度，中/英文介面。",
+          },
+        ],
+        [
+          {
+            key: 'title1', 
+            title: "☆★☆★☆============Return Setting============☆★☆★☆",
+            title_zh_TW: "☆★☆★☆==============設定==============☆★☆★☆",
+          },
+          {
+            key: 'totaltaptime', 
+            title: "點擊主畫面與升級，維持時間",
+            title_zh_TW: "點擊主畫面與升級，維持時間", 
+            default: 150, 
+            step: 5,
+            max: 600, 
+            min: 60,
+          },
+          {
+            key: 'maintaptimes', 
+            title: "每次循環主畫面點擊次數",
+            title_zh_TW: "每次循環主畫面點擊次數", 
+            default: 40, 
+            step: 1,
+            max: 90, 
+            min: 10,
+          },
+          {
+            key: 'lvuptaptimes', 
+            title: "每次循環人物升級點擊次數",
+            title_zh_TW: "每次循環人物升級點擊次數", 
+            default: 1, 
+            step: 1,
+            max: 10, 
+            min: 0,
+          },
+          {
+            key: 'rebirthwait', 
+            title: "轉生後等待秒數",
+            title_zh_TW: "轉生後等待秒數", 
+            default: 8, 
+            step: 1,
+            max: 15, 
+            min: 5,
+          },
+          {
+            key: 'bossfightSw', 
+            title: "-------", 
+            title_zh_TW: "--------", 
+            default: false,
+          },
+        ],
+
+        []
+      ];
+	  
+      function saveLocale(locale) {
+        if (localStorage !== undefined) {
+          localStorage.setItem('idlerpglanguage', locale);
+          location.reload();
+        }
+      }
+	  
+      function loadSettings(settings) {
+        var recordSettings = {};
+        if (localStorage = undefined) {
+          return;
+        }
+        var version = +localStorage.getItem('idlerpgversion');
+        if (!version || VERSION != version) {
+          return;
+        }
+        var settingsJSON = localStorage.getItem('idlerpgsettings');
+        if (!settingsJSON) {
+          return;
+        }
+        recordSettings = JSON.parse(settingsJSON);
+        if (!recordSettings) {
+          return;
+        }
+        for (var i in settings) {
+          for (var g in settings[i]) {
+            var id =  i + "_" + g;
+            var setting = settings[i][g];
+            if (recordSettings[id] != undefined) {
+              setting.default = recordSettings[id];
+            }
+          }
+        }
+        console.log('Load settings');
+      }
+	  
+      function saveSettings(settings) {
+        if (localStorage != undefined) {
+          var recordSettings = {};
+          for (var i in settings) {
+            for (var g in settings[i]) {
+              var id =  i + "_" + g;
+              var setting = settings[i][g];
+              if (typeof setting.default === "boolean") {
+                recordSettings[id] = $("#setting_value_" + id).is(':checked');
+              } else if (typeof setting.default === "number") {
+                recordSettings[id] = +$("#setting_value_" + id).val();
+              } else if (typeof setting.default === "string") {
+                recordSettings[id] = $("#setting_value_" + id).val();
+              }
+            }
+          }
+          localStorage.setItem('idlerpgversion', VERSION);
+          localStorage.setItem('idlerpgsettings', JSON.stringify(recordSettings));
+          console.log('Save settings');
+        }
+      }
+	  
+      function genStartCommand(settings) {
+		//var settingArray = [];
+		var settingObject = {};
+		var command = "start(";
+        for (var i in settings) {
+          for (var g in settings[i]) {
+            var id =  i + "_" + g;
+            var setting = settings[i][g];
+			//if (settingArray[i] == undefined) {
+			//	settingArray[i] = [];
+			//}
+			
+            if (typeof setting.default === "boolean") {
+              command += $("#setting_value_" + id).is(':checked') + ", ";
+			  //settingArray[i][g] = $("#setting_value_" + id).is(':checked');
+			  settingObject[setting.key] = $("#setting_value_" + id).is(':checked');
+            } else if (typeof setting.default === "number") {
+              command += $("#setting_value_" + id).val() + ", ";
+			  //settingArray[i][g] = $("#setting_value_" + id).val();
+			  settingObject[setting.key] = $("#setting_value_" + id).val();
+            } else if (typeof setting.default === "string") {
+              command += "'" + $("#setting_value_" + id).val() + "', ";
+			  //settingArray[i][g] = $("#setting_value_" + id).val();
+			  settingObject[setting.key] = $("#setting_value_" + id).val();
+            }
+          }
+        }
+        command += "undefined);"
+		//console.log(settingArray, JSON.stringify(settingArray));
+		//command = 'start(\'' + JSON.stringify(settingArray) + '\')';
+		//console.log(settingObject, JSON.stringify(settingObject));
+		command = 'start(\'' + JSON.stringify(settingObject) + '\')';
+        //console.log("Start command: " + command);
+        return command;
+      }
+
+      function getTitle(setting) {
+        if (localStorage === undefined) {
+          return setting.title;
+        }
+        var lang = localStorage.getItem('idlerpglanguage');
+        if (!lang) {
+          return setting.title;
+        } else if (lang === "zh-TW") {
+          return setting.title_zh_TW;
+        }
+        return setting.title;
+      }
+
+      function appendTitle(jSetting, title) {
+        jSetting.append("<div class='col-xs-6'>" + title + "</div>");
+      }
+
+      function appendCol(jSetting, jContent) {
+        var jDiv = $('<div class="pull-right"></div>');
+        var jCol = $('<div class="col-xs-6"></div>');
+        if (Array.isArray(jContent)) {
+          for (var j in jContent) {
+            jDiv.append(jContent[j]);
+          }
+        } else {
+          jDiv.append(jContent);
+        }
+        jCol.append(jDiv);
+        jSetting.append(jCol);
+      }
+
+      function getSwitchButton(id, checked) {
+        var jLabel = $('<label class="switch pull-right"></label>');
+        var jInput = $("<input id='setting_value_" + id + "' class='setting_input_value' type='checkbox' " + (checked ? 'checked' : '') + "/>");
+        jInput.change(function() {saveSettings(settings);});
+        jLabel.append(jInput);
+        jLabel.append('<a class="slider round"></a>');
+        return jLabel;
+      }
+
+      function genSettings(jContainer, settings) {
+        for (var i in settings) {
+          var jGroup = $("<div class='list-group'></div>");
+          for (var g in settings[i]) {
+            var id =  i + "_" + g;
+            var setting = settings[i][g];
+            var title = getTitle(setting);
+            var jGroupItem = $("<div id='setting_" + id + "' class='list-group-item'></div>");
+            var jSetting = $("<div class='row'></div>");
+            if (typeof setting.default === "boolean") {
+              appendTitle(jSetting, title);
+              appendCol(jSetting, getSwitchButton(id, setting.default));
+            } else if (typeof setting.default === "number") {
+              var step = setting.step;
+              var max = setting.max;
+              var min = setting.min;
+              var jBtns = [];
+              var jInput = $("<input id='setting_value_" + id + "' class='setting_input_value' type='number' value='" + setting.default + "' readonly/>");
+              var jBtnP = $('<button id="setting_value_p_' + id + '" class="btn btn-danger">+' + step + '</button>');
+              var jBtnM = $('<button id="setting_value_m_' + id + '" class="btn btn-danger">-' + step + '</button>');
+			  
+              jBtnP.click((function(jInput, min, max, step){
+                return function() {
+                  var newValue = (+jInput.val()) + step;
+                  //var newValue = (+jInput.val()) + step * Math.pow(10, pow10);
+                  if (newValue < max) {
+                    jInput.val(newValue);
+                  }
+                  else if (newValue >= max) {
+                    jInput.val(max)
+                  }
+                  saveSettings(settings);
+                }
+              })(jInput, min, max, step));
+
+              jBtnM.click((function(jInput, min, max, step){
+                return function() {
+                  var newValue = (+jInput.val()) - step;
+                 // var newValue = (+jInput.val()) - step * Math.pow(10, pow10);
+                  if (newValue > min) {
+                    jInput.val(newValue);
+                  }
+                  else if (newValue <= min) {
+                    jInput.val(min)
+                  }
+                  saveSettings(settings);
+                }
+              })(jInput, min, max, step));
+			  
+              jBtns.push(jInput);
+              jBtns.push(jBtnP);
+              jBtns.push(jBtnM);
+              jInput.change(function() {saveSettings(settings);});
+              appendTitle(jSetting, title);
+              appendCol(jSetting, jBtns);
+            } else if (typeof setting.default === "string") {
+              var jInput = $("<input id='setting_value_" + id + "' class='setting_input_value' type='text' value='" + setting.default + "'/>");
+              jInput.change(function() {saveSettings(settings);});
+              appendTitle(jSetting, title);
+              appendCol(jSetting, jInput);
+            } else if (setting.buttons !== undefined) {
+              var jBtns = [];
+              for (var j in setting.buttons) {
+                var jBtn = $('<button id="setting_value_b_' + id + '" onclick=' + setting.buttons[j].onclick + ' class="btn btn-plus">' + setting.buttons[j].title + '</button>');
+                jBtns.push(jBtn);
+              }
+              appendTitle(jSetting, title);
+              appendCol(jSetting, jBtns);
+            } else if (title !== undefined) {
+              jSetting.append("<div class='col-xs-12'>" + title + "</div>");
+            }
+            jGroupItem.append(jSetting);
+            jGroup.append(jGroupItem);
+          }
+          jContainer.append(jGroup)
+        }
+      }
+    </script>
+
+    <script>
+      $(function() {
+        $("#version").html("最胸名器 餓！");
+
+        loadSettings(settings);
+        genSettings($("#settings"), settings);
+
+        $("#goToTop").click(function() {
+		  	$('html,body').animate({scrollTop:'0px'}, 1000);
+        });
+
+        if (localStorage !== undefined && localStorage.getItem('idlerpglanguage') === "zh-TW") {
+          $("#goToTop").text("回頁面頂端");
+        } else {
+          $("#goToTop").text("Go Top");
+        }
+      });
+
+      var topdistance = 110;
+      $(function() {
+        $("#button_1").click(function() {
+        $('html,body').animate({scrollTop: ($('#setting_1_0').offset().top-topdistance) + 'px'}, 600); //hero
+        });
+      });
+
+      function onEvent(eventType) {
+        if (eventType == 'OnPlayClick') {
+          var startCommand = genStartCommand(settings);
+          JavaScriptInterface.runScript(startCommand);
+		      JavaScriptInterface.setXY(0, 110)
+
+        } else if (eventType == 'OnPauseClick') {
+          JavaScriptInterface.runScript('stop();')
+        }
+      }
+    </script>
+  </head>
+  <body>
+    <br /><br /><br /><br /><br />
+
+    <nav class="navbar navbar-custom" role="navigation">
+      <a id="version" class="navbar-brand"></a>
+    </nav>
+	  <div id="top-bar">
+		<div id="menu">
+		  <tr>
+			<td>&nbsp;&nbsp;&nbsp;</td>
+			<td><button id="button_1" class="small blue button">－－</button></td><td>｜</td>
+			<td><button id="button_2" class="small blue button">－－</button></td><td>｜</td>
+			<td><button id="button_3" class="small blue button">－－</button></td><td>｜</td>
+			<td><button id="button_4" class="small blue button">－－</button></td><td>｜</td>
+			<td><button id="button_5" class="small blue button">－－</button></td><td>｜</td>
+			<td><button id="button_6" class="small blue button">－－</button></td><td>&nbsp;&nbsp;||&nbsp;</td>
+			<td><button id="button_11" class="small red button">－－－－</button></td><td>&nbsp;&nbsp;||&nbsp;</td>
+			<td><button id="button_14" class="small button">－－－－</button></td>
+		　</tr>
+		　<br />
+		  <tr>
+			<td>&nbsp;&nbsp;&nbsp;</td>
+			<td><button id="button_7" class="small green button">－－－－</button></td><td>｜</td>
+			<td><button id="button_8" class="small green button">－－－－</button></td><td>｜</td>
+			<td><button id="button_9" class="small green button">－－－－</button></td><td>｜</td>
+			<td><button id="button_10" class="small green button">－－－－</button></td><td>&nbsp;&nbsp;||&nbsp;</td>
+			<td><button id="button_12" class="small red button">－－－－</button></td><td>&nbsp;&nbsp;||&nbsp;</td>
+			<td><button id="button_13" class="small button">－－－－</button></td>
+		　</tr>
+		</div>
+	</div>  
+    <div class="container">
+      <div id="settings"></div>
+      <button id="goToTop" class="btn btn-plus">Go Top</button>
+    </div>
+
+    <div class='container'>
+      <br /><br /><br /><br />
+      <table id='table_3_1' cellpadding="8" border="0">
+        <br />==================Updata 更新日誌==================
+        <br />20190410 v0.001 亂寫的腳本，竟然有人要用。
+      </table>
+        <br /><br /><br /><br /><br />
+        <br /><br /><br /><br /><br />
+        <br /><br /><br /><br /><br />
+        <br /><br /><br /><br /><br />
+        <br /><br /><br /><br /><br />
+        <br /><br /><br /><br /><br />
+      <br />
+      <br />!!!!!!!!!!!!!!!!!!同學，到底了喔!!!!!!!!!!!!!!!!!!
+    </div>
+  </body>
+</html>
