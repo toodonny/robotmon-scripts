@@ -902,22 +902,10 @@ function farmermedia(Gt, mtap, uptap) {
 	
 
 	for (var i = 0; i < 5; i++){
-		DIY_swipe(360, 800, 360, 1250, 30, 300);  //向下滑4欠
+		DIY_swipe(360, 800, 360, 1250, 30, 300);  //向下滑5欠
 	}
 
 	tapandlvup(Gt, cycles, mtap, uptap);
-
-	// for (var i = 0; i < cycles; i++) {
-	// 	if (!config.isRunning) return false;
-
-	// 	if (i % 3 == 0) {
-	// 		var dt = Math.round((Date.now() - t1) / 1000);
-	// 		console.log('循環:', i, '次，連點時間:', dt, '/', Gt, 'sec');
-	// 	}
-	// 	// tapFor(360, 530, 50, 10, 40, 100); //點中間打怪(點寶箱)
-	// 	tapFor(360, 210, 40, 10, 40, 100); //點中間打怪(不點寶箱)
-	// 	tapFor(600, 950, 1, 30, 50, 100);   //點人物升級
-	// }
 	
 	tapFor(50, 1260, 2, 50, 400, 1500);  //點選單-人物
 }
@@ -935,7 +923,7 @@ function tapandlvup(Gt, cy, mtap, uptap) {
 			console.log('循環:', i, '次，連點時間:', dt, '/', Gt, 'sec');
 		}
 		// tapFor(360, 530, 50, 10, 40, 100); //點中間打怪(點寶箱)
-		tapFor(360, 210, mtap, 10, 40, 100); //點中間打怪(不點寶箱)
+		tapFor(680, 230, mtap, 10, 40, 100); //點中間打怪(不點寶箱)
 		tapFor(600, 950, uptap, 30, 50, 100);   //點人物升級
 	}
 
@@ -945,8 +933,8 @@ function rebirth(wT) {
 	if (!config.isRunning) return false;
 	console.log('rebirth');
 
-	for (var i = 0; i < 4; i++){
-		DIY_swipe(360, 980, 360, 450, 100, 400);  //向上滑4欠
+	for (var i = 0; i < 5; i++){
+		DIY_swipe(360, 1200, 360, 750, 30, 400);  //向上滑4欠
 	}
 
 	sleep(1000);
@@ -986,7 +974,7 @@ function mini3kickmonster(Gt) {
 
 
 		rbm.keepScreenshotPartial( 50, 380, 650, 900);  //找怪物頭的範圍
-		var Img0s = rbm.findImages('mini3monsticon.png', 0.90, 9, true, false);
+		var Img0s = rbm.findImages('mini3monsticon.png', 0.90, 6, true, false);
 		rbm.releaseScreenshot();
 		if (Img0s != '')  {
 			for (var index in Img0s) {
@@ -1051,7 +1039,7 @@ function test(cycle){
 
 
 
-			// mini3kickmonster(60);
+			mini3kickmonster(60);
 
 			// while(config.isRunning) {main();}
 			// console.log('n = ', n, ', CRA 腳本結束');
