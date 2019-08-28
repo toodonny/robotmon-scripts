@@ -1108,7 +1108,7 @@ function main(){       //主流程
 
 	
 	mini3kickmonster(32, mini3slt1, mini3slt2, mini3slt3, mini3slt4);
-	mini2weponking(32, mini2taps, mini2wt);
+	mini2weponking(32, mini2taps, mini2tpwt, mini2wt);
 
 }
 
@@ -1123,7 +1123,7 @@ function setFirstTimer() {   //預設值設定
 	rbm.screencrop('checkADstop.png', 180, 270, 590, 860);
 
 
-	mnstX = ['', 287, 222, 157, 92, 27];
+	mnstX = [430, 287, 222, 157, 92, 27];
 	mnstY = 621;
 	mnstColor = 'FAE010';
 
@@ -1140,7 +1140,7 @@ function setFirstsetting() {
 	rebirthwait = 6; //轉生後等待秒數
 
 
-	mini2taps =  1;  //minigame2 每次檢查點擊幾個
+	mini2taps =  5;  //minigame2 每次檢查點擊幾個
 	mini2tpwt = 20;  //minigame2 點擊時間差
 	mini2wt =  400;  //minigame2 武器王(橫) 每次點完等待
 
