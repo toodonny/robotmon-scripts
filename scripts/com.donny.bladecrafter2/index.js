@@ -688,7 +688,7 @@ function useReturn(choiceF){          //各項回授點檢查
 	//console.log('各項升級限制條件');
 	
 	switch (choiceF) {
-		case  1: return CheckImageTap( 140, 24,  205, 65, 0.95, 'calandericon.png', 1, 1, 1, 50, 2, 1);    return;   //主頁框左上方圖
+		case  1: return CheckImageTap( 140, 24,  205, 65, 0.95, 'calandericon.png', 1, 1, 1, 50, 2);    return;   //主頁框左上方圖
 
 		case  2: return CheckImageTap( 245, 830, 470, 910, 0.95, 'q_word.png', 1, 1, 1, 50, 2);    return;   //問答 "題"
 		case  3: return CheckImageTap( 550, 780, 670, 900, 0.95, 'fightbook.png', 1, 1, 1, 50, 2);    return;   //戰鬥日記
@@ -1002,7 +1002,7 @@ function minigameclock () {
 	return Img1;
 }
 
-function mini2weponking(Gt, cywt) {
+function mini2weponking(Gt, taps, tapwt, cywt) {
 	if (!config.isRunning) return false;
 	console.log('mini game 2 wepon king');
 
@@ -1021,16 +1021,16 @@ function mini2weponking(Gt, cywt) {
 		}
 
 		var img = getScreenshotModify(0, 621, 300, 1, 300, 1, 100);
-		for (var j = 1; j <= 5; j++) {
+		for (var j = 1; j <= taps; j++) {
 			gpoint[j] = getImageColor(img, mnstX[j], 0);
 			rbm.log('gpoint.r:', gpoint[j].r);
 		}
 		releaseImage(img);
 
-		for (var i = 1; i <= 5; i++) {
-			if(gpoint[i].r >= '200') {tap(180, 1100, 60);}
-			else {tap(540, 1100, 60);}
-			sleep(70);
+		for (var i = 1; i <= taps; i++) {
+			if(gpoint[i].r >= '200') {tap(180, 1100, 40);}
+			else {tap(540, 1100, 40);}
+			sleep(tapwt);
 		}
 
 		sleep(cywt);
@@ -1108,7 +1108,7 @@ function main(){       //主流程
 
 	
 	mini3kickmonster(32, mini3slt1, mini3slt2, mini3slt3, mini3slt4);
-	mini2weponking(32, mini2wt);
+	mini2weponking(32, mini2taps, mini2wt);
 
 }
 
@@ -1140,7 +1140,10 @@ function setFirstsetting() {
 	rebirthwait = 6; //轉生後等待秒數
 
 
-	mini2wt = 1000; //minigame2 武器王(橫) 每次
+	mini2taps =  1;  //minigame2 每次檢查點擊幾個
+	mini2tpwt = 20;  //minigame2 點擊時間差
+	mini2wt =  400;  //minigame2 武器王(橫) 每次點完等待
+
 
 	mini3slt1 = 50; //minigame3 打地鼠 30秒 分4段 1段 時間差
 	mini3slt2 = 30; //minigame3 打地鼠 30秒 分4段 2段 時間差
@@ -1163,7 +1166,8 @@ function test(cycle){
 			console.log('n = ', n, '/', cycle, ', CRA 腳本開始');
 
 			// mini3kickmonster(32, mini3slt1, mini3slt2, mini3slt3, mini3slt4);
-			// mini2weponking(1, mini2wt);
+			// mini2weponking(32, mini2taps, mini2wt);
+		
 
 
 			while(config.isRunning) {main();}

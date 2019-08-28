@@ -434,7 +434,7 @@
 	</script>		
 	
     <script>
-      VERSION = 0.001;
+      VERSION = 0.0031;
 
 	  var pow10 = 0; 
       var settings = [
@@ -502,6 +502,69 @@
             step: 1,
             max: 15, 
             min: 5,
+          },
+          {
+            key: 'mini2taps', 
+            title: "minigame2 每次檢查點擊幾個",
+            title_zh_TW: "minigame2 每次檢查點擊幾個", 
+            default: 5, 
+            step: 1,
+            max: 5, 
+            min: 1,
+          },
+          {
+            key: 'mini2tpwt', 
+            title: "minigame2 點擊時間差",
+            title_zh_TW: "minigame2 點擊時間差", 
+            default: 30, 
+            step: 5,
+            max: 200, 
+            min: 5,
+          },
+          {
+            key: 'mini2wt', 
+            title: "minigame2 武器王(橫) 每次點完等待",
+            title_zh_TW: "minigame2 武器王(橫) 每次點完等待", 
+            default: 500, 
+            step: 10,
+            max: 2000, 
+            min: 100,
+          },
+          {
+            key: 'mini3slt1', 
+            title: "minigame3 打地鼠 30秒 分4段 1段 時間差",
+            title_zh_TW: "minigame3 打地鼠 30秒 分4段 1段 時間差", 
+            default: 50, 
+            step: 10,
+            max: 200, 
+            min: 10,
+          },
+          {
+            key: 'mini3slt2', 
+            title: "minigame3 打地鼠 30秒 分4段 2段 時間差",
+            title_zh_TW: "minigame3 打地鼠 30秒 分4段 2段 時間差", 
+            default: 30, 
+            step: 10,
+            max: 200, 
+            min: 10,
+          },
+          {
+            key: 'mini3slt3', 
+            title: "minigame3 打地鼠 30秒 分4段 3段 時間差",
+            title_zh_TW: "minigame3 打地鼠 30秒 分4段 3段 時間差", 
+            default: 30, 
+            step: 10,
+            max: 200, 
+            min: 10,
+          },
+          {
+            key: 'mini3slt4', 
+            title: "minigame3 打地鼠 30秒 分4段 4段 時間差",
+            title_zh_TW: "minigame3 打地鼠 30秒 分4段 4段 時間差", 
+            default: 20, 
+            step: 10,
+            max: 200, 
+            min: 10,
           },
           {
             key: 'bossfightSw', 
