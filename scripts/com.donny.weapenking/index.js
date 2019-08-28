@@ -714,10 +714,8 @@ function bosstap() {
 	for (var j = 0; j <= 7; j++) {
 		gpoint[j] = getImageColor(img, 0, blockY3[j]);
 		// rbm.log('gpoint.r:', gpoint[j].r);
-		
 	}
 	releaseImage(img);
-
 	
 	for (var i = 0; i <= 7; i++) {
 		if(gpoint[i].r >= '200') {tap(180, 1100, 45);}
