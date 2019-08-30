@@ -361,7 +361,7 @@ function DIY_swipe(intx, inty, finax, finay, moveD, sleeptime) {
 	var MoveXD = (finax - intx) / moveD
 	var MoveYD = (finay - inty) / moveD
 	
-	tapDown(intx, inty, 70);
+	tapDown(intx, inty, 50);
 	for (var i = 0; i < moveD; i++) {
 		if (!config.isRunning) { tapUp(intx, i, 200);  break; }
 		intx = intx + MoveXD
@@ -916,7 +916,7 @@ function menutap(pg) {
 	tapFor(pgX, 1260, 1, 50, 100, 500);  //點選單-pg
 }
 
-function farmermedia(Gt, mtap, uptap) {
+function farmermedia(dncycle, Gt, mtap, uptap) {
 	if (!config.isRunning) return false;
 	if (!useReturn(1)) return false;
 	console.log('farmermedia');
@@ -927,8 +927,8 @@ function farmermedia(Gt, mtap, uptap) {
 	
 	menutap(1);
 
-	for (var i = 0; i < 5; i++){
-		DIY_swipe(360, 800, 360, 1250, 30, 300);  //向下滑5欠
+	for (var i = 0; i < dncycle; i++){
+		DIY_swipe(360, 800, 360, 1150, 40, 300);  //向下滑5欠
 	}
 
 	tapandlvup(Gt, cycles, mtap, uptap);
@@ -967,15 +967,15 @@ function tapandlvup(Gt, cy, mtap, uptap) {
 
 }
 
-function rebirth(wT) {
+function rebirth(upcycle, wT) {
 	if (!config.isRunning) return false;
 	if (!useReturn(1)) return false;
 	console.log('rebirth');
 
 	menutap(1);
 
-	for (var i = 0; i < 5; i++){
-		DIY_swipe(360, 1200, 360, 750, 30, 400);  //向上滑4欠
+	for (var i = 0; i < upcycle; i++){
+		DIY_swipe(360, 1150, 360, 800, 40, 400);  //向上滑4欠
 	}
 
 	sleep(1500);
@@ -1168,10 +1168,13 @@ function setFirstTimer() {   //預設值設定
 
 function setFirstsetting() {
 
+
+	mstdncycle = 5;        //鉿人物向上滑動次數
 	totaltaptime = 70;      //點擊主畫面與升級，維持時間
 	maintaptimes = 50;  //每次循環主畫面點擊次數
 	lvuptaptimes = 1;   //每次循環人物升級點擊次數
 
+	rebupcycle = 5;  //轉生前向上澤動次數
 	rebirthwait = 6; //轉生後等待秒數
 
 

@@ -434,7 +434,7 @@
 	</script>		
 	
     <script>
-      VERSION = 0.004;
+      VERSION = 0.0041;
       var settings = [
         [
           {
@@ -455,8 +455,8 @@
           },
           {
             key: 'strg', 
-            title: "Ver 0.004, This script is for 720x1280 resolution, CH/EN interface.",   
-            title_zh_TW: "Ver 0.004, 本腳本僅適用 720x1280 240dip 解析度，中/英文介面。",
+            title: "Ver 0.0041, This script is for 720x1280 resolution, CH/EN interface.",   
+            title_zh_TW: "Ver 0.0041, 本腳本僅適用 720x1280 240dip 解析度，中/英文介面。",
           },
         ],
         [
@@ -464,6 +464,15 @@
             key: 'title1', 
             title: "☆★☆★☆============Return Setting============☆★☆★☆",
             title_zh_TW: "☆★☆★☆==============設定==============☆★☆★☆",
+          },
+          {
+            key: 'mstdncycle', 
+            title: "鉿人物向上滑動次數",
+            title_zh_TW: "鉿人物向上滑動次數", 
+            default: 5, 
+            step: 1,
+            max: 10, 
+            min: 4,
           },
           {
             key: 'totaltaptime', 
@@ -494,6 +503,15 @@
           },
         ],
         [
+          {
+            key: 'rebupcycle', 
+            title: "轉生前向上澤動次數",
+            title_zh_TW: "轉生前向上澤動次數", 
+            default: 5, 
+            step: 1,
+            max: 10, 
+            min: 4,
+          },
           {
             key: 'rebirthwait', 
             title: "轉生後等待秒數",
