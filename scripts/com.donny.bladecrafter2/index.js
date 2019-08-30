@@ -1135,8 +1135,8 @@ function mini3kickmonster(Gt, slt1, slt2, slt3, slt4) {
 function main(){       //主流程
 	if (!config.isRunning) return false;
 	
-	farmermedia(totaltaptime, maintaptimes, lvuptaptimes);
-	rebirth(rebirthwait);
+	farmermedia(mstdncycle, totaltaptime, maintaptimes, lvuptaptimes);
+	rebirth(rebupcycle, rebirthwait);
 
 	
 	mini3kickmonster(32, mini3slt1, mini3slt2, mini3slt3, mini3slt4);
