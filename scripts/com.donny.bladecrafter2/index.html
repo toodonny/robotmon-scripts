@@ -434,9 +434,7 @@
 	</script>		
 	
     <script>
-      VERSION = 0.0031;
-
-	  var pow10 = 0; 
+      VERSION = 0.0032;
       var settings = [
         [
           {
@@ -471,7 +469,7 @@
             key: 'totaltaptime', 
             title: "點擊主畫面與升級，維持時間",
             title_zh_TW: "點擊主畫面與升級，維持時間", 
-            default: 150, 
+            default: 60, 
             step: 5,
             max: 600, 
             min: 30,
@@ -494,6 +492,8 @@
             max: 10, 
             min: 0,
           },
+        ],
+        [
           {
             key: 'rebirthwait', 
             title: "轉生後等待秒數",
@@ -502,6 +502,20 @@
             step: 1,
             max: 15, 
             min: 5,
+          },
+        ],
+        [
+          {
+            key: 'title1', 
+            title: "☆★☆★☆============Mini Game 1============☆★☆★☆",
+            title_zh_TW: "☆★☆★☆==============小遊戲 1==============☆★☆★☆",
+          },
+        ],
+        [
+          {
+            key: 'title1', 
+            title: "☆★☆★☆============Mini Game 2============☆★☆★☆",
+            title_zh_TW: "☆★☆★☆==============小遊戲 2==============☆★☆★☆",
           },
           {
             key: 'mini2taps', 
@@ -516,7 +530,7 @@
             key: 'mini2tpwt', 
             title: "minigame2 點擊時間差",
             title_zh_TW: "minigame2 點擊時間差", 
-            default: 30, 
+            default: 40, 
             step: 5,
             max: 200, 
             min: 5,
@@ -525,10 +539,17 @@
             key: 'mini2wt', 
             title: "minigame2 武器王(橫) 每次點完等待",
             title_zh_TW: "minigame2 武器王(橫) 每次點完等待", 
-            default: 400, 
+            default: 550, 
             step: 10,
             max: 2000, 
             min: 100,
+          },
+        ],
+        [
+          {
+            key: 'title1', 
+            title: "☆★☆★☆============Mini Game 3============☆★☆★☆",
+            title_zh_TW: "☆★☆★☆==============小遊戲 3==============☆★☆★☆",
           },
           {
             key: 'mini3slt1', 
@@ -837,11 +858,11 @@
 		<div id="menu">
 		  <tr>
 			<td>&nbsp;&nbsp;&nbsp;</td>
-			<td><button id="button_1" class="small blue button">－－</button></td><td>｜</td>
-			<td><button id="button_2" class="small blue button">－－</button></td><td>｜</td>
-			<td><button id="button_3" class="small blue button">－－</button></td><td>｜</td>
-			<td><button id="button_4" class="small blue button">－－</button></td><td>｜</td>
-			<td><button id="button_5" class="small blue button">－－</button></td><td>｜</td>
+			<td><button id="button_1" class="small blue button">點擊</button></td><td>｜</td>
+			<td><button id="button_2" class="small blue button">轉生</button></td><td>｜</td>
+			<td><button id="button_3" class="small blue button">MINI1</button></td><td>｜</td>
+			<td><button id="button_4" class="small blue button">MINI2</button></td><td>｜</td>
+			<td><button id="button_5" class="small blue button">MINI3</button></td><td>｜</td>
 			<td><button id="button_6" class="small blue button">－－</button></td><td>&nbsp;&nbsp;||&nbsp;</td>
 			<td><button id="button_11" class="small red button">－－－－</button></td><td>&nbsp;&nbsp;||&nbsp;</td>
 			<td><button id="button_14" class="small button">－－－－</button></td>

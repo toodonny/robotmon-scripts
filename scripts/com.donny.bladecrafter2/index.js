@@ -688,7 +688,23 @@ function useReturn(choiceF){          //各項回授點檢查
 	//console.log('各項升級限制條件');
 	
 	switch (choiceF) {
-		case  1: return CheckImageTap( 140, 24,  205, 65, 0.95, 'calandericon.png', 1, 1, 1, 50, 2);    return;   //主頁框左上方圖
+		case  1: 
+		
+		var img = getScreenshotModify(0, 48, 300, 1, 300, 1, 100);
+		for (var j = 1; j <= 3; j++) {
+			var getColor = getpointHex(img, calnX[j], 0);
+			var isSame = isSameColorHex(getColor, calnColor[j], 20);
+			// console.log('get:', getColor, ', OK:', calnColor[j]);
+			if (!isSame) {
+				releaseImage(img);
+				return false;
+			}
+		}
+		releaseImage(img);
+		return true;
+
+		
+		// return CheckImageTap( 140, 24,  205, 65, 0.95, 'calandericon.png', 1, 1, 1, 50, 2);    return;   //主頁框左上方圖
 
 		case  2: return CheckImageTap( 245, 830, 470, 910, 0.95, 'q_word.png', 1, 1, 1, 50, 2);    return;   //問答 "題"
 		case  3: return CheckImageTap( 550, 780, 670, 900, 0.95, 'fightbook.png', 1, 1, 1, 50, 2);    return;   //戰鬥日記
@@ -921,6 +937,7 @@ function farmermedia(Gt, mtap, uptap) {
 
 function tapandlvup(Gt, cy, mtap, uptap) {
 	if (!config.isRunning) return false;
+	if (!useReturn(1)) return false;
 	console.log('tapandlvup');
 
 	var t1 = Date.now()
@@ -929,15 +946,23 @@ function tapandlvup(Gt, cy, mtap, uptap) {
 		if (!config.isRunning) return false;
 
 		if (i % 3 == 0) {
-			if (!useReturn(1)) aa = aa + 1;
-			else aa = 0;
-			if (aa >= 3) return false;
+			for (var j = 0; j <= 4; j++) {
+				if (!config.isRunning) return false;
+				console.log('tap loop i/j;', i, j);
+				
+				if (!useReturn(1)) {
+					aa = aa + 1;
+					if (aa >= 3) {return false;}
+				} else { aa = 0; break;}
+				sleep(450);
+			}
 			var dt = Math.round((Date.now() - t1) / 1000);
 			console.log('循環:', i, '次，連點時間:', dt, '/', Gt, 'sec');
 		}
+
 		// tapFor(360, 530, 50, 10, 40, 100); //點中間打怪(點寶箱)
-		tapFor(680, 230, mtap, 10, 40, 100); //點中間打怪(不點寶箱)
-		tapFor(600, 950, uptap, 30, 50, 100);   //點人物升級
+		tapFor(640, 380, mtap, 10, 40, 100); //點中間打怪(不點寶箱)
+		tapFor(600, 950, uptap, 30, 40, 200);   //點人物升級
 	}
 
 }
@@ -986,11 +1011,12 @@ function tapeggeq(Timer) {
 	tapeggeqTimer =  Date.now() + Timer * 1000;
 }
 
-function minigameclock () {
+function minigameclock() {
 
 	rbm.keepScreenshotPartial( 45,  150, 125, 230);  //小遊戲3，時鐘圖示
 	var Img1 = rbm.findImage('mini3clock.png', 0.70);
 	rbm.releaseScreenshot();
+	sleep(100);
 
 	if (Img1 != undefined) { rbm.log('Img1:',Img1); }
 	if (Img1 == undefined) {
@@ -998,27 +1024,24 @@ function minigameclock () {
 		sleep(1000); 
 		return false;
 	} 
-
+	sleep(100);
 	return Img1;
 }
 
 function mini2weponking(Gt, taps, tapwt, cywt) {
 	if (!config.isRunning) return false;
+	var miniclock = minigameclock();
+	if (miniclock.score > 0.71 || !miniclock) return false;
 	console.log('mini game 2 wepon king');
 
 	var gametimes = Gt * 1000;
-	var cycles = Math.round(gametimes / 150 + 5);
+	var cycles = Math.round(gametimes / (taps*(60+tapwt+10) + cywt) + 5);
 	// cycles = 1;
-	console.log(gametimes, cycles);
-	for (var i = 0; i <= cycles; i++) {
+	// console.log(gametimes, cycles);
+	for (var k = 0; k <= cycles; k++) {
 		if (!config.isRunning) return false;
 
-		console.log('mini game 2:', i, ' times');
-
-		if (i % 20 == 0) {
-			var miniclock = minigameclock ()
-			if (miniclock.score > 0.71 || !miniclock) { break; }
-		}
+		console.log('mini game 2:', k, ' times');
 
 		var img = getScreenshotModify(0, 621, 300, 1, 300, 1, 100);
 		for (var j = 1; j <= taps; j++) {
@@ -1028,13 +1051,21 @@ function mini2weponking(Gt, taps, tapwt, cywt) {
 		releaseImage(img);
 
 		for (var i = 1; i <= taps; i++) {
-			if(gpoint[i].r >= '200') {tap(180, 1100, 40);}
-			else {tap(540, 1100, 40);}
+			if(gpoint[i].r >= '200') {tap(180, 1100, 60);}
+			else if(gpoint[i].g > '100') {tap(540, 1100, 60);}
+			else { console.log('Error no tap', i);}
 			sleep(tapwt);
 		}
 
 		sleep(cywt);
+
+		if (k % 15 == 0) {
+			miniclock = minigameclock();
+			if (miniclock.score > 0.71 || !miniclock) { break; }
+		}
+
 	}
+	console.log('mini game 2 over');
 }
 
 
@@ -1044,7 +1075,7 @@ function mini3kickmonster(Gt, slt1, slt2, slt3, slt4) {
 	
 	var gametimes = Gt * 1000;
 	var cycles = Math.round(gametimes / 100 + 20);
-	console.log(gametimes, cycles);
+	// console.log(gametimes, cycles);
 	for (var i = 0; i <= cycles; i++) {
 		if (!config.isRunning) return false;
 
@@ -1094,6 +1125,7 @@ function mini3kickmonster(Gt, slt1, slt2, slt3, slt4) {
 		}
 		sleep(sltime);
 	}
+	console.log('mini game 3 over');
 
 }
 
@@ -1115,7 +1147,7 @@ function main(){       //主流程
 // ===========================================================
 
 function setFirstTimer() {   //預設值設定
-	tapeggeqTimer = Date.now() +   1 * 1000;  //收裝備/寵蛋
+	tapeggeqTimer = Date.now() + 900 * 1000;  //收裝備/寵蛋
 	
 
 	checkScreenTimer  = Date.now() +   5 * 1000;  //畫面停止檢查用，不可刪
@@ -1126,14 +1158,17 @@ function setFirstTimer() {   //預設值設定
 	mnstX = [430, 287, 222, 157, 92, 27];
 	mnstY = 621;
 	mnstColor = 'FAE010';
-
 	gpoint = [];
+
+	calnX = ['', 156, 163, 193];
+	calnY = 48;
+	calnColor = ['', 'DF110D', '7B797B', '0079DE'];
 
 }
 
 function setFirstsetting() {
 
-	totaltaptime = 60;      //點擊主畫面與升級，維持時間
+	totaltaptime = 70;      //點擊主畫面與升級，維持時間
 	maintaptimes = 50;  //每次循環主畫面點擊次數
 	lvuptaptimes = 1;   //每次循環人物升級點擊次數
 
@@ -1141,8 +1176,8 @@ function setFirstsetting() {
 
 
 	mini2taps =  5;  //minigame2 每次檢查點擊幾個
-	mini2tpwt = 20;  //minigame2 點擊時間差
-	mini2wt =  400;  //minigame2 武器王(橫) 每次點完等待
+	mini2tpwt = 30;  //minigame2 點擊時間差
+	mini2wt =  450;  //minigame2 武器王(橫) 每次點完等待
 
 
 	mini3slt1 = 50; //minigame3 打地鼠 30秒 分4段 1段 時間差
@@ -1167,7 +1202,9 @@ function test(cycle){
 
 			// mini3kickmonster(32, mini3slt1, mini3slt2, mini3slt3, mini3slt4);
 			// mini2weponking(32, mini2taps, mini2wt);
-		
+			
+			// console.log('calender:', useReturn(1));
+			// sleep(1000);
 
 
 			while(config.isRunning) {main();}
