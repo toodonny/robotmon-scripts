@@ -154,8 +154,8 @@
     },    
     "com.donny.bladecrafter2": {
       "title": "真．最強名器．餓！",
-      "versionCode": 0.0042,
-      "description": "<h3>真．最強名器．餓！</h3><ul><li>0.0042 爛爛版！</li><li>2019.08.31 滑動設定調整開放。</li><li>2019.08.28 新增手動小遊戲2/3。</li><li>2019.08.23 因名器而生的腳本。</li></ul>",
+      "versionCode": 0.0043,
+      "description": "<h3>真．最強名器．餓！</h3><ul><li>0.0043 爛爛版！</li><li>2019.08.31 滑動設定調整開放。</li><li>2019.08.28 新增手動小遊戲2/3。</li><li>2019.08.23 因名器而生的腳本。</li></ul>",
       "packageName": "com.studiodrill.bladecrafter2",
       "downloadURL": "https://github.com/toodonny/robotmon-scripts/raw/master/scripts/com.donny.bladecrafter2/index.zip"
     }

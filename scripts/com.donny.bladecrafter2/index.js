@@ -975,7 +975,9 @@ function rebirth(upcycle, wT) {
 	menutap(1);
 
 	for (var i = 0; i < upcycle; i++){
-		DIY_swipe(360, 1180, 360, 800, allswspd, allswwait);  //向上滑4欠
+		var dpY = 0;
+		if (i % 2 == 0) { dpY = 20 }
+		DIY_swipe(360, 1180 - dpY, 360, 800, allswspd, allswwait);  //向上滑4欠
 	}
 
 	sleep(1500);
