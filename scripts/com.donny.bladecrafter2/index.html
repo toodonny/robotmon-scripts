@@ -434,7 +434,7 @@
 	</script>		
 	
     <script>
-      VERSION = 0.0041;
+      VERSION = 0.0042;
       var settings = [
         [
           {
@@ -455,9 +455,9 @@
           },
           {
             key: 'strg', 
-            title: "Ver 0.0041, This script is for 720x1280 resolution, CH/EN interface.",   
-            title_zh_TW: "Ver 0.0041, 本腳本僅適用 720x1280 240dip 解析度，中/英文介面。",
-          },
+            title: "Ver " + VERSION + ", This script is for 720x1280 resolution, CH/EN interface.",   
+            title_zh_TW: "Ver " + VERSION + ", 本腳本僅適用 720x1280 240dip 解析度，中/英文介面。",
+          }
         ],
         [
           {
@@ -500,9 +500,14 @@
             step: 1,
             max: 10, 
             min: 0,
-          },
+          }
         ],
         [
+          {
+            key: 'title1', 
+            title: "☆★☆★☆============轉生設定============☆★☆★☆",
+            title_zh_TW: "☆★☆★☆==============轉生設定==============☆★☆★☆",
+          },
           {
             key: 'rebupcycle', 
             title: "轉生前向上澤動次數",
@@ -520,14 +525,14 @@
             step: 1,
             max: 15, 
             min: 5,
-          },
+          }
         ],
         [
           {
             key: 'title1', 
             title: "☆★☆★☆============Mini Game 1============☆★☆★☆",
             title_zh_TW: "☆★☆★☆==============小遊戲 1==============☆★☆★☆",
-          },
+          }
         ],
         [
           {
@@ -561,7 +566,7 @@
             step: 10,
             max: 2000, 
             min: 100,
-          },
+          }
         ],
         [
           {
@@ -604,13 +609,40 @@
             step: 10,
             max: 200, 
             min: 10,
+          }
+        ],
+        [
+          {
+            key: 'title1', 
+            title: "☆★☆★☆============滑動設定============☆★☆★☆",
+            title_zh_TW: "☆★☆★☆==============滑動設定==============☆★☆★☆",
           },
+          {
+            key: 'allswspd', 
+            title: "滑動速度(小:快)",
+            title_zh_TW: "滑動速度(小:快)", 
+            default: 60, 
+            step: 5,
+            max: 200, 
+            min: 30,
+          },
+          {
+            key: 'allswwait', 
+            title: "滑動完等待 毫秒",
+            title_zh_TW: "滑動完等待 毫秒", 
+            default: 800, 
+            step: 100,
+            max: 5000, 
+            min: 300,
+          }
+        ],
+        [
           {
             key: 'bossfightSw', 
             title: "-------", 
             title_zh_TW: "--------", 
             default: false,
-          },
+          }
         ],
 
         []
@@ -854,6 +886,36 @@
         });
       });
 
+      $(function() {
+        $("#button_2").click(function() {
+        $('html,body').animate({scrollTop: ($('#setting_2_0').offset().top-topdistance) + 'px'}, 600); //village
+        });
+      });
+
+      $(function() {
+        $("#button_3").click(function() {
+        $('html,body').animate({scrollTop: ($('#setting_3_0').offset().top-topdistance) + 'px'}, 600); //ascend
+        });
+      });
+
+      $(function() {
+        $("#button_4").click(function() {
+        $('html,body').animate({scrollTop: ($('#setting_4_0').offset().top-topdistance) + 'px'}, 600); //dungeon
+        });
+      });
+      
+      $(function() {
+        $("#button_5").click(function() {
+        $('html,body').animate({scrollTop: ($('#setting_5_0').offset().top-topdistance) + 'px'}, 600); //expedition
+        });
+      });
+
+      $(function() {
+        $("#button_6").click(function() {
+        $('html,body').animate({scrollTop: ($('#setting_6_0').offset().top-topdistance) + 'px'}, 600); //area
+        });
+      });
+
       function onEvent(eventType) {
         if (eventType == 'OnPlayClick') {
           var startCommand = genStartCommand(settings);
@@ -881,7 +943,7 @@
 			<td><button id="button_3" class="small blue button">MINI1</button></td><td>｜</td>
 			<td><button id="button_4" class="small blue button">MINI2</button></td><td>｜</td>
 			<td><button id="button_5" class="small blue button">MINI3</button></td><td>｜</td>
-			<td><button id="button_6" class="small blue button">－－</button></td><td>&nbsp;&nbsp;||&nbsp;</td>
+			<td><button id="button_6" class="small blue button">滑動設定</button></td><td>&nbsp;&nbsp;||&nbsp;</td>
 			<td><button id="button_11" class="small red button">－－－－</button></td><td>&nbsp;&nbsp;||&nbsp;</td>
 			<td><button id="button_14" class="small button">－－－－</button></td>
 		　</tr>

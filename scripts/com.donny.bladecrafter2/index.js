@@ -928,7 +928,7 @@ function farmermedia(dncycle, Gt, mtap, uptap) {
 	menutap(1);
 
 	for (var i = 0; i < dncycle; i++){
-		DIY_swipe(360, 800, 360, 1150, 40, 300);  //向下滑5欠
+		DIY_swipe(360, 800, 360, 1180, allswspd, allswwait);  //向下滑5欠
 	}
 
 	tapandlvup(Gt, cycles, mtap, uptap);
@@ -961,7 +961,7 @@ function tapandlvup(Gt, cy, mtap, uptap) {
 		}
 
 		// tapFor(360, 530, 50, 10, 40, 100); //點中間打怪(點寶箱)
-		tapFor(640, 380, mtap, 10, 40, 100); //點中間打怪(不點寶箱)
+		tapFor(680, 220, mtap, 10, 40, 100); //點中間打怪(不點寶箱)
 		tapFor(600, 950, uptap, 30, 40, 200);   //點人物升級
 	}
 
@@ -975,7 +975,7 @@ function rebirth(upcycle, wT) {
 	menutap(1);
 
 	for (var i = 0; i < upcycle; i++){
-		DIY_swipe(360, 1150, 360, 800, 40, 400);  //向上滑4欠
+		DIY_swipe(360, 1180, 360, 800, allswspd, allswwait);  //向上滑4欠
 	}
 
 	sleep(1500);
@@ -1051,8 +1051,8 @@ function mini2weponking(Gt, taps, tapwt, cywt) {
 		releaseImage(img);
 
 		for (var i = 1; i <= taps; i++) {
-			if(gpoint[i].r >= '200') {tap(180, 1100, 60);}
-			else if(gpoint[i].g > '100') {tap(540, 1100, 60);}
+			if(gpoint[i].r >= '200') {tap(180, 1100, 30);}
+			else if(gpoint[i].g > '100') {tap(540, 1100, 30);}
 			else { console.log('Error no tap', i);}
 			sleep(tapwt);
 		}
@@ -1169,18 +1169,18 @@ function setFirstTimer() {   //預設值設定
 function setFirstsetting() {
 
 
-	mstdncycle = 5;        //鉿人物向上滑動次數
-	totaltaptime = 70;      //點擊主畫面與升級，維持時間
+	mstdncycle = 6;        //鉿人物向上滑動次數
+	totaltaptime = 65;      //點擊主畫面與升級，維持時間
 	maintaptimes = 50;  //每次循環主畫面點擊次數
 	lvuptaptimes = 1;   //每次循環人物升級點擊次數
 
-	rebupcycle = 5;  //轉生前向上澤動次數
+	rebupcycle = 7;  //轉生前向上澤動次數
 	rebirthwait = 6; //轉生後等待秒數
 
 
 	mini2taps =  5;  //minigame2 每次檢查點擊幾個
 	mini2tpwt = 30;  //minigame2 點擊時間差
-	mini2wt =  450;  //minigame2 武器王(橫) 每次點完等待
+	mini2wt =  400;  //minigame2 武器王(橫) 每次點完等待
 
 
 	mini3slt1 = 50; //minigame3 打地鼠 30秒 分4段 1段 時間差
@@ -1189,6 +1189,9 @@ function setFirstsetting() {
 	mini3slt4 = 20; //minigame3 打地鼠 30秒 分4段 4段 時間差
 	
 	
+	allswspd = 60;  //滑動速度(小:快)
+	allswwait = 800; //滑動完等待 毫秒
+
 }
 
 function test(cycle){
