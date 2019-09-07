@@ -1,3 +1,5 @@
+del index.zip
+
 PATH C:\Program Files\WinRAR\
 PATH C:\Program Files\7-Zip
 WinRAR.exe a index.zip .\images
