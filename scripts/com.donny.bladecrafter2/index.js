@@ -919,7 +919,7 @@ function menutap(pg) {
 function farmermedia(dncycle, Gt, mtap, uptap) {
 	if (!config.isRunning) return false;
 	if (debugFc) return false;
-	if (!useReturn(1)) return debugFc = false;
+	if (!useReturn(1)) return debugFc = true;
 	console.log('farmermedia');
 
 	var gametimes = Gt * 1000;
@@ -938,7 +938,7 @@ function farmermedia(dncycle, Gt, mtap, uptap) {
 function tapandlvup(Gt, cy, mtap, uptap) {
 	if (!config.isRunning) return false;
 	if (debugFc) return false;
-	if (!useReturn(1)) return debugFc = false;
+	if (!useReturn(1)) return debugFc = true;
 	console.log('tapandlvup');
 
 	var t1 = Date.now()
@@ -971,7 +971,7 @@ function tapandlvup(Gt, cy, mtap, uptap) {
 function rebirth(upcycle, wT) {
 	if (!config.isRunning) return false;
 	if (debugFc) return false;
-	if (!useReturn(1)) return debugFc = false;
+	if (!useReturn(1)) return debugFc = true;
 	console.log('rebirth');
 
 	menutap(1);
@@ -999,7 +999,7 @@ function rebirth(upcycle, wT) {
 function tapeggeq(Timer) {
 	if (!config.isRunning) return false;
 	if (debugFc) return false;
-	if (!useReturn(1)) return debugFc = false;
+	if (!useReturn(1)) return debugFc = true;
 	if (Date.now() < tapeggeqTimer) {
 		var waittime = Math.round((tapeggeqTimer - Date.now())/1000);
 		console.log('tap egg eq:', waittime, ' sec');
@@ -1140,11 +1140,14 @@ function debug(Timer) {
 
 	if (debugFc) {
 		var ErrorTime = (Date.now() - debugTimer) / 1000 - Timer;
-		console.log(ErrorTime, Date.now, debugTimer, Timer);
+		console.log(ErrorTime, Date.now(), debugTimer, Timer);
 		
 		if (ErrorTime > 0) {
 			console.log('Debug Click Back');
+			debugTimer = Date.now();
 			keycode('BACK', 500);
+			sleep(2000);
+			debugFc = false;
 		}
 	}
 
@@ -1192,7 +1195,7 @@ function setFirstTimer() {   //預設值設定
 
 function setFirstsetting() {
 
-	mstdncycle = 6;        //鉿人物向上滑動次數
+	mstdncycle = 5;        //鉿人物向上滑動次數
 	totaltaptime = 65;      //點擊主畫面與升級，維持時間
 	maintaptimes = 50;  //每次循環主畫面點擊次數
 	lvuptaptimes = 1;   //每次循環人物升級點擊次數
