@@ -1162,6 +1162,8 @@ function main(){       //主流程
 	mini3kickmonster(32, mini3slt1, mini3slt2, mini3slt3, mini3slt4);
 	mini2weponking(32, mini2taps, mini2tpwt, mini2wt);
 
+	debug(debugTmrChk);
+
 }
 
 // ===========================================================
