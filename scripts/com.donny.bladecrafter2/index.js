@@ -1185,7 +1185,7 @@ function setFirstTimer() {   //預設值設定
 	calnY = 48;
 	calnColor = ['', 'DF110D', '7B797B', '0079DE'];
 
-	debugTimer = Data.now();   //debug initial
+	debugTimer = Date.now();   //debug initial
 	debugFc = false;
 
 }
