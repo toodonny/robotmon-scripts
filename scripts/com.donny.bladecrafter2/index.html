@@ -434,7 +434,7 @@
 	</script>		
 	
     <script>
-      VERSION = 0.0042;
+      VERSION = 0.0043;
       var settings = [
         [
           {
@@ -638,12 +638,32 @@
         ],
         [
           {
+            key: 'title1', 
+            title: "☆★☆★☆============其它設定============☆★☆★☆",
+            title_zh_TW: "☆★☆★☆==============其它設定==============☆★☆★☆",
+          },
+          {
+            key: 'allswwait', 
+            title: "畫面異常sec觸發debug",
+            title_zh_TW: "畫面異常sec觸發debug", 
+            default: 10, 
+            step: 1,
+            max: 120, 
+            min: 2,
+          }
+        ],
+        [
+          {
             key: 'bossfightSw', 
             title: "-------", 
             title_zh_TW: "--------", 
             default: false,
           }
         ],
+
+
+
+        debugTmrChk
 
         []
       ];

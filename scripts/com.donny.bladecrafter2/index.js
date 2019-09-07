@@ -3,7 +3,7 @@
 // ============================idlerpg=============================== //
 
 var config = {
-  appName: 'com.donny.bladecrafter2',   //日語50音-初心の冒險
+  appName: 'com.donny.bladecrafter2',   //最強名劍 2
   oriScreenWidth: 720, // source
   oriScreenHeight: 1280,
   oriVirtualButtonHeight: 0,
@@ -918,7 +918,8 @@ function menutap(pg) {
 
 function farmermedia(dncycle, Gt, mtap, uptap) {
 	if (!config.isRunning) return false;
-	if (!useReturn(1)) return false;
+	if (debugFc) return false;
+	if (!useReturn(1)) return debugFc = false;
 	console.log('farmermedia');
 
 	var gametimes = Gt * 1000;
@@ -932,12 +933,12 @@ function farmermedia(dncycle, Gt, mtap, uptap) {
 	}
 
 	tapandlvup(Gt, cycles, mtap, uptap);
-
 }
 
 function tapandlvup(Gt, cy, mtap, uptap) {
 	if (!config.isRunning) return false;
-	if (!useReturn(1)) return false;
+	if (debugFc) return false;
+	if (!useReturn(1)) return debugFc = false;
 	console.log('tapandlvup');
 
 	var t1 = Date.now()
@@ -969,7 +970,8 @@ function tapandlvup(Gt, cy, mtap, uptap) {
 
 function rebirth(upcycle, wT) {
 	if (!config.isRunning) return false;
-	if (!useReturn(1)) return false;
+	if (debugFc) return false;
+	if (!useReturn(1)) return debugFc = false;
 	console.log('rebirth');
 
 	menutap(1);
@@ -982,9 +984,9 @@ function rebirth(upcycle, wT) {
 
 	sleep(1500);
 	tapFor(600, 1160, 1, 50, 200, 600);
-	tapFor(240, 880, 3, 50, 200, 500); //點轉生，等10000ms
+	tapFor(240, 880, 3, 50, 200, 500); //點轉生，等5000ms
 	tapFor(600, 1160, 1, 50, 200, 600);
-	tapFor(240, 880, 3, 50, 200, 500); //點轉生，等10000ms
+	tapFor(240, 880, 3, 50, 200, 500); //點轉生，等5000ms
 
 	for (var j = 0; j < wT; j++){
 		console.log('轉生後等待:', j, ' sec');
@@ -996,6 +998,8 @@ function rebirth(upcycle, wT) {
 
 function tapeggeq(Timer) {
 	if (!config.isRunning) return false;
+	if (debugFc) return false;
+	if (!useReturn(1)) return debugFc = false;
 	if (Date.now() < tapeggeqTimer) {
 		var waittime = Math.round((tapeggeqTimer - Date.now())/1000);
 		console.log('tap egg eq:', waittime, ' sec');
@@ -1014,7 +1018,6 @@ function tapeggeq(Timer) {
 }
 
 function minigameclock() {
-
 	rbm.keepScreenshotPartial( 45,  150, 125, 230);  //小遊戲3，時鐘圖示
 	var Img1 = rbm.findImage('mini3clock.png', 0.70);
 	rbm.releaseScreenshot();
@@ -1069,7 +1072,6 @@ function mini2weponking(Gt, taps, tapwt, cywt) {
 	}
 	console.log('mini game 2 over');
 }
-
 
 function mini3kickmonster(Gt, slt1, slt2, slt3, slt4) {
 	if (!config.isRunning) return false;
@@ -1131,6 +1133,22 @@ function mini3kickmonster(Gt, slt1, slt2, slt3, slt4) {
 
 }
 
+function debug(Timer) {
+	if (!config.isRunning) return false;
+	if (!debugFc) return debugTimer = Date.now();
+	console.log('Debug');
+
+	if (debugFc) {
+		var ErrorTime = (Date.now() - debugTimer) / 1000 - Timer;
+		console.log(ErrorTime, Date.now, debugTimer, Timer);
+		
+		if (ErrorTime > 0) {
+			console.log('Debug Click Back');
+			keycode('BACK', 500);
+		}
+	}
+
+}
 
 // ===========================================================
 
@@ -1151,7 +1169,6 @@ function main(){       //主流程
 function setFirstTimer() {   //預設值設定
 	tapeggeqTimer = Date.now() + 900 * 1000;  //收裝備/寵蛋
 	
-
 	checkScreenTimer  = Date.now() +   5 * 1000;  //畫面停止檢查用，不可刪
 	ScreenErrorTime1 = Date.now()
 	rbm.screencrop('checkADstop.png', 180, 270, 590, 860);
@@ -1166,10 +1183,12 @@ function setFirstTimer() {   //預設值設定
 	calnY = 48;
 	calnColor = ['', 'DF110D', '7B797B', '0079DE'];
 
+	debugTimer = Data.now();   //debug initial
+	debugFc = false;
+
 }
 
 function setFirstsetting() {
-
 
 	mstdncycle = 6;        //鉿人物向上滑動次數
 	totaltaptime = 65;      //點擊主畫面與升級，維持時間
@@ -1193,6 +1212,9 @@ function setFirstsetting() {
 	
 	allswspd = 60;  //滑動速度(小:快)
 	allswwait = 800; //滑動完等待 毫秒
+
+	debugTmrChk = 10;  //畫面異常多久觸發debug執行
+
 
 }
 
