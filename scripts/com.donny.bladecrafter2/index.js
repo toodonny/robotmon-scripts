@@ -1145,7 +1145,7 @@ function debug(Timer) {
 		if (ErrorTime > 0) {
 			console.log('Debug Click Back');
 			debugTimer = Date.now();
-			//keycode('BACK', 500);
+			keycode('BACK', 500);
 			tapFor(360, 40, 2, 50, 100, 200);
 			sleep(2000);
 			debugFc = false;
