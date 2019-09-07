@@ -1219,7 +1219,7 @@ function setFirstsetting() {
 	allswspd = 60;  //滑動速度(小:快)
 	allswwait = 800; //滑動完等待 毫秒
 
-	debugTmrChk = 10;  //畫面異常多久觸發debug執行
+	debugTmrChk = 5;  //畫面異常多久觸發debug執行
 
 
 }
