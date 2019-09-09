@@ -373,6 +373,44 @@ function DIY_swipe(intx, inty, finax, finay, moveD, sleeptime) {
 	if (sleeptime != undefined) sleep(sleeptime);
 }
 
+function DIY_Fstswipe(intx, inty, finax, finay, moveCy, sleeptime) {
+	if (!config.isRunning) return false;
+	
+	var pmX = 0;
+	var pmY = 0;
+	if (finax > intx){pmX = 1} else if (finax < intx) {pmX = -1}
+	if (finay > inty){pmY = 1} else if (finay < inty) {pmY = -1}
+	var MoveXD = 0;
+	var MoveYD = 0;
+
+	var intMX = intx;
+	var intMY = inty;
+
+	var mvDc = 2;
+	var mvFc = 1.15;
+	
+	tapDown(intx, inty, 80);
+	for (var i = 0; i < moveCy; i++) {
+		if (!config.isRunning) { tapUp(intx, i, 200);  break; }
+		MoveXD = (MoveXD + mvDc) * mvFc;
+		MoveYD = (MoveYD + mvDc) * mvFc;
+		var intMX = intMX + MoveXD * pmX;
+		var intMY = intMY + MoveYD * pmY;
+
+		// if (finax >= intx && intMX >= finax) {intMX = finax;} 
+		// else if (finax < intx && intMX < finax) {intMX = finax;} 
+
+		// if (finay >= inty && intMY >= finay) {intMY = finay;} 
+		// else if (finay < inty && intMY < finay) {intMY = finay;} 
+
+		// console.log('intMX:', intMX, ', intMY:', intMY);
+		moveTo(intMX, intMY, 10);
+	}
+	moveTo(finax, finay, 10)	
+	tapUp(finax, finay, 10)
+	if (sleeptime != undefined) sleep(sleeptime);
+}
+
 function xy_swipe(intx, inty, finax, finay, moveD) {  //坐標位移
 	var movedistance = (finay - inty) / moveD
 	
@@ -693,7 +731,7 @@ function useReturn(choiceF){          //各項回授點檢查
 		var img = getScreenshotModify(0, 48, 300, 1, 300, 1, 100);
 		for (var j = 1; j <= 3; j++) {
 			var getColor = getpointHex(img, calnX[j], 0);
-			var isSame = isSameColorHex(getColor, calnColor[j], 20);
+			var isSame = isSameColorHex(getColor, calnColor[j], 30);
 			// console.log('get:', getColor, ', OK:', calnColor[j]);
 			if (!isSame) {
 				releaseImage(img);
@@ -908,7 +946,7 @@ function waitAD2(timer) {
 
 function menutap(pg) {
 	if (!config.isRunning) return false;
-	console.log('menu - ', pg);
+	console.log('Menu - Page', pg);
 
 	tapFor(680, 680, 4, 30, 200, 200);   //點右邊向下三角型
 
@@ -920,7 +958,7 @@ function farmermedia(dncycle, Gt, mtap, uptap) {
 	if (!config.isRunning) return false;
 	if (debugFc) return false;
 	if (!useReturn(1)) return debugFc = true;
-	console.log('farmermedia');
+	console.log('Farmer Media');
 
 	var gametimes = Gt * 1000;
 	var cycles = Math.round(gametimes / (40*(10+40) + 100 + 160 + 200));
@@ -929,7 +967,7 @@ function farmermedia(dncycle, Gt, mtap, uptap) {
 	menutap(1);
 
 	for (var i = 0; i < dncycle; i++){
-		DIY_swipe(360, 800, 360, 1180, allswspd, allswwait);  //向下滑5欠
+		DIY_Fstswipe(360, 800, 360, 1150, allswspd, allswwait);  //向下滑5欠
 	}
 
 	tapandlvup(Gt, cycles, mtap, uptap);
@@ -939,7 +977,7 @@ function tapandlvup(Gt, cy, mtap, uptap) {
 	if (!config.isRunning) return false;
 	if (debugFc) return false;
 	if (!useReturn(1)) return debugFc = true;
-	console.log('tapandlvup');
+	console.log('Tap and LvUp');
 
 	var t1 = Date.now()
 	var aa = 0;
@@ -949,7 +987,7 @@ function tapandlvup(Gt, cy, mtap, uptap) {
 		if (i % 3 == 0) {
 			for (var j = 0; j <= 4; j++) {
 				if (!config.isRunning) return false;
-				console.log('tap loop i/j;', i, j);
+				// console.log('tap loop i/j;', i, j);
 				
 				if (!useReturn(1)) {
 					aa = aa + 1;
@@ -958,7 +996,8 @@ function tapandlvup(Gt, cy, mtap, uptap) {
 				sleep(450);
 			}
 			var dt = Math.round((Date.now() - t1) / 1000);
-			console.log('循環:', i, '次，連點時間:', dt, '/', Gt, 'sec');
+			// console.log('循環:', i, '次，連點時間:', dt, '/', Gt, 'sec');
+			console.log('循環:', i, ',時間:', dt, '/', Gt, 's');
 		}
 
 		// tapFor(360, 530, 50, 10, 40, 100); //點中間打怪(點寶箱)
@@ -972,14 +1011,14 @@ function rebirth(upcycle, wT) {
 	if (!config.isRunning) return false;
 	if (debugFc) return false;
 	if (!useReturn(1)) return debugFc = true;
-	console.log('rebirth');
+	console.log('Rebirth');
 
 	menutap(1);
 
 	for (var i = 0; i < upcycle; i++){
 		var dpY = 0;
-		if (i % 2 == 0) { dpY = 20 }
-		DIY_swipe(360, 1180 - dpY, 360, 800, allswspd, allswwait);  //向上滑4欠
+		if (i % 2 == 0) { dpY = 10 }
+		DIY_Fstswipe(360, 1150 - dpY, 360, 800, allswspd, allswwait);  //向上滑4欠
 	}
 
 	sleep(1500);
@@ -1002,11 +1041,11 @@ function tapeggeq(Timer) {
 	if (!useReturn(1)) return debugFc = true;
 	if (Date.now() < tapeggeqTimer) {
 		var waittime = Math.round((tapeggeqTimer - Date.now())/1000);
-		console.log('tap egg eq:', waittime, ' sec');
+		console.log('Tap Egg and Eq:', waittime, ' sec');
 		return false;
 	}
 
-	console.log('tap egg eq');
+	console.log('Tap Egg and E');
 
 	menutap(3);
 	tapFor(600, 830, 5, 50, 300, 1000);
@@ -1037,10 +1076,10 @@ function mini2weponking(Gt, taps, tapwt, cywt) {
 	if (!config.isRunning) return false;
 	var miniclock = minigameclock();
 	if (miniclock.score > 0.71 || !miniclock) return false;
-	console.log('mini game 2 wepon king');
+	console.log('Mini Game 2 Wepon King');
 
 	var gametimes = Gt * 1000;
-	var cycles = Math.round(gametimes / (taps*(60+tapwt+10) + cywt) + 5);
+	var cycles = Math.round(gametimes / (taps*(60+tapwt+10) + cywt) + 3);
 	// cycles = 1;
 	// console.log(gametimes, cycles);
 	for (var k = 0; k <= cycles; k++) {
@@ -1070,15 +1109,15 @@ function mini2weponking(Gt, taps, tapwt, cywt) {
 		}
 
 	}
-	console.log('mini game 2 over');
+	console.log('Mini Game 2 Over');
 }
 
 function mini3kickmonster(Gt, slt1, slt2, slt3, slt4) {
 	if (!config.isRunning) return false;
-	console.log('mini game 3 kick monsters');
+	console.log('Mini Game 3 Kick Monsters');
 	
 	var gametimes = Gt * 1000;
-	var cycles = Math.round(gametimes / 100 + 20);
+	var cycles = Math.round(gametimes / 110 + 3);
 	// console.log(gametimes, cycles);
 	for (var i = 0; i <= cycles; i++) {
 		if (!config.isRunning) return false;
@@ -1107,7 +1146,7 @@ function mini3kickmonster(Gt, slt1, slt2, slt3, slt4) {
 				if (!config.isRunning) return false;
 				var result = Img0s[index];
 
-				rbm.log('result:', index, result);
+				// rbm.log('result:', index, result);
 
 				var rowmp1y = ['', 440, 630, 810];
 				var checky = 20;
@@ -1129,7 +1168,7 @@ function mini3kickmonster(Gt, slt1, slt2, slt3, slt4) {
 		}
 		sleep(sltime);
 	}
-	console.log('mini game 3 over');
+	console.log('Mini Game 3 Over');
 
 }
 
@@ -1140,7 +1179,8 @@ function debug(Timer) {
 
 	if (debugFc) {
 		var ErrorTime = (Date.now() - debugTimer) / 1000 - Timer;
-		console.log(ErrorTime, Date.now(), debugTimer, Timer);
+		// console.log(ErrorTime, Date.now(), debugTimer, Timer);
+		console.log(ErrorTime, Timer);
 		
 		if (ErrorTime > 0) {
 			console.log('Debug Click Back');
@@ -1196,18 +1236,18 @@ function setFirstTimer() {   //預設值設定
 
 function setFirstsetting() {
 
-	mstdncycle = 5;        //鉿人物向上滑動次數
-	totaltaptime = 65;      //點擊主畫面與升級，維持時間
+	mstdncycle = 2;        //鉿人物向上滑動次數
+	totaltaptime = 60;      //點擊主畫面與升級，維持時間
 	maintaptimes = 50;  //每次循環主畫面點擊次數
 	lvuptaptimes = 1;   //每次循環人物升級點擊次數
 
-	rebupcycle = 7;  //轉生前向上澤動次數
+	rebupcycle = 2;  //轉生前向上澤動次數
 	rebirthwait = 6; //轉生後等待秒數
 
 
 	mini2taps =  5;  //minigame2 每次檢查點擊幾個
-	mini2tpwt = 30;  //minigame2 點擊時間差
-	mini2wt =  400;  //minigame2 武器王(橫) 每次點完等待
+	mini2tpwt = 25;  //minigame2 點擊時間差
+	mini2wt =  380;  //minigame2 武器王(橫) 每次點完等待
 
 
 	mini3slt1 = 50; //minigame3 打地鼠 30秒 分4段 1段 時間差
@@ -1216,8 +1256,8 @@ function setFirstsetting() {
 	mini3slt4 = 20; //minigame3 打地鼠 30秒 分4段 4段 時間差
 	
 	
-	allswspd = 60;  //滑動速度(小:快)
-	allswwait = 800; //滑動完等待 毫秒
+	allswspd = 20;  //滑動速度(小:快)
+	allswwait = 700; //滑動完等待 毫秒
 
 	debugTmrChk = 5;  //畫面異常多久觸發debug執行
 
@@ -1242,6 +1282,11 @@ function test(cycle){
 			// console.log('calender:', useReturn(1));
 			// sleep(1000);
 
+			// console.log('1 up swip fast')
+			// DIY_Fstswipe(360, 800, 360, 1150, 20, 800);  //向下滑5欠
+
+			// console.log('2 down swip fast')
+			// DIY_Fstswipe(360, 1150, 360, 800, 20, 800);  //向下滑5欠
 
 			while(config.isRunning) {main();}
 			// console.log('n = ', n, ', CRA 腳本結束');
