@@ -1062,7 +1062,7 @@ function minigameclock() {
 	rbm.releaseScreenshot();
 	sleep(100);
 
-	if (Img1 != undefined) { rbm.log('Img1:',Img1); }
+	// if (Img1 != undefined) { rbm.log('Img1:',Img1); }
 	if (Img1 == undefined) {
 		console.log('沒時鐘，跳出minigame檢查');
 		sleep(1000); 
@@ -1087,22 +1087,35 @@ function mini2weponking(Gt, taps, tapwt, cywt) {
 
 		console.log('mini game 2:', k, ' times');
 
+		var gpointR = [];
 		var img = getScreenshotModify(0, 621, 300, 1, 300, 1, 100);
 		for (var j = 1; j <= taps; j++) {
 			gpoint[j] = getImageColor(img, mnstX[j], 0);
-			rbm.log('gpoint.r:', gpoint[j].r);
+			gpointR[j] = gpoint[j].r;
 		}
 		releaseImage(img);
+		rbm.log('gpointR:', gpointR);
 
 		for (var i = 1; i <= taps; i++) {
-			if(gpoint[i].r >= '200') {tap(180, 1100, 30);}
-			else if(gpoint[i].g > '100') {tap(540, 1100, 30);}
-			else { console.log('Error no tap', i);}
+			// console.log('tap LR i:', i);
+
+			var tapL = false; var tapR = false; var tapX = 540;
+			if(gpointR[i] > '240' && gpointR[i] < '260') {tapL = true; tapX = 180;}
+			if(gpointR[i] > '100' && gpointR[i] < '105') {tapR = true;}
+			// console.log('tapL:', tapL, 'tapR:', tapR);
+			
+			if(i == 1 && !tapL && !tapR) {sleep(20); break;}
+
+			console.log('i:', i, ', tapX:', tapX);
+			tap(tapX, 1100, 30);
+			// if(tapL) {tap(180, 1100, 30);}
+			// else if(tapR) {tap(540, 1100, 30);}
+			// else {console.log('Error no tap', i);}
 			sleep(tapwt);
+			if (i == taps) {sleep(cywt);}
 		}
 
-		sleep(cywt);
-
+		
 		if (k % 15 == 0) {
 			miniclock = minigameclock();
 			if (miniclock.score > 0.71 || !miniclock) { break; }
@@ -1204,7 +1217,7 @@ function main(){       //主流程
 
 	
 	mini3kickmonster(32, mini3slt1, mini3slt2, mini3slt3, mini3slt4);
-	mini2weponking(32, mini2taps, mini2tpwt, mini2wt);
+	mini2weponking(35, mini2taps, mini2tpwt, mini2wt);
 
 	debug(debugTmrChk);
 
@@ -1216,7 +1229,7 @@ function setFirstTimer() {   //預設值設定
 	tapeggeqTimer = Date.now() + 900 * 1000;  //收裝備/寵蛋
 	
 	checkScreenTimer  = Date.now() +   5 * 1000;  //畫面停止檢查用，不可刪
-	ScreenErrorTime1 = Date.now()
+	ScreenErrorTime1 = Date.now();
 	rbm.screencrop('checkADstop.png', 180, 270, 590, 860);
 
 
@@ -1237,17 +1250,17 @@ function setFirstTimer() {   //預設值設定
 function setFirstsetting() {
 
 	mstdncycle = 2;        //鉿人物向上滑動次數
-	totaltaptime = 60;      //點擊主畫面與升級，維持時間
+	totaltaptime = 50;      //點擊主畫面與升級，維持時間
 	maintaptimes = 50;  //每次循環主畫面點擊次數
 	lvuptaptimes = 1;   //每次循環人物升級點擊次數
 
 	rebupcycle = 2;  //轉生前向上澤動次數
-	rebirthwait = 6; //轉生後等待秒數
+	rebirthwait = 4; //轉生後等待秒數
 
 
 	mini2taps =  5;  //minigame2 每次檢查點擊幾個
-	mini2tpwt = 25;  //minigame2 點擊時間差
-	mini2wt =  380;  //minigame2 武器王(橫) 每次點完等待
+	mini2tpwt = 15;  //minigame2 點擊時間差
+	mini2wt =  280;  //minigame2 武器王(橫) 每次點完等待
 
 
 	mini3slt1 = 50; //minigame3 打地鼠 30秒 分4段 1段 時間差
@@ -1275,18 +1288,6 @@ function test(cycle){
 			setFirstTimer();     //設定初始時間值
 		} else if (n >= 1) {
 			console.log('n = ', n, '/', cycle, ', CRA 腳本開始');
-
-			// mini3kickmonster(32, mini3slt1, mini3slt2, mini3slt3, mini3slt4);
-			// mini2weponking(32, mini2taps, mini2wt);
-			
-			// console.log('calender:', useReturn(1));
-			// sleep(1000);
-
-			// console.log('1 up swip fast')
-			// DIY_Fstswipe(360, 800, 360, 1150, 20, 800);  //向下滑5欠
-
-			// console.log('2 down swip fast')
-			// DIY_Fstswipe(360, 1150, 360, 800, 20, 800);  //向下滑5欠
 
 			while(config.isRunning) {main();}
 			// console.log('n = ', n, ', CRA 腳本結束');
