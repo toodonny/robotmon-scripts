@@ -1001,7 +1001,7 @@ function tapandlvup(Gt, cy, mtap, uptap) {
 		}
 
 		// tapFor(360, 530, 50, 10, 40, 100); //點中間打怪(點寶箱)
-		tapFor(680, 220, mtap, 10, 40, 100); //點中間打怪(不點寶箱)
+		tapFor(680, 220, mtap, 10, 30, 50); //點中間打怪(不點寶箱)
 		tapFor(600, 950, uptap, 30, 40, 200);   //點人物升級
 	}
 
@@ -1032,11 +1032,12 @@ function rebirth(upcycle, wT) {
 		sleep(1000);
 	}
 
-	tapeggeq(1800);
+	tapeggeq(eqeggTaptime);
+	taptreasures(treaTaptime, treaNew, treaStone);
 }
 
 function tapeggeq(Timer) {
-	if (!config.isRunning) return false;
+	if (!config.isRunning && Timer == 0) return false;
 	if (debugFc) return false;
 	if (!useReturn(1)) return debugFc = true;
 	if (Date.now() < tapeggeqTimer) {
@@ -1054,6 +1055,27 @@ function tapeggeq(Timer) {
 	tapFor(600, 830, 5, 50, 300, 1000);
 
 	tapeggeqTimer =  Date.now() + Timer * 1000;
+}
+
+function taptreasures(Timer, newo, slate) {    //newo:開新寶物，slate:太古石板
+	if (!config.isRunning && Timer == 0) return false;
+	if (debugFc) return false;
+	if (!useReturn(1)) return debugFc = true;
+	if (Date.now() < taptreasuresTimer) {
+		var waittime = Math.round((taptreasuresTimer - Date.now())/1000);
+		console.log('Tap Treasures New and Slate:', waittime, ' sec');
+		return false;
+	}
+
+	console.log('Tap Treasures New and Slate');
+
+	menutap(5);
+	if (newo == 1) {tapFor(600, 810, 3, 50, 300, 1500);}
+	if (slate == 1) {tapFor(600, 940, 4, 50, 200, 500);}
+	
+	tapFor(360, 40, 3, 50, 150, 300);
+
+	taptreasuresTimer =  Date.now() + Timer * 1000;
 }
 
 function minigameclock() {
@@ -1227,6 +1249,7 @@ function main(){       //主流程
 
 function setFirstTimer() {   //預設值設定
 	tapeggeqTimer = Date.now() + 900 * 1000;  //收裝備/寵蛋
+	taptreasuresTimer =  Date.now() + 30 * 1000;  //點寶物/太古石板
 	
 	checkScreenTimer  = Date.now() +   5 * 1000;  //畫面停止檢查用，不可刪
 	ScreenErrorTime1 = Date.now();
@@ -1250,16 +1273,22 @@ function setFirstTimer() {   //預設值設定
 function setFirstsetting() {
 
 	mstdncycle = 2;        //鉿人物向上滑動次數
-	totaltaptime = 50;      //點擊主畫面與升級，維持時間
+	totaltaptime = 60;      //點擊主畫面與升級，維持時間
 	maintaptimes = 50;  //每次循環主畫面點擊次數
-	lvuptaptimes = 1;   //每次循環人物升級點擊次數
+	lvuptaptimes = 3;   //每次循環人物升級點擊次數
 
-	rebupcycle = 2;  //轉生前向上澤動次數
-	rebirthwait = 4; //轉生後等待秒數
+	rebupcycle = 2;  //轉生前向上滑動次數
+	rebirthwait = 6; //轉生後等待秒數
+
+	eqeggTaptime = 1800; //點武器與蛋時間差
+
+	treaTaptime = 300;  //執行神器動作時間 秒
+	treaNew = 0;   //轉生後自動開神器
+	treaStone = 1; //轉生後自動石板升級
 
 
 	mini2taps =  5;  //minigame2 每次檢查點擊幾個
-	mini2tpwt = 15;  //minigame2 點擊時間差
+	mini2tpwt = 20;  //minigame2 點擊時間差
 	mini2wt =  280;  //minigame2 武器王(橫) 每次點完等待
 
 

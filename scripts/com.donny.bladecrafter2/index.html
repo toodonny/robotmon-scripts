@@ -434,7 +434,7 @@
 	</script>		
 	
     <script>
-      VERSION = 0.0044;
+      VERSION = 0.0045;
       var settings = [
         [
           {
@@ -472,7 +472,7 @@
             default: 5, 
             step: 1,
             max: 10, 
-            min: 4,
+            min: 0,
           },
           {
             key: 'totaltaptime', 
@@ -515,7 +515,7 @@
             default: 5, 
             step: 1,
             max: 10, 
-            min: 4,
+            min: 2,
           },
           {
             key: 'rebirthwait', 
@@ -525,6 +525,45 @@
             step: 1,
             max: 15, 
             min: 5,
+          }
+        ],
+
+
+        [
+          {
+            key: 'title1', 
+            title: "☆★☆★☆==========轉生後檢查項==========☆★☆★☆",
+            title_zh_TW: "☆★☆★☆============轉生後檢查項============☆★☆★☆",
+          },
+          {
+            key: 'eqeggTaptime', 
+            title: "開武器、開蛋時間 秒",
+            title_zh_TW: "開武器、開蛋時間 秒", 
+            default: 1800, 
+            step: 60,
+            max: 3600, 
+            min: 600,
+          },
+          {
+            key: 'treaTaptime', 
+            title: "執行神器動作時間 秒",
+            title_zh_TW: "執行神器動作時間 秒", 
+            default: 300, 
+            step: 30,
+            max: 3600, 
+            min: 60,
+          },
+          {
+            key: 'treaNew', 
+            title: "轉生後自動開神器", 
+            title_zh_TW: "轉生後自動開神器", 
+            default: false,
+          },
+          {
+            key: 'treaStone', 
+            title: "轉生後自動石板升級", 
+            title_zh_TW: "轉生後自動石板升級", 
+            default: false,
           }
         ],
         [
@@ -896,6 +935,7 @@
       });
 
       var topdistance = 110;
+      
       $(function() {
         $("#button_1").click(function() {
         $('html,body').animate({scrollTop: ($('#setting_1_0').offset().top-topdistance) + 'px'}, 600); //hero
@@ -932,6 +972,18 @@
         });
       });
 
+      $(function() {
+        $("#button_7").click(function() {
+        $('html,body').animate({scrollTop: ($('#setting_7_0').offset().top-topdistance) + 'px'}, 600); //area
+        });
+      });
+
+      $(function() {
+        $("#button_8").click(function() {
+        $('html,body').animate({scrollTop: ($('#setting_8_0').offset().top-topdistance) + 'px'}, 600); //area
+        });
+      });
+      
       function onEvent(eventType) {
         if (eventType == 'OnPlayClick') {
           var startCommand = genStartCommand(settings);
@@ -956,18 +1008,18 @@
 			<td>&nbsp;&nbsp;&nbsp;</td>
 			<td><button id="button_1" class="small blue button">點擊</button></td><td>｜</td>
 			<td><button id="button_2" class="small blue button">轉生</button></td><td>｜</td>
-			<td><button id="button_3" class="small blue button">MINI1</button></td><td>｜</td>
-			<td><button id="button_4" class="small blue button">MINI2</button></td><td>｜</td>
-			<td><button id="button_5" class="small blue button">MINI3</button></td><td>｜</td>
-			<td><button id="button_6" class="small blue button">滑動設定</button></td><td>&nbsp;&nbsp;||&nbsp;</td>
+			<td><button id="button_3" class="small blue button">轉後</button></td><td>｜</td>
+			<td><button id="button_4" class="small blue button">MINI1</button></td><td>｜</td>
+			<td><button id="button_5" class="small blue button">MINI2</button></td><td>｜</td>
+			<td><button id="button_6" class="small blue button">MINI3</button></td><td>&nbsp;&nbsp;||&nbsp;</td>
 			<td><button id="button_11" class="small red button">－－－－</button></td><td>&nbsp;&nbsp;||&nbsp;</td>
 			<td><button id="button_14" class="small button">－－－－</button></td>
 		　</tr>
 		　<br />
 		  <tr>
 			<td>&nbsp;&nbsp;&nbsp;</td>
-			<td><button id="button_7" class="small green button">－－－－</button></td><td>｜</td>
-			<td><button id="button_8" class="small green button">－－－－</button></td><td>｜</td>
+			<td><button id="button_7" class="small green button">滑動設定</button></td><td>｜</td>
+			<td><button id="button_8" class="small green button">其它設定</button></td><td>｜</td>
 			<td><button id="button_9" class="small green button">－－－－</button></td><td>｜</td>
 			<td><button id="button_10" class="small green button">－－－－</button></td><td>&nbsp;&nbsp;||&nbsp;</td>
 			<td><button id="button_12" class="small red button">－－－－</button></td><td>&nbsp;&nbsp;||&nbsp;</td>
