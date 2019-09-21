@@ -1092,6 +1092,7 @@ function minigameclock() {
 		return false;
 	} else if(Img1 != undefined) {
 
+		debugTimer = Date.now();
 		var mini123Color = [0, '000000', 'FFFFFF', '5D4C41'];
 		var pointColor = getPointcolorHex(90, 340);
 		for (var i = 1; i <= 3; i++) {
@@ -1280,6 +1281,9 @@ function mini1samepork(Gt, DtapT, Otaps) {
 
 		sleep(100);
 	}
+	
+	debugTimer = Date.now();
+	console.log('Mini Game 1 Over');
 }
 
 function mini2weponking(Gt, taps, tapwt, cywt) {
@@ -1326,6 +1330,8 @@ function mini2weponking(Gt, taps, tapwt, cywt) {
 
 		if (k % 15 == 0 && minigameclock() != 2) {break;}
 	}
+	
+	debugTimer = Date.now();
 	console.log('Mini Game 2 Over');
 }
 
@@ -1380,6 +1386,8 @@ function mini3kickmonster(Gt, slt1, slt2, slt3, slt4) {
 		}
 		sleep(sltime);
 	}
+	
+	debugTimer = Date.now();
 	console.log('Mini Game 3 Over');
 
 }
