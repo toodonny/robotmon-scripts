@@ -1059,6 +1059,7 @@ function tapeggeq(Timer) {
 
 function taptreasures(Timer, newo, slate) {    //newo:開新寶物，slate:太古石板
 	if (!config.isRunning && Timer == 0) return false;
+	if (!newo && !slate) return false;
 	if (debugFc) return false;
 	if (!useReturn(1)) return debugFc = true;
 	if (Date.now() < taptreasuresTimer) {
@@ -1070,8 +1071,8 @@ function taptreasures(Timer, newo, slate) {    //newo:開新寶物，slate:太�
 	console.log('Tap Treasures New and Slate');
 
 	menutap(5);
-	if (newo == 1) {tapFor(600, 810, 3, 50, 300, 1500);}
-	if (slate == 1) {tapFor(600, 940, 4, 50, 200, 500);}
+	if (newo) {tapFor(600, 810, 3, 50, 300, 1500);}
+	if (slate) {tapFor(600, 940, 4, 50, 200, 500);}
 	
 	tapFor(360, 40, 3, 50, 150, 300);
 
@@ -1089,15 +1090,21 @@ function minigameclock() {
 		console.log('沒時鐘，跳出minigame檢查');
 		sleep(1000); 
 		return false;
-	} 
-	sleep(100);
-	return Img1;
+	} else if(Img1 != undefined) {
+
+		var mini123Color = [0, '000000', 'FFFFFF', '5D4C41'];
+		var pointColor = getPointcolorHex(90, 340);
+		for (var i = 1; i <= 3; i++) {
+			var chkColor = isSameColorHex(pointColor, mini123Color[i], 20);
+			console.log('chkColor:', pointColor, mini123Color[i], chkColor, i)
+			if (chkColor) {sleep(100); return i;}
+		}
+	}
 }
 
 function mini1samepork(Gt, DtapT, Otaps) {
 	if (!config.isRunning) return false;
-	var miniclock = minigameclock();
-	if (miniclock.score < 0.96 || !miniclock) return false;
+	if (minigameclock() != 1) return false;
 	console.log('Mini Game 1 Same Pork');
 
 	//X:50 Y:350 X:125 Y:455 W:75 H:105 dX:108 dY:139
@@ -1275,13 +1282,9 @@ function mini1samepork(Gt, DtapT, Otaps) {
 	}
 }
 
-
-
-
 function mini2weponking(Gt, taps, tapwt, cywt) {
 	if (!config.isRunning) return false;
-	var miniclock = minigameclock();
-	if (miniclock.score > 0.71 || !miniclock) return false;
+	if (minigameclock() != 2) return false;
 	console.log('Mini Game 2 Wepon King');
 
 	var gametimes = Gt * 1000;
@@ -1321,18 +1324,14 @@ function mini2weponking(Gt, taps, tapwt, cywt) {
 			if (i == taps) {sleep(cywt);}
 		}
 
-		
-		if (k % 15 == 0) {
-			miniclock = minigameclock();
-			if (miniclock.score > 0.71 || !miniclock) { break; }
-		}
-
+		if (k % 15 == 0 && minigameclock() != 2) {break;}
 	}
 	console.log('Mini Game 2 Over');
 }
 
 function mini3kickmonster(Gt, slt1, slt2, slt3, slt4) {
 	if (!config.isRunning) return false;
+	if (minigameclock() != 3) return false;
 	console.log('Mini Game 3 Kick Monsters');
 	
 	var gametimes = Gt * 1000;
@@ -1349,13 +1348,7 @@ function mini3kickmonster(Gt, slt1, slt2, slt3, slt4) {
 
 		console.log('mini game 3:', i, ' times');
 
-		if (i % 20 == 0) {
-			if (i % 20 == 0) {
-				var miniclock = minigameclock ()
-				if (miniclock.score < 0.89 || !miniclock) { break; }
-			}
-		}
-
+		if (i % 20 == 0 && minigameclock() != 3) {break;}
 
 		rbm.keepScreenshotPartial( 50, 380, 650, 900);  //找怪物頭的範圍
 		var Img0s = rbm.findImages('mini3monsticon.png', 0.95, 9, true, false);
@@ -1433,7 +1426,7 @@ function main(){       //主流程
 
 function setFirstTimer() {   //預設值設定
 	tapeggeqTimer = Date.now() + 900 * 1000;  //收裝備/寵蛋
-	taptreasuresTimer =  Date.now() + 30 * 1000;  //點寶物/太古石板
+	taptreasuresTimer =  Date.now() + 300 * 1000;  //點寶物/太古石板
 	
 	checkScreenTimer  = Date.now() +   5 * 1000;  //畫面停止檢查用，不可刪
 	ScreenErrorTime1 = Date.now();
@@ -1505,9 +1498,9 @@ function test(cycle, DT){
 		} else if (n >= 1) {
 			console.log('n = ', n, '/', cycle, ', CRA 腳本開始');
 
-			mini1samepork(60);
-
-			// while(config.isRunning) {main();}
+			// mini1samepork(60);
+			// minigameclock();
+			while(config.isRunning) {main();}
 			// console.log('n = ', n, ', CRA 腳本結束');
 			sleep(DT);
 		}
