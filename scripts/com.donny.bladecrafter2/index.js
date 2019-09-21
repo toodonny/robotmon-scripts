@@ -1084,7 +1084,7 @@ function minigameclock() {
 	rbm.releaseScreenshot();
 	sleep(100);
 
-	// if (Img1 != undefined) { rbm.log('Img1:',Img1); }
+	if (Img1 != undefined) { rbm.log('Img1:',Img1); }
 	if (Img1 == undefined) {
 		console.log('沒時鐘，跳出minigame檢查');
 		sleep(1000); 
@@ -1093,6 +1093,190 @@ function minigameclock() {
 	sleep(100);
 	return Img1;
 }
+
+function mini1samepork(Gt, DtapT, Otaps) {
+	if (!config.isRunning) return false;
+	var miniclock = minigameclock();
+	if (miniclock.score < 0.96 || !miniclock) return false;
+	console.log('Mini Game 1 Same Pork');
+
+	//X:50 Y:350 X:125 Y:455 W:75 H:105 dX:108 dY:139
+
+	var cardState = {  //  未開:0   已存:1  配對:3 
+		0:[0, 0, 0, 0, 0, 0],
+		1:[0, 0, 0, 0, 0, 0],
+		2:[0, 0, 0, 0, 0, 0],
+		3:[0, 0, 0, 0, 0, 0],
+		4:[0, 0, 0, 0, 0, 0],
+	}; 
+
+	var startTime = Date.now();
+	// var gametimes = Gt * 1000;
+	// var cycles = Math.round(gametimes/200 + 2);
+	cycles = 2;
+	// console.log(gametimes, cycles);
+
+	var chk1or2 = 1;
+	for (var k = 0; k < cycles; k++) {
+
+		for (var j = 0; j < 5; j++) {
+			for (var i = 0; i < 6; i++) {
+				if (!config.isRunning) return false;
+
+				var chkTime = Date.now() - startTime - Gt * 1000;
+				console.log('chkTime:', chkTime);
+				if (chkTime > 1000){
+					console.log('Set Time Out!!');
+					return false;
+				}
+
+				console.log('Pork-i:', i, ', j:', j, ', cardState[j][i]', cardState[j][i]);
+
+				var pointX = 50 + i * 108;
+				var pointY = 350 + j * 139;
+
+				var pointColor = getPointcolorHex(pointX, pointY);
+				var chkColor = isSameColorHex(pointColor, 'FFFFFF', 20);
+				if (chkColor){cardState[j][i] = 3;}
+				if (cardState[j][i] == 0 && !chkColor) {
+					sleep(DtapT);
+					tapFor(pointX - 2, pointY - 2, Otaps, 50, 100, 50);
+
+					if (chk1or2 == 1) {
+						console.log('The 1st Pork!!');
+
+						Tag_BK2:
+						for (var l = 1; l <= 15; l++) {
+							if (!config.isRunning) return false;
+							console.log('Wait FFFFFF Check Pork-l:', l);
+
+							var pointColor = getPointcolorHex(pointX, pointY);
+							var chkColor = isSameColorHex(pointColor, 'FFFFFF', 20);
+							if (chkColor) {
+								rbm.keepScreenshotPartial( pointX, pointY, pointX + 75, pointY + 105);  //
+
+								for (var n = 0; n < 5; n++) {
+									for (var m = 0; m < 6; m++) {
+										if (!config.isRunning) return false;
+										// console.log('Pork-m:', m, ', n:', n, ', cardState[n][m]', cardState[n][m]);
+										
+										if (cardState[n][m] == 1) {
+											// console.log('Start Check Same Pork..... :?');
+
+											var FileName = '/mini1TmpPic/mini1_pork_' + (n + 1) + '_' + (m + 1) + '.png';
+											var Img1 = rbm.findImage(FileName, 0.955);
+
+											if (Img1 != undefined) { rbm.log('Img1:',Img1); }
+
+											if (Img1 != undefined) {
+												console.log('Find Same Pork!! :)');
+
+												var finditX = 50 + m * 108;
+												var finditY = 350 + n * 139;
+												tapFor(finditX, finditY, 2, 50, 80, 600);
+
+												cardState[n][m] = 3;
+												cardState[j][i] = 3;
+												
+												rbm.releaseScreenshot();
+												break Tag_BK2;
+											}
+										} else if (cardState[n][m] == 0) {
+											console.log('Not Find Same Pork!! :<');
+											rbm.releaseScreenshot();
+
+											var cropFileName = '/mini1TmpPic/mini1_pork_' + (j + 1) + '_' + (i + 1) + '.png';
+											rbm.screencrop(cropFileName, pointX, pointY, pointX + 75, pointY + 105);
+
+											cardState[j][i] = 1;
+											chk1or2 = 2;
+											break Tag_BK2;
+										}
+									}
+								}
+								rbm.releaseScreenshot();
+							} 
+							
+							sleep(50);
+						}
+					} else if (chk1or2 == 2) {
+						console.log('The 2nd Pork!!');
+
+						for (var o = 1; o <= 15; o++) {
+							if (!config.isRunning) return false;
+							console.log('Wait FFFFFF Check Pork-o:', o);
+
+							var pointColor = getPointcolorHex(pointX, pointY);
+							var chkColor = isSameColorHex(pointColor, 'FFFFFF', 20);
+							if (chkColor) { 
+
+								console.log('Save Flop Pork.....');
+								var cropFileName = '/mini1TmpPic/mini1_pork_' + (j + 1) + '_' + (i + 1) + '.png';
+								rbm.screencrop(cropFileName, pointX, pointY, pointX + 75, pointY + 105);
+								cardState[j][i] = 1;
+
+								rbm.keepScreenshotPartial( pointX, pointY, pointX + 75, pointY + 105);  //
+
+								Tag_BK3:
+								for (var n = 0; n < 5; n++) {
+									for (var m = 0; m < 6; m++) {								
+
+										if (cardState[n][m] == 0 || (n == j && m == i)) {
+											rbm.releaseScreenshot();
+											break Tag_BK3;
+										} else if (cardState[n][m] == 1) {
+											var FileName = '/mini1TmpPic/mini1_pork_' + (n + 1) + '_' + (m + 1) + '.png';
+											var Img2 = rbm.findImage(FileName, 0.955);
+
+											if (Img2 != undefined) { rbm.log('Img2:',Img2); }
+
+											if (Img2 != undefined) {
+												console.log('Find Same Pork!! :)');
+
+												var finditX = 50 + m * 108;
+												var finditY = 350 + n * 139;
+
+												tapFor(pointX, pointY, 2, 50, 80, 120);
+												tapFor(finditX, finditY, 2, 50, 80, 120);
+												tapFor(pointX, pointY, 1, 50, 80, 120);
+												tapFor(finditX, finditY, 1, 50, 80, 120);
+
+												cardState[n][m] = 3;
+												cardState[j][i] = 3;
+												
+												rbm.releaseScreenshot();
+												break Tag_BK3;
+											}
+										}
+									}
+								}
+
+								rbm.releaseScreenshot();
+								
+								chk1or2 = 1;
+
+								break;
+							}
+							sleep(50)
+						}
+					}
+
+					if (j == 4 && i == 5) {
+						console.log('Obj cardState:')
+						for (var z = 0; z < 5; z++) {
+							rbm.log('   cardState[' + z + ']', cardState[z]);
+						}
+					}
+				}
+			}
+		}
+
+		sleep(100);
+	}
+}
+
+
+
 
 function mini2weponking(Gt, taps, tapwt, cywt) {
 	if (!config.isRunning) return false;
@@ -1237,7 +1421,7 @@ function main(){       //主流程
 	farmermedia(mstdncycle, totaltaptime, maintaptimes, lvuptaptimes);
 	rebirth(rebupcycle, rebirthwait);
 
-	
+	mini1samepork(60, mini1DtapT, mini1Taps);
 	mini3kickmonster(32, mini3slt1, mini3slt2, mini3slt3, mini3slt4);
 	mini2weponking(35, mini2taps, mini2tpwt, mini2wt);
 
@@ -1287,6 +1471,9 @@ function setFirstsetting() {
 	treaStone = 1; //轉生後自動石板升級
 
 
+	mini1DtapT = 150;  //開牌前延遲時間
+	mini1Taps = 4;     //開牌點擊次數  
+
 	mini2taps =  5;  //minigame2 每次檢查點擊幾個
 	mini2tpwt = 20;  //minigame2 點擊時間差
 	mini2wt =  280;  //minigame2 武器王(橫) 每次點完等待
@@ -1306,7 +1493,7 @@ function setFirstsetting() {
 
 }
 
-function test(cycle){
+function test(cycle, DT){
 	rbm.init();
 	config.isRunning = true;               //腳本測試用function
 	for(var n = 0; n <= cycle; n++) {
@@ -1318,9 +1505,11 @@ function test(cycle){
 		} else if (n >= 1) {
 			console.log('n = ', n, '/', cycle, ', CRA 腳本開始');
 
-			while(config.isRunning) {main();}
+			mini1samepork(60);
+
+			// while(config.isRunning) {main();}
 			// console.log('n = ', n, ', CRA 腳本結束');
-			// sleep(300);
+			sleep(DT);
 		}
 	}
 }

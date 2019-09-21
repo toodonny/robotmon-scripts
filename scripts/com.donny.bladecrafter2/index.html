@@ -434,7 +434,7 @@
 	</script>		
 	
     <script>
-      VERSION = 0.0045;
+      VERSION = 0.0046;
       var settings = [
         [
           {
@@ -469,7 +469,7 @@
             key: 'mstdncycle', 
             title: "鉿人物向上滑動次數",
             title_zh_TW: "鉿人物向上滑動次數", 
-            default: 5, 
+            default: 2, 
             step: 1,
             max: 10, 
             min: 0,
@@ -487,7 +487,7 @@
             key: 'maintaptimes', 
             title: "每次循環主畫面點擊次數",
             title_zh_TW: "每次循環主畫面點擊次數", 
-            default: 40, 
+            default: 55, 
             step: 1,
             max: 90, 
             min: 10,
@@ -496,7 +496,7 @@
             key: 'lvuptaptimes', 
             title: "每次循環人物升級點擊次數",
             title_zh_TW: "每次循環人物升級點擊次數", 
-            default: 1, 
+            default: 3, 
             step: 1,
             max: 10, 
             min: 0,
@@ -512,7 +512,7 @@
             key: 'rebupcycle', 
             title: "轉生前向上澤動次數",
             title_zh_TW: "轉生前向上澤動次數", 
-            default: 5, 
+            default: 2, 
             step: 1,
             max: 10, 
             min: 2,
@@ -521,7 +521,7 @@
             key: 'rebirthwait', 
             title: "轉生後等待秒數",
             title_zh_TW: "轉生後等待秒數", 
-            default: 8, 
+            default: 6, 
             step: 1,
             max: 15, 
             min: 5,
@@ -548,7 +548,7 @@
             key: 'treaTaptime', 
             title: "執行神器動作時間 秒",
             title_zh_TW: "執行神器動作時間 秒", 
-            default: 300, 
+            default: 420, 
             step: 30,
             max: 3600, 
             min: 60,
@@ -571,6 +571,24 @@
             key: 'title1', 
             title: "☆★☆★☆============Mini Game 1============☆★☆★☆",
             title_zh_TW: "☆★☆★☆==============小遊戲 1==============☆★☆★☆",
+          },
+          {
+            key: 'mini1DtapT', 
+            title: "minigame1 開牌前延遲時間",
+            title_zh_TW: "minigame1 開牌前延遲時間", 
+            default: 150, 
+            step: 50,
+            max: 500, 
+            min: 50,
+          },
+          {
+            key: 'mini1Taps', 
+            title: "minigame1 開牌點擊次數",
+            title_zh_TW: "minigame1 開牌點擊次數", 
+            default: 4, 
+            step: 1,
+            max: 6, 
+            min: 1,
           }
         ],
         [
