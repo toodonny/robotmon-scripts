@@ -434,7 +434,7 @@
 	</script>		
 	
     <script>
-      VERSION = 0.0046;
+      VERSION = 0.0050;
       var settings = [
         [
           {
@@ -542,7 +542,7 @@
             default: 1800, 
             step: 60,
             max: 3600, 
-            min: 600,
+            min: 0,
           },
           {
             key: 'treaTaptime', 
@@ -573,6 +573,12 @@
             title_zh_TW: "☆★☆★☆==============小遊戲 1==============☆★☆★☆",
           },
           {
+            key: 'mini1play', 
+            title: "minigame1 開關", 
+            title_zh_TW: "minigame1 開關", 
+            default: true,
+          },
+          {
             key: 'mini1DtapT', 
             title: "minigame1 開牌前延遲時間",
             title_zh_TW: "minigame1 開牌前延遲時間", 
@@ -596,6 +602,12 @@
             key: 'title1', 
             title: "☆★☆★☆============Mini Game 2============☆★☆★☆",
             title_zh_TW: "☆★☆★☆==============小遊戲 2==============☆★☆★☆",
+          },
+          {
+            key: 'mini2play', 
+            title: "minigame2 開關", 
+            title_zh_TW: "minigame2 開關", 
+            default: true,
           },
           {
             key: 'mini2taps', 
@@ -630,6 +642,12 @@
             key: 'title1', 
             title: "☆★☆★☆============Mini Game 3============☆★☆★☆",
             title_zh_TW: "☆★☆★☆==============小遊戲 3==============☆★☆★☆",
+          },
+          {
+            key: 'mini3play', 
+            title: "minigame3 開關", 
+            title_zh_TW: "minigame3 開關", 
+            default: true,
           },
           {
             key: 'mini3slt1', 
@@ -676,8 +694,8 @@
           },
           {
             key: 'allswspd', 
-            title: "滑動速度(小:快)",
-            title_zh_TW: "滑動速度(小:快)", 
+            title: "滑動速度(大:快)",
+            title_zh_TW: "滑動速度(大:快)", 
             default: 20, 
             step: 5,
             max: 200, 
