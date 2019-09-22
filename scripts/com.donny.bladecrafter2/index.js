@@ -967,10 +967,9 @@ function farmermedia(dncycle, Gt, mtap, uptap) {
 	menutap(1);
 
 	for (var i = 0; i < dncycle; i++){
-
 		var pointColor = getPointcolorHex(550, 50);
-		var chkColor = isSameColorHex(pointColor, '2CB6BE', 20);
-		if (chkColor){tapFor(550, 50, 1, 50, 80, 80);}
+		var chkColor = isSameColorHex(pointColor, 'EE6C34', 20);
+		if (chkColor){tapFor(555, 50, 1, 50, 80, 80);}
 
 		var pointColor = getPointcolorHex(30, 910);
 		var chkColor = isSameColorHex(pointColor, '2CB6BE', 20);
