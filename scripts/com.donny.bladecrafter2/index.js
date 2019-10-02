@@ -2043,7 +2043,7 @@ function test(cycle, DT){
 			console.log('n = ', n, '/', cycle, ', CRA 腳本開始');
 
 
-			var Features = 5;  //1:正常腳本/ 3裝備 /4寵物 /5寶物
+			var Features = 1;  //1:正常腳本/ 3裝備 /4寵物 /5寶物
 
 
 			var itemLv = 2;    //目標項目等級
