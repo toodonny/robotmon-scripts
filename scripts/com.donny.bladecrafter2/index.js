@@ -94,9 +94,9 @@ function getPointcolorHex(intX, intY) {  //return
 	
 	// console.log(getkr, getkb, getkg);
 	
-	if (getpoint.r <= 16) getkr = '0' + getkr;
-	if (getpoint.g <= 16) getkg = '0' + getkg;
-	if (getpoint.b <= 16) getkb = '0' + getkb;
+	if (getpoint.r <= 15) getkr = '0' + getkr;
+	if (getpoint.g <= 15) getkg = '0' + getkg;
+	if (getpoint.b <= 15) getkb = '0' + getkb;
 
 	getcolorHEX = getkr + getkg + getkb;
 
@@ -439,7 +439,7 @@ function ScreenShottoPath(filename) {    //全畫面截圖存檔
 
 	var DateName = Math.floor(Date.now()/1000);
 	var ShotFilename = filename + DateName.toString() + '.png';
-	var PicSharePath = '/storage/emulated/legacy/Pictures/Mergeheroes';
+	var PicSharePath = '/storage/emulated/legacy/Pictures/bladecrafter2';
 	var Savefile = PicSharePath + '/' + ShotFilename;	
 	var Shot = getScreenshot();
 	saveImage(Shot, Savefile);
@@ -727,30 +727,72 @@ function useReturn(choiceF){          //各項回授點檢查
 	
 	switch (choiceF) {
 		case  1: 
-		
-		var img = getScreenshotModify(0, 48, 300, 1, 300, 1, 100);
-		for (var j = 1; j <= 3; j++) {
-			var getColor = getpointHex(img, calnX[j], 0);
-			var isSame = isSameColorHex(getColor, calnColor[j], 30);
-			// console.log('get:', getColor, ', OK:', calnColor[j]);
-			if (!isSame) {
-				releaseImage(img);
-				return false;
+			var img = getScreenshotModify(0, 48, 300, 1, 300, 1, 100);
+			for (var j = 1; j <= 3; j++) {
+				var getColor = getpointHex(img, calnX[j], 0);
+				var isSame = isSameColorHex(getColor, calnColor[j], 30);
+				// console.log('get:', getColor, ', OK:', calnColor[j]);
+				if (!isSame) {
+					releaseImage(img);
+					return false;
+				}
 			}
-		}
-		releaseImage(img);
-		return true;
+			releaseImage(img);
+			return true;
 
-		
-		// return CheckImageTap( 140, 24,  205, 65, 0.95, 'calandericon.png', 1, 1, 1, 50, 2);    return;   //主頁框左上方圖
+			// return CheckImageTap( 140, 24,  205, 65, 0.95, 'calandericon.png', 1, 1, 1, 50, 2);    return;   //主頁框左上方圖
 
-		case  2: return CheckImageTap( 245, 830, 470, 910, 0.95, 'q_word.png', 1, 1, 1, 50, 2);    return;   //問答 "題"
-		case  3: return CheckImageTap( 550, 780, 670, 900, 0.95, 'fightbook.png', 1, 1, 1, 50, 2);    return;   //戰鬥日記
-		case  4: return CheckImageTap( 500,  30, 580, 110, 0.95, 'magic_icon.png', 1, 1, 1, 50, 2);    return;   //戰鬥日記
-		
+		case  2: 
+			var newbbX = ['',  53,  53 + 5,  53 + 5 + 17];
+			var newbbY = ['', 150, 150, 150];
+			var newbbC = ['', 'FF6540', 'FFFFFF', 'FF6540'];
 
-			
-			
+			var img = getScreenshotModify(0, 150, 80, 1, 80, 1, 100);
+			for (var i = 1; i <= 3; i++) {
+				var getColor = getpointHex(img, newbbX[i], 0);
+				var colorOK = isSameColorHex(getColor, newbbC[i], 20);
+				// rbm.log('NewBubble, i:', i, 'getColor:', getColor, ', newbbC[i]:', newbbC[i], ', colorOK:', colorOK);
+				if (!colorOK) {return false;}
+			}
+			releaseImage(img);
+			return true;
+
+		case  3: 
+			var newbbX = ['', 620, 620 + 5, 620 + 5 + 17];
+			var newbbY = ['', 150, 150, 150];
+			var newbbC = ['', 'FF6540', 'FFFFFF', 'FF6540'];
+
+			var img = getScreenshotModify(0, 800, 680, 1, 680, 1, 100);
+			for (var i = 1; i <= 3; i++) {
+				var getColor = getpointHex(img, newbbX[i], 0);
+				var colorOK = isSameColorHex(getColor, newbbC[i], 20);
+				// rbm.log('NewBubble, i:', i, 'getColor:', getColor, ', newbbC[i]:', newbbC[i], ', colorOK:', colorOK);
+				if (!colorOK) {return false;}
+			}
+			releaseImage(img);
+			return true;
+
+		case  4: 
+			var newbbX = ['', 605, 605 + 5, 605 + 5 + 17];
+			var newbbY = ['', 805, 805, 805];
+			var newbbC = ['', 'FF6540', 'FFFFFF', 'FF6540'];
+
+			var img = getScreenshotModify(0, 805, 680, 1, 680, 1, 100);
+			for (var i = 1; i <= 3; i++) {
+				var getColor = getpointHex(img, newbbX[i], 0);
+				var colorOK = isSameColorHex(getColor, newbbC[i], 20);
+				// rbm.log('NewBubble, i:', i, 'getColor:', getColor, ', newbbC[i]:', newbbC[i], ', colorOK:', colorOK);
+				if (!colorOK) {return false;}
+			}
+			releaseImage(img);
+			return true;
+
+		case 5:
+			var pointColor = getPointcolorHex(560, 840);
+			var chkColor = isSameColorHex(pointColor, 'EF6D34', 20);
+			if (chkColor) {return true;}
+			return false;
+	
 	}
 }
 
@@ -943,15 +985,39 @@ function waitAD2(timer) {
 }
 
 // ===========================================================
-
 function menutap(pg) {
 	if (!config.isRunning) return false;
-	console.log('Menu - Page', pg);
+	if (pg < 0 && pg > 6) {console.log('Page Error!!'); return false;}
+	console.log('1 Menu - Page', pg);
 
 	tapFor(680, 680, 4, 30, 200, 200);   //點右邊向下三角型
 
 	var pgX = 50 + 123 * (pg - 1);
 	tapFor(pgX, 1260, 1, 50, 100, 500);  //點選單-pg
+}
+
+function menutap2(pg) {
+	if (!config.isRunning) return false;
+	if (pg < 0 && pg > 6) {console.log('Page Error!!'); return false;}
+	console.log('2 Menu - Page', pg);
+
+	//100,1270  dW = 120,  now:594E41   not:968169
+	var newbbX = [680,  100,  220,  340,  460,  580,  700];
+	var newbbY = [680, 1270, 1270, 1270, 1270, 1270, 1270];
+	var nowbbC = ['FFFFFF', '594E41', '594E41', '594E41', '594E41', '594E41', '594E41'];
+	var notbbC = ['FFFFFF', '968169', '968169', '968169', '968169', '968169', '968169'];
+
+	var img = getScreenshotModify(0, newbbY[pg], 710, 1, 710, 1, 100);
+	var getColor = getpointHex(img, newbbX[pg], 0);
+	var colorNow = isSameColorHex(getColor, nowbbC[pg], 20);
+	var colorNot = isSameColorHex(getColor, notbbC[pg], 20);
+	releaseImage(img);
+
+	if ( pg == 0 && !colorNow) {return false;}
+	else if (colorNow && !colorNot) {return false;}
+	// rbm.log('NewBubble, i:', i, 'getColor:', getColor, ', newbbC[i]:', newbbC[i], ', colorOK:', colorOK);
+	tapFor(680, 60, 1, 30, 100, 200);
+	tapFor(newbbX[pg], newbbY[pg], 1, 30, 100, 500);//pg:0:點右邊向下三角型, 點選單-pg 
 }
 
 function farmermedia(dncycle, Gt, mtap, uptap) {
@@ -1012,6 +1078,19 @@ function tapandlvup(Gt, cy, mtap, uptap) {
 		tapFor(680, 220, mtap, 10, 30, 50); //點中間打怪(不點寶箱)
 		tapFor(600, 950, uptap, 30, 40, 200);   //點人物升級
 	}
+
+}
+
+function weaponlvup(){
+	if (!config.isRunning) return false;
+	if (debugFc) return false;
+	if (!useReturn(1)) return debugFc = true;
+	console.log('Weapon Lvup');
+
+	
+
+
+
 
 }
 
@@ -1091,18 +1170,8 @@ function newbubble() {
 	if (!config.isRunning) return false;
 	if (!mini1play && !mini2play && !mini3play) return false;
 
-	var newbbX = ['',  53,  58,  75];
-	var newbbY = ['', 150, 150, 150];
-	var newbbC = ['', 'FF6540', 'FFFFFF', 'FF6540'];
 
-	var img = getScreenshotModify(0, 150, 80, 1, 80, 1, 100);
-	for (var i = 1; i <= 3; i++) {
-		var getColor = getpointHex(img, newbbX[i], 0);
-		var colorOK = isSameColorHex(getColor, newbbC[i], 20);
-		rbm.log('NewBubble, i:', i, 'getColor:', getColor, ', newbbC[i]:', newbbC[i], ', colorOK:', colorOK);
-		if (!colorOK) {return false;}
-	}
-	releaseImage(img);
+	if(!useReturn(2)) {return false;} //檢查是否有new紅泡泡(minigame)
 
 	tapFor( 50, 150, 2, 50, 100, 500);  //點小遊戲
 	if (mini1play) {tapFor(410, 460, 2, 50, 100, 200);}  //點 mini 1
@@ -1115,7 +1184,7 @@ function newbubble() {
 		console.log('Mini Wait, j:', j);
 		var pointColor = getPointcolorHex(360, 760);
 		var chkColor = isSameColorHex(pointColor, 'E7AC30', 20);
-		if (chkColor){tapFor(365, 765, 2, 50, 100, 1300); break;}  //點開始mini game / 關閉
+		if (chkColor){tapFor(365, 765, 2, 50, 100, 500); break;}  //點開始mini game / 關閉
 
 		sleep(1000);
 	}
@@ -1155,7 +1224,7 @@ function minigameclock() {
 		var pointColor = getPointcolorHex(90, 340);
 		for (var i = 1; i <= 3; i++) {
 			var chkColor = isSameColorHex(pointColor, mini123Color[i], 20);
-			console.log('chkColor:', pointColor, mini123Color[i], chkColor, i)
+			// console.log('chkColor:', pointColor, mini123Color[i], chkColor, i)
 			if (chkColor) {sleep(100); return i;}
 		}
 	}
@@ -1215,7 +1284,7 @@ function mini1samepork(Gt, DtapT, Otaps) {
 						Tag_BK2:
 						for (var l = 1; l <= 15; l++) {
 							if (!config.isRunning) return false;
-							console.log('Wait FFFFFF Check Pork-l:', l);
+							// console.log('Wait FFFFFF Check Pork-l:', l);
 
 							var pointColor = getPointcolorHex(pointX, pointY);
 							var chkColor = isSameColorHex(pointColor, 'FFFFFF', 20);
@@ -1271,7 +1340,7 @@ function mini1samepork(Gt, DtapT, Otaps) {
 
 						for (var o = 1; o <= 15; o++) {
 							if (!config.isRunning) return false;
-							console.log('Wait FFFFFF Check Pork-o:', o);
+							// console.log('Wait FFFFFF Check Pork-o:', o);
 
 							var pointColor = getPointcolorHex(pointX, pointY);
 							var chkColor = isSameColorHex(pointColor, 'FFFFFF', 20);
@@ -1335,8 +1404,8 @@ function mini1samepork(Gt, DtapT, Otaps) {
 					// 	}
 					// }
 				}
-			}
 
+			}
 			if (minigameclock() != 1) return false;
 		}
 
@@ -1381,7 +1450,7 @@ function mini2weponking(Gt, taps, tapwt, cywt) {
 			
 			if(i == 1 && !tapL && !tapR) {sleep(20); break;}
 
-			console.log('i:', i, ', tapX:', tapX);
+			// console.log('i:', i, ', tapX:', tapX);
 			tap(tapX, 1100, 30);
 			// if(tapL) {tap(180, 1100, 30);}
 			// else if(tapR) {tap(540, 1100, 30);}
@@ -1415,7 +1484,7 @@ function mini3kickmonster(Gt, slt1, slt2, slt3, slt4) {
 		else if (i < cycles / 4 * 3) { sltime = slt3; }
 		else if (i > cycles / 4 * 3) { sltime = slt4; }
 
-		console.log('mini game 3:', i, ' times');
+		// console.log('mini game 3:', i, ' times');
 
 		if (i % 20 == 0 && minigameclock() != 3) {break;}
 
@@ -1469,7 +1538,7 @@ function debug(Timer) {
 		var pointColor = getPointcolorHex(360, 760);
 		var chkColor = isSameColorHex(pointColor, 'E7AC30', 20);
 		if (chkColor) {
-			tapFor(365, 765, 2, 50, 100, 1000);   //點開始mini game / 關閉
+			tapFor(365, 765, 2, 50, 100, 500);   //點開始mini game / 關閉
 		} else if (ErrorTime > 0) {
 			console.log('Debug Click Back');
 			debugTimer = Date.now();
@@ -1483,20 +1552,40 @@ function debug(Timer) {
 }
 
 // =========TiBackup Used===================================
-function TireductGame(lst, sec, item){ //3:刷裝  4:刷寵  5:刷寶
+function TireductGame(Tilst, sec, item, secF, cycle){ //3:刷裝  4:刷寵  5:刷寶
+	if (!config.isRunning) return false;
+	var itemName = ['', '', '', 'Gear', 'Pet', 'Treasures'];
 
-	if (!chkGetItem(item)) {
-		Tireduction(lst);
+
+	if (!chkGetItem(item, secF, cycle)) {
+		Tireduction(Tilst);
 		chkGameOK(sec);
 
+		menutap2(item);
+		openNewItem(50);
+
+	} else {
+		sleep(200);
+		ScreenShottoPath('bladecrafter2_' + itemName[item]);
+
 		switch(item) {
-			case 1 : return;
-			case 2 : return;
-			case 3 : menutap(3); tapFor(600, 830, 3, 50, 400, 3000); return; //刷裝備
-			case 4 : menutap(4); tapFor(600, 830, 3, 50, 400, 3000); return; //刷寵物
-			case 5 : menutap(5); tapFor(600, 810, 3, 50, 400, 2000); return; //刷寶物
+			case 3 : 
+				if (abandonGear()) {tapFor(300, 830, 3, 50, 300, 500);} 
+				else {config.isRunning = false;}
+				break;
+
+			case 4 : 
+				tapFor(300, 830, 3, 50, 300, 500);
+				Tibackup(Tilst);
+				chkGameOK(sec);
+				break;
+
+			case 5 :
+				config.isRunning = false;
+				break;
 		}
-	} else {sleep(10000);}
+		sleep(1000); 
+	}
 }
 
 // =========TiBackup Function===================================
@@ -1512,50 +1601,219 @@ function Tireduction(lst) {
 	tapFor( 40, lsX, 1, 50, 50, 200);   //選第1個程式，列表間隔 100px
 	tapFor(470, 130, 1, 50, 50, 200);   //點選-備份還原功能
 	tapFor( 40, lsX, 1, 50, 50, 200);   //選第1個程式，列表間隔 100px
-	tapFor(470, 130, 1, 50, 50, 200);   //點選-備份還原功能s
-	tapFor(120, 350, 1, 50, 50, 2000);  //選第一個備份資料-還原
+	tapFor(470, 130, 1, 50, 50, 200);   //點選-備份還原功能
+
+	tapFor(120, 350, 1, 50, 50, 2000);  //選第一個備份資料-還原 Y:350:還原  Y:210:備份
 	tapFor(140, 730, 1, 50, 50, 3000);  //點選-資料
 	
-	// console.log('Start Game')
+	// console.log('Start Game.....')
 	rbm.startApp(config.PackangName,config.LaunchActivityName); sleep(5000);
 }
 
+function Tibackup(lst) {
+	if (!config.isRunning) return false;
+	console.log('TiBackup to Backup');
+
+	rbm.stopApp(config.PackangName); sleep(300);
+	rbm.stopApp(config.PackangName); sleep(800);
+	rbm.startApp(config.TiPackangName,config.TiLaunchActivityName); sleep(2000);
+
+	var lsX = 260 + (lst - 1) * 100;
+	tapFor( 40, lsX, 1, 50, 50, 200);   //選第1個程式，列表間隔 100px
+	tapFor(470, 130, 1, 50, 50, 200);   //點選-備份還原功能
+	tapFor( 40, lsX, 1, 50, 50, 200);   //選第1個程式，列表間隔 100px
+	tapFor(470, 130, 1, 50, 50, 200);   //點選-備份還原功能
+
+	tapFor(120, 210, 1, 50, 50, 2000);  //選第一個備份資料-還原 Y:350:還原  Y:210:備份
+	tapFor(510, 760, 1, 50, 50, 10000);  //點選-資料  X:510;Y:760;程式開啟確認備份
+	
+	// console.log('Start Game.....')
+	rbm.startApp(config.PackangName,config.LaunchActivityName); sleep(5000);
+}
+
+// =========TiBackup Function===================================
+function openNewItem(st) {
+	if (!config.isRunning) return false;
+
+	for (var i = 0; i <= st; i++){
+		if (!config.isRunning) return false;
+
+		console.log('openNewItm i:', i);
+
+		if(useReturn(3) || useReturn(4) || useReturn(5)) {     //檢查是否有new紅泡泡(開寶箱)
+			tapFor(600, 830, 1, 50, 100, 500);
+		}
+
+		var pointColor = getPointcolorHex(360, 450);
+		var chkColor = isSameColorHex(pointColor, 'A57B39', 20);
+		if (chkColor) {
+			tapFor(600, 830, 1, 50, 100, 700);
+			break;
+		}
+
+		sleep(500);
+	}
+}
+
+
 function chkGameOK(sec) {
+	console.log('Game Starting......');
 	for (var i = 0; i <= sec; i++) {
 		if (!config.isRunning) return false;
-		console.log('Start Game Wait Sec:', i);
+		// console.log('Start Game Wait Sec:', i);
 
 		if (useReturn(1)) {
 			console.log('Game Start OK!!');
+			sleep(500);
 			break;
 		}
 		sleep(1000);
 	}
 }
 
-
-function chkGetItem(item) {
+function chkGetItem(item, LvF, cycle) {  //secF: item=4 ==> petLv
 	if (!config.isRunning) return false;
 
-	var pointX = ['', '', '', 314, 354, ''];
-	var pointY = ['', '', '', 538, 444, ''];
-	var pointC = ['', '', '', 'D110FA', 'DA8B52', ''];
-	var pointD = ['', '', '', 20, 20, ''];
-	
-	for (var i = 0; i < 4; i++) {
-		var pointColor = getPointcolorHex(pointX[item], pointY[item]);
-		var chkColor = isSameColorHex(pointColor, pointC[item], pointD[item]);
-		console.log('chkColor:', pointColor, pointC[item], chkColor, i);
-		if (chkColor) {
-			console.log('Get Target item in', item);
-			return true;
+	var itemName = ['', '', '', 'Gear', 'Pet', 'Treasures'];
+
+	var pointX = ['', '', '', 314, 354, 315];
+	var pointY = ['', '', '', 538, 444, 403];
+	var pointC = ['', '', '', 'D110FA', 'A49F67', '90453A'];  //4=>全傷:波烏靈:A7BCCF， 點傷:泰伊:DA8B52，武傷:羅拓:A49F67 //5=>紅裝:90453A
+	var pointD = ['', '', '', 20, 20, 40];
+
+	if (item == 3 && chkGearLv(LvF)) {
+		return true;
+	} else {
+		for (var i = 0; i < 4; i++) {
+			var pointColor = getPointcolorHex(pointX[item], pointY[item]);
+			var chkColor = isSameColorHex(pointColor, pointC[item], pointD[item]);
+			// console.log('chkColor:', pointColor, pointC[item], chkColor, i);
+			if (chkColor) {
+				console.log('Get Target item in', itemName[item]);
+				if (item != 4) {return true;}
+
+				if (chkPetLv(LvF, cycle)) {return true;}
+			}
+			sleep(100);
 		}
-		sleep(100);
+		console.log('Not Found Target item in', itemName[item]);
+		return false;
 	}
-	console.log('Not Target item in', item);
+}
+
+function chkGearLv(lv) {
+	if (!config.isRunning) return false;
+
+	var item3LvC = ['', 'FBFFF8', '6EFF0D', '0CA7FA', 'D110FA', 'DF9100'];
+
+	for (var j = 1; j <= 5; j++) {
+		for (var i = 0; i < 4; i++) {
+			var pointColor = getPointcolorHex(314, 538);
+			var chkColor = isSameColorHex(pointColor, item3LvC[j], 20);
+			// console.log('chkColor:', pointColor, item3LvC[j], chkColor, i);
+			if (chkColor) {
+				console.log('Get Gear Lv:', j);
+				
+				if (j >= lv) {
+					console.log('Match Gear Lv', lv);
+					return true;
+				}
+				else {
+					console.log('Not Match Gear Lv', lv);
+					return false;
+				}
+			}
+			sleep(50);
+		}
+	}
+	console.log('Not Found Gear Lv', lv);
 	return false;
 }
 
+function abandonGear() {
+	if (!config.isRunning) return false;
+
+	//Gear Name Cut from 304,393 w:110 H:110
+	var abandobj = {
+		1 : ['gloves', '01騎士手套(武傷L)', '02戰士手套(點傷L)', '03妖精手套(全傷L)', '04獵人手套(暴傷L)'],
+		2 : ['helmet', '01矮人頭盔()', '02職職者帽子(神劍L)', '03傭兵頭盔(英劍L)'],
+		3 : ['armor', '01Equ080(寵傷L)', '02刀刃盔甲(必殺傷L)', '02召喚師盔甲(古代傷L)', '04野獸盔甲(古代傷H)', '05獸王盔甲(寵傷H)', '06破壞盔甲(破壞傷L)', '07定罪盔甲(必殺傷H)', '08破滅盔甲(破壞傷H)'],
+		4 : ['ring', '01水晶戒指(全金L)', '02紅鑽石戒指(全金H)', '02哥布林戒指(蛋金L)', '04紅寶石戒指(BOSS金L)', '05哥布林王戒指(蛋金H)'],
+		5 : ['earring', '01祖母綠耳環(手套L)', '02魔法師耳環(頭盔L)', '02藍寶石耳環(盔甲L)']
+	}
+
+	rbm.keepScreenshotPartial( 300,  390, 420, 510);  //
+	for (var j = 1; j <= 5; j++) {
+		var lengthI = Object.keys(abandobj[j]).length - 1;
+		for (var i = 1; i <= lengthI; i++) {
+
+			console.log('Check Aband Gear:', abandobj[j][i]);
+			var filename = 'gear_0' + j + '_0' + i + '.png';
+			var Img1 = rbm.findImage(filename, 0.95);
+			
+			rbm.log('Img1:', Img1);
+			
+			if (Img1 != undefined && Img1.score >= 0.95) {
+				console.log('Found Aband Gear');
+				rbm.releaseScreenshot();
+				return true;
+				
+			} else {
+				console.log('Not Match Aband Gear');
+			}
+			console.log('----------------------');
+		}
+	}
+	rbm.releaseScreenshot();
+	sleep(100);
+
+	console.log('Not Found Aband Gear !!');
+	return false;
+}
+
+function chkPetLv(lv, cycle) {
+	if (!config.isRunning) return false;
+	if (cycle == undefined) cycle = 3;
+
+	var newbbX = ['', 348, 348, 348, 348];
+	var newbbY = ['', 520, 526, 534, 539];
+	var chkLvC = {
+		1 : ['', 'F3FFE9', 'F4FFEC', 'F8FFF2', 'F9FFF5'],
+		2 : ['', 'F1FFE6', '475241', '969D91', 'FAFFF5'],
+		3 : ['', 'F3FFE9', '92A087', '384526', 'F9FFF5'],
+	}
+
+	for (var j = 1; j <= cycle; j++) {
+		var img = getScreenshotModify(348, 0, 1, 540, 1, 540, 100);
+		for (var i = 1; i <= 4; i++) {
+			if (!config.isRunning) return false;
+
+			var getColor = getpointHex(img, 0, newbbY[i]);
+			var colorOK = isSameColorHex(getColor, chkLvC[j][i], 45);
+			// rbm.log('chk Pet Lv', lv, ', j:', j, ', i:', i, 'getColor:', getColor, ', chkLvC[lv][i]:', chkLvC[lv][i], ', colorOK:', colorOK);
+			if (!colorOK) {break;}
+
+			if (i == 4){
+				releaseImage(img);
+				console.log('Get LV', j, ' Pet!')
+
+				if (j >= lv) {
+					console.log('GetLV >= SetLv :', j, '>=', lv, ' Pet!');
+					return true;
+				} else {
+					console.log('GetLV < SetLv :', j, '<', lv, ' Pet!');
+					return false;
+				}
+			}
+		}
+		sleep(100);
+		if (j == cycle){
+			releaseImage(img);
+			console.log('Not Found LV', lv, ' Pet!');
+			return true;
+		}
+	}
+}
 
 function chkGet() {
 	for (var i = 0; i <= 20; i++) {
@@ -1593,10 +1851,9 @@ function chkGet() {
 	}
 }
 
-function Tibackup() {
+function TibackupMH() {
 	if (!config.isRunning) return false;
 
-	
 	console.log('TiBackup to Backup');
 
 	rbm.startApp(config.TiPackangName,config.TiLaunchActivityName); sleep(2000);
@@ -1698,10 +1955,12 @@ function buyRelicloop(hart, minLv) {  //hart: 1:redhard, 2:dragonhart;  minLV: 0
 function main(){       //主流程
 	if (!config.isRunning) return false;
 	
-	farmermedia(mstdncycle, totaltaptime, maintaptimes, lvuptaptimes);
-	rebirth(rebupcycle, rebirthwait);
+	var newBB = newbubble();
+	if (!newBB) {
+		farmermedia(mstdncycle, totaltaptime, maintaptimes, lvuptaptimes);
+		rebirth(rebupcycle, rebirthwait);
+	}
 
-	newbubble();
 	playMiniGame();
 
 	debug(debugTmrChk);
@@ -1736,11 +1995,11 @@ function setFirstTimer() {   //預設值設定
 function setFirstsetting() {
 
 	mstdncycle   =  2;  //鉿人物向上滑動次數
-	totaltaptime = 70;  //點擊主畫面與升級，維持時間
-	maintaptimes = 50;  //每次循環主畫面點擊次數
-	lvuptaptimes =  3;  //每次循環人物升級點擊次數
+	totaltaptime = 6000;  //點擊主畫面與升級，維持時間
+	maintaptimes = 55;  //每次循環主畫面點擊次數
+	lvuptaptimes =  2;  //每次循環人物升級點擊次數
 
-	rebupcycle  = 2;    //轉生前向上滑動次數
+	rebupcycle  = 3;    //轉生前向上滑動次數
 	rebirthwait = 6;    //轉生後等待秒數
 
 	eqeggTaptime = 0;   //點武器與蛋時間差
@@ -1750,13 +2009,13 @@ function setFirstsetting() {
 	treaStone = 0;      //轉生後自動石板升級
 
 	mini1play  =   1;  //minigame1 開關
-	mini1DtapT = 150;  //minigame1 開牌前延遲時間
+	mini1DtapT = 130;  //minigame1 開牌前延遲時間
 	mini1Taps  =   4;  //minigame1 開牌點擊次數  
 
 	mini2play =  1;  //minigame2 開關
 	mini2taps =  5;  //minigame2 每次檢查點擊幾個
-	mini2tpwt = 20;  //minigame2 點擊時間差
-	mini2wt =  280;  //minigame2 武器王(橫) 每次點完等待
+	mini2tpwt = 18;  //minigame2 點擊時間差
+	mini2wt =  260;  //minigame2 武器王(橫) 每次點完等待
 
 	mini3play =  1; //minigame3 開關
 	mini3slt1 = 50; //minigame3 打地鼠 30秒 分4段 1段 時間差
@@ -1783,10 +2042,21 @@ function test(cycle, DT){
 		} else if (n >= 1) {
 			console.log('n = ', n, '/', cycle, ', CRA 腳本開始');
 
-			// TireductGame(1, 20, 3);
 
-			while(config.isRunning) {main();}
+			var Features = 5;  //1:正常腳本/ 3裝備 /4寵物 /5寶物
+
+
+			var itemLv = 2;    //目標項目等級
+			if (Features == 3) {itemLv = 4;}
+
+			if (Features > 1 && Features <= 5 ) {
+				TireductGame(1, 40, Features, itemLv, 3); //(tilst, sec, item, secF, cycle)
+			} else if (Features == 1) {
+				while(config.isRunning) {main();} 
+			}
+
 			// console.log('n = ', n, ', CRA 腳本結束');
+			console.log('=======================');
 			sleep(DT);
 		}
 	}
@@ -1811,6 +2081,7 @@ function start(settingString) {
 	while(config.isRunning) { main(); }
 } 
 
+// gg script path = '/storage/emulated/0/Robotmon/scripts/com.donny.bladecrafter2/ggscript/com.studiodrill.bladecrafter2.lua'
 // ./bin/adb -s emulator-5558 shell ps | grep app_
 // ./bin/adb shell kill -9 2552
 // ./bin/adb shell
