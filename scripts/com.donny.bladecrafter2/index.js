@@ -1030,7 +1030,7 @@ function farmermedia(dncycle, Gt, mtap, uptap) {
 	var cycles = Math.round(gametimes / (40*(10+40) + 100 + 160 + 200));
 	console.log('循環', cycles, '次，連點', Gt, 'sec');
 	
-	menutap(1);
+	menutap2(1);
 
 	for (var i = 0; i < dncycle; i++){
 		var pointColor = getPointcolorHex(550, 50);
@@ -1100,7 +1100,8 @@ function rebirth(upcycle, wT) {
 	if (!useReturn(1)) return debugFc = true;
 	console.log('Rebirth');
 
-	menutap(1);
+	menutap2(0);
+	menutap2(1);
 
 	for (var i = 0; i < upcycle; i++){
 		var dpY = 0;
@@ -1135,10 +1136,10 @@ function tapeggeq(Timer) {
 
 	console.log('Tap Egg and E');
 
-	menutap(3);
+	menutap2(3);
 	tapFor(600, 830, 5, 50, 300, 1000);
 	
-	menutap(4);
+	menutap2(4);
 	tapFor(600, 830, 5, 50, 300, 1000);
 
 	tapeggeqTimer =  Date.now() + Timer * 1000;
@@ -1157,7 +1158,7 @@ function taptreasures(Timer, newo, slate) {    //newo:開新寶物，slate:太�
 
 	console.log('Tap Treasures New and Slate');
 
-	menutap(5);
+	menutap2(5);
 	if (newo) {tapFor(600, 810, 3, 50, 300, 1500);}
 	if (slate) {tapFor(600, 940, 4, 50, 200, 500);}
 	
@@ -1276,7 +1277,7 @@ function mini1samepork(Gt, DtapT, Otaps) {
 				if (chkColor){cardState[j][i] = 3;}
 				else if (cardState[j][i] == 0 && !chkColor) {
 					sleep(DtapT);
-					tapFor(pointX - 2, pointY - 2, Otaps, 50, 100, 50);
+					tapFor(pointX - 2, pointY - 2, Otaps, 40, 80, 50);  //點擊開牌
 
 					if (chk1or2 == 1) {
 						console.log('The 1st Pork!!');
@@ -1995,7 +1996,7 @@ function setFirstTimer() {   //預設值設定
 function setFirstsetting() {
 
 	mstdncycle   =  2;  //鉿人物向上滑動次數
-	totaltaptime = 6000;  //點擊主畫面與升級，維持時間
+	totaltaptime = 100;  //點擊主畫面與升級，維持時間
 	maintaptimes = 55;  //每次循環主畫面點擊次數
 	lvuptaptimes =  2;  //每次循環人物升級點擊次數
 
@@ -2041,7 +2042,6 @@ function test(cycle, DT){
 			setFirstTimer();     //設定初始時間值
 		} else if (n >= 1) {
 			console.log('n = ', n, '/', cycle, ', CRA 腳本開始');
-
 
 			var Features = 1;  //1:正常腳本/ 3裝備 /4寵物 /5寶物
 
