@@ -434,7 +434,7 @@
 	</script>		
 	
     <script>
-      VERSION = 0.0050;
+      VERSION = 0.0055;
       var settings = [
         [
           {
@@ -723,6 +723,80 @@
             step: 1,
             max: 120, 
             min: 2,
+          }
+        ],
+        [
+          {
+            key: 'title1', 
+            title: "☆★☆★☆==========太愛刷專區==========☆★☆★☆",
+            title_zh_TW: "☆★☆★☆============太愛刷專區============☆★☆★☆",
+          },
+          {
+            key: 'title1', 
+            title: "☆註1:刷寵內定為 羅拓(Roto)-武器傷害加成，刷到自動備份。",
+            title_zh_TW: "☆註1:刷寵內定為 羅拓(Roto)-武器傷害加成，刷到自動備份。",
+          },
+          {
+            key: 'title1', 
+            title: "☆註2:刷裝刷到目標停止，由人員確認腳本停止。",
+            title_zh_TW: "☆註2:刷裝刷到目標停止，由人員確認腳本停止。",
+          },
+          {
+            key: 'Features', 
+            title: "1:正常, 3裝備, 4寵物, 5寶物, 7簽到",
+            title_zh_TW: "1:正常, 3裝備, 4寵物, 5寶物, 7簽到", 
+            default: 1, 
+            step: 1,
+            max: 7, 
+            min: 1,
+          },
+          {
+            key: 'refreshSw', 
+            title: "循環刷開關:開關", 
+            title_zh_TW: "循環刷開關:開關", 
+            default: false,
+          },
+          {
+            key: 'abGrSw', 
+            title: "放棄裝備:比對開關", 
+            title_zh_TW: "放棄裝備:比對開關", 
+            default: false,
+          },
+          {
+            key: 'item3Lv', 
+            title: "1:白 2:藍 3:綠 4:紅 5:黃",
+            title_zh_TW: "1:白 2:藍 3:綠 4:紅 5:黃", 
+            default: 4, 
+            step: 1,
+            max: 5, 
+            min: 1,
+          },
+          {
+            key: 'item4Lv', 
+            title: "寵物目標等級",
+            title_zh_TW: "寵物目標等級", 
+            default: 2, 
+            step: 1,
+            max: 3, 
+            min: 1,
+          },
+          {
+            key: 'item7Lv', 
+            title: "每日獎勵 裝備目標 等級",
+            title_zh_TW: "每日獎勵 裝備目標 等級", 
+            default: 4, 
+            step: 1,
+            max: 5, 
+            min: 1,
+          },
+          {
+            key: 'item7Pc', 
+            title: "每日獎勵 裝備 目標個數",
+            title_zh_TW: "每日獎勵 裝備 目標個數", 
+            default: 2, 
+            step: 1,
+            max: 5, 
+            min: 1,
           }
         ],
         [
@@ -1017,6 +1091,12 @@
         $('html,body').animate({scrollTop: ($('#setting_8_0').offset().top-topdistance) + 'px'}, 600); //area
         });
       });
+
+      $(function() {
+        $("#button_9").click(function() {
+        $('html,body').animate({scrollTop: ($('#setting_9_0').offset().top-topdistance) + 'px'}, 600); //area
+        });
+      });
       
       function onEvent(eventType) {
         if (eventType == 'OnPlayClick') {
@@ -1054,7 +1134,7 @@
 			<td>&nbsp;&nbsp;&nbsp;</td>
 			<td><button id="button_7" class="small green button">滑動設定</button></td><td>｜</td>
 			<td><button id="button_8" class="small green button">其它設定</button></td><td>｜</td>
-			<td><button id="button_9" class="small green button">－－－－</button></td><td>｜</td>
+			<td><button id="button_9" class="small green button">太愛刷區</button></td><td>｜</td>
 			<td><button id="button_10" class="small green button">－－－－</button></td><td>&nbsp;&nbsp;||&nbsp;</td>
 			<td><button id="button_12" class="small red button">－－－－</button></td><td>&nbsp;&nbsp;||&nbsp;</td>
 			<td><button id="button_13" class="small button">－－－－</button></td>
