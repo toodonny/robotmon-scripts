@@ -1788,18 +1788,26 @@ function chkDalyGearLv(lv, pice) {
 	}
 }
 
-
 function abandonGear(sw) {
 	if (!config.isRunning) return false;
 	if (sw == 0) return false;
 
 	//Gear Name Cut from 304,393 w:110 H:110
 	var abandobj = {
-		1 : ['gloves', '01騎士手套(武傷L)', '02戰士手套(點傷L)', '03妖精手套(全傷L)', '04獵人手套(暴傷L)'],
-		2 : ['helmet', '01矮人頭盔()', '02職職者帽子(神劍L)', '03傭兵頭盔(英劍L)'],
-		3 : ['armor', '01Equ080(寵傷L)', '02刀刃盔甲(必殺傷L)', '02召喚師盔甲(古代傷L)', '04野獸盔甲(古代傷H)', '06破壞盔甲(破壞傷L)', '07定罪盔甲(必殺傷H)', '08破滅盔甲(破壞傷H)'],   //'05獸王盔甲(寵傷H)',  
-		4 : ['ring', '01水晶戒指(全金L)','02哥布林戒指(蛋金L)', '04紅寶石戒指(BOSS金L)', '05哥布林王戒指(蛋金H)'],  // '02紅鑽石戒指(全金H)', 
+		1 : [' gloves', '01騎士手套(武傷L)', '02戰士手套(點傷L)', '03妖精手套(全傷L)', '04獵人手套(暴傷L)'],
+		2 : [' helmet', '01矮人頭盔(妖劍L)', '02聖職者帽(神劍L)', '03傭兵頭盔(英劍L)'],
+		3 : ['  armor', '01Equa080(寵傷L)', '02刀刃盔甲(必傷L)', '02召喚師盔甲(古傷L)', '04野獸盔甲(古傷H)', '05獸王盔甲(寵傷H)', '06破壞盔甲(破傷L)', '07定罪盔甲(必傷H)', '08破滅盔甲(破傷H)'],     
+		4 : ['   ring', '01水晶戒指(全金L)', '02紅鑽石戒指(全金H)', '03哥布林戒指(蛋金L)', '04紅寶石戒指(BOSS金L)', '05哥布林王戒指(蛋金H)'],  // 
 		5 : ['earring', '01祖母綠耳環(手套L)', '02魔法師耳環(頭盔L)', '02藍寶石耳環(盔甲L)']
+	}
+
+
+	var abaSwobj = {
+		1 : [' gloves', 1, 1, 1, 1],
+		2 : [' helmet', 1, 1, 1],
+		3 : ['  armor', 1, 1, 1, 1, 1, 1, 1, 1],     
+		4 : ['   ring', 1, 0, 1, 1, 1],  //
+		5 : ['earring', 1, 1, 1]
 	}
 
 	rbm.keepScreenshotPartial( 300,  390, 420, 510);  //
@@ -1810,17 +1818,23 @@ function abandonGear(sw) {
 			console.log('Check Aband Gear:', abandobj[j][i]);
 			var filename = 'gear_0' + j + '_0' + i + '.png';
 			var Img1 = rbm.findImage(filename, 0.95);
-			
 			rbm.log('Img1:', Img1);
 			
 			if (Img1 != undefined && Img1.score >= 0.95) {
 				console.log('Found Aband Gear');
 				rbm.releaseScreenshot();
+
+				if (abaSwobj[j][i] == 0){
+					console.log('This Gear Not to Aband');
+					return false;
+				}
+
 				return true;
 				
 			} else {
 				console.log('Not Match Aband Gear');
 			}
+
 			console.log('----------------------');
 		}
 	}
@@ -1830,6 +1844,65 @@ function abandonGear(sw) {
 	console.log('Not Found Aband Gear !!');
 	return false;
 }
+
+
+function abandonTreasures(sw) {
+	if (!config.isRunning) return false;
+	if (sw == 0) return false;
+
+	//Gear Name Cut from 304,393 w:110 H:110
+	var abandobj = {
+		1 : ['   Red', ''],
+		2 : ['  Blue', ''],
+		3 : ['Purple', ''],  
+		4 : ['yellow', ''], 
+		5 : [' green', '']
+	}
+
+
+	var abaSwobj = {
+		1 : ['   Red', ''],
+		2 : ['  Blue', ''],
+		3 : ['Purple', ''],  
+		4 : ['yellow', ''], 
+		5 : [' green', '']
+	}
+
+	rbm.keepScreenshotPartial( 300,  390, 420, 510);  //
+	for (var j = 1; j <= 5; j++) {
+		var lengthI = Object.keys(abandobj[j]).length - 1;
+		for (var i = 1; i <= lengthI; i++) {
+
+			console.log('Check Aband Gear:', abandobj[j][i]);
+			var filename = 'gear_0' + j + '_0' + i + '.png';
+			var Img1 = rbm.findImage(filename, 0.95);
+			rbm.log('Img1:', Img1);
+			
+			if (Img1 != undefined && Img1.score >= 0.95) {
+				console.log('Found Aband Gear');
+				rbm.releaseScreenshot();
+
+				if (abaSwobj[j][i] == 0){
+					console.log('This Gear Not to Aband');
+					return false;
+				}
+
+				return true;
+				
+			} else {
+				console.log('Not Match Aband Gear');
+			}
+
+			console.log('----------------------');
+		}
+	}
+	rbm.releaseScreenshot();
+	sleep(100);
+
+	console.log('Not Found Aband Gear !!');
+	return false;
+}
+
 
 function chkPetLv(lv, cycle) {
 	if (!config.isRunning) return false;
@@ -1872,39 +1945,6 @@ function chkPetLv(lv, cycle) {
 			console.log('Not Found LV', lv, ' Pet!');
 			return true;
 		}
-	}
-}
-
-function chkGet() {
-	for (var i = 0; i <= 20; i++) {
-		if (!config.isRunning) return false;
-		// console.log('i:', i);
-
-		if (!useReturn(1)) {
-			tapFor(400, 330, 1, 50, 150, 500);
-		} else { 
-			// console.log('Fund L Icon');
-			tapFor( 40, 170, 1, 50, 250, 2000);
-			break;
-		}
-		sleep(1000);
-	}
-
-	for (var j = 0; j <= 10; j++) {
-		if (!config.isRunning) return false;
-		// console.log('j:', j);
-
-		var colorGetOK = checkPointcolor(260, 400, 15, 'F53A65'); //確認得到遺物
-		if (colorGetOK) {
-			// console.log(RelicLvChk());
-			break;
-		} else {
-			if (key == 1) {tapFor(100, 940, 2, 50, 200, 1500);}  //選愛心遺物
-			else if (key == 2) { tapFor(400, 940, 2, 50, 200, 1500);}  //選龍心遺物
-			
-			tapFor(320, 820, 2, 50, 200, 1500);  //龍心遺物使用1回購買
-		}
-		sleep(1000);
 	}
 }
 
@@ -2119,11 +2159,11 @@ function test(cycle, DT){
 			setFirstTimer();     //設定初始時間值
 		} else if (n >= 1) {
 			console.log('n = ', n, '/', cycle, ', CRA 腳本開始');
-
+			abandonGear(1);
 
 			// chkDalyGearLv(4, 2);
 
-			while(config.isRunning) {main();} 
+			// while(config.isRunning) {main();} 
 
 			// console.log('n = ', n, ', CRA 腳本結束');
 			console.log('=======================');
