@@ -943,7 +943,7 @@ function waitAD2(timer) {
 function menutap(pg) {
 	if (!config.isRunning) return false;
 	if (pg < 0 && pg > 6) {console.log('Page Error!!'); return false;}
-	console.log('1 Menu - Page', pg);
+	// console.log('1 Menu - Page', pg);
 
 	tapFor(680, 680, 4, 30, 200, 200);   //點右邊向下三角型
 
@@ -954,7 +954,7 @@ function menutap(pg) {
 function menutap2(pg) {
 	if (!config.isRunning) return false;
 	if (pg < 0 || pg > 6) {console.log('Page Error!!'); return false;}
-	console.log('2 Menu - Page', pg);
+	// console.log('2 Menu - Page', pg);
 
 	//100,1270  dW = 120,  now:594E41   not:968169
 	var newbbX = [680,  100,  220,  340,  460,  580,  700];
@@ -1627,7 +1627,7 @@ function Tireduction(lst) {
 	tapFor(470, 130, 1, 50, 50, 200);   //點選-備份還原功能
 
 	tapFor(120, 350, 1, 50, 50, 2000);  //選第一個備份資料-還原 Y:350:還原  Y:210:備份
-	tapFor(140, 730, 1, 50, 50, 3000);  //點選-資料
+	tapFor(420, 730, 1, 50, 50, 3000);  //點選-資料 //Tibackup 8.xx pro  420 730 / free 140 730
 	
 	// console.log('Start Game.....')
 	rbm.startApp(config.PackangName,config.LaunchActivityName); sleep(5000);
@@ -1959,7 +1959,7 @@ function TibackupMH() {
 	tapFor( 40, 360, 1, 50, 50, 500);  //選第二個程式(merge hero)
 	tapFor(470, 130, 1, 50, 50, 500);  //點選-備份還原功能
 	tapFor(160, 190, 1, 50, 50, 3000);  //點選-備份
-	tapFor(120, 350, 1, 50, 50, 1500);  //選 Merge Heros
+	tapFor(120, 350, 1, 50, 50, 1500);  //選
 
 	// console.log('Back to Game')
 	rbm.startApp(config.PackangName,config.LaunchActivityName); sleep(5000);
