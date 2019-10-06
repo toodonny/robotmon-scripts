@@ -1557,28 +1557,25 @@ function debug(Timer) {
 }
 
 // =========TiBackup Used===================================
-function TireductGame(Tilst, sec, item, itemLv, cycle){ //3:刷裝  4:刷寵  5:刷寶  7:簽到獎勵
+function TireductGame(Tilst, sec, item, itemLv, cycle){ // 3:刷裝  4:刷寵  5:刷寶  7:簽到獎勵  8:背動技
 	if (!config.isRunning) return false;
-	if (Features < 3 || Features > 7 ) return false;
+	if (Features < 3 || Features > 8 ) return false;
 	if (Features == 6) return false;
 
-	// var itemName = ['', '', '', 'Gear', 'Pet', 'Treasures', '', 'DailyReward'];
 
-	// if (!chkGetItem(item, itemLv, cycle)) {
-		Tireduction(Tilst);
-		chkGameOK(sec);
+	Tireduction(Tilst);
+	chkGameOK(sec);
 
-		menutap2(item);
-		openNewItem(item, 50);
+	menutap2(item);
+	openNewItem(item, 50);
 
-	if (chkGetItem(item, itemLv, cycle)) {    //  } else {
-		sleep(200);
-		ScreenShottoPath('bladecrafter2_' + itemName[item]);
+	if (chkGetItem(item, itemLv, cycle)) {  
+		// sleep(200);
+		// ScreenShottoPath('bladecrafter2_' + itemName[item]);
 
 		switch(item) {
+
 			case 3 : 
-				// if (abandonGear(abGrSw)) {tapFor(300, 830, 3, 50, 300, 500);} 
-				// else {config.isRunning = false;}
 				if (!abandonGear(abGrSw)) {
 					ScreenShottoPath('bladecrafter2_' + itemName[item]);
 					config.isRunning = false;
@@ -1605,6 +1602,14 @@ function TireductGame(Tilst, sec, item, itemLv, cycle){ //3:刷裝  4:刷寵  5:
 					config.isRunning = false;
 				}
 				break;
+
+			case 8 : 
+				if (backSkill()) {
+					ScreenShottoPath('bladecrafter2_' + itemName[item]);
+					config.isRunning = false;
+				}
+				break;
+
 		}
 		sleep(1000); 
 	}
@@ -1657,6 +1662,8 @@ function Tibackup(lst) {
 // =========TiBackup Function===================================
 function openNewItem(item, st) {
 	if (!config.isRunning) return false;
+	if (item == 8) {debugFc = false; rebirth(3, 0); return false;}
+	console.log('Open New Item !!');
 
 	var tapX = ['', '', '', 600, 600, 600, '',  175];      //3:裝備 /4:寵物 /5:寶物 /7:簽到獎勵
 	var tapY = ['', '', '', 830, 830, 830, '',   30];      //檢查是否有new紅泡泡(開寶箱)
@@ -1714,6 +1721,7 @@ function chkGetItem(item, itemLv, cycle) {  //secF: item=4 ==> petLv
 	var pointD = ['', '', '', 20, 20, 40];
 
 	if (!refreshSw) {return true;}
+	if (item == 8) {return true;}
 
 	if (item == 3 && chkGearLv(itemLv, 314, 538, 2)) {
 		return true;
@@ -1795,18 +1803,18 @@ function abandonGear(sw) {
 	//Gear Name Cut from 304,393 w:110 H:110
 	var abandobj = {
 		1 : [' gloves', '01騎士手套(武傷L)', '02戰士手套(點傷L)', '03妖精手套(全傷L)', '04獵人手套(暴傷L)'],
-		2 : [' helmet', '01矮人頭盔(妖劍L)', '02聖職者帽(神劍L)', '03傭兵頭盔(英劍L)'],
+		2 : [' helmet', '01矮人頭盔(妖劍L)', '02聖職者帽(神劍L)', '03傭兵頭盔(英劍L)', '04咒術師帽子(魔劍L)'],
 		3 : ['  armor', '01Equa080(寵傷L)', '02刀刃盔甲(必傷L)', '02召喚師盔甲(古傷L)', '04野獸盔甲(古傷H)', '05獸王盔甲(寵傷H)', '06破壞盔甲(破傷L)', '07定罪盔甲(必傷H)', '08破滅盔甲(破傷H)'],     
-		4 : ['   ring', '01水晶戒指(全金L)', '02紅鑽石戒指(全金H)', '03哥布林戒指(蛋金L)', '04紅寶石戒指(BOSS金L)', '05哥布林王戒指(蛋金H)'],  // 
+		4 : ['   ring', '01水晶戒指(全金L)', '02紅鑽石戒指(全金H)', '03哥布林戒指(蛋金L)', '04紅寶石戒指(BOSS金L)', '05哥布林王戒指(蛋金H)', '06鑽石戒指(全金M)'],  // 
 		5 : ['earring', '01祖母綠耳環(手套L)', '02魔法師耳環(頭盔L)', '02藍寶石耳環(盔甲L)']
 	}
 
 
 	var abaSwobj = {
 		1 : [' gloves', 1, 1, 1, 1],
-		2 : [' helmet', 1, 1, 1],
-		3 : ['  armor', 1, 1, 1, 1, 1, 1, 1, 1],     
-		4 : ['   ring', 1, 0, 1, 1, 1],  //
+		2 : [' helmet', 1, 1, 1, 1],
+		3 : ['  armor', 1, 1, 1, 1, 0, 1, 1, 1],     
+		4 : ['   ring', 1, 0, 1, 1, 1, 1],  //
 		5 : ['earring', 1, 1, 1]
 	}
 
@@ -1844,7 +1852,6 @@ function abandonGear(sw) {
 	console.log('Not Found Aband Gear !!');
 	return false;
 }
-
 
 function abandonTreasures(sw) {
 	if (!config.isRunning) return false;
@@ -1903,6 +1910,64 @@ function abandonTreasures(sw) {
 	return false;
 }
 
+function abandonbackSkill() {
+	if (!config.isRunning) return false;
+
+	var chkItemName = 'BackSkill'
+
+	//backSkill Name Cut from 304,393 w:110 H:110
+	var tagName = {
+		1 : [' attack', '01放置達人(武傷)', '02強化刀刃(全傷)', '03弱點攻擊(暴傷)'],
+		2 : ['   gold', '01金幣掠奪(普通)', '02金幣掠奪(BOSS)',],
+		3 : [' killer', '01怪物殺手(普通)', '02怪物殺手(BOSS)'],
+		4 : [' ----  '],  // 
+		5 : [' ----  ']
+	}
+
+	var tagSwitch = {
+		1 : [' attack', 1, 0, 0],
+		2 : ['   gold', 0, 0],
+		3 : [' killer', 0, 0],
+		4 : [' ----  '],  // 
+		5 : [' ----  ']
+	}
+
+	rbm.keepScreenshotPartial( 300,  390, 420, 510);  //
+	for (var j = 1; j <= 5; j++) {
+		var lengthI = Object.keys(tagName[j]).length - 1;
+		for (var i = 1; i <= lengthI; i++) {
+			if (lengthI == 0) {break;}
+
+			console.log('Check Aband ' + chkItemName + ':', tagName[j][i]);
+			var filename = 'BackSkill_0' + j + '_0' + i + '.png';
+			var Img1 = rbm.findImage(filename, 0.95);
+			rbm.log(chkItemName +'Img1:', Img1);
+			
+			if (Img1 != undefined && Img1.score >= 0.95) {
+				console.log('Found Aband ' + chkItemName);
+				rbm.releaseScreenshot();
+
+				if (tagSwitch[j][i] == 0){
+					console.log('This ' + chkItemName + ' Not to Aband');
+					return false;
+				}
+
+				return true;
+				
+			} else {
+				console.log('Not Match Aband ' + chkItemName);
+			}
+
+			console.log('----------------------');
+		}
+	}
+	rbm.releaseScreenshot();
+	sleep(100);
+
+	console.log('Not Found Aband ' + chkItemName + ' !!');
+	return false;
+
+}
 
 function chkPetLv(lv, cycle) {
 	if (!config.isRunning) return false;
@@ -2077,7 +2142,7 @@ function setFirstTimer() {   //預設值設定
 	ScreenErrorTime1 = Date.now();
 	rbm.screencrop('checkADstop.png', 180, 270, 590, 860);
 
-	itemName = ['', '', '', 'Gear', 'Pet', 'Treasures', '', 'DailyReward'];
+	itemName = ['', '', 'BackSkill', 'Gear', 'Pet', 'Treasures', '', 'DailyReward'];
 	itemLv   = ['', '', '', item3Lv, item4Lv, '', '', '', ''];
 
 	mnstX = [430, 287, 222, 157, 92, 27];
@@ -2099,7 +2164,7 @@ function setFirstTimer() {   //預設值設定
 function setFirstsetting() {
 
 	mstdncycle   =  2;  //鉿人物向上滑動次數
-	totaltaptime = 60;  //點擊主畫面與升級，維持時間
+	totaltaptime = 6000;  //點擊主畫面與升級，維持時間
 	maintaptimes = 55;  //每次循環主畫面點擊次數
 	lvuptaptimes =  2;  //每次循環人物升級點擊次數
 
@@ -2131,17 +2196,17 @@ function setFirstsetting() {
 
 	debugTmrChk = 5;  //畫面異常多久觸發debug執行
 
-	//**********************************************************//
-	Features  = 1;    //1:正常腳本/ 3裝備 /4寵物 /5寶物 /7每日獎勵 //
-	//**********************************************************//
+	//*************************************************========*********//
+	Features  = 4;    //1:正常腳本/ 3裝備 /4寵物 /5寶物 /7每日獎勵 /8背動技//
+	//*********************************************************========*//
 
 
 	refreshSw = 1;    //循環刷開關
-	abGrSw    = 0;    //裝備放棄 比對開關
+	abGrSw    = 1;    //裝備放棄 比對開關
 
 	item3Lv   = 4;    //裝備目標等級  /1:白 2:藍 3:綠 4:紅 5:黃
 
-	item4Lv   = 2;    //寵物目標等級
+	item4Lv   = 1;    //寵物目標等級
 
 	item7Lv   = 4;    //每日獎勵 裝備 目標等級  /1:白 2:藍 3:綠 4:紅 5:黃
 	item7Pc   = 1;    //每日獎勵 目標個數
@@ -2159,11 +2224,11 @@ function test(cycle, DT){
 			setFirstTimer();     //設定初始時間值
 		} else if (n >= 1) {
 			console.log('n = ', n, '/', cycle, ', CRA 腳本開始');
-			abandonGear(1);
+			// abandonGear(1);
 
 			// chkDalyGearLv(4, 2);
 
-			// while(config.isRunning) {main();} 
+			while(config.isRunning) {main();} 
 
 			// console.log('n = ', n, ', CRA 腳本結束');
 			console.log('=======================');
