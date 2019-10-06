@@ -1086,12 +1086,13 @@ function rebirth(upcycle, wT) {
 
 	sleep(1500);
 	tapFor(600, 1160, 1, 50, 200, 600);
-	tapFor(240, 880, 3, 50, 200, 500); //點轉生，等5000ms
-	tapFor(600, 1160, 1, 50, 200, 600);
-	tapFor(240, 880, 3, 50, 200, 500); //點轉生，等5000ms
+	tapFor(240, 880, 3, 50, 100, 500); //點轉生，等5000ms
+	tapFor(600, 1160, 1, 50, 100, 300);
+	tapFor(240, 880, 3, 50, 100, 300); //點轉生，等5000ms
 
 	for (var j = 0; j < wT; j++){
 		console.log('轉生後等待:', j, ' sec');
+		if (wT == 0) {break;}
 		sleep(1000);
 	}
 
@@ -1604,7 +1605,7 @@ function TireductGame(Tilst, sec, item, itemLv, cycle){ // 3:刷裝  4:刷寵  5
 				break;
 
 			case 8 : 
-				if (backSkill()) {
+				if (!abandonbackSkill()) {
 					ScreenShottoPath('bladecrafter2_' + itemName[item]);
 					config.isRunning = false;
 				}
@@ -1703,7 +1704,7 @@ function chkGameOK(sec) {
 
 		if (useReturn(1)) {
 			console.log('Game Start OK!!');
-			sleep(500);
+			sleep(1000);
 			break;
 		}
 		sleep(1000);
@@ -1913,26 +1914,37 @@ function abandonTreasures(sw) {
 function abandonbackSkill() {
 	if (!config.isRunning) return false;
 
+	
+	for (var j = 0; j < 20; j++){
+		console.log('檢查大技等待:', j, 'x 200 ms');
+
+		var pointColor = getPointcolorHex(108, 420);      //轉生背動技顯示等待
+		var chkColor = isSameColorHex(pointColor, 'FFBA4E', 20);
+		if (chkColor) {break;}
+		
+		sleep(150);
+	}
+
 	var chkItemName = 'BackSkill'
 
 	//backSkill Name Cut from 304,393 w:110 H:110
 	var tagName = {
-		1 : [' attack', '01放置達人(武傷)', '02強化刀刃(全傷)', '03弱點攻擊(暴傷)'],
-		2 : ['   gold', '01金幣掠奪(普通)', '02金幣掠奪(BOSS)',],
+		1 : [' attack', '01放置達人(武傷)', '02強化刀刃(全傷)', '03弱點攻擊(暴傷)', '04點擊達人(點傷)'],
+		2 : ['   gold', '01金幣掠奪(普通)', '02金幣掠奪(BOSS)'],
 		3 : [' killer', '01怪物殺手(普通)', '02怪物殺手(BOSS)'],
 		4 : [' ----  '],  // 
 		5 : [' ----  ']
 	}
 
 	var tagSwitch = {
-		1 : [' attack', 1, 0, 0],
-		2 : ['   gold', 0, 0],
-		3 : [' killer', 0, 0],
+		1 : [' attack', 0, 1, 1, 1],
+		2 : ['   gold', 1, 1],
+		3 : [' killer', 1, 1],
 		4 : [' ----  '],  // 
 		5 : [' ----  ']
 	}
 
-	rbm.keepScreenshotPartial( 300,  390, 420, 510);  //
+	rbm.keepScreenshotPartial( 300,  390, 420, 610);  //
 	for (var j = 1; j <= 5; j++) {
 		var lengthI = Object.keys(tagName[j]).length - 1;
 		for (var i = 1; i <= lengthI; i++) {
@@ -2197,7 +2209,7 @@ function setFirstsetting() {
 	debugTmrChk = 5;  //畫面異常多久觸發debug執行
 
 	//*************************************************========*********//
-	Features  = 4;    //1:正常腳本/ 3裝備 /4寵物 /5寶物 /7每日獎勵 /8背動技//
+	Features  = 8;    //1:正常腳本/ 3裝備 /4寵物 /5寶物 /7每日獎勵 /8背動技//
 	//*********************************************************========*//
 
 
@@ -2227,6 +2239,9 @@ function test(cycle, DT){
 			// abandonGear(1);
 
 			// chkDalyGearLv(4, 2);
+			// abandonbackSkill();
+
+
 
 			while(config.isRunning) {main();} 
 

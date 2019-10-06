@@ -445,13 +445,10 @@
           {
             title: "Language setting / 語言設定",
             title_zh_TW: "Language setting / 語言設定",
-            buttons: [{
-              title: "En",
-              onclick: "saveLocale('en-US')"
-            }, {
-              title: "中文",
-              onclick: "saveLocale('zh-TW')"
-            }],
+            buttons: [
+              {title: "En", onclick: "saveLocale('en-US')"},
+              {title: "中文", onclick: "saveLocale('zh-TW')"}
+            ],
           },
           {
             key: 'strg', 
@@ -743,7 +740,7 @@
           },
           {
             key: 'Features', 
-            title: "1:正常, 3裝備, 4寵物, 5寶物, 7簽到",
+            title: "1:正常, 3裝備, 4寵物, 5寶物, 7簽到, 8背技",
             title_zh_TW: "1:正常, 3裝備, 4寵物, 5寶物, 7簽到, 8背技", 
             default: 1, 
             step: 1,
@@ -813,7 +810,7 @@
 	  
       function saveLocale(locale) {
         if (localStorage !== undefined) {
-          localStorage.setItem('idlerpglanguage', locale);
+          localStorage.setItem('bladecrafter2language', locale);
           location.reload();
         }
       }
@@ -823,11 +820,11 @@
         if (localStorage = undefined) {
           return;
         }
-        var version = +localStorage.getItem('idlerpgversion');
+        var version = +localStorage.getItem('bladecrafter2version');
         if (!version || VERSION != version) {
           return;
         }
-        var settingsJSON = localStorage.getItem('idlerpgsettings');
+        var settingsJSON = localStorage.getItem('bladecrafter2settings');
         if (!settingsJSON) {
           return;
         }
@@ -863,44 +860,45 @@
               }
             }
           }
-          localStorage.setItem('idlerpgversion', VERSION);
-          localStorage.setItem('idlerpgsettings', JSON.stringify(recordSettings));
+          localStorage.setItem('bladecrafter2version', VERSION);
+          localStorage.setItem('bladecrafter2settings', JSON.stringify(recordSettings));
           console.log('Save settings');
         }
       }
 	  
       function genStartCommand(settings) {
-		//var settingArray = [];
-		var settingObject = {};
-		var command = "start(";
+        //var settingArray = [];
+        var settingObject = {};
+        var command = "start(";
+        
         for (var i in settings) {
           for (var g in settings[i]) {
             var id =  i + "_" + g;
             var setting = settings[i][g];
-			//if (settingArray[i] == undefined) {
-			//	settingArray[i] = [];
-			//}
-			
+            //if (settingArray[i] == undefined) {
+            //	settingArray[i] = [];
+            //}
+      
             if (typeof setting.default === "boolean") {
               command += $("#setting_value_" + id).is(':checked') + ", ";
-			  //settingArray[i][g] = $("#setting_value_" + id).is(':checked');
-			  settingObject[setting.key] = $("#setting_value_" + id).is(':checked');
+              //settingArray[i][g] = $("#setting_value_" + id).is(':checked');
+              settingObject[setting.key] = $("#setting_value_" + id).is(':checked');
             } else if (typeof setting.default === "number") {
               command += $("#setting_value_" + id).val() + ", ";
-			  //settingArray[i][g] = $("#setting_value_" + id).val();
-			  settingObject[setting.key] = $("#setting_value_" + id).val();
+              //settingArray[i][g] = $("#setting_value_" + id).val();
+              settingObject[setting.key] = $("#setting_value_" + id).val();
             } else if (typeof setting.default === "string") {
               command += "'" + $("#setting_value_" + id).val() + "', ";
-			  //settingArray[i][g] = $("#setting_value_" + id).val();
-			  settingObject[setting.key] = $("#setting_value_" + id).val();
+              //settingArray[i][g] = $("#setting_value_" + id).val();
+              settingObject[setting.key] = $("#setting_value_" + id).val();
             }
           }
         }
         command += "undefined);"
-		//console.log(settingArray, JSON.stringify(settingArray));
-		//command = 'start(\'' + JSON.stringify(settingArray) + '\')';
-		//console.log(settingObject, JSON.stringify(settingObject));
-		command = 'start(\'' + JSON.stringify(settingObject) + '\')';
+        //console.log(settingArray, JSON.stringify(settingArray));
+        //command = 'start(\'' + JSON.stringify(settingArray) + '\')';
+        //console.log(settingObject, JSON.stringify(settingObject));
+        command = 'start(\'' + JSON.stringify(settingObject) + '\')';
         //console.log("Start command: " + command);
         return command;
       }
@@ -909,7 +907,7 @@
         if (localStorage === undefined) {
           return setting.title;
         }
-        var lang = localStorage.getItem('idlerpglanguage');
+        var lang = localStorage.getItem('bladecrafter2language');
         if (!lang) {
           return setting.title;
         } else if (lang === "zh-TW") {
@@ -1035,7 +1033,7 @@
 		  	$('html,body').animate({scrollTop:'0px'}, 1000);
         });
 
-        if (localStorage !== undefined && localStorage.getItem('idlerpglanguage') === "zh-TW") {
+        if (localStorage !== undefined && localStorage.getItem('bladecrafter2language') === "zh-TW") {
           $("#goToTop").text("回頁面頂端");
         } else {
           $("#goToTop").text("Go Top");
