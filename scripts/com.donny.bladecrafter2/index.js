@@ -1563,8 +1563,9 @@ function TireductGame(Tilst, sec, item, itemLv, cycle){ // 3:刷裝  4:刷寵  5
 	if (Features < 3 || Features > 8 ) return false;
 	if (Features == 6) return false;
 
+	Tireducbkup(1, 1);  //列表  還原/備份
 
-	Tireduction(Tilst);
+	// Tireduction(Tilst);
 	chkGameOK(sec);
 
 	menutap2(item);
@@ -1580,18 +1581,20 @@ function TireductGame(Tilst, sec, item, itemLv, cycle){ // 3:刷裝  4:刷寵  5
 				if (!abandonGear(abGrSw)) {
 					ScreenShottoPath('bladecrafter2_' + itemName[item]);
 					config.isRunning = false;
-				}
-				break;
+				} break;
 
 			case 4 : 
 				ScreenShottoPath('bladecrafter2_' + itemName[item]);
-				Tibackup(Tilst);
+				// Tibackup(Tilst);
+				Tireducbkup(1, 2);  //列表  還原/備份
 				chkGameOK(sec);
 				break;
 
 			case 5 : 
-				ScreenShottoPath('bladecrafter2_' + itemName[item]);
-				config.isRunning = false; break;
+				if (!abandonTreasures(abGrSw)) {
+					ScreenShottoPath('bladecrafter2_' + itemName[item]);
+					config.isRunning = false;
+				} break;
 
 			case 6 : 
 				ScreenShottoPath('bladecrafter2_' + itemName[item]);
@@ -1601,15 +1604,13 @@ function TireductGame(Tilst, sec, item, itemLv, cycle){ // 3:刷裝  4:刷寵  5
 				if (chkDalyGearLv(item7Lv, item7Pc)) {
 					ScreenShottoPath('bladecrafter2_' + itemName[item]);
 					config.isRunning = false;
-				}
-				break;
+				} break;
 
 			case 8 : 
-				if (!abandonbackSkill()) {
+				if (!abandonbackSkill(abGrSw)) {
 					ScreenShottoPath('bladecrafter2_' + itemName[item]);
 					config.isRunning = false;
-				}
-				break;
+				} break;
 
 		}
 		sleep(1000); 
@@ -1658,6 +1659,48 @@ function Tibackup(lst) {
 	
 	// console.log('Start Game.....')
 	rbm.startApp(config.PackangName,config.LaunchActivityName); sleep(5000);
+}
+
+function Tireducbkup(lst, mod) {  //lst:點選列表第幾個  mod: 1:還原 2:備份
+	if (!config.isRunning) return false;
+	console.log('TiBackup to Reduction or Backup');
+
+	rbm.stopApp(config.PackangName); sleep(300);
+	rbm.stopApp(config.PackangName); sleep(300);
+	rbm.startApp(config.TiPackangName,config.TiLaunchActivityName); sleep(100);
+
+	var tibackC = ['', '888888', '00FF00', '33B5E5', '006600'];  //X:380 Y:147
+	var tibackS = ['', '主頁面', '備份還原', '項目選單', '還原選單'];
+	var lsY = 260 + (lst - 1) * 100;
+	var tapX = ['', 380,  90,  90,   90];
+	var tapY = ['', 150, lsY, 360,  760];
+	var deyT = ['', 500, 500, 500, 2000];
+
+	Tab_BK2:
+	for (var i = 0; i < 30; i++) {
+		var pointColor = getPointcolorHex(380, 147);
+		
+		for (var j = 1; j <= 4; j++) {
+			var chkColor = isSameColorHex(pointColor, tibackC[j], 15);
+			// console.log('TiBackup to R/B:', pointColor, tibackC[j], chkColor, i, j);
+			
+			if (chkColor) {
+				if (j == 3 && mod == 2) {
+					tapFor(tapX[j], 210, 1, 30, 100, 4000);         //j=3:mod=2:點選備份
+					break Tab_BK2;
+				} else {
+					tapFor(tapX[j], tapY[j], 1, 30, 100, deyT[j]);  //j=3:mod=1:點選還原
+					if (j == 4) {break Tab_BK2;}
+				}
+			}
+		}
+
+		sleep(300)
+	}
+	
+	console.log('Start Game.....')
+	rbm.startApp(config.PackangName,config.LaunchActivityName); sleep(5000);
+
 }
 
 // =========TiBackup Function===================================
@@ -1859,62 +1902,62 @@ function abandonTreasures(sw) {
 	if (sw == 0) return false;
 
 	//Gear Name Cut from 304,393 w:110 H:110
-	var abandobj = {
-		1 : ['   Red', ''],
-		2 : ['  Blue', ''],
-		3 : ['Purple', ''],  
-		4 : ['yellow', ''], 
-		5 : [' green', '']
+	var tagName = {
+		1 : ['   Red', '01悲情之槍(一般怪傷)', '02受詛咒的盾牌(魔劍傷)', '03激情的一半(休息中受損)', '04審判天秤(破壞名劍傷)', '05鬥志之劍(點傷)', '06神聖羽毛(神劍傷)', '07神秘的樹枝(妖劍傷)', '08集中的髮箍(古代名劍傷)', '09勇猛的髮箍(英劍傷)', '10極光立方體(英妖劍傷)'],
+		2 : ['  Blue'],
+		3 : ['Purple'],  
+		4 : ['yellow'], 
+		5 : [' green']
 	}
 
-
-	var abaSwobj = {
-		1 : ['   Red', ''],
-		2 : ['  Blue', ''],
-		3 : ['Purple', ''],  
-		4 : ['yellow', ''], 
-		5 : [' green', '']
+	var tagSwitch = {
+		1 : ['   Red', 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+		2 : ['  Blue'],
+		3 : ['Purple'],  
+		4 : ['yellow'],
+		5 : [' green']
 	}
 
-	rbm.keepScreenshotPartial( 300,  390, 420, 510);  //
+	var chkItemName = 'Treasures'
+
+	rbm.keepScreenshotPartial( 300,  390, 420, 620);  //
 	for (var j = 1; j <= 5; j++) {
-		var lengthI = Object.keys(abandobj[j]).length - 1;
+		var lengthI = Object.keys(tagName[j]).length - 1;
 		for (var i = 1; i <= lengthI; i++) {
 
-			console.log('Check Aband Gear:', abandobj[j][i]);
-			var filename = 'gear_0' + j + '_0' + i + '.png';
+			console.log('Check Aband ' + chkItemName + ':', tagName[j][i]);
+			var filename = 'Treasures_0' + j + '_0' + i + '.png';
 			var Img1 = rbm.findImage(filename, 0.95);
 			rbm.log('Img1:', Img1);
 			
 			if (Img1 != undefined && Img1.score >= 0.95) {
-				console.log('Found Aband Gear');
+				console.log('Found Aband ' + chkItemName);
 				rbm.releaseScreenshot();
 
-				if (abaSwobj[j][i] == 0){
-					console.log('This Gear Not to Aband');
+				if (tagSwitch[j][i] == 0){
+					console.log('This ' + chkItemName + ' Not to Aband');
 					return false;
 				}
-
 				return true;
 				
 			} else {
-				console.log('Not Match Aband Gear');
+				console.log('Not Match Aband ' + chkItemName);
 			}
-
 			console.log('----------------------');
 		}
 	}
 	rbm.releaseScreenshot();
 	sleep(100);
 
-	console.log('Not Found Aband Gear !!');
+	console.log('Not Found Aband ' + chkItemName + ' !!');
 	return false;
 }
 
-function abandonbackSkill() {
+function abandonbackSkill(sw) {
 	if (!config.isRunning) return false;
+	if (sw == 0) return false;
 
-	
+
 	for (var j = 0; j < 20; j++){
 		console.log('檢查大技等待:', j, 'x 200 ms');
 
@@ -1929,7 +1972,7 @@ function abandonbackSkill() {
 
 	//backSkill Name Cut from 304,393 w:110 H:110
 	var tagName = {
-		1 : [' attack', '01放置達人(武傷)', '02強化刀刃(全傷)', '03弱點攻擊(暴傷)', '04點擊達人(點傷)'],
+		1 : [' attack', '01放置達人(武傷)', '02強化刀刃(全傷)', '03弱點攻擊(暴傷)', '04點擊達人(點傷)', '05急速成長(寵傷)'],
 		2 : ['   gold', '01金幣掠奪(普通)', '02金幣掠奪(BOSS)'],
 		3 : [' killer', '01怪物殺手(普通)', '02怪物殺手(BOSS)'],
 		4 : [' ----  '],  // 
@@ -1937,7 +1980,7 @@ function abandonbackSkill() {
 	}
 
 	var tagSwitch = {
-		1 : [' attack', 0, 1, 1, 1],
+		1 : [' attack', 0, 1, 1, 1, 1],
 		2 : ['   gold', 1, 1],
 		3 : [' killer', 1, 1],
 		4 : [' ----  '],  // 
@@ -1963,7 +2006,6 @@ function abandonbackSkill() {
 					console.log('This ' + chkItemName + ' Not to Aband');
 					return false;
 				}
-
 				return true;
 				
 			} else {
@@ -2092,38 +2134,6 @@ function RelicLvChk() {
 	return -2;
 }
 
-function buyRelicloop(hart, minLv) {  //hart: 1:redhard, 2:dragonhart;  minLV: 0:SR, 1:S, 2:A, 3:B, 4:C, 5:D
-	if (!config.isRunning) return false;
-
-	var R = RelicLvChk();
-	// console.log('R:', R);
-
-	if (R >= 0) {
-		BuyRelic[1][R] = BuyRelic[1][R] + 1;
-	}
-
-
-	for (var i = 0; i <= 5; i++) {
-		BuyRelic[2] = BuyRelic[2] + BuyRelic[0][i] + ':' + BuyRelic[1][i] + ', ';  
-	}
-	console.log(BuyRelic[2]);
-	BuyRelic[2] = '';
-
-	if (R == -1) {
-		console.log('Not in Get Screen')
-		Tireduction(hart);
-	} else if (R == -2) {
-		ScreenShottoPath('relicLV_false_n_.png');
-		sleep(1000);
-		// console.log('R:', R);
-	} else if (R > minLv & R != -1) {  //0:SR, 1:S, 2:A, 3:B, 4:C, 5:D
-		Tireduction(hart);
-	} else if (R <= minLv & R != -1) {  //0:SR, 1:S, 2:A, 3:B, 4:C, 5:D
-		Tibackup();
-	}
-
-}
-
 // ===========================================================
 
 function main(){       //主流程
@@ -2208,9 +2218,9 @@ function setFirstsetting() {
 
 	debugTmrChk = 5;  //畫面異常多久觸發debug執行
 
-	//*************************************************========*********//
+	//==================================================================//
 	Features  = 8;    //1:正常腳本/ 3裝備 /4寵物 /5寶物 /7每日獎勵 /8背動技//
-	//*********************************************************========*//
+	//==================================================================//
 
 
 	refreshSw = 1;    //循環刷開關
@@ -2241,7 +2251,7 @@ function test(cycle, DT){
 			// chkDalyGearLv(4, 2);
 			// abandonbackSkill();
 
-
+			// Tireducbkup(1, 1);  //列表  還原/備份
 
 			while(config.isRunning) {main();} 
 
