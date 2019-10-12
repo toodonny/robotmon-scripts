@@ -1192,7 +1192,7 @@ function mgnewbubble() {
 		console.log('Mini Wait, j:', j);
 		var pointColor = getPointcolorHex(360, 760);
 		var chkColor = isSameColorHex(pointColor, 'E7AC30', 20);
-		if (chkColor){tapFor(365, 765, 2, 50, 100, 500); break;}  //點開始mini game / 關閉
+		if (chkColor){tapFor(365, 765, 2, 50, 100, 500); return true;}  //點開始mini game / 關閉
 
 		sleep(1000);
 	}
@@ -1230,15 +1230,23 @@ function bsnewbubble() {    //自動打boss (小遊戲系列)
 function playMiniGame() {
 	if (!config.isRunning) return false;
 
-	var chkGame123 = minigameclock();
-	if (chkGame123 > 0) {
-		// debugTimer = Date.now();
-		debugFc = true;
-		switch(chkGame123) {
-			case 1: mini1samepork(60, mini1DtapT, mini1Taps); return;     //mini game 1
-			case 2: mini2weponking(35, mini2taps, mini2tpwt, mini2wt); return;     //mini game 2
-			case 3: mini3kickmonster(32, mini3slt1, mini3slt2, mini3slt3, mini3slt4); return;     //mini game 3
+	for (var i = 1; i <= 10; i++) {
+		if (!config.isRunning) return false;
+
+		var chkGame123 = minigameclock();
+		if (chkGame123 > 0) {
+			// debugTimer = Date.now();
+			debugFc = true;
+			switch(chkGame123) {
+				case 1: mini1samepork(60, mini1DtapT, mini1Taps); break;     //mini game 1
+				case 2: mini2weponking(35, mini2taps, mini2tpwt, mini2wt); break;     //mini game 2
+				case 3: mini3kickmonster(32, mini3slt1, mini3slt2, mini3slt3, mini3slt4); break;     //mini game 3
+			}
+
+			if (Features >= 3) {Tireducbkup(1,2);}
+			break;
 		}
+		sleep(200);
 	}
 }
 
@@ -1261,7 +1269,7 @@ function minigameclock() {
 		var pointColor = getPointcolorHex(90, 340);
 		for (var i = 1; i <= 3; i++) {
 			var chkColor = isSameColorHex(pointColor, mini123Color[i], 20);
-			// console.log('chkColor:', pointColor, mini123Color[i], chkColor, i)
+			console.log('chkColor:', pointColor, mini123Color[i], chkColor, i)
 			if (chkColor) {sleep(100); return i;}
 		}
 	}
@@ -1269,20 +1277,13 @@ function minigameclock() {
 
 function mini1samepork(Gt, DtapT, Otaps) {
 	if (!config.isRunning) return false;
-	// if (minigameclock() != 1) return false;
 	console.log('Mini Game 1 Same Pork');
 
 	var startTime = Date.now();
-	// var gametimes = Gt * 1000;
-	// var cycles = Math.round(gametimes/200 + 2);
-	cycles = 2;
-	// console.log(gametimes, cycles);
-
-	var chk1or2 = 1;
+	cycles = 2; var chk1or2 = 1;
 	for (var k = 0; k < cycles; k++) {
 
 		//X:50 Y:350 X:125 Y:455 W:75 H:105 dX:108 dY:139
-
 		var cardState = {  //  未開:0   已存:1  配對:3 
 			0:[0, 0, 0, 0, 0, 0],
 			1:[0, 0, 0, 0, 0, 0],
@@ -1456,13 +1457,10 @@ function mini1samepork(Gt, DtapT, Otaps) {
 
 function mini2weponking(Gt, taps, tapwt, cywt) {
 	if (!config.isRunning) return false;
-	// if (minigameclock() != 2) return false;
 	console.log('Mini Game 2 Wepon King');
 
 	var gametimes = Gt * 1000;
 	var cycles = Math.round(gametimes / (taps*(60+tapwt+10) + cywt) + 3);
-	// cycles = 1;
-	// console.log(gametimes, cycles);
 	for (var k = 0; k <= cycles; k++) {
 		if (!config.isRunning) return false;
 
@@ -1489,9 +1487,6 @@ function mini2weponking(Gt, taps, tapwt, cywt) {
 
 			// console.log('i:', i, ', tapX:', tapX);
 			tap(tapX, 1100, 30);
-			// if(tapL) {tap(180, 1100, 30);}
-			// else if(tapR) {tap(540, 1100, 30);}
-			// else {console.log('Error no tap', i);}
 			sleep(tapwt);
 			if (i == taps) {sleep(cywt);}
 		}
@@ -1506,12 +1501,10 @@ function mini2weponking(Gt, taps, tapwt, cywt) {
 
 function mini3kickmonster(Gt, slt1, slt2, slt3, slt4) {
 	if (!config.isRunning) return false;
-	// if (minigameclock() != 3) return false;
 	console.log('Mini Game 3 Kick Monsters');
 	
 	var gametimes = Gt * 1000;
 	var cycles = Math.round(gametimes / 110 + 3);
-	// console.log(gametimes, cycles);
 	for (var i = 0; i <= cycles; i++) {
 		if (!config.isRunning) return false;
 
@@ -1593,11 +1586,15 @@ function TireductGame(Tilst, sec, item, itemLv, cycle){ // 3:刷裝  4:刷寵  5
 	if (!config.isRunning) return false;
 	if (Features < 3 || Features > 8 ) return false;
 	if (Features == 6) return false;
+	if (bsnewBB || mgnewBB) return false;
 
 	Tireducbkup(1, 1);  //列表  還原/備份
-
-	// Tireduction(Tilst);
 	chkGameOK(sec);
+
+	sleep(500);
+	bsnewBB = bsnewbubble();
+	mgnewBB = mgnewbubble();
+	if(bsnewBB || mgnewBB) {return false;}
 
 	menutap2(item);
 	openNewItem(item, 50);
@@ -1706,7 +1703,7 @@ function Tireducbkup(lst, mod) {  //lst:點選列表第幾個  mod: 1:還原 2:�
 	var tibackS = ['', '主頁面', '備份還原', '項目選單', '還原選單', 'GG選單'];
 	var lsY = 260 + (lst - 1) * 100;
 	var tapX = ['', 380,  90,  90,   90, 130];
-	var tapY = ['', 150, lsY, 360,  760, 870];
+	var tapY = ['', 150, lsY, 360,  760, 880];
 	var deyT = ['', 500, 500, 500, 2000, 500];
 
 	Tab_BK2:
@@ -1723,7 +1720,7 @@ function Tireducbkup(lst, mod) {  //lst:點選列表第幾個  mod: 1:還原 2:�
 					break Tab_BK2;
 				} else {
 					tapFor(tapX[j], tapY[j], 1, 30, 100, deyT[j]);  //j=3:mod=1:點選還原
-					if (j == 5) {tapFor(tapX[j], tapY[j] - 30, 1, 30, 100, deyT[j])}
+					if (j == 5) {tapFor(tapX[j], tapY[j] - 50, 1, 30, 100, deyT[j])}
 					if (j == 4) {break Tab_BK2;}
 				}
 			}
@@ -2204,20 +2201,22 @@ function RelicLvChk() {
 function main(){       //主流程
 	if (!config.isRunning) return false;
 
-	if (Features == 1) {
-		var bsnewBB = bsnewbubble();
-		var mgnewBB = mgnewbubble();
-		if (!mgnewBB && !bsnewBB) {
+	bsnewBB = bsnewbubble();
+	mgnewBB = mgnewbubble();
+	if (!mgnewBB && !bsnewBB) {
+		if (Features == 1) {
 			farmermedia(mstdncycle, totaltaptime, maintaptimes, lvuptaptimes);
 			rebirth(rebupcycle, rebirthwait);
-		}
-		playMiniGame();
-		debug(debugTmrChk);
-	} else if (Features ==2) {
-		weaponlvup();
+			debug(debugTmrChk);
 
+		} else if (Features ==2) {
+			weaponlvup();
+
+		} else {
+			TireductGame(1, 40, Features, itemLv[Features], 3); //(tilst, sec, item, secF, cycle)
+		}
 	} else {
-		TireductGame(1, 40, Features, itemLv[Features], 3); //(tilst, sec, item, secF, cycle)
+		playMiniGame();
 	}
 }
 
@@ -2248,10 +2247,13 @@ function setFirstTimer() {   //預設值設定
 
 	week = new Date().getDay();
 
+	
+	bsnewBB = true;   //小遊戲 new確認點
+	mgnewBB = true;   //打BOSS new確認點
+
 }
 
 function setFirstsetting() {
-
 	mstdncycle   =  2;  //鉿人物向上滑動次數
 	totaltaptime = 6000;  //點擊主畫面與升級，維持時間
 	maintaptimes = 55;  //每次循環主畫面點擊次數
@@ -2285,9 +2287,9 @@ function setFirstsetting() {
 
 	debugTmrChk = 5;  //畫面異常多久觸發debug執行
 
-	//===========================================================================//
-	Features  = 2;    //1:主角刷 /2武器刷 / 3裝備 /4寵物 /5寶物 /7每日獎勵 /8背動技 //
-	//==========================================================================//
+	//=================================================================================//
+	Features  = 3;    //[單刷] 1:主角刷 /2武器刷 / 3裝備 /4寵物 /5寶物 /7每日獎勵 /8背動技 //
+	//=================================================================================//
 
 	refreshSw = 1;    //循環刷開關
 	abGrSw    = 1;    //裝備放棄 比對開關
