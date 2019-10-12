@@ -1,9 +1,9 @@
-﻿importJS('RBM-0.0.3');
+importJS('RBM-0.0.3');
 
 // ============================idlerpg=============================== //
 
 var config = {
-  appName: 'com.donny.bladecrafter2',   //最強名劍 2
+  appName: 'com.donny.royaldice',   //最強名劍 2
   oriScreenWidth: 720, // source
   oriScreenHeight: 1280,
   oriVirtualButtonHeight: 0,
@@ -12,14 +12,18 @@ var config = {
   imageThreshold: 1,
   imageQuality: 100,
   resizeFactor: 1, // small -> quickly
-  scriptDir: 'scripts/com.donny.bladecrafter2/images',
+  scriptDir: 'scripts/com.percent.royaldice/images',
   isRunning: false,
-  PackangName: 'com.studiodrill.bladecrafter2',
-  LaunchActivityName: 'com.studiodrill.bladecrafter2.MainActivity',
+  PackangName: 'com.percent.royaldice',
+  LaunchActivityName: 'com.unity3d.player.UnityPlayerActivity',
   TiPackangName: 'com.keramidas.TitaniumBackup',
   TiLaunchActivityName: 'com.keramidas.TitaniumBackup.MainActivity',
 };
 
+
+// 應用:Royal Dice
+// 包名:com.percent.royaldice
+// 啟動類:com.unity3d.player.UnityPlayerActivity
 
 var rbm = new RBM(config);
 rbm.init();
@@ -661,17 +665,6 @@ function tapFor(intX, intY, taptimes, pushtime, sleeptime, delaytime){  //單點
 	if (delaytime != undefined) { sleep(delaytime); }
 }
 
-function tapFor_du(intX0, intY0, intX1, intY1, taptimes, pushtime, sleeptime, delaytime){  //單點，多次連續點擊, taptimes:點擊次數, pushtime:按住時間, sleeptime:點擊間隔
-	if (taptimes == 0) {return false;}
-	for (var i = 0; i < taptimes; i++){
-		if (!config.isRunning) return false;
-		tap(intX0, intY0, 10);
-		tap(intX1, intY1, pushtime);
-		sleep(sleeptime);
-	}
-	if (delaytime != undefined) { sleep(delaytime); }
-}
-
 function swipFor(intX, intY, taptimes, pushtime, sleeptime, delaytime){  //單點，多次連續點擊, taptimes:點擊次數, pushtime:按住時間, sleeptime:點擊間隔
 	for (var i = 0; i < taptimes; i++){
 		if (!config.isRunning) return false;
@@ -738,7 +731,11 @@ function useReturn(choiceF){          //各項回授點檢查
 	
 	switch (choiceF) {
 		case  1: 
-			var img = getScreenshotModify(0, 48, 300, 1, 300, 1, 100);
+			calnX = ['', 598, 607, 647];
+			calnY = 1228;
+			calnColor = ['', 'DEDBDE', '944900', 'DEDBDE'];
+	
+			var img = getScreenshotModify(0, calnY, 650, 1, 650, 1, 100);
 			for (var j = 1; j <= 3; j++) {
 				var getColor = getpointHex(img, calnX[j], 0);
 				var isSame = isSameColorHex(getColor, calnColor[j], 30);
@@ -1073,31 +1070,11 @@ function weaponlvup(){
 	if (!useReturn(1)) return debugFc = true;
 	console.log('Weapon Lvup');
 
-	var btnC = ['', 'F1BA36', 'F07035', '78381B', '795C1A'];
-	var btnN = ['', '黃', '橘', '棕', '茶']
 	
-	menutap2(2); //切換選單2，武器頁
 
-	DIY_Fstswipe(360, 1150, 360, 800, allswspd, allswwait);  //向上滑
-	DIY_Fstswipe(360, 1140, 360, 800, allswspd, allswwait);  //向上滑
-	for (var i = 0; i <= 80; i++){
-		var pointColor = getPointcolorHex(550, 1170);                //出現棕色中斷
-		var chkColor = isSameColorHex(pointColor, btnC[3], 20);
-		if (chkColor) {break;}
-		tapFor_du(690, 200, 660, 1150, 30, 10, 10, 10); //2點最後一把武器，1點空白處
-	}
 
-	DIY_Fstswipe(360, 800, 360, 1150, allswspd, allswwait);  //向下滑
-	DIY_Fstswipe(360, 800, 360, 1150, allswspd, allswwait);  //向下滑
-	for (var i = 0; i <= 50; i++){
-		// var pointColor = getPointcolorHex(550, 850);                //出現茶色中斷
-		// var chkColor = isSameColorHex(pointColor, btnC[4], 20);
-		// if (chkColor) {break;}
-		var pointColor = getPointcolorHex(210, 1230);                //出現NEW中斷
-		var chkColor = isSameColorHex(pointColor, 'FF4A2D', 20);
-		if (chkColor) {break;}
-		tapFor_du(690, 200, 660, 810, 20, 10, 10, 10); //2點第一把武器，1點空白處
-	}
+
+
 }
 
 function rebirth(upcycle, wT) {
@@ -1219,7 +1196,7 @@ function bsnewbubble() {    //自動打boss (小遊戲系列)
 		console.log('Mini Wait, j:', j);
 		var pointColor = getPointcolorHex(360, 760);
 		var chkColor = isSameColorHex(pointColor, 'E7AC30', 20);
-		if (chkColor){tapFor(365, 765, 2, 50, 100, 100); break;}  //點開始mini game / 關閉
+		if (chkColor){tapFor(365, 765, 2, 50, 100, 300); break;}  //點開始mini game / 關閉
 
 		sleep(1000);
 	}
@@ -1313,7 +1290,7 @@ function mini1samepork(Gt, DtapT, Otaps) {
 				if (chkColor){cardState[j][i] = 3;}
 				else if (cardState[j][i] == 0 && !chkColor) {
 					sleep(DtapT);
-					tapFor(pointX - 2, pointY - 2, Otaps, 30, 100, 50);  //點擊開牌
+					tapFor(pointX - 2, pointY - 2, Otaps, 40, 80, 50);  //點擊開牌
 
 					if (chk1or2 == 1) {
 						console.log('The 1st Pork!!');
@@ -1346,7 +1323,7 @@ function mini1samepork(Gt, DtapT, Otaps) {
 
 												var finditX = 50 + m * 108;
 												var finditY = 350 + n * 139;
-												tapFor(finditX, finditY, 2, 40, 80, 400);
+												tapFor(finditX, finditY, 2, 50, 80, 600);
 
 												cardState[n][m] = 3;
 												cardState[j][i] = 3;
@@ -1409,10 +1386,10 @@ function mini1samepork(Gt, DtapT, Otaps) {
 												var finditX = 50 + m * 108;
 												var finditY = 350 + n * 139;
 
-												tapFor( pointX,  pointY, 2, 50, 80, 90);
-												tapFor(finditX, finditY, 2, 50, 80, 90);
-												tapFor( pointX,  pointY, 1, 50, 80, 90);
-												tapFor(finditX, finditY, 1, 50, 80, 90);
+												tapFor(pointX, pointY, 2, 50, 80, 120);
+												tapFor(finditX, finditY, 2, 50, 80, 120);
+												tapFor(pointX, pointY, 1, 50, 80, 120);
+												tapFor(finditX, finditY, 1, 50, 80, 120);
 
 												cardState[n][m] = 3;
 												cardState[j][i] = 3;
@@ -1622,7 +1599,7 @@ function TireductGame(Tilst, sec, item, itemLv, cycle){ // 3:刷裝  4:刷寵  5
 				break;
 
 			case 5 : 
-				if (!abandonTreasures(abGrSw, item5Lv)) {
+				if (!abandonTreasures(abGrSw)) {
 					ScreenShottoPath('bladecrafter2_' + itemName[item]);
 					config.isRunning = false;
 				} break;
@@ -1640,8 +1617,6 @@ function TireductGame(Tilst, sec, item, itemLv, cycle){ // 3:刷裝  4:刷寵  5
 			case 8 : 
 				if (!abandonbackSkill(abGrSw)) {
 					ScreenShottoPath('bladecrafter2_' + itemName[item]);
-					Tireducbkup(1, 2);  //列表  還原/備份
-					chkGameOK(sec);
 					config.isRunning = false;
 				} break;
 
@@ -1702,31 +1677,32 @@ function Tireducbkup(lst, mod) {  //lst:點選列表第幾個  mod: 1:還原 2:�
 	rbm.stopApp(config.PackangName); sleep(300);
 	rbm.startApp(config.TiPackangName,config.TiLaunchActivityName); sleep(100);
 
-	var tibackC = ['', '888888', '00FF00', '33B5E5', '006600', '14485C'];  //X:380 Y:147
-	var tibackS = ['', '主頁面', '備份還原', '項目選單', '還原選單', 'GG選單'];
+	var tibackC = ['', '888888', '00FF00', '33B5E5', '006600'];  //X:380 Y:147
+	var tibackS = ['', '主頁面', '備份還原', '項目選單', '還原選單'];
 	var lsY = 260 + (lst - 1) * 100;
-	var tapX = ['', 380,  90,  90,   90, 130];
-	var tapY = ['', 150, lsY, 360,  760, 870];
-	var deyT = ['', 500, 500, 500, 2000, 500];
+	var tapX = ['', 380,  90,  90,   90];
+	var tapY = ['', 150, lsY, 360,  760];
+	var deyT = ['', 500, 500, 500, 2000];
 
 	Tab_BK2:
 	for (var i = 0; i < 30; i++) {
 		var pointColor = getPointcolorHex(380, 147);
 		
-		for (var j = 1; j <= 5; j++) {
-			var chkColor = isSameColorHex(pointColor, tibackC[j], 15);
-			// console.log('TiBackup to R/B:', pointColor, tibackC[j], chkColor, i, j);
+		for (var j = 1; j <= 4; j++) {
+			var chkColor = isSameColorHex(pointColor, tibackC[j], 50);
+			// console.log('Bk R/B:', pointColor, tibackC[j], chkColor, i, j, 50);
 			
 			if (chkColor) {
+				console.log('find ' + tibackS[j]);
 				if (j == 3 && mod == 2) {
 					tapFor(tapX[j], 210, 1, 30, 100, 4000);         //j=3:mod=2:點選備份
 					break Tab_BK2;
 				} else {
 					tapFor(tapX[j], tapY[j], 1, 30, 100, deyT[j]);  //j=3:mod=1:點選還原
-					if (j == 5) {tapFor(tapX[j], tapY[j] - 30, 1, 30, 100, deyT[j])}
 					if (j == 4) {break Tab_BK2;}
 				}
 			}
+			
 		}
 
 		sleep(300)
@@ -1753,14 +1729,10 @@ function openNewItem(item, st) {
 
 	for (var i = 0; i <= st; i++){
 		if (!config.isRunning) return false;
-		// console.log('openNewItm i:', i);
+		console.log('openNewItm i:', i);
 
 		if (useReturn(item)){                                 //檢查是否有new紅泡泡(開寶箱)
 			tapFor(tapX[item], tapY[item], 1, 50, 100, 500);
-		} else {
-			var pointColor = getPointcolorHex(pntX[item], pntY[item]);      //寶物蓋牌出現確認
-			var chkColor = isSameColorHex(pointColor, 'A57B39', 20);
-			if (chkColor) {tapFor(360, 830, 1, 50, 100, dlyS[item]); break;}
 		}
 
 		if (item == 7) {
@@ -1768,6 +1740,10 @@ function openNewItem(item, st) {
 			var chkColor = isSameColorHex(pointColor, 'E7AB31', 20);
 			if (chkColor) {tapFor(360, 830, 1, 50, 100, 500);}
 		}
+		
+		var pointColor = getPointcolorHex(pntX[item], pntY[item]);      //寶物蓋牌出現確認
+		var chkColor = isSameColorHex(pointColor, 'A57B39', 20);
+		if (chkColor) {tapFor(360, 830, 1, 50, 100, dlyS[item]); break;}
 		
 		sleep(500);
 	}
@@ -1780,7 +1756,7 @@ function chkGameOK(sec) {
 		// console.log('Start Game Wait Sec:', i);
 
 		if (useReturn(1)) {
-			console.log('Game Start OK!!');
+			console.log('Game Start OK!!!!!!!!');
 			sleep(1000);
 			break;
 		}
@@ -1791,16 +1767,15 @@ function chkGameOK(sec) {
 function chkGetItem(item, itemLv, cycle) {  //secF: item=4 ==> petLv
 	if (!config.isRunning) return false;
 
-	var pointX = ['', '', '', 314, 354, 0, '', 0];
-	var pointY = ['', '', '', 538, 444, 0, '', 0];
-	var pointC = ['', '', '', 'D110FA', 'A49F67', 'FFFFFF', '', 'FFFFFF'];  
-	//4=>全傷:波烏靈:A7BCCF， 點傷:泰伊:DA8B52，武傷:羅拓:A49F67 
-	//5=>紅裝:90453A，藍裝:3F688A，坐標 x315,y403
+	// var itemName = ['', '', '', 'Gear', 'Pet', 'Treasures', ];
 
+	var pointX = ['', '', '', 314, 354, 315, '', 0];
+	var pointY = ['', '', '', 538, 444, 403, '', 0];
+	var pointC = ['', '', '', 'D110FA', 'A49F67', '90453A', '', 'FFFFFF'];  //4=>全傷:波烏靈:A7BCCF， 點傷:泰伊:DA8B52，武傷:羅拓:A49F67 //5=>紅裝:90453A
 	var pointD = ['', '', '', 20, 20, 40];
 
 	if (!refreshSw) {return true;}
-	if (item == 5 || item == 7 || item == 8) {return true;}
+	if (item == 8) {return true;}
 
 	if (item == 3 && chkGearLv(itemLv, 314, 538, 2)) {
 		return true;
@@ -1881,48 +1856,45 @@ function abandonGear(sw) {
 
 	//Gear Name Cut from 304,393 w:110 H:110
 	var abandobj = {
-		1 : [' gloves', '01騎士手套(武傷L)', '02戰士手套(點傷L)', '03妖精手套(全傷L)', '04獵人手套(暴傷L)', '05黑騎士手套(武傷M)', '06食人魔手套(點傷M)', '07森林妖精手套(全傷M)', '08----手套(暴傷M)', '09主君手套(武傷H)', '10泰坦手套(點傷H)', '11妖精王手套(全傷H)', '12惡魔獵人手套(暴傷H)'],
-		2 : [' helmet', '01矮人頭盔(妖劍L)', '02聖職者帽(神劍L)', '03傭兵頭盔(英劍L)', '04咒術師帽子(魔劍L)', '05秘銀頭盔(妖劍M)', '06女武神頭盔(神劍M)', '07劍鬥士頭盔(英劍M)', '08死亡騎士帽(魔劍M)', '09山銅頭盔(妖劍H)', '10大天使頭盔(神劍H)', '11不敗頭盔(英劍H)', '12惡魔頭盔(魔劍H)'],
-		3 : ['  armor', '01Equa080(寵傷L)', '02刀刃盔甲(必傷L)', '03召喚師盔甲(古傷M)', '04野獸盔甲(古傷H)', '05獸王盔甲(寵傷H)', '06破壞盔甲(破傷L)', '07定罪盔甲(必傷H)', '08破滅盔甲(破傷H)', '09古代召喚盔甲(古傷H)', '10紅野獸盔甲(寵傷M)'],  //   
-		4 : ['   ring', '01水晶戒指(全金L)', '02紅寶石戒指(BOSS金L)', '03哥布林戒指(蛋金L)', '04鑽石戒指(全金M)', '05閃亮紅寶石戒指(BOSS金M)', '06青色哥布林戒指(蛋金M)', '07紅鑽石戒指(全金H)', '08-----(BOSS金H)', '09哥布林王戒指(蛋金H)'],  // 
-		5 : ['earring', '01祖母綠耳環(手套L)', '02魔法師耳環(頭盔L)', '03藍寶石耳環(盔甲L)', '04閃亮祖母綠耳環(手套M)', '05大魔法師耳環(頭盔M)', '06閃亮藍寶石耳環(盔甲M)', '07燦爛的祖母綠耳環(手套H)', '08賢者耳環(頭盔H)', '09閃亮紅寶石耳環(盔甲H)']
+		1 : [' gloves', '01騎士手套(武傷L)', '02戰士手套(點傷L)', '03妖精手套(全傷L)', '04獵人手套(暴傷L)'],
+		2 : [' helmet', '01矮人頭盔(妖劍L)', '02聖職者帽(神劍L)', '03傭兵頭盔(英劍L)', '04咒術師帽子(魔劍L)'],
+		3 : ['  armor', '01Equa080(寵傷L)', '02刀刃盔甲(必傷L)', '02召喚師盔甲(古傷L)', '04野獸盔甲(古傷H)', '05獸王盔甲(寵傷H)', '06破壞盔甲(破傷L)', '07定罪盔甲(必傷H)', '08破滅盔甲(破傷H)', '09古代召喚盔甲(古傷H)'],     
+		4 : ['   ring', '01水晶戒指(全金L)', '02紅鑽石戒指(全金H)', '03哥布林戒指(蛋金L)', '04紅寶石戒指(BOSS金L)', '05哥布林王戒指(蛋金H)', '06鑽石戒指(全金M)'],  // 
+		5 : ['earring', '01祖母綠耳環(手套L)', '02魔法師耳環(頭盔L)', '02藍寶石耳環(盔甲L)']
 	}
 
+
 	var abaSwobj = {
-		1 : [' gloves', 1, 1, 1, 1, 1, 1, 1, 2, 0, 1, 2, 1],
-		2 : [' helmet', 1, 1, 1, 1, 0, 1, 1, 0, 0, 2, 1, 0],
-		3 : ['  armor', 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], 
-		4 : ['   ring', 1, 1, 1, 1, 1, 1, 0, 2, 1],
-		5 : ['earring', 1, 1, 1, 1, 1, 1, 0, 1, 1]
+		1 : [' gloves', 1, 1, 1, 1],
+		2 : [' helmet', 1, 1, 1, 1],
+		3 : ['  armor', 1, 1, 1, 1, 0, 1, 1, 1],     
+		4 : ['   ring', 1, 0, 1, 1, 1, 1],  //
+		5 : ['earring', 1, 1, 1]
 	}
 
 	rbm.keepScreenshotPartial( 300,  390, 420, 510);  //
 	for (var j = 1; j <= 5; j++) {
 		var lengthI = Object.keys(abandobj[j]).length - 1;
 		for (var i = 1; i <= lengthI; i++) {
-			var strf = '_0'; if (i >= 10) {strf = '_'}
 
 			console.log('Check Aband Gear:', abandobj[j][i]);
+			var filename = 'gear_0' + j + '_0' + i + '.png';
+			var Img1 = rbm.findImage(filename, 0.95);
+			rbm.log('Img1:', Img1);
+			
+			if (Img1 != undefined && Img1.score >= 0.95) {
+				console.log('Found Aband Gear');
+				rbm.releaseScreenshot();
 
-			if (abaSwobj[j][i] != 2) {
-				var filename = 'gear_0' + j + strf + i + '.png';
-				var Img1 = rbm.findImage(filename, 0.96);
-				rbm.log('Img1:', Img1);
-				
-				if (Img1 != undefined && Img1.score >= 0.96) {
-					console.log('Found Aband Gear');
-					rbm.releaseScreenshot();
-
-					if (abaSwobj[j][i] == 0){
-						console.log('This Gear Not to Aband');
-						return false;
-					}
-					return true;
-				} else {
-					console.log('Not Match Aband Gear');
+				if (abaSwobj[j][i] == 0){
+					console.log('This Gear Not to Aband');
+					return false;
 				}
+
+				return true;
+				
 			} else {
-				console.log('Aband Gear Not Have Picture');
+				console.log('Not Match Aband Gear');
 			}
 
 			console.log('----------------------');
@@ -1935,48 +1907,25 @@ function abandonGear(sw) {
 	return false;
 }
 
-function abandonTreasures(sw, typc) {   //typc: 1:紅 2:藍 3:紫 4:黃 5:綠
+function abandonTreasures(sw) {
 	if (!config.isRunning) return false;
 	if (sw == 0) return false;
-
-	var colortre = 0;
-	var pointC = ['', '90453A', '3F688A', '6B4689', '958F43', '3F9782'];
-	var treasC = ['', 'Red', 'blue', 'purple', 'yellow', 'green'];
-	//5=>紅裝:90453A，藍裝:3F688A，紫裝:6B4689，黃裝:958F43，綠裝:3F9782
-
-	var pointColor = getPointcolorHex(315, 396);   //y403
-	for (var k = 1; k <= 5; k++) {
-		var chkColor = isSameColorHex(pointColor, pointC[k], 30);
-		// console.log('item:', item, ', chkColor:', pointColor, pointC[item], chkColor, i);
-
-		if (chkColor) {
-			if (typc != 0 && typc !== k){
-				console.log('Target Color Code:', k,'not match', typc);
-				return true;
-			}
-
-			colortre = k;
-			console.log('Target :', treasC[k], ', Color Code:', colortre);
-			break;
-		}
-	}
-
 
 	//Gear Name Cut from 304,393 w:110 H:110
 	var tagName = {
 		1 : ['   Red', '01悲情之槍(一般怪傷)', '02受詛咒的盾牌(魔劍傷)', '03激情的一半(休息中受損)', '04審判天秤(破壞名劍傷)', '05鬥志之劍(點傷)', '06神聖羽毛(神劍傷)', '07神秘的樹枝(妖劍傷)', '08集中的髮箍(古代名劍傷)', '09勇猛的髮箍(英劍傷)', '10極光立方體(英妖劍傷)'],
-		2 : ['  Blue', '01魔女寶珠(金x10)', '02神秘鈴鐺(百寶%)', '03世界樹的果實(MAX MP)', '04冰劍(火傷)', '05魔法師葫蘆瓶()', '06哥布林笛子', '07受詛咒的鐵棍', '08英雄披風', '09懺悔之鏡', '10智慧藥水', '11精靈耳環(憤怒-MP)', '12青色種子', '13大地之杖(水傷)'],
-		3 : ['Purple', '01龍之靴(寵技點)', '02黑暗之劍(光傷)', '03召喚師的鏡子', '04獸王戒指'],  
-		4 : ['yellow', '01火花鞭(地傷)', '02幸運硬幣', '03黃金雞蛋', '04光之飛鏢(暗傷)', '05貪婪的契約書'], 
-		5 : [' green', '01英雄信物']
+		2 : ['  Blue'],
+		3 : ['Purple'],  
+		4 : ['yellow'], 
+		5 : [' green']
 	}
 
 	var tagSwitch = {
 		1 : ['   Red', 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-		2 : ['  Blue', 1, 1, 1, 1, 1, 1, 1, 1],
-		3 : ['Purple', 1, 1, 1, 1],  
-		4 : ['yellow', 1, 1, 1, 1, 0],
-		5 : [' green', 1]
+		2 : ['  Blue'],
+		3 : ['Purple'],  
+		4 : ['yellow'],
+		5 : [' green']
 	}
 
 	var chkItemName = 'Treasures'
@@ -1985,12 +1934,9 @@ function abandonTreasures(sw, typc) {   //typc: 1:紅 2:藍 3:紫 4:黃 5:綠
 	for (var j = 1; j <= 5; j++) {
 		var lengthI = Object.keys(tagName[j]).length - 1;
 		for (var i = 1; i <= lengthI; i++) {
-			if (j != colortre) {break;}
-			var strf = '_0'
-			if (i >= 10) {strf = '_'}
 
 			console.log('Check Aband ' + chkItemName + ':', tagName[j][i]);
-			var filename = 'Treasures_0' + j + strf + i + '.png';
+			var filename = 'Treasures_0' + j + '_0' + i + '.png';
 			var Img1 = rbm.findImage(filename, 0.95);
 			rbm.log('Img1:', Img1);
 			
@@ -2014,7 +1960,6 @@ function abandonTreasures(sw, typc) {   //typc: 1:紅 2:藍 3:紫 4:黃 5:綠
 	sleep(100);
 
 	console.log('Not Found Aband ' + chkItemName + ' !!');
-	// return true;
 	return false;
 }
 
@@ -2199,26 +2144,89 @@ function RelicLvChk() {
 	return -2;
 }
 
+// =============LittleHWA==============================================
+
+Function RedustartGame(lst, mod, wt){
+	Tireducbkup(1, 1);//lst:點選列表第幾個  mod: 1:還原 2:備份
+	chkGameOK(wt) //StartGame Check
+	
+}
+
 // ===========================================================
 
 function main(){       //主流程
 	if (!config.isRunning) return false;
 
-	if (Features == 1) {
-		var bsnewBB = bsnewbubble();
-		var mgnewBB = mgnewbubble();
-		if (!mgnewBB && !bsnewBB) {
-			farmermedia(mstdncycle, totaltaptime, maintaptimes, lvuptaptimes);
-			rebirth(rebupcycle, rebirthwait);
-		}
-		playMiniGame();
-		debug(debugTmrChk);
-	} else if (Features ==2) {
-		weaponlvup();
 
-	} else {
-		TireductGame(1, 40, Features, itemLv[Features], 3); //(tilst, sec, item, secF, cycle)
+	console.log('每日任務');
+	//每日任務
+	var pointColor = getPointcolorHex(67, 281);
+	var chkColor = isSameColorHex(pointColor, 'F7C117', 20);
+	if (chkColor) {
+		tapFor(67, 281, 1, 20, 10, 500);//單點，多次連續點擊, taptimes:點擊次數, pushtime:按住時間, sleeptime:點擊間隔
+		tapFor(218, 410, 1, 20, 10, 300);
+		tapFor(354, 820, 1, 20, 10, 300);
+		tapFor(354, 410, 1, 20, 10, 300);
+		tapFor(354, 820, 1, 20, 10, 300);
+		tapFor(492, 410, 1, 20, 10, 300);
+		tapFor(354, 820, 1, 20, 10, 300);
+		tapFor(621, 195, 1, 20, 10, 300);
+		tapFor(631, 1199, 1, 20, 10, 1300);//跳頁
 	}
+	console.log('確認商店頁免費是否是鑽石');
+	sleep(1000);
+	//確認商店頁免費是否是鑽石
+	var pointColor = getPointcolorHex(148, 1010);
+	var chkColor = isSameColorHex(pointColor, '02EFE5', 20);
+	if (chkColor) {
+		console.log('是鑽石');
+		tapFor(148, 1010, 1, 20, 10, 800);
+		tapFor(375, 771, 1, 20, 10, 500);
+		// Tireducbkup(1, 1);//lst:點選列表第幾個  mod: 1:還原 2:備份
+		// sleep(35000);
+		RedustartGame(1, 1, 60);
+	}
+	console.log('確認商店頁免費是否是金幣');
+	sleep(1000);
+	//確認商店頁免費是否是金幣
+	var pointColor = getPointcolorHex(151, 1026);
+	var chkColor = isSameColorHex(pointColor, 'FFE410', 20);
+	if (chkColor) {
+		console.log('是金幣');
+		tapFor(151, 1026, 1, 20, 10, 800);
+		console.log('點了');
+		tapFor(375, 771, 1, 20, 10, 500);
+		// Tireducbkup(1, 1);//lst:點選列表第幾個  mod: 1:還原 2:備份
+		// sleep(35000);
+		RedustartGame(1, 1, 60);
+	}
+	console.log('確認商店頁免費是否是箱子');
+	sleep(1000);
+	//確認商店頁免費是否是箱子
+	var pointColor = getPointcolorHex(151, 1012);
+	var chkColor = isSameColorHex(pointColor, 'A56849', 20);
+	if (chkColor) {
+		console.log('是箱子');
+		DIY_swipe(300, 900, 350, 250, 100, 60);
+		sleep(1000);
+		tap(97,251);tap(367,1133);//同時點擊
+		sleep(3000);
+		var pointColor = getPointcolorHex(365, 905);
+		var chkColor = isSameColorHex(pointColor, 'EFDB6A', 20);
+		if (chkColor) {
+			tapFor(365, 905, 1, 20, 10, 1000);//打開
+			tapFor(368, 640, 1, 20, 10, 1000);//正中間
+			// Tireducbkup(1, 1);//lst:點選列表第幾個  mod: 1:還原 2:備份
+			// sleep(35000);
+			RedustartGame(1, 1, 60);
+		}
+	}
+		
+
+	sleep(1000);
+
+
+
 }
 
 // ===========================================================
@@ -2239,9 +2247,9 @@ function setFirstTimer() {   //預設值設定
 	mnstColor = 'FAE010';
 	gpoint = [];
 
-	calnX = ['', 156, 163, 193];
-	calnY = 48;
-	calnColor = ['', 'DF110D', '7B797B', '0079DE'];
+	calnX = ['', 598, 607, 647];  //FOR ROY
+	calnY = 1228;
+	calnColor = ['', 'DEDBDE', '944900', 'DEDBDE'];
 
 	debugTimer = Date.now();   //debug initial
 	debugFc = false;
@@ -2266,7 +2274,7 @@ function setFirstsetting() {
 	treaStone = 1;      //轉生後自動石板升級
 
 	mini1play  =   1;  //minigame1 開關
-	mini1DtapT =  110;  //minigame1 開牌前延遲時間
+	mini1DtapT = 130;  //minigame1 開牌前延遲時間
 	mini1Taps  =   4;  //minigame1 開牌點擊次數  
 
 	mini2play =  1;  //minigame2 開關
@@ -2285,16 +2293,17 @@ function setFirstsetting() {
 
 	debugTmrChk = 5;  //畫面異常多久觸發debug執行
 
-	//===========================================================================//
-	Features  = 2;    //1:主角刷 /2武器刷 / 3裝備 /4寵物 /5寶物 /7每日獎勵 /8背動技 //
-	//==========================================================================//
+	//==================================================================//
+	Features  = 8;    //1:正常腳本/ 3裝備 /4寵物 /5寶物 /7每日獎勵 /8背動技//
+	//==================================================================//
+
 
 	refreshSw = 1;    //循環刷開關
 	abGrSw    = 1;    //裝備放棄 比對開關
 
 	item3Lv   = 4;    //裝備目標等級  /1:白 2:藍 3:綠 4:紅 5:黃
+
 	item4Lv   = 1;    //寵物目標等級
-	item5Lv   = 0;    //寶物分類   0:全 1:紅 2:藍 3:紫 4:黃 5:綠
 
 	item7Lv   = 4;    //每日獎勵 裝備 目標等級  /1:白 2:藍 3:綠 4:紅 5:黃
 	item7Pc   = 1;    //每日獎勵 目標個數
@@ -2312,7 +2321,13 @@ function test(cycle, DT){
 			setFirstTimer();     //設定初始時間值
 		} else if (n >= 1) {
 			console.log('n = ', n, '/', cycle, ', CRA 腳本開始');
-			
+			// abandonGear(1);
+
+			// chkDalyGearLv(4, 2);
+			// abandonbackSkill();
+
+			// Tireducbkup(1, 1);  //列表  還原/備份
+
 			while(config.isRunning) {main();} 
 
 			// console.log('n = ', n, ', CRA 腳本結束');

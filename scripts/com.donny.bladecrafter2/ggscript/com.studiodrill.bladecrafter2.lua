@@ -29,7 +29,7 @@ function  petSkillTime(str1, str2)
 
 		elseif rc > 1 then
 			gg.processResume()  --取消暫停
-			gg.sleep(1500)      --延時ms
+			gg.sleep(1200)      --延時ms
 			gg.processPause()   --遊戲暫停
 
 		elseif i == 16 then
@@ -65,9 +65,9 @@ menu = gg.choice({  '1. Pet Big Skill Lock!!(1~200)',
 if menu == 0 then					 
 elseif menu == 1 then scnum1 = '0;1~200;100~200::11' scnum2 = '1~200'
 elseif menu == 2 then scnum1 = '0;150~200;100~200::11' scnum2 = '150~200'
-elseif menu == 3 then scnum1 = '0;100~150;100~200::11' scnum2 = '100~150'
-elseif menu == 4 then scnum1 = '0;50~100;100~200::11' scnum2 = '50~100'
-elseif menu == 5 then scnum1 = '0;1~50;100~200::11' scnum2 = '1~50'
+elseif menu == 3 then scnum1 = '0;100~150;100~200::11' scnum2 = '100~200'
+elseif menu == 4 then scnum1 = '0;50~100;100~200::11' scnum2 = '50~150'
+elseif menu == 5 then scnum1 = '0;1~50;100~200::11' scnum2 = '1~100'
 else print('Subscribe My Channel → ------')
 end
  
