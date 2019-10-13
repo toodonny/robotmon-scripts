@@ -1192,10 +1192,12 @@ function mgnewbubble() {
 		console.log('Mini Wait, j:', j);
 		var pointColor = getPointcolorHex(360, 760);
 		var chkColor = isSameColorHex(pointColor, 'E7AC30', 20);
-		if (chkColor){tapFor(365, 765, 2, 50, 100, 500); return true;}  //點開始mini game / 關閉
+		if (chkColor){tapFor(365, 765, 2, 50, 100, 500); break;}  //點開始mini game / 關閉
 
 		sleep(1000);
 	}
+	console.log('return true;')
+	return true;
 }
 
 function bsnewbubble() {    //自動打boss (小遊戲系列)
@@ -1230,7 +1232,7 @@ function bsnewbubble() {    //自動打boss (小遊戲系列)
 function playMiniGame() {
 	if (!config.isRunning) return false;
 
-	for (var i = 1; i <= 10; i++) {
+	for (var i = 1; i <= 5; i++) {
 		if (!config.isRunning) return false;
 
 		var chkGame123 = minigameclock();
@@ -1586,15 +1588,18 @@ function TireductGame(Tilst, sec, item, itemLv, cycle){ // 3:刷裝  4:刷寵  5
 	if (!config.isRunning) return false;
 	if (Features < 3 || Features > 8 ) return false;
 	if (Features == 6) return false;
-	if (bsnewBB || mgnewBB) return false;
+	// if (bsnewBB || mgnewBB) return false;
+	console.log('TireductGame');
 
 	Tireducbkup(1, 1);  //列表  還原/備份
 	chkGameOK(sec);
 
-	sleep(500);
-	bsnewBB = bsnewbubble();
-	mgnewBB = mgnewbubble();
-	if(bsnewBB || mgnewBB) {return false;}
+	sleep(200);
+	if(bsnewbubble() || mgnewbubble()) {
+		playMiniGame();
+		chkGameOK(sec);
+		// return false;
+	}
 
 	menutap2(item);
 	openNewItem(item, 50);
@@ -1878,18 +1883,18 @@ function abandonGear(sw) {
 
 	//Gear Name Cut from 304,393 w:110 H:110
 	var abandobj = {
-		1 : [' gloves', '01騎士手套(武傷L)', '02戰士手套(點傷L)', '03妖精手套(全傷L)', '04獵人手套(暴傷L)', '05黑騎士手套(武傷M)', '06食人魔手套(點傷M)', '07森林妖精手套(全傷M)', '08----手套(暴傷M)', '09主君手套(武傷H)', '10泰坦手套(點傷H)', '11妖精王手套(全傷H)', '12惡魔獵人手套(暴傷H)'],
+		1 : [' gloves', '01騎士手套(武傷L)', '02戰士手套(點傷L)', '03妖精手套(全傷L)', '04獵人手套(暴傷L)', '05黑騎士手套(武傷M)', '06食人魔手套(點傷M)', '07森林妖精手套(全傷M)', '08哥布林獵人手套(暴傷M)', '09主君手套(武傷H)', '10泰坦手套(點傷H)', '11妖精王手套(全傷H)', '12惡魔獵人手套(暴傷H)'],
 		2 : [' helmet', '01矮人頭盔(妖劍L)', '02聖職者帽(神劍L)', '03傭兵頭盔(英劍L)', '04咒術師帽子(魔劍L)', '05秘銀頭盔(妖劍M)', '06女武神頭盔(神劍M)', '07劍鬥士頭盔(英劍M)', '08死亡騎士帽(魔劍M)', '09山銅頭盔(妖劍H)', '10大天使頭盔(神劍H)', '11不敗頭盔(英劍H)', '12惡魔頭盔(魔劍H)'],
 		3 : ['  armor', '01Equa080(寵傷L)', '02刀刃盔甲(必傷L)', '03召喚師盔甲(古傷M)', '04野獸盔甲(古傷H)', '05獸王盔甲(寵傷H)', '06破壞盔甲(破傷L)', '07定罪盔甲(必傷H)', '08破滅盔甲(破傷H)', '09古代召喚盔甲(古傷H)', '10紅野獸盔甲(寵傷M)'],  //   
-		4 : ['   ring', '01水晶戒指(全金L)', '02紅寶石戒指(BOSS金L)', '03哥布林戒指(蛋金L)', '04鑽石戒指(全金M)', '05閃亮紅寶石戒指(BOSS金M)', '06青色哥布林戒指(蛋金M)', '07紅鑽石戒指(全金H)', '08-----(BOSS金H)', '09哥布林王戒指(蛋金H)'],  // 
-		5 : ['earring', '01祖母綠耳環(手套L)', '02魔法師耳環(頭盔L)', '03藍寶石耳環(盔甲L)', '04閃亮祖母綠耳環(手套M)', '05大魔法師耳環(頭盔M)', '06閃亮藍寶石耳環(盔甲M)', '07燦爛的祖母綠耳環(手套H)', '08賢者耳環(頭盔H)', '09閃亮紅寶石耳環(盔甲H)']
+		4 : ['   ring', '01水晶戒指(全金L)', '02紅寶石戒指(BOSS金L)', '03哥布林戒指(蛋金L)', '04鑽石戒指(全金M)', '05閃亮紅寶石戒指(BOSS金M)', '06青色哥布林戒指(蛋金M)', '07紅鑽石戒指(全金H)', '08燦爛的誕寶石戒指(BOSS金H)', '09哥布林王戒指(蛋金H)'],  // 
+		5 : ['earring', '01祖母綠耳環(手套L)', '02魔法師耳環(頭盔L)', '03藍寶石耳環(盔甲L)', '04閃亮祖母綠耳環(手套M)', '05大魔法師耳環(頭盔M)', '06閃亮藍寶石耳環(盔甲M)', '07燦爛的祖母綠耳環(手套H)', '08賢者耳環(頭盔H)', '09燦爛的藍寶石耳環(盔甲H)']
 	}
 
 	var abaSwobj = {
-		1 : [' gloves', 1, 1, 1, 1, 1, 1, 1, 2, 0, 1, 2, 1],
+		1 : [' gloves', 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 2, 1],
 		2 : [' helmet', 1, 1, 1, 1, 0, 1, 1, 0, 0, 2, 1, 0],
 		3 : ['  armor', 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], 
-		4 : ['   ring', 1, 1, 1, 1, 1, 1, 0, 2, 1],
+		4 : ['   ring', 1, 1, 1, 1, 1, 1, 0, 0, 1],
 		5 : ['earring', 1, 1, 1, 1, 1, 1, 0, 1, 1]
 	}
 
@@ -2201,22 +2206,23 @@ function RelicLvChk() {
 function main(){       //主流程
 	if (!config.isRunning) return false;
 
-	bsnewBB = bsnewbubble();
-	mgnewBB = mgnewbubble();
-	if (!mgnewBB && !bsnewBB) {
-		if (Features == 1) {
+	if (Features == 1) {
+		bsnewBB = bsnewbubble();
+		mgnewBB = mgnewbubble();
+		console.log('bs:', bsnewBB, ', mgnewBB:', mgnewBB);
+		if (!mgnewBB && !bsnewBB) {
 			farmermedia(mstdncycle, totaltaptime, maintaptimes, lvuptaptimes);
 			rebirth(rebupcycle, rebirthwait);
-			debug(debugTmrChk);
-
-		} else if (Features ==2) {
-			weaponlvup();
-
-		} else {
-			TireductGame(1, 40, Features, itemLv[Features], 3); //(tilst, sec, item, secF, cycle)
 		}
-	} else {
 		playMiniGame();
+		debug(debugTmrChk);
+
+	} else if (Features ==2) {
+		weaponlvup();
+
+	} else {
+		console.log('Feature: 3, 4, 5, 8');
+		TireductGame(1, 40, Features, itemLv[Features], 3); //(tilst, sec, item, secF, cycle)
 	}
 }
 
@@ -2250,6 +2256,7 @@ function setFirstTimer() {   //預設值設定
 	
 	bsnewBB = true;   //小遊戲 new確認點
 	mgnewBB = true;   //打BOSS new確認點
+	gsmgnewBB = true;  //小遊戲/打BOSS new確認點
 
 }
 

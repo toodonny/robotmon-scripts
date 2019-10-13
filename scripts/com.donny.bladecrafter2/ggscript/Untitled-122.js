@@ -2146,7 +2146,11 @@ function RelicLvChk() {
 
 // =============LittleHWA==============================================
 
-Function RedustartGame(lst, mod, wt){
+function edu(lst, mod, wt) {
+
+}
+
+Function edustartGame(lst, mod, wt) {
 	Tireducbkup(1, 1);//lst:點選列表第幾個  mod: 1:還原 2:備份
 	chkGameOK(wt) //StartGame Check
 	

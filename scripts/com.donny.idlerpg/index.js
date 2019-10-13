@@ -78,7 +78,8 @@ function checkPointcolor(intX, intY, diff, strRGB) {  //return
     var getpoint = getImageColor(img, 0, 0);
 	var check = isSameColor({b:checkb, g:checkg, r:checkr, a:checka}, getpoint, diff);
 	releaseImage(img);
-	//rbm.log('getpoint:', getpoint);
+	// rbm.log('orgpoint:', {b:checkb, g:checkg, r:checkr})
+	// rbm.log('getpoint:', getpoint);
 	return check;
 }
 
@@ -578,13 +579,13 @@ function useReturn(choiceF){          //各項回授點檢查
 	//console.log('各項升級限制條件');
 	
 	switch (choiceF) {
-		case  1: return CheckImageTap( 625,   10, 710,   70, 0.85, 'mainpagebutton.png', 1, 1, 1, 50, 2);    return;   //右上功能圖示
-		case  2: return CheckImageTap( 170,   10, 220,   50, 0.80, 'speedx2.png', 1, 1, 1, 50, 2);           return;   //檢查2倍速圖示
-		case  3: return CheckImageTap( 310,  590, 410,  690, 0.85, 'ADbox.png', 1, 1, 1, 50, 2);             return;   //檢查寶箱看廣告
-		case  4: return CheckImageTap(   0,  580, 110,  820, 0.85, 'speedX2icon.png', 1, 1, 1, 50, 2);       return;   //2倍速選單圖示
-		case  5: return CheckImageTap( 310,  590, 410,  690, 0.85, 'ADbox.png', 1, 1, 1, 50, 2);             return;   //看廣告藍色三角
-		case  6: return CheckImageTap( 230,  690, 280,  790, 0.85, 'heroHarticon.png', 1, 1, 1, 50, 2);      return;   //英雄頁面第一人愛心
-		case  7: return CheckImageTap( 240,  590, 400,  630, 0.85, 'lvupallhero.png', 1, 1, 1, 50, 2);       return;   //英雄頁面全英雄升級文字
+		case  1: return CheckImageTap( 625,   10, 710,   70, 0.85, 'mainpagebutton.png', 1, 1, 1, 50, 2);    return;   //右上功能圖示 OK
+		case  2: return CheckImageTap( 170,   10, 220,   50, 0.80, 'speedx2.png', 1, 1, 1, 50, 2);           return;   //檢查2倍速圖示 OK
+		case  3: return CheckImageTap( 310,  590, 410,  690, 0.85, 'ADbox.png', 1, 1, 1, 50, 2);             return;   //檢查寶箱看廣告  OK
+		case  4: return CheckImageTap(   0,  580, 110,  820, 0.85, 'speedX2icon.png', 1, 1, 1, 50, 2);       return;   //2倍速選單圖示 OK
+		case  5: return
+		case  6: return CheckImageTap( 220,  600, 340,  700, 0.85, 'lvupallhero2.png', 1, 1, 1, 50, 2);      return;   //英雄頁面全英雄升級文字
+		case  7: return CheckImageTap( 240,  600, 400,  700, 0.85, 'lvupallhero.png', 1, 1, 1, 50, 2);       return;   //英雄頁面全英雄升級文字 Y差 +60 ok
 		case  8: return CheckImageTap( 110, 1210, 310, 1280, 0.85, 'guildChaticon.png', 1, 1, 1, 50, 2);     return;   //工會聊天室圖示
 		case  9: return CheckImageTap( 270,   60, 500,  375, 0.85, 'dailystr.png', 1, 1, 1, 50, 2);          return;   //每日獎勵字樣
 		
@@ -617,14 +618,11 @@ function useReturn(choiceF){          //各項回授點檢查
 		case 41: return CheckImageTap( 270,  980, 450, 1050, 0.90, 'reincarnationNG.png', 1, 1, 1, 50, 2);   return;  //未滿140關提示
 		case 42: return CheckImageTap2( 110, 480, 160,  820, 0.90, 'ascending_prismicon.png', 'ascending_goldicon.png', 1, 1, 1, 50, 2);   return;  //輪回畫面確認
 		
-		case 50: return checkPointcolor3(360, 640, 40, '00BEFF', 360, 660, 40, 'FFFFFF', 360, 760, 40, '6D370C'); return;   //看box廣告圖示點
-		case 51: return checkPointcolor3(286, 493, 50, '0091E0', 290, 493, 50, '003067', 300, 493, 50, '305985'); return;   //物品數量小G
-		//case 511: return CheckImageTap( 260,  460, 320, 520, 0.60, 'Gicon.png', 1, 1, 1, 50, 2, 1);   return;  //物品數量小G
-		case 52: return checkPointcolor3( 15, 495, 50, '0168A5', 125, 495, 50, 'B31B0F', 240, 495, 50, '45681F'); return;   //材料地下城材料清單
+		case 50: return checkPointcolor3(360, 640, 40, '00BEFF', 360, 660, 40, 'FFFFFF', 360, 760, 40, '6D370C'); return;   //看box廣告圖示點 ok
+		case 51: return checkPointcolor3(286, 513, 50, '0091E0', 290, 513, 50, '003067', 300, 513, 50, '305985'); return;   //物品數量小G 新版y差+20 ok
+		case 52: return checkPointcolor3( 15, 515, 50, '0168A5', 125, 515, 50, 'B31B0F', 240, 515, 50, '45681F'); return;   //材料地下城材料清單 新版y差+20 ok
 		
 		case 61: return checkPointcolor3( 42, 435, 50, 'FFA800',  51, 432, 50, 'FFA800',  51, 440, 50, 'FFA800'); return;   //對話頻道橘色驚嘆號
-
-		case 71: return CheckImageTap( 220,  575, 340,  650, 0.85, 'lvupallhero2.png', 1, 1, 1, 50, 2);          return;   //英雄頁面全英雄升級文字
 		
 		case 81: return CheckImageTap( 300,  340, 415,  380, 0.90, 'areafightchoice.png', 1, 1, 1, 50, 2);       return;   //競技場挑戰對手文字
 		case 82: return CheckImageTap( 390,   70, 440,  140, 0.90, 'arena_rest.png', 1, 1, 1, 50, 2);            return;   //競技場商店文字，當日停戰
@@ -643,13 +641,13 @@ function recoNum(choiceF) {        //各項數字辨識
 		case  1: return	num_Recognition(320, 16, 395, 50, 0.85, 'num_Reco/idle_stage_num/idle_stage_num3_'); break;  //關卡數
 		case  2:
 			//每日地城目前票數
-			rbm.keepScreenshotPartial(180, 525, 370, 545);  //Indentification Ticks
+			rbm.keepScreenshotPartial(180, 540, 370, 570);  //Indentification Ticks
 			var targetImg = rbm.findImage('num_Reco/dalydueng_num/dalyduengtick1_num_-.png', 0.90);
 			rbm.releaseScreenshot();
 			// if(targetImg != undefined) {rbm.log(targetImg);}
 			if (targetImg != undefined && targetImg.score >= 0.90) {
 				// rbm.log(9999, targetImg.x - 30, 525, targetImg.x, 545, 0.90)
-				return num_Recognition(targetImg.x - 30, 525, targetImg.x, 545, 0.90, 'num_Reco/dalydueng_num/dalyduengtick1_num_');
+				return num_Recognition(targetImg.x - 30, 540, targetImg.x, 570, 0.90, 'num_Reco/dalydueng_num/dalyduengtick1_num_');
 			}		
 			return -1;
 			break;  //
@@ -680,7 +678,7 @@ function recoNum(choiceF) {        //各項數字辨識
 
 //==============================遊戲function=====================================//
 
-function lvupHero(stageMin, lvupl, Timer) {  //	
+function lvupHero(stageMin, lvupl, Timer) {  //	   OK
 	if (!config.isRunning || Date.now() < lvupHeroTimer) return false;	
 	// if (stage > 0 && totallvupstage > 0 &&  stage <= totallvupstage) {return false;}
 	// if (herogoldlvmin >= lvuplimitSw) return false;
@@ -710,9 +708,9 @@ function lvupHero(stageMin, lvupl, Timer) {  //
 		if (useReturn(1)) {
 			choiceMenu(1);
 			
-			// console.log('7;', useReturn(7), ', 71;', useReturn(71));
+			console.log('7;', useReturn(7), ', 6;', useReturn(6));
 			if (useReturn(7)) { var heroheart = 1; }
-			else if (useReturn(71)) { var heroheart = 2; }
+			else if (useReturn(6)) { var heroheart = 2; }
 			else { var heroheart = 0; }
 			
 			if (heroheart > 0) {
@@ -758,15 +756,18 @@ function lvupHero(stageMin, lvupl, Timer) {  //
 							herogoldlvmin = totallv.goldlvmin							
 						}
 						
+
+						
 						var tapY =  Img2.y - 5 + 106 * (5 - 1)
 						// if (checkPointcolor(580, tapY, 20, '8C4800')) {  //最後一人不能升級跳出
 						// 	lvupHeroTimer =  Date.now() + Timer * 1000;
 						// 	return false;
 						// }
 						
+						//英雄升級
 						for (var k = 1; k <= harts; k++){
 							if (!config.isRunning) return false;
-							
+							console.log('=========Hero Tap Lv Up=========, k:', k);
 							var tapY = Img2.y - 5 + 106 * (k - 1);
 							
 							var nowgoldlv = Hero.information[k-1].goldlv;
@@ -803,7 +804,7 @@ function lvupHero(stageMin, lvupl, Timer) {  //
 	}	
 }
 
-function heroinformation(intX, intY) {  //英雄訊息
+function heroinformation(intX, intY) {  //英雄訊息  OK
 	if (!config.isRunning) return false;
 	
 	var attribcolor = new Array( '', '0083C6', 'A80000', '587C00', 'E3BB00', '2C1268')
@@ -1068,19 +1069,22 @@ function villagerobotplant() {  //村莊機器人判斷
 
 function lvupTap(uplv, intY, strOK, strNG) {  //英雄、村莊升級
 	if (!config.isRunning) return false;
-	var lvupX = new Array( 20, 580, 540, 440, 340);
+	console.log('Lv Up Tap!!');
+
+	var lvupX = [20, 580, 540, 440, 340];
 	var lvupCheckNG = checkPointcolor(lvupX[1], intY, 30, strNG);
 	var lvupCheckOK = checkPointcolor(lvupX[1], intY, 30, strOK);
-	
+	console.log('lvupCheckNG', lvupCheckNG, ', lvupCheckOK', lvupCheckOK);
+
 	if (lvupCheckNG) {return false;}
 	if (lvupCheckOK) {
 		if (uplv > 1) {		
-			DIY_swipe(lvupX[1], intY, 160, intY, 120, 50);
+			DIY_swipe(lvupX[1], intY, 160, intY, 120, 200);
 		}
 		for (var j = uplv; j >= 1; j--){
-			// checkPointcolorTap(lvupX[j], intY, 40, strOK, 1, 1, lvupTaps[j], 80, 1);
+			checkPointcolorTap(lvupX[j], intY + 3, 40, strOK, 1, 1, lvupTaps[j], 80, 1);
 			if (lvupTaps[j] > 0) {
-				var checkcolor = checkPointcolor(lvupX[j], intY, 40, strOK);
+				var checkcolor = checkPointcolor(lvupX[j], intY + 3, 40, strOK);
 				if (checkcolor) {
 					tapFor(lvupX[j], intY, lvupTaps[j], 40, 60, 30);
 				}
@@ -1092,12 +1096,12 @@ function lvupTap(uplv, intY, strOK, strNG) {  //英雄、村莊升級
 	return true;
 }
 
-function tapBox(vdX, mode) {  //點寶箱  mode: 1:刷關  2:寶箱
+function tapBox(vdX, mode) {  //點寶箱  mode: 1:刷關  2:寶箱    OK
 	if (!config.isRunning) return false;
 	if (!useReturn(2)) getADSpeed();
 	// if (useReturn(50)) {console.log('top:ADBox'); getADBox();}
 	if (!useReturn(51) && !useReturn(52)) return false;
-	//console.log('寶箱亂亂點之術');
+	console.log('寶箱亂亂點之術');
 	
 	var bossStage = stage % 100  //0:為boss關
 	
@@ -1105,7 +1109,7 @@ function tapBox(vdX, mode) {  //點寶箱  mode: 1:刷關  2:寶箱
 	
 	//console.log('1:', useReturn(1));
 	if (useReturn(1)) {
-		checkPointcolorTap(690, 490, 20, 'FFFFFF', 0, 0, 2, 100, 1)
+		checkPointcolorTap(690, 510, 20, 'FFFFFF', 0, 0, 2, 100, 1)
 		
 		if (mode == 1) {
 			if (bossStage != 0) {
@@ -1123,7 +1127,7 @@ function tapBox(vdX, mode) {  //點寶箱  mode: 1:刷關  2:寶箱
 		else if (mode == 2) {
 			if (bossStage != 0) {
 				tapFor(40, 410, tapRLtimeSw, 50, 50, afterRLDySw);
-				var crystalR = checkCrystal(1, crystalCKSw, 4);
+				var crystalR = checkCrystal(1, crystalCKSw, 2);
 				tapBoxXY(1, 1, vdX);
 			}
 			
@@ -1131,29 +1135,31 @@ function tapBox(vdX, mode) {  //點寶箱  mode: 1:刷關  2:寶箱
 			
 			tapFor(680, 410, tapRLtimeSw, 50, 50, afterRLDySw);
 			if (bossStage != 0) {
-				var crystalR = checkCrystal(2, crystalCKSw, 4);
+				var crystalR = checkCrystal(2, crystalCKSw, 2);
 			}
 			tapBoxXY(2, 1, vdX);
 		}
 	
 		//if (crystalR != undefined || bossStage == 0 || mode == 1) {}
-			tapSkill(5);
+		tapSkill(5);
 
-			if (mode == 2) {
-				sleep(skillslepSw);
-			}
+		if (mode == 2) {
+			sleep(skillslepSw);
+		}
 		
 		if (useReturn(50)) { getADBox();}  //console.log('bot:ADBox');
 	}
 }
 
-function checkCrystal(modLR, times, pics) {   //檢查左右水晶
+function checkCrystal(modLR, times, pics) {   //檢查左右水晶   OK
 	if (!config.isRunning) return false;
 	//console.log('水晶坐標定義');
 	
 	var crystalXY = { 
-	    1: ['Left :', 140, 275, 185, 335], //左水晶
-	    2: ['Right:', 520, 275, 565, 335]  //右水晶
+	    // 1: ['Left :', 140, 275, 185, 335], //左水晶
+	    // 2: ['Right:', 520, 275, 565, 335]  //右水晶
+	    1: ['Left :',  69, 245, 140, 335], //左水晶
+	    2: ['Right:', 510, 245, 590, 335]  //右水晶
 	}; 	
 	
 	//console.log('水晶坐標定義', crystalXY[modLR][0], crystalXY[modLR][1], crystalXY[modLR][2], crystalXY[modLR][3], crystalXY[modLR][4]);
@@ -1161,7 +1167,7 @@ function checkCrystal(modLR, times, pics) {   //檢查左右水晶
 	for (var j = 1; j <= times; j++){
 		rbm.keepScreenshotPartial( crystalXY[modLR][1], crystalXY[modLR][2], crystalXY[modLR][3], crystalXY[modLR][4]);  //水晶位置抓圖
 		for (var i = 1; i <= pics; i++) {
-			var Img = rbm.findImage('crystal2_' + i + '.png', 0.80);
+			var Img = rbm.findImage('crystal3_' + i + '.png', 0.75);
 			//rbm.log(crystalXY[modLR][0], j, i, Img);
 			//if (Img != undefined) { rbm.log(crystalXY[modLR][0], j, i, Img); break; }
 			if (Img != undefined) { break; }
@@ -1174,14 +1180,14 @@ function checkCrystal(modLR, times, pics) {   //檢查左右水晶
 	return Img;
 }
 
-function tapBoxXY(modLR, times, vdX2) {  //路上連點
+function tapBoxXY(modLR, times, vdX2) {  //路上連點  OK
 	if (!config.isRunning) return false;
 	if (!getADBoxSw) return false;
 	//console.log('路上連點');
 
 	var tapX = { 
-	    1: ['Left X: ', 210, 325, ''], //左半邊
-	    2: ['Right X:',  10, 325, '']  //右半邊
+	    1: ['Left  X:', 210, 265, ''], //左半邊  新版 [2]y差值 -60 ok
+	    2: ['Right X:',  10, 265, '']  //右半邊  新版 [2]y差值 -60 ok
 	}; 		
 		
 	var dX = ( 720 - 220 ) / vdX2
@@ -1189,30 +1195,34 @@ function tapBoxXY(modLR, times, vdX2) {  //路上連點
 		for (var j = 1; j <= vdX2 + 1; j++){
 			if (!config.isRunning) return false;
 			var tapBX = tapX[modLR][1] + dX * (j - 1);
-			tapFor(tapBX, tapX[modLR][2], 1, 50, 50);
+			tapFor(tapBX, tapX[modLR][2], 1, 20, 10);
 			tapX[modLR][3] = tapX[modLR][3] + tapBX + ', ';
 		}
 	}
 	//console.log(tapX[modLR][0], tapX[modLR][3])
 }
 
-function tapSkill(pc) {   //點大技打水晶
+function tapSkill(pc) {   //點大技打水晶  OK
 	if (!config.isRunning) return false;
 	if (!tapSkillSw) return false;
-	if (!useReturn(51)) return false;
-	//console.log('放大技');
+	if (!useReturn(51) && !useReturn(52)) return false;
+	console.log('放大技');
 	
-	var skillcolor = new Array( '', '0094C8', 'FAED0E', '', '', '')
+	var skillcolor = ['', '0094C8', 'FAED0E', '', '', ''];
 	
 	//tapFor(  680,   410, 2, 50, 100);
-	if (checkPointcolor(690, 490, 15, '2B1708')) {
+	// if (checkPointcolor(690, 510, 15, '2B1708')) {
+	// console.log('1:', useReturn(1));
+	if (useReturn(1)) {	
 		for (var i = 1; i <= pc; i++){ 
 			if (!config.isRunning) return false;
 			
-			var skillX = 150 + 104 * (i - 1);
+			// var skillX = 150 + 104 * (i - 1);
+			var skillX = 210 + 66 * (i - 1);
 			
-			if (checkPointcolor(skillX, 1010, 30, 'FFFFFF')) {
-				tapFor( skillX, 1020, 4, 50, 60);
+			if (checkPointcolor(skillX, 418, 30, 'FFFFFF')) {    //修改前 y1010   修改後 y418
+				// console.log('tap big skill:', i);
+				tapFor( skillX, 428, 4, 50, 60);
 				stoptime[1] = 0;
 				if (stage % 100 != 0) return false;
 			}
@@ -1229,7 +1239,7 @@ function tapSkill2(ski, skf, timer) {    //設定時間差點大技打水晶
 	var skillcolor = new Array( '', '0094C8', 'FAED0E', '', '', '')
 	
 	//tapFor(  680,   410, 2, 50, 100);
-	if (checkPointcolor(690, 490, 15, '2B1708')) {
+	if (checkPointcolor(690, 510, 15, '2B1708')) {
 		for (var i = ski; i <= skf; i++){ 
 			if (!config.isRunning) return false;
 			
@@ -1328,7 +1338,7 @@ function autoStuck() {  //  卡關自動判斷式
 	return autoStuckstage[0];
 }
 
-function getADBox() {   //寶箱廣告觀看
+function getADBox() {   //寶箱廣告觀看 OK
 	//if (!config.isRunning) return false;
 	//if (!useReturn(51) && !useReturn(50)) return false;
 	//if (!useReturn(50)) return false;
@@ -1358,7 +1368,7 @@ function getADBox() {   //寶箱廣告觀看
 	}
 }
 
-function getADSpeed() {  //看廣告拿2倍速
+function getADSpeed() {  //看廣告拿2倍速 OK
 	if (!config.isRunning) return false;
 	if (!useReturn(51)) return false;
 	//if (useReturn(2)) return false;
@@ -1455,7 +1465,7 @@ function getADSpeed() {  //看廣告拿2倍速
 	}
 }
 
-function getADGold(Timer) {  //看廣告拿金幣
+function getADGold(Timer) {  //看廣告拿金幣  OK
 	if (!config.isRunning || Date.now() < getADGoldTimer) {return false;}
 	if (!useReturn(2)) {return false;}
 	if (!useReturn(51)) {return false;}　　　//物品數量小G
@@ -1506,7 +1516,7 @@ function getADGold(Timer) {  //看廣告拿金幣
 	}
 }
 
-function waitAD(timer, speedx2) {
+function waitAD(timer, speedx2) {   // OK
 	if (!config.isRunning) return false;
 	if (speedx2 == undefined) var speedx2 = true;
 	console.log('等待廣告', 'speedx2:', speedx2);
@@ -1579,48 +1589,44 @@ function waitAD(timer, speedx2) {
 	}
 }
 
-function choiceMenu(page) {  //主選單頁面  
+function choiceMenu(page) {  //主選單頁面   OK
 	if (!config.isRunning) return false;
-	if (!useReturn(51)) return false;
-	//console.log('Choice Manu : ', page);
+	if (!useReturn(51) && !useReturn(52)) return false;
+	console.log('Choice Manu : ', page);
 	
 	var colorHEX = new Array( '', 'E0A85A', 'FBE194', 'FFFFFF', '2B1708', '')
-	for (var i = 1; i <= 5; i++){
+	for (var i = 1; i <= 3; i++){
 		if (!config.isRunning) return false;
 		
 		if (useReturn(1)) {
 			if (page > 0) {
 				var colorX = 20 + 106 * (page - 1);
 				var colorY = 1210;
-				
+				// console.log('X:', colorX, ', Y:', colorY);
 				var a = 0;
-				for (var i = 1; i <= 10; i++){ 
+				for (var j = 1; j <= 10; j++){ 
 					if (!config.isRunning) return false;
+					// console.log('i:', i, ', j:', j, ', a:', a);
 				
 					checkPointcolorTap(colorX, colorY, 20, colorHEX[1], 0, 0, 1, 100, 1)
-					if (checkPointcolor(colorX, colorY, 20, colorHEX[2])) {
+					if (checkPointcolor(colorX, colorY + 3, 20, colorHEX[2])) {
 						a = a + 1;
 						if (a >= 3) {return false }
 					}
-				
-					sleep(200);
+					sleep(100);
 				}
 			}
 			else if (page == 0) {
-				var colorX = 690;
-				var colorY = 490;
-				
-				var a = 0;
-				for (var i = 1; i <= 10; i++){ 
+				var colorX = 690; var colorY = 510;	var a = 0;
+				for (var k = 1; k <= 10; k++){ 
 					if (!config.isRunning) return false;
 				
 					checkPointcolorTap(colorX, colorY, 20, colorHEX[3], 0, 0, 1, 100, 1)
-					if (checkPointcolor(colorX, colorY, 20, colorHEX[4])) {
+					if (checkPointcolor(colorX, colorY + 3, 20, colorHEX[4])) {
 						a = a + 1;
 						if (a >= 3) { return false }
 					}
-				
-					sleep(300);
+					sleep(200);
 				}
 			}
 		}
@@ -2140,7 +2146,7 @@ function getDailyreward(Timer) {   //領取每日任務獎勵
 	if (!config.isRunning || Date.now() < getDailyTimer) return false;
 	if (!useReturn(51)) return false;
 	if (!useReturn(2)) return false;
-	//console.log('領取每日任務獎勵');
+	console.log('領取每日任務獎勵');
 
 	for (var i = 1; i <= 4; i++){
 		if (!config.isRunning) return false;
@@ -2151,14 +2157,14 @@ function getDailyreward(Timer) {   //領取每日任務獎勵
 				
 			for (var j = 1; j <= 3; j++){
 				if (!config.isRunning) return false;
-				//console.log(' Daily Reward', i, j);
+				console.log(' Daily Reward', i, j);
 				
 				var chkPointX = 400 + 106 * (j - 1);
-				if (checkPointcolor(chkPointX, 690, 40, 'FF2281')) {
+				if (checkPointcolor(chkPointX, 710, 40, 'FF2281')) {
 					for (var k = 1; k <= 3; k++){
-						checkPointcolorTap(chkPointX, 690, 40, 'FF2281', 1, 1, 1, 1000, 1);
+						checkPointcolorTap(chkPointX, 710, 40, 'FF2281', 1, 1, 1, 1000, 1);
 						
-						//console.log('9:', useReturn(9));
+						console.log('9:', useReturn(9));
 						if (useReturn(9)) {
 							
 							var a = 0;
@@ -2264,10 +2270,10 @@ function DalyDungeons(mF2, pc, Timer) {  //【F2:材料魔王 1:水  2:火  3:�
 
 	var dgticks = new Array( -1, -1, -1, -1);
 	console.log('材料地下城 打材料', mmF2);
-	checkPointcolorTap(690, 490, 20, 'FFFFFF', 0, 0, 2, 100, 1)
+	checkPointcolorTap(690, 510, 20, 'FFFFFF', 0, 0, 2, 100, 1)
 	choiceDungeon(1, mmF2);
 	
-	// console.log('start choice BossLV');
+	console.log('start choice BossLV');
 	for (var i = 1; i <= 20; i++){
 		if (!config.isRunning) return false;
 		
@@ -2297,7 +2303,7 @@ function DalyDungeons(mF2, pc, Timer) {  //【F2:材料魔王 1:水  2:火  3:�
 							dgticks[2] = recoNum(2); sleep(150); //2 確認目前票數
 							dgticks[3] = recoNum(2); sleep(150); //3 確認目前票數
 							
-							// console.log('l:', l, dgticks[0], dgticks[1], dgticks[2], dgticks[3])
+							console.log('l:', l, dgticks[0], dgticks[1], dgticks[2], dgticks[3])
 							if (dgticks[1] == dgticks[2] && dgticks[2] == dgticks[3] && dgticks[1] != -1){
 								dgticks[0] = dgticks[1]; break;
 							}
@@ -2307,7 +2313,7 @@ function DalyDungeons(mF2, pc, Timer) {  //【F2:材料魔王 1:水  2:火  3:�
 						// console.log(' 24:', useReturn(24));
 						if (useReturn(24)) {
 							sleep(300);
-							checkPointcolorTap(690, 490, 20, 'FFFFFF', 0, 0, 2, 100, 1);
+							checkPointcolorTap(690, 510, 20, 'FFFFFF', 0, 0, 2, 100, 1);
 							spdongeonSw = 0;
 							console.log(' 0票，本活動BOSS次數用完，切回正常BOSS');
 							return false;
@@ -2316,7 +2322,7 @@ function DalyDungeons(mF2, pc, Timer) {  //【F2:材料魔王 1:水  2:火  3:�
 					// console.log('21:false', 5555)
 						if ( (dgticks[0] == 0 || dgticks[0] <= dgticksSw) && dgticks[0] != -1) {
 							sleep(300);
-							checkPointcolorTap(690, 490, 20, 'FFFFFF', 0, 0, 2, 100, 1);
+							checkPointcolorTap(690, 510, 20, 'FFFFFF', 0, 0, 2, 100, 1);
 							// console.log('1Timer:', Timer, dgticksSw, dgticks);
 							Timer = Timer + 1200 //* (dgticksSw - dgticks[0] + 1);
 							// console.log('2Timer:', Timer);
@@ -2363,7 +2369,7 @@ function DalyDungeons(mF2, pc, Timer) {  //【F2:材料魔王 1:水  2:火  3:�
 					// console.log('(j >= 20 && useReturn(1))');
 					if (j >= 20 && useReturn(1)) {
 						a = a + 1;
-						checkPointcolorTap(690, 490, 20, 'FFFFFF', 0, 0, 2, 100, 1)
+						checkPointcolorTap(690, 510, 20, 'FFFFFF', 0, 0, 2, 100, 1)
 						maDungeonTimer =  Date.now() + Timer * 1000;
 						if ( a >= 2 ) { 
 							return false;
@@ -2383,17 +2389,15 @@ function DalyDungeons(mF2, pc, Timer) {  //【F2:材料魔王 1:水  2:火  3:�
 							CheckImageTap( 300,  480, 420,  550, 0.80, 'retreatBossstr.png', 480, 830, 1, 500, 0); 
 							sleep(200)
 						}
-						
 						break;
 					}
-					
+
 					for (var k = 1; k <= pc; k++){ 
 						if (!config.isRunning) return false;
 						
-						var skillX = 290 + 74 * (k - 1);
-						
-						if (checkPointcolor(skillX, 519, 15, 'FFFFFF')) {
-							tapFor( skillX, 519, 2, 50, 40);
+						var skillX = 210 + 66 * (k - 1);
+						if (checkPointcolor(skillX, 418, 30, 'FFFFFF')) {
+							tapFor( skillX, 428, 4, 50, 40);
 						}
 					}
 					
@@ -2452,7 +2456,7 @@ function Expeditions(Timer) {   //遠征
 	
 	
 	
-	checkPointcolorTap(690, 490, 20, 'FFFFFF', 0, 0, 2, 500, 1)
+	checkPointcolorTap(690, 510, 20, 'FFFFFF', 0, 0, 2, 500, 1)
 	choiceDungeon(3, 5);
 	
 	for (var i = 1; i <= 5; i++){
@@ -2797,11 +2801,11 @@ function Areafight(Timer) {  //競技場
 	}
 }
 
-function choiceDungeon(F1, F2) {  //【F1:地城類別 1:材料 2:突襲 3:遠征 4:競技 】
+function choiceDungeon(F1, F2) {  //【F1:地城類別 1:材料 2:突襲 3:遠征 4:競技 】 1-OK
 	if (!config.isRunning) return false;
 	if (!useReturn(51) && !useReturn(52)) return false;
 	if (!useReturn(2)) return false;
-	//console.log('選擇地下城');
+	console.log('選擇地下城', F1, F2);
 	
 	for (var i = 1; i <= 4; i++){
 		if (!config.isRunning) return false;
@@ -2812,7 +2816,7 @@ function choiceDungeon(F1, F2) {  //【F1:地城類別 1:材料 2:突襲 3:遠�
 			var a = 1;
 			for (var j = 1; j <= 6; j++){
 				if (!config.isRunning) return false;
-				//console.log('Choice Dungeon : ', i, j );
+				console.log('Choice Dungeon : ', i, j );
 				
 				rbm.keepScreenshotPartial( 500, 525, 560, 1140);  //地城選單圖示範圍
 				var targetImg = rbm.findImage('Dungeon_0' + F1 + '.png', 0.90);
@@ -2822,10 +2826,6 @@ function choiceDungeon(F1, F2) {  //【F1:地城類別 1:材料 2:突襲 3:遠�
 						var targetImg = rbm.findImage('Dungeon_0' + F1 + '_' + k + '.png', 0.90);  //活動boss主選單畫面
 						if (targetImg != undefined) break;
 					}
-					// var targetImg = rbm.findImage('Dungeon_0' + F1 + 'b.png', 0.90);  //
-					// if (F1 == 1 && targetImg == undefined) {
-					// 	var targetImg = rbm.findImage('Dungeon_0' + F1 + 'c.png', 0.90);
-					// }
 				}
 				
 				rbm.releaseScreenshot();
@@ -3198,7 +3198,7 @@ function debug(Timer){       //異常檢查檢查
 			CheckImageTap(280, 400, 420,  460, 0.90, 'noAdenough.png', 360, 700, 1, 200, 0, 0);  //廣告不足
 			CheckImageTap(230,  22, 262,   43, 0.90, 'speedoff.png', 1, 1, 1, 200, 1, 0);  //加速關閉點on
 			
-			if (useReturn(52)){ checkPointcolorTap(690, 490, 20, 'FFFFFF', 0, 0, 2, 100, 1); } // 點向下箭頭 
+			if (useReturn(52)){ checkPointcolorTap(690, 510, 20, 'FFFFFF', 0, 0, 2, 100, 1); } // 點向下箭頭 
 		}
 		else {
 			
@@ -3210,12 +3210,14 @@ function debug(Timer){       //異常檢查檢查
 			CheckImageTap(185, 75, 245, 135, 0.85, 'getnewthing.png', 360, 310, 10, 400, 0);    //得到新物品
 			CheckImageTap(465, 655, 540, 740, 0.95, 'systemwait.png', 1, 1, 1, 200, 1);    //無回應等待鈕
 			CheckImageTap( 80, 590, 410, 640, 0.95, 'androiderror.png', 600, 690, 1, 200, 0);    //android 停止
+			CheckImageTap(300, 125, 360, 190, 0.95, 'reincarnationOK2.png', 360, 1200, 1, 200, 0);    //轉生後的 好
+
 			
 			if (i == 3) {CheckImageTap(0, 0, 720, 1280, 0.85, 'waitinglogo.png', 1, 1, 1, 200, 1);}    //待機移動logo
 		}
 		
 		CheckImageTap(500, 0, 720, 530, 0.85, 'rightupXX.png', 1, 1, 1, 200, 1, 0);    //右上的叉叉
-		CheckImageTap(310, 700, 405, 1170, 0.80, 'OKbutton.png', 1, 1, 1, 200, 1, 0);    //確認鈕
+		CheckImageTap(310, 600, 405, 1170, 0.80, 'OKbutton.png', 1, 1, 1, 200, 1, 0);    //確認鈕
 		
 		if (useReturn(50) || useReturn(51)) { return false;}
 		
@@ -3299,11 +3301,11 @@ function setFirstTimer() {   //預設值設定
 	
 	upMenuTimer       = Date.now() +    0 * 1000;
 	
-	stoptime       = new Array( '', 0, 0, 0, 0, 0, 0);
-	autoStuckstage = new Array(  0, 0, 0, 0, 0, 0, 0);
-	stageStucktime = new Array(  0, 0, 0, 0, 0, 0, 0);
-	ADtimeout      = new Array( -1, -1, -1, -1, -1, -1, -1);
-	lvupTaps       = new Array( '', 20, 10, 5, 3);
+	stoptime       = [ '',  0,  0,  0,  0,  0,  0];
+	autoStuckstage = [  0,  0,  0,  0,  0,  0,  0];
+	stageStucktime = [  0,  0,  0,  0,  0,  0,  0];
+	ADtimeout      = [ -1, -1, -1, -1, -1, -1, -1];
+	lvupTaps       = [ '', 20, 10,  5,  3];
 
 	Hero = {
 	  'information':[
@@ -3487,16 +3489,12 @@ function test(cycle){
 		}
 		else if (n >= 1) {
 			stage = recoNum(1) * 1
-			// console.log('============================================================================')
+			console.log('============================================================================')
 			console.log('n = ', n, ', CRA 腳本開始', stage);
-			// lvupHeroTimer     = 0;
-			// lvupHero(lvupHerostgSw, lvupHeroDi, lvuptimeSw);
-
-			// choiceDungeon(1, 7)
-
-
+			// choiceMenu(n-1)
+			
 			while(config.isRunning) {main();}
-			// sleep(3000)
+			// sleep(1000)
 			// console.log('n = ', n, ', CRA 腳本結束');
 		}
 	}
