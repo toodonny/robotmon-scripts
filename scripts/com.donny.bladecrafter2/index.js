@@ -962,7 +962,7 @@ function menutap(pg) {
 	tapFor(pgX, 1260, 1, 50, 100, 500);  //點選單-pg
 }
 
-function menutap2(pg) {
+function menutap2(pg, pg2) {
 	if (!config.isRunning) return false;
 	if (pg < 0 || pg > 6) {console.log('Page Error!!'); return false;}
 	// console.log('2 Menu - Page', pg);
@@ -979,11 +979,26 @@ function menutap2(pg) {
 	var colorNot = isSameColorHex(getColor, notbbC[pg], 20);
 	releaseImage(img);
 
-	if ( pg == 0 && !colorNow) {return false;}
+	if (pg == 0 && !colorNow) {return false;}
 	else if (colorNow && !colorNot) {return false;}
 	// rbm.log('mgNewBubble, i:', i, 'getColor:', getColor, ', newbbC[i]:', newbbC[i], ', colorOK:', colorOK);
 	tapFor(680, 60, 1, 30, 100, 200);
-	tapFor(newbbX[pg], newbbY[pg], 1, 30, 100, 500);//pg:0:點右邊向下三角型, 點選單-pg 
+	tapFor(newbbX[pg], newbbY[pg] + 5, 1, 30, 100, 500);//pg:0:點右邊向下三角型, 點選單-pg 
+
+	if (pg == 3 & pg2 > 0) {
+		//40,810  dW = 96,  now:E7A631   not:423021
+		var newgeX = [680,  40,  136,  232,  328,  424];
+		var newgeY = [680, 810,  810,  810,  810,  810];
+		var nowgeC = ['FFFFFF', 'E7A631', 'E7A631', 'E7A631', 'E7A631', 'E7A631'];
+		var notgeC = ['FFFFFF', '423021', '423021', '423021', '423021', '423021'];
+
+		var img = getScreenshotModify(0, newgeY[pg2], 450, 1, 450, 1, 100);
+		var getColor = getpointHex(img, newgeX[pg2], 0);
+		var colorNow = isSameColorHex(getColor, nowgeC[pg2], 20);
+		var colorNot = isSameColorHex(getColor, notgeC[pg2], 20);
+		releaseImage(img);
+		tapFor(newgeX[pg2], newgeY[pg2] + 5, 1, 30, 100, 200);//pg:0:點右邊向下三角型, 點選單-pg 
+	}
 }
 
 function chknewbubble(intX, intY) {
@@ -1010,7 +1025,7 @@ function farmermedia(dncycle, Gt, mtap, uptap) {
 	if (!config.isRunning) return false;
 	if (debugFc) return false;
 	if (!useReturn(1)) return debugFc = true;
-	console.log('Farmer Media');
+	console.log('Farmer Media use tap&pet');
 
 	var gametimes = Gt * 1000;
 	var cycles = Math.round(gametimes / (40*(10+40) + 100 + 160 + 200));
@@ -1019,7 +1034,7 @@ function farmermedia(dncycle, Gt, mtap, uptap) {
 	menutap2(1);
 
 	for (var i = 0; i < dncycle; i++){
-		var pointColor = getPointcolorHex(550, 50);
+		var pointColor = getPointcolorHex(550, 50);    //重新再打boss
 		var chkColor = isSameColorHex(pointColor, 'EE6C34', 20);
 		if (chkColor){tapFor(555, 50, 1, 50, 80, 80);}
 
@@ -1067,7 +1082,7 @@ function tapandlvup(Gt, cy, mtap, uptap) {
 
 }
 
-function weaponlvup(){
+function weaponlvup(Gt, cy){
 	if (!config.isRunning) return false;
 	if (debugFc) return false;
 	if (!useReturn(1)) return debugFc = true;
@@ -1076,28 +1091,178 @@ function weaponlvup(){
 	var btnC = ['', 'F1BA36', 'F07035', '78381B', '795C1A'];
 	var btnN = ['', '黃', '橘', '棕', '茶']
 	
+	var gametimes = Gt * 1000;
+	var cycles = Math.round(gametimes / 8000);
+	console.log('循環', cycles, '次，連點', Gt, 'sec');
+
 	menutap2(2); //切換選單2，武器頁
 
-	DIY_Fstswipe(360, 1150, 360, 800, allswspd, allswwait);  //向上滑
-	DIY_Fstswipe(360, 1140, 360, 800, allswspd, allswwait);  //向上滑
-	for (var i = 0; i <= 80; i++){
-		var pointColor = getPointcolorHex(550, 1170);                //出現棕色中斷
-		var chkColor = isSameColorHex(pointColor, btnC[3], 20);
-		if (chkColor) {break;}
-		tapFor_du(690, 200, 660, 1150, 30, 10, 10, 10); //2點最後一把武器，1點空白處
+	var t1 = Date.now()
+	var aa = 0;
+	for (var i = 0; i < cycles; i++) {
+		if (!config.isRunning) return false;
+
+		DIY_Fstswipe(360, 1150, 360, 800, allswspd, allswwait);  //向上滑
+		DIY_Fstswipe(360, 1140, 360, 800, allswspd, allswwait);  //向上滑
+		for (var i = 0; i <= 40; i++){
+			var pointColor = getPointcolorHex(550, 1170);                //出現棕色中斷
+			var chkColor = isSameColorHex(pointColor, btnC[3], 20);
+			if (chkColor) {break;}
+			tapFor_du(690, 200, 660, 1150, 30, 10, 10, 150); //2:點最後一把武器，1:點空白處
+		}
+
+		DIY_Fstswipe(360, 800, 360, 1150, allswspd, allswwait);  //向下滑
+		DIY_Fstswipe(360, 800, 360, 1150, allswspd, allswwait);  //向下滑
+		for (var i = 0; i <= 40; i++){
+			// var pointColor = getPointcolorHex(550, 850);                //出現茶色中斷
+			// var chkColor = isSameColorHex(pointColor, btnC[4], 20);
+			// if (chkColor) {break;}
+			var pointColor = getPointcolorHex(210, 1230);                  //出現NEW中斷
+			var chkColor = isSameColorHex(pointColor, 'FF4A2D', 20);
+			if (chkColor) {
+				skilluseTimer =  Date.now();
+				newwpTimer =  Date.now(); 
+				break;
+			}
+			tapFor_du(690, 200, 660, 810, 30, 10, 10, 150);     //2:點第一把武器，1:點空白處
+
+			if (i % 6 == 0) {
+				var pointColor = getPointcolorHex(550, 50);    //重新再打boss
+				var chkColor = isSameColorHex(pointColor, 'EE6C34', 20);
+				if (chkColor){tapFor(555, 55, 1, 50, 80, 80);}
+
+				changehelmet(passistok, fairystok, wickestok, divinstok, newwpDT);
+				skilluse(skillactSw);
+
+				var dt = Math.round((Date.now() - t1) / 1000);
+				console.log('循環:', i, ',時間:', dt, '/', Gt, 's');
+				if (dt > Gt) {return false;}
+			}
+		}
+	}
+}
+
+function chkweapentype() {
+	if (!config.isRunning) return false;
+
+	console.log('check weapen type');
+	
+	var typeC = ['', 'FF3410', '93E82C', 'AD45EF', 'FFE339'];
+	var typeN = ['', '英雄劍', '精靈劍', '魔劍', '神劍'];
+
+	for (var j = 1; j <= 4; j++) {
+		for (var i = 0; i < 2; i++) {
+			var pointColor = getPointcolorHex(493, 817);
+			var chkColor = isSameColorHex(pointColor, typeC[j], 30);
+			// console.log(j, i, 'chkColor:', pointColor, typeC[j], chkColor);
+			if (chkColor) {
+				console.log('Weapen Type:', typeN[j]);
+				return j
+			}
+			sleep(50);
+		}
+	}
+	console.log('Weapen Type chk error!');
+	return false;
+}
+
+function changehelmet(stok1, stok2, stok3, stok4, Timer) {
+	if (!config.isRunning || Timer == 0) return false;
+	var waittime = Math.round((Date.now() - newwpTimer)/1000);
+	if (waittime < Timer) {
+		console.log('New weapen d time:', waittime, ' sec');
+		return false;
+	}
+	console.log('Change Helmet mach weapen type');
+
+	//550,800  dW = 115,  now:   not:
+	var stokH = ['', stok1, stok2, stok3, stok4];
+	var stokY = ['',   800,   915,  1030,  1145];
+
+	var wptype = chkweapentype();
+	if (wptype == wptypenow) {
+		console.log('The same weapen type!!');
+
+	} else if (wptype > 0) {
+		menutap2(3, 2);
+		DIY_swipe(360, 1150, 360, 900, 50, 600);
+
+		var tapY = stokY[stokH[wptype]];
+		tapFor(550, tapY, 1, 100, 100, 200);
+		wptypenow = wptype;
+		menutap2(2, 0);
+
+		skilluseTimer =  Date.now();
+	}
+	newwpTimer =  Date.now();
+}
+
+function skilllvup() {
+	if (!config.isRunning) return false;
+
+	menutap2(1, 0);
+	DIY_Fstswipe(360, 800, 360, 1150, allswspd, allswwait);  //向下滑
+	for (var i = 0; i <= 4; i++){
+		rbm.keepScreenshotPartial(530, 780, 610, 1210);  //找小金幣的範圍
+		var Img0s = rbm.findImages('smallcoineicon.png', 0.90, 4, true, false);
+		var Img0  = rbm.findImage('smalldimanicon.png', 0.90);
+		rbm.releaseScreenshot();
+		// rbm.log('img0s:', Img0s);
+		// rbm.log('img0:', Img0);
+		if (Img0 != undefined) {
+			console.log('find diman out!')
+			return false;
+		}
+		if (Img0s != '')  {
+			for (var index in Img0s) {
+				if (!config.isRunning) return false;
+				var result = Img0s[index];
+				// rbm.log('result:', index, result);
+
+				tapFor(result.x, result.y, 3, 50, 50, 150);
+			}
+		}
+
+		var dpY = 0;
+		if (i % 2 == 0) { dpY = 10 }
+		DIY_swipe(360, 1100 - dpY, 360, 800, 50, 300);;  //向上滑4欠
+
+		sleep(1000);
+	}
+}
+
+function skilltap(sk1, sk2, sk3, sk4, sk5, sk6) {
+	if (!config.isRunning) return false;
+	
+	//65, 1120; dx=102; 
+	var tapX = ['', 65, 182, 299, 416, 533, 650];
+	var skillSw =['', sk1, sk2, sk3, sk4, sk5, sk6];
+
+	menutap2(0, 0);
+	for (var i = 1; i <= 6; i++) {
+		if (skillSw[i] == 1) {tapFor(tapX[i], 1120, 2, 50, 50, 150);}
+	}
+}
+
+function skilluse(Timer) {
+	if (!config.isRunning || Timer == 0) return false;
+
+	// console.log('Skill LvUp && Use');
+
+
+	var wait = (Date.now() - skilluseTimer) / 1000
+	if ( wait < Timer) {
+		console.log('Action Time:', wait, '/', Timer);
+		return false;
 	}
 
+	skilllvup();
+	skilltap(skill_1Sw, skill_2Sw, skill_3Sw, skill_4Sw, skill_5Sw, skill_6Sw);
+	menutap2(2, 0);
 	DIY_Fstswipe(360, 800, 360, 1150, allswspd, allswwait);  //向下滑
-	DIY_Fstswipe(360, 800, 360, 1150, allswspd, allswwait);  //向下滑
-	for (var i = 0; i <= 50; i++){
-		// var pointColor = getPointcolorHex(550, 850);                //出現茶色中斷
-		// var chkColor = isSameColorHex(pointColor, btnC[4], 20);
-		// if (chkColor) {break;}
-		var pointColor = getPointcolorHex(210, 1230);                //出現NEW中斷
-		var chkColor = isSameColorHex(pointColor, 'FF4A2D', 20);
-		if (chkColor) {break;}
-		tapFor_du(690, 200, 660, 810, 20, 10, 10, 10); //2點第一把武器，1點空白處
-	}
+
+
+	skilluseTimer = Date.now();
 }
 
 function rebirth(upcycle, wT) {
@@ -1761,13 +1926,13 @@ function openNewItem(item, st) {
 			tapFor(tapX[item], tapY[item], 1, 50, 100, 500);
 		} else {
 			var pointColor = getPointcolorHex(pntX[item], pntY[item]);      //寶物蓋牌出現確認
-			var chkColor = isSameColorHex(pointColor, 'A57B39', 20);
+			var chkColor = isSameColorHex(pointColor, 'A57B39', 30);
 			if (chkColor) {tapFor(360, 830, 1, 50, 100, dlyS[item]); break;}
 		}
 
 		if (item == 7) {
 			var pointColor = getPointcolorHex(360, 820);                //刷每日獎勵，領取鈕
-			var chkColor = isSameColorHex(pointColor, 'E7AB31', 20);
+			var chkColor = isSameColorHex(pointColor, 'E7AB31', 30);
 			if (chkColor) {tapFor(360, 830, 1, 50, 100, 500);}
 		}
 		
@@ -1886,16 +2051,16 @@ function abandonGear(sw) {
 		1 : [' gloves', '01騎士手套(武傷L)', '02戰士手套(點傷L)', '03妖精手套(全傷L)', '04獵人手套(暴傷L)', '05黑騎士手套(武傷M)', '06食人魔手套(點傷M)', '07森林妖精手套(全傷M)', '08哥布林獵人手套(暴傷M)', '09主君手套(武傷H)', '10泰坦手套(點傷H)', '11妖精王手套(全傷H)', '12惡魔獵人手套(暴傷H)'],
 		2 : [' helmet', '01矮人頭盔(妖劍L)', '02聖職者帽(神劍L)', '03傭兵頭盔(英劍L)', '04咒術師帽子(魔劍L)', '05秘銀頭盔(妖劍M)', '06女武神頭盔(神劍M)', '07劍鬥士頭盔(英劍M)', '08死亡騎士帽(魔劍M)', '09山銅頭盔(妖劍H)', '10大天使頭盔(神劍H)', '11不敗頭盔(英劍H)', '12惡魔頭盔(魔劍H)'],
 		3 : ['  armor', '01Equa080(寵傷L)', '02刀刃盔甲(必傷L)', '03召喚師盔甲(古傷M)', '04野獸盔甲(古傷H)', '05獸王盔甲(寵傷H)', '06破壞盔甲(破傷L)', '07定罪盔甲(必傷H)', '08破滅盔甲(破傷H)', '09古代召喚盔甲(古傷H)', '10紅野獸盔甲(寵傷M)'],  //   
-		4 : ['   ring', '01水晶戒指(全金L)', '02紅寶石戒指(BOSS金L)', '03哥布林戒指(蛋金L)', '04鑽石戒指(全金M)', '05閃亮紅寶石戒指(BOSS金M)', '06青色哥布林戒指(蛋金M)', '07紅鑽石戒指(全金H)', '08燦爛的誕寶石戒指(BOSS金H)', '09哥布林王戒指(蛋金H)'],  // 
+		4 : ['   ring', '01水晶戒指(全金L)', '02紅寶石戒指(BOSS金L)', '03哥布林戒指(蛋金L)', '04鑽石戒指(全金M)', '05閃亮紅寶石戒指(BOSS金M)', '06青色哥布林戒指(蛋金M)', '07紅鑽石戒指(全金H)', '08燦爛的紅寶石戒指(BOSS金H)', '09哥布林王戒指(蛋金H)'],  // 
 		5 : ['earring', '01祖母綠耳環(手套L)', '02魔法師耳環(頭盔L)', '03藍寶石耳環(盔甲L)', '04閃亮祖母綠耳環(手套M)', '05大魔法師耳環(頭盔M)', '06閃亮藍寶石耳環(盔甲M)', '07燦爛的祖母綠耳環(手套H)', '08賢者耳環(頭盔H)', '09燦爛的藍寶石耳環(盔甲H)']
 	}
 
 	var abaSwobj = {
-		1 : [' gloves', 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 2, 1],
-		2 : [' helmet', 1, 1, 1, 1, 0, 1, 1, 0, 0, 2, 1, 0],
-		3 : ['  armor', 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], 
-		4 : ['   ring', 1, 1, 1, 1, 1, 1, 0, 0, 1],
-		5 : ['earring', 1, 1, 1, 1, 1, 1, 0, 1, 1]
+		1 : [' gloves', 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 2, 1],
+		2 : [' helmet', 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0],
+		3 : ['  armor', 1, 1, 1, 1, 0, 1, 1, 1, 1, 1], 
+		4 : ['   ring', 1, 1, 1, 1, 1, 1, 1, 1, 1],
+		5 : ['earring', 1, 1, 1, 1, 1, 1, 1, 1, 1]
 	}
 
 	rbm.keepScreenshotPartial( 300,  390, 420, 510);  //
@@ -1942,14 +2107,14 @@ function abandonTreasures(sw, typc) {   //typc: 1:紅 2:藍 3:紫 4:黃 5:綠
 	if (sw == 0) return false;
 
 	var colortre = 0;
-	var pointC = ['', '90453A', '3F688A', '6B4689', '958F43', '3F9782'];
+	var pointC = ['', '90553A', '3F688A', '6B4689', '958F43', '3F9782'];
 	var treasC = ['', 'Red', 'blue', 'purple', 'yellow', 'green'];
 	//5=>紅裝:90453A，藍裝:3F688A，紫裝:6B4689，黃裝:958F43，綠裝:3F9782
 
 	var pointColor = getPointcolorHex(315, 396);   //y403
 	for (var k = 1; k <= 5; k++) {
 		var chkColor = isSameColorHex(pointColor, pointC[k], 30);
-		// console.log('item:', item, ', chkColor:', pointColor, pointC[item], chkColor, i);
+		console.log(k, ', typc:', typc, ', chkColor:', pointColor, pointC[typc], chkColor);
 
 		if (chkColor) {
 			if (typc != 0 && typc !== k){
@@ -1966,19 +2131,19 @@ function abandonTreasures(sw, typc) {   //typc: 1:紅 2:藍 3:紫 4:黃 5:綠
 
 	//Gear Name Cut from 304,393 w:110 H:110
 	var tagName = {
-		1 : ['   Red', '01悲情之槍(一般怪傷)', '02受詛咒的盾牌(魔劍傷)', '03激情的一半(休息中受損)', '04審判天秤(破壞名劍傷)', '05鬥志之劍(點傷)', '06神聖羽毛(神劍傷)', '07神秘的樹枝(妖劍傷)', '08集中的髮箍(古代名劍傷)', '09勇猛的髮箍(英劍傷)', '10極光立方體(英妖劍傷)'],
-		2 : ['  Blue', '01魔女寶珠(金x10)', '02神秘鈴鐺(百寶%)', '03世界樹的果實(MAX MP)', '04冰劍(火傷)', '05魔法師葫蘆瓶()', '06哥布林笛子', '07受詛咒的鐵棍', '08英雄披風', '09懺悔之鏡', '10智慧藥水', '11精靈耳環(憤怒-MP)', '12青色種子', '13大地之杖(水傷)'],
-		3 : ['Purple', '01龍之靴(寵技點)', '02黑暗之劍(光傷)', '03召喚師的鏡子', '04獸王戒指'],  
-		4 : ['yellow', '01火花鞭(地傷)', '02幸運硬幣', '03黃金雞蛋', '04光之飛鏢(暗傷)', '05貪婪的契約書'], 
-		5 : [' green', '01英雄信物']
+		1 : ['   Red', '01悲情之槍(一般怪傷)', '02受詛咒的盾牌(魔劍傷)', '03激情的一半(休息中受損)', '04審判天秤(破壞名劍傷)', '05鬥志之劍(點傷)', '06神聖羽毛(神劍傷)', '07神秘的樹枝(妖劍傷)', '08集中的髮箍(古代名劍傷)', '09勇猛的髮箍(英劍傷)', '10極光立方體(英妖劍傷)', '11決意戒指()', '12前進號角(休息中)'],
+		2 : ['  Blue', '01魔女寶珠(金x10)', '02神秘鈴鐺(百寶%)', '03世界樹的果實(MAX MP)', '04冰劍(火傷)', '05魔法師葫蘆瓶()', '06哥布林笛子', '07受詛咒的鐵棍(爆傷)', '08英雄披風', '09懺悔之鏡', '10智慧藥水', '11精靈耳環(憤怒-MP)', '12青色種子', '13大地之杖(水傷)'],
+		3 : ['Purple', '01龍之靴(寵技點)', '02黑暗之劍(光傷)', '03召喚師的鏡子', '04獸王戒指(全寵%)'],  
+		4 : ['yellow', '01火花鞭(地傷)', '02幸運硬幣', '03黃金雞蛋', '04光之飛鏢(暗傷)', '05貪婪的契約書', '06萬能鑰匙'], 
+		5 : [' green', '01英雄信物', '02發光粉末', '03隕石碎片', '04霸氣項鍊', '05魔法沙漏(BOSS時間)', '06賢能之書', '07狂戰士手套', '08古代之石(古劍時間)']
 	}
 
 	var tagSwitch = {
-		1 : ['   Red', 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-		2 : ['  Blue', 1, 1, 1, 1, 1, 1, 1, 1],
-		3 : ['Purple', 1, 1, 1, 1],  
-		4 : ['yellow', 1, 1, 1, 1, 0],
-		5 : [' green', 1]
+		1 : ['   Red', 2, 2, 1, 1, 1, 2, 2, 1, 2, 2, 1, 1],
+		2 : ['  Blue', 2, 1, 2, 2, 2, 2, 1, 1, 1, 1, 1, 2, 2],
+		3 : ['Purple', 1, 2, 1, 1],  
+		4 : ['yellow', 2, 2, 2, 2, 2, 1],
+		5 : [' green', 1, 0, 3, 1, 1, 2, 2, 1]
 	}
 
 	var chkItemName = 'Treasures'
@@ -1992,22 +2157,28 @@ function abandonTreasures(sw, typc) {   //typc: 1:紅 2:藍 3:紫 4:黃 5:綠
 			if (i >= 10) {strf = '_'}
 
 			console.log('Check Aband ' + chkItemName + ':', tagName[j][i]);
-			var filename = 'Treasures_0' + j + strf + i + '.png';
-			var Img1 = rbm.findImage(filename, 0.95);
-			rbm.log('Img1:', Img1);
-			
-			if (Img1 != undefined && Img1.score >= 0.95) {
-				console.log('Found Aband ' + chkItemName);
-				rbm.releaseScreenshot();
 
-				if (tagSwitch[j][i] == 0){
-					console.log('This ' + chkItemName + ' Not to Aband');
-					return false;
-				}
-				return true;
-				
+			if (tagSwitch[j][i] == 2) {
+				console.log(chkItemName, 'is already had');
+
 			} else {
-				console.log('Not Match Aband ' + chkItemName);
+				var filename = 'Treasures_0' + j + strf + i + '.png';
+				var Img1 = rbm.findImage(filename, 0.95);
+				// rbm.log('Img1:', Img1);
+				
+				if (Img1 != undefined && Img1.score >= 0.95) {
+					console.log('Found Aband ' + chkItemName);
+					rbm.releaseScreenshot();
+
+					if (tagSwitch[j][i] == 0){
+						console.log('This ' + chkItemName + ' Not to Aband');
+						return false;
+					}
+					return true;
+					
+				} else {
+					console.log('Not Match Aband ' + chkItemName);
+				}
 			}
 			console.log('----------------------');
 		}
@@ -2218,7 +2389,15 @@ function main(){       //主流程
 		debug(debugTmrChk);
 
 	} else if (Features ==2) {
-		weaponlvup();
+		bsnewBB = bsnewbubble();
+		mgnewBB = mgnewbubble();
+		console.log('bs:', bsnewBB, ', mgnewBB:', mgnewBB);
+		if (!mgnewBB && !bsnewBB) {
+			weaponlvup(totalwptime);
+			rebirth(rebupcycle, rebirthwait);
+		}
+		playMiniGame();
+		debug(debugTmrChk);
 
 	} else {
 		console.log('Feature: 3, 4, 5, 8');
@@ -2230,6 +2409,8 @@ function main(){       //主流程
 
 function setFirstTimer() {   //預設值設定
 	tapeggeqTimer = Date.now() + 900 * 1000;  //收裝備/寵蛋
+	newwpTimer    = Date.now() +   0 * 1000;  //新武器出現時間差
+	skilluseTimer =  Date.now() +  0 * 1000;  //大技使用控制時間(武器未更換時間)
 	taptreasuresTimer =  Date.now() + 300 * 1000;  //點寶物/太古石板
 	
 	checkScreenTimer  = Date.now() +   5 * 1000;  //畫面停止檢查用，不可刪
@@ -2257,6 +2438,7 @@ function setFirstTimer() {   //預設值設定
 	bsnewBB = true;   //小遊戲 new確認點
 	mgnewBB = true;   //打BOSS new確認點
 	gsmgnewBB = true;  //小遊戲/打BOSS new確認點
+	wptypenow = 0;    //現在頭盔裝備屬性
 
 }
 
@@ -2292,11 +2474,28 @@ function setFirstsetting() {
 	allswspd  =  20;  //滑動速度(大:快)
 	allswwait = 700;  //滑動完等待 毫秒
 
-	debugTmrChk = 5;  //畫面異常多久觸發debug執行
+	debugTmrChk = 4;  //畫面異常多久觸發debug執行
 
 	//=================================================================================//
-	Features  = 3;    //[單刷] 1:主角刷 /2武器刷 / 3裝備 /4寵物 /5寶物 /7每日獎勵 /8背動技 //
+	Features  = 2;    //[單刷] 1:主角刷 /2武器刷 / 3裝備 /4寵物 /5寶物 /7每日獎勵 /8背動技 //
 	//=================================================================================//
+
+	totalwptime = 480;  //武器刷持續時間後轉生
+	newwpDT   = 30;   //新武器出現時間差-更換頭盔
+	passistok = 1;    //頭盔-英雄劍加成-位置
+	fairystok = 4;    //頭盔-精靈劍加成-位置
+	wickestok = 3;    //頭盔-魔劍加成-位置
+	divinstok = 2;    //頭盔-神劍加成-位置
+
+	skillupSw = 1;    //大技升級開關
+	skill_1Sw = 0;    //第1大技點擊
+	skill_2Sw = 0;    //第1大技點擊
+	skill_3Sw = 1;    //第1大技點擊
+	skill_4Sw = 1;    //第1大技點擊
+	skill_5Sw = 1;    //第1大技點擊
+	skill_6Sw = 0;    //第1大技點擊
+
+	skillactSw = 60;   //武器未變更觸發大技時間
 
 	refreshSw = 1;    //循環刷開關
 	abGrSw    = 1;    //裝備放棄 比對開關
@@ -2321,7 +2520,7 @@ function test(cycle, DT){
 			setFirstTimer();     //設定初始時間值
 		} else if (n >= 1) {
 			console.log('n = ', n, '/', cycle, ', CRA 腳本開始');
-			
+
 			while(config.isRunning) {main();} 
 
 			// console.log('n = ', n, ', CRA 腳本結束');

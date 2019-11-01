@@ -1254,7 +1254,7 @@ function tapSkill2(ski, skf, timer) {    //設定時間差點大技打水晶
 	}
 }
 
-function stagerincarnation() {  //自動輪回
+function stagerincarnation() {  //自動輪回   OK
 	if (!config.isRunning) return false;
 	
 	//console.log('stage:', 'spdongeonSw:', spdongeonSw)
@@ -1287,7 +1287,7 @@ function stagerincarnation() {  //自動輪回
 	}
 }
 
-function autoStuck() {  //  卡關自動判斷式
+function autoStuck() {  //  卡關自動判斷式   OK
 	if (!config.isRunning) return false;
 	
 	if (stage > 0 && stage < autoMinSw) {
@@ -2142,7 +2142,7 @@ function choiceGuild() {
 	
 }
 
-function getDailyreward(Timer) {   //領取每日任務獎勵
+function getDailyreward(Timer) {   //領取每日任務獎勵   OK
 	if (!config.isRunning || Date.now() < getDailyTimer) return false;
 	if (!useReturn(51)) return false;
 	if (!useReturn(2)) return false;
@@ -2200,7 +2200,7 @@ function getDailyreward(Timer) {   //領取每日任務獎勵
 	}
 }
 
-function toRincarnation(Timer) {  //輪迴
+function toRincarnation(Timer) {  //輪迴   OK
 	if (!config.isRunning || Date.now() < toRincarnTimer) return false;
 	if (!useReturn(51)) return false;
 	if (!toRincarnSw) return false;
@@ -2228,6 +2228,12 @@ function toRincarnation(Timer) {  //輪迴
 						return false;
 					}
 					
+					if (doubMG) {
+						CheckImageTap(680, 980, 880, 1150, 0.70, 'reincarnationx2OK2.png', 1, 1, 2, 500, 1, 1);      //輪迴按鈕X2
+					} else { 
+						CheckImageTap(200, 980, 280, 1150, 0.80, 'reincarnationOK.png', 1, 1, 2, 500, 1);      //輪迴按鈕
+					}
+					CheckImageTap(280, 630, 440,  680, 0.80, 'reincarnationQ.png', 480, 830, 2, 500, 0);      //輪迴確認
 					CheckImageTap(200, 980, 280, 1110, 0.80, 'reincarnationOK.png', 1, 1, 2, 500, 1);      //輪迴按鈕
 					CheckImageTap(280, 630, 440,  680, 0.80, 'reincarnationQ.png', 480, 830, 2, 500, 0);      //輪迴確認
 					
@@ -2250,7 +2256,7 @@ function toRincarnation(Timer) {  //輪迴
 	}
 }
 
-function DalyDungeons(mF2, pc, Timer) {  //【F2:材料魔王 1:水  2:火  3:木  4:光  5:暗】【PC:大技數量】
+function DalyDungeons(mF2, pc, Timer) {  //【F2:材料魔王 1:水  2:火  3:木  4:光  5:暗】【PC:大技數量】   OK
 	if (!config.isRunning || Date.now() < maDungeonTimer) return false;
 	if (!autoWeekSw) return false;
 	if (!useReturn(51) && !useReturn(52)) return false;
@@ -2428,16 +2434,15 @@ function Expeditions(Timer) {   //遠征
 	if (!useReturn(2)) return false;
 	console.log('遠征');		
 	
-	var quSw = new Array( '', 1, 1, 1, 1, 1, 1, 1)
-	var scrX = new Array( '', 20, 170, 510, 660, 530, 600);
-	var insY = new Array( '', 400, 500);
+	var quSw = ['', 1, 1, 1, 1, 1, 1, 1];
+	var scrX = ['', 20, 170, 510, 660, 530, 600];
+	var insY = ['', 400, 500];
 	
+	var distRe = ['', 540 - 540, 691 - 742, 540 - 685, 691 - 773];
+	var distIt = ['', 540 - 311, 691 - 688, 540 - 465, 691 - 761];
+	var distSt = ['', 540 -  22, 691 - 678, 540 - 127, 691 - 770];
 	
-	var distRe = new Array( '', 540 - 540, 691 - 742, 540 - 685, 691 - 773);
-	var distIt = new Array( '', 540 - 311, 691 - 688, 540 - 465, 691 - 761);
-	var distSt = new Array( '', 540 -  22, 691 - 678, 540 - 127, 691 - 770);
-	
-	var itemName = new Array( '', '水寶石',  '火寶石',  '木寶石',  '光寶石',  '暗寶石', '', '', '', '', '');
+	var itemName = ['', '水寶石',  '火寶石',  '木寶石',  '光寶石',  '暗寶石', '', '', '', '', ''];
 	
 	var countempty = 0;
 	for (var v = 1; v <= 2; v++) {
@@ -2453,8 +2458,6 @@ function Expeditions(Timer) {   //遠征
 		if (countempty == ExpedHeroSw + 1) break;
 	}
 	//console.log('隊伍主頁-空格檢查XY:', emptyX1, emptyY1, emptyX2, emptyY2);
-	
-	
 	
 	checkPointcolorTap(690, 510, 20, 'FFFFFF', 0, 0, 2, 500, 1)
 	choiceDungeon(3, 5);
@@ -3333,38 +3336,6 @@ function setFirstTimer() {   //預設值設定
 	herolvupQ      = 0;
 }
 
-function commandsetting() {
-	console.log(' 1 Tl:', '★☆===英雄設定區===★☆');
-	console.log(' 1 Sw:', lvupHeroSw, lvupHeroDi, lvupHerostgSw, lvupheromdSw, lvuptimeSw, lvuplimitSw);
-
-	console.log(' 2 Tl:', '★☆===村莊設定區===★☆');
-	console.log(' 2 Sw:', lvupVillageSw, lvupVillageDi);
-	
-	console.log(' 3 Tl:', '★☆===每日地牢設定區===★☆');
-	console.log(' 3 Sw:', autoWeekSw, dgticksSw, spdongeonSw, spdstageSw, menuW0Sw, menuW1Sw, menuW2Sw, menuW3Sw, menuW4Sw, menuW5Sw, menuW6Sw);
-	
-	console.log(' 4 Tl:', '★☆===輪迴設定區===★☆');
-	console.log(' 4 Sw:', toRincarnSw, ministageSw, rintimes1Sw, autoStuckSw, autoMinSw, StucktimeSw);
-	
-	console.log(' 5 Tl:', '★☆===遠征===★☆');
-	console.log(' 5 Sw:', ExpedSw, ExpedHeroSw, ExpedstarSw, ExpeditemSw);
-	
-	console.log(' 6 Tl:', '★☆===競技場設定===★☆');
-	console.log(' 6 Sw:', arenaSw, arenaticksSw, arenaFightpw, arenatkchgSw);
-	
-	console.log(' 7 Tl:', '★☆===點擊與刷關設定===★☆');
-	console.log(' 7 Sw:', getADBoxSw, tapBOXmodSw, tapRLtimeSw, afterRLDySw, crystalCKSw, tapSkillSw, skillslepSw);
-	
-	console.log(' 8 Tl:', '★☆===工會幫助===★☆');
-	console.log(' 8 Sw:', guildchatSw, guildmaldSw, heroattribSw, herocodeSw, heroattrib2Sw, herocode2Sw, maldhelpupTSw);
-	
-	console.log(' 9 Tl:', '★☆===打工會BOSS===★☆');
-	console.log(' 9 Sw:', guildbossSw, guildbosshdSw, guildbossthSw, failureth3Sw, failuredwlvSw);
-	
-	console.log('10 Tl:', '★☆===其它設定===★☆');
-	console.log('10 Sw:', admodeSw, adtimesetSw, resetappTm, upStartlvSw, receiveMailSw, loginDailySw);
-}
-
 function setFirstsetting() {
 	lvupHeroSw    =    1;   //英雄升級開關
 	lvupHeroDi    =    3;   //升級量級次 1:x1, 2:x10, 3:x100, 4:MAX
@@ -3394,6 +3365,7 @@ function setFirstsetting() {
 	toRincarnSw   =    1;   //輪迴開關
 	ministageSw   = 4300;   //輪迴關卡
 	rintimes1Sw   =    1;   //輪迴關卡檢查次數
+	doubMG        =    0;   //輪迴兩倍魔晶
 
 	mlvupautoSw   =    1;   //自動升級魔晶等級
 	mlvuptargetSw = 2600;   //魔晶等級目標值(0:自動以最小等級為基準)
