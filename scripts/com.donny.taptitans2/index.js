@@ -1599,7 +1599,7 @@ function prestige(){                    //轉生
 					console.log(j, '轉生, 金蛻:', nowgold, '/', SwPrgolds, '; 次數:', pregold, '/', SwPrgoldT);
 				}				
 				//console.log(j, '我要轉生');
-				CheckImageTap(255, 815, 600, 1025, 0.90, 'prestigebutton.png', 1, 1, 3, 50, 1);   //Prestige 按鈕 兩個
+				CheckImageTap(255, 815, 600, 1100, 0.90, 'prestigebutton2.png', 1, 1, 3, 50, 1);   //Prestige 按鈕 兩個
 			}
 			break;
 		}
@@ -1735,7 +1735,7 @@ function debug(Timer){                  //卡畫面檢查
 	rbm.releaseScreenshot();
 	if (targetImg2) { tapFor(640, 79, 3, 50, 100); }		
 	
-	CheckImageTap(255, 815, 600, 1025, 0.90, 'prestigebutton.png', 635, 285, 3, 50, 0);   //Prestige 按鈕 兩個
+	CheckImageTap(255, 815, 600, 1100, 0.90, 'prestigebutton2.png', 635, 285, 3, 50, 0);   //Prestige 按鈕 兩個
 
 	rbm.keepScreenshotPartial( 170, 50, 550, 120);  //確認achievement畫面
 	var targetImg1 = rbm.imageExists('achievement.png', 0.95)
@@ -2115,61 +2115,3 @@ function start(settingString) {
 	while(config.isRunning) { main(); }
 } 
 
-
-/*
-function start(UIVIP, UISk_1, UISk_2, UISk_3, UISk_4, UISk_5, UISk_6, UIFaAD_1, UIFaAD_2, UIFaAD_3, UIFaAD_4, UIFaAD_5, UIFaADGD, UIMastSw, UIMastTm, UIMastLvLm, UIMastLvRu, UIHeroSw, UIHrfsTm, UIHeroTm, UIHeroLvLm, UIHeroLvRu, UIBossReT, UIPrestig, UIBossGd, UIBossPrs, UIPrgolds, UIPrgoldT, UIPrSaScr, UIArtifDv, UIRedbook, UIClanbos ) {
-	rbm.init();
-	config.isRunning = true;
-
-	swVIP   = UIVIP    //VIP無廣告開關
-	//console.log('swVIP = ', UIVIP)
-	
-	if(UIHeroLvRu || UIMastLvRu) { UIFaAD_4 = 1; }
-	
-	ctrlSkillcode = String(UISk_1 * 1) + String(UISk_2 * 1) + String(UISk_3 * 1) + String(UISk_4 * 1) + String(UISk_5 * 1) + String(UISk_6 * 1);
-	//console.log('ctrlSkillcode=', ctrlSkillcode)  //技能控制 CODE
-	
-	ctrlFairyADcode = String(UIFaAD_1 * 1) + String(UIFaAD_2 * 1) + String(UIFaAD_3 * 1) + String(UIFaAD_4 * 1) + String(UIFaAD_5 * 1);
-	//console.log('ctrlFairyADcode=', ctrlFairyADcode)  //廣告BUFFER CODE
-	
-	SwFaADGD = UIFaADGD
-	
-	SwMastSw   = UIMastSw    //劍術大師 升級開關
-	SwMastTm   = UIMastTm    //劍術大師 升級檢查時間
-	SwMastLvLm = UIMastLvLm  //劍術大師 升級限制
-	SwMastLvRu = UIMastLvRu  //劍術大師 cost -90%升級
-	//console.log('Mast:', SwMastSw, SwMastTm, SwMastLvLm, SwMastLvRu)
-	
-	SwHeroSw   = UIHeroSw    //全  體 英雄 升級開關
-	SwHrfsTm   = UIHrfsTm    //第一頁 英雄 升級檢查時間
-	SwHeroTm   = UIHeroTm    //全  體 英雄 升級檢查時間
-	SwHeroLvLm = UIHeroLvLm  //第一位 英雄 優先升級等級
-	SwHeroLvRu = UIHeroLvRu  //全  體 英雄 cost -90%升級
-	//console.log('Hero:', SwHeroSw, SwHeroTm, SwHeroLvLm, SwHeroLvRu)
-	
-	SwBossReT = UIBossReT    //卡boss，等待再打時間
-	//console.log('BossK:', SwBossReT)
-	
-	SwPrestig = UIPrestig    //蛻變開關
-	SwBossGd = UIBossGd      //金幣級次卡關轉生啟動
-	
-	SwBossPrs = UIBossPrs    //卡關的次數轉生
-	SwPrgolds = UIPrgolds    //多少錢必定蛻變
-	SwPrgoldT = UIPrgoldT    //金幣蛻變檢查次數
-	SwPrSaScr = UIPrSaScr    //蛻變時自動抓圖
-	//console.log('Prestig:', SwPrestig, SwBossGd, SwBossPrs, SwPrgolds, SwPrgoldT, SwPrSaScr)
-	
-	SwArtifDv = UIArtifDv    //自動開神器(轉生後觸發)
-	SwRedbook = UIRedbook    //自動點紅書(開神器後觸發)
-	//console.log('Artif:', SwArtifDv, SwRedbook)
-	
-	swClanbos = UIClanbos    //打公會boss
-	//console.log('Other:', swClanbos)
-	
-	setFirstTimer()     //設定初始值
-	ScreenErrorTime1 = Date.now()
-	
-	console.log('TT2 - 腳本執行開始');
-	while(config.isRunning) { main(); }
-}
-*/

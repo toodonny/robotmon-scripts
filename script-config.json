@@ -140,7 +140,7 @@
     },    
     "com.donny.taptitans2": {
       "title": "Tap Titains 2 by Donny",
-      "versionCode": 0.40,
+      "versionCode": 0.45,
       "description": "<h3>Tap Titain 2 / 點擊泰坦 吐!</h3><ul><li>0.40 測試版！</li></ul>",
       "packageName": "com.gamehivecorp.taptitans2",
       "downloadURL": "https://github.com/toodonny/robotmon-scripts/raw/master/scripts/com.donny.taptitans2/index.zip"
