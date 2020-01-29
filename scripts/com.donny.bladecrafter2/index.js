@@ -1011,7 +1011,7 @@ function menutap(pg) {
 	tapFor(680, 680, 4, 30, 200, 200);   //點右邊向下三角型
 
 	var pgX = 50 + 123 * (pg - 1);
-	tapFor(pgX, 1260, 1, 50, 100, 500);  //點選單-pg
+	tapFor(pgX, 1260, 1, 50, 100, 1000);  //點選單-pg
 }
 
 function menutap2(pg, pg2) {
@@ -1144,7 +1144,7 @@ function weaponlvup(Gt, cy){
 	var btnN = ['', '黃', '橘', '棕', '茶', '灰'];
 	
 	var gametimes = Gt * 1000;
-	var cycles = Math.round(gametimes / 8000);
+	var cycles = Math.round(gametimes / 7000);
 	console.log('循環', cycles, '次，連點', Gt, 'sec'); 
 
 	var t1 = Date.now()
@@ -1156,9 +1156,14 @@ function weaponlvup(Gt, cy){
 		menutap2(2); //切換選單2，武器頁
 
 		if (!wplvmax) { 
-			DIY_Fstswipe_du(690, 200, 360, 1150, 360, 800, allswspd, allswwait);  //向上滑
-			DIY_Fstswipe_du(690, 200, 360, 1140, 360, 800, allswspd, allswwait);  //向上滑
-			for (var i = 0; i <= 40; i++){
+			sleep(300);
+			DIY_Fstswipe(360, 1150, 360, 100, allswspd, allswwait);  //向上滑
+			DIY_Fstswipe(360, 1150, 360, 100, allswspd, allswwait);  //向上滑
+			DIY_Fstswipe(360, 1140, 360, 100, allswspd, allswwait);  //向上滑
+			
+			// DIY_Fstswipe_du(690, 200, 360, 1150, 360, 800, allswspd, allswwait);  //向上滑
+			// DIY_Fstswipe_du(690, 200, 360, 1140, 360, 800, allswspd, allswwait);  //向上滑
+			for (var i = 0; i <= 30; i++){
 				var pointColor = getPointcolorHex(540, 1170);                //出現棕色中斷
 				var chkColor1 = isSameColorHex(pointColor, btnC[3], 20);
 				if (chkColor1) {break;}
@@ -1172,10 +1177,14 @@ function weaponlvup(Gt, cy){
 			}
 		}
 
-		DIY_Fstswipe_du(690, 200, 360, 800, 360, 1150, allswspd, allswwait);  //向下滑
-		DIY_Fstswipe_du(690, 200, 360, 800, 360, 1150, allswspd, allswwait);  //向下滑
+		sleep(300);
+		DIY_Fstswipe(360, 810, 360, 1450, allswspd, allswwait);  //向下滑
+		DIY_Fstswipe(360, 800, 360, 1450, allswspd, allswwait);  //向下滑
+		
+		// DIY_Fstswipe_du(690, 200, 360, 800, 360, 1150, allswspd, allswwait);  //向下滑
+		// DIY_Fstswipe_du(690, 200, 360, 800, 360, 1150, allswspd, allswwait);  //向下滑
 
-		for (var i = 0; i <= 50; i++){
+		for (var i = 0; i <= 30; i++){
 			// var pointColor = getPointcolorHex(550, 850);                //出現茶色中斷
 			// var chkColor = isSameColorHex(pointColor, btnC[4], 20);
 			// if (chkColor) {break;}
@@ -1236,7 +1245,7 @@ function chkweapentype() {
 				console.log('Weapen Type:', typeN[j]);
 				return j
 			}
-			sleep(50);
+			sleep(150);
 		}
 	}
 	console.log('Weapen Type chk error!');
@@ -1254,17 +1263,20 @@ function changehelmet(stok1, stok2, stok3, stok4, Timer) {
 
 	//550,800  dW = 115,  now:   not:
 	var stokH = ['', stok1, stok2, stok3, stok4];
-	var stokY = ['',   800,   915,  1030,  1145];
+	var stokY = ['',   810,   925,  1040,  1155];
 
 	var wptype = chkweapentype();
 	if (wptype == wptypenow) {
 		console.log('The same weapen type!!');
 
 	} else if (wptype > 0) {
+		var tapYadd = 0;
 		menutap2(3, 2);
-		DIY_swipe_du(690, 200, 360, 1150, 360, 900, 50, 600);
 
-		var tapY = stokY[stokH[wptype]];
+		if (stokH[wptype] == 4) {DIY_swipe(360, 1150, 360, 900, 50, 600);	}
+		else {tapYadd = 100;}
+
+		var tapY = stokY[stokH[wptype]] + tapYadd;
 		tapFor_du(690, 200, 550, tapY, 1, 100, 100, 200);
 		wptypenow = wptype;
 		menutap2(2, 0);
@@ -1963,7 +1975,7 @@ function Tibackup(lst) {
 	tapFor(470, 130, 1, 50, 50, 200);   //點選-備份還原功能
 
 	tapFor(120, 210, 1, 50, 50, 2000);  //選第一個備份資料-還原 Y:350:還原  Y:210:備份
-	tapFor(510, 760, 1, 50, 50, 10000);  //點選-資料  X:510;Y:760;程式開啟確認備份
+	tapFor(510, 760, 1, 50, 50, 10000);  //點選-資料  X:510;Y:760;程式開啟確認��份
 	
 	// console.log('Start Game.....')
 	rbm.startApp(config.PackangName,config.LaunchActivityName); sleep(5000);
@@ -2164,10 +2176,10 @@ function abandonGear(sw) {
 	}
 
 	var abaSwobj = {
-		1 : [' gloves', 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1],
-		2 : [' helmet', 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0],
+		1 : [' gloves', 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 2, 1],
+		2 : [' helmet', 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0],
 		3 : ['  armor', 1, 1, 1, 1, 0, 1, 1, 1, 1, 1], 
-		4 : ['   ring', 1, 1, 1, 1, 1, 1, 0, 0, 1],
+		4 : ['   ring', 1, 1, 1, 0, 0, 1, 0, 0, 1],
 		5 : ['earring', 1, 1, 1, 1, 1, 1, 0, 0, 1]
 	}
 
@@ -2581,7 +2593,7 @@ function setFirstsetting() {
 	mini3slt4 = 20; //minigame3 打地鼠 30秒 分4段 4段 時間差
 	
 	allswspd  =  20;  //滑動速度(大:快)
-	allswwait = 700;  //滑動完等待 毫秒
+	allswwait = 900;  //滑動完等待 毫秒
 
 	debugTmrChk = 4;  //畫面異常多久觸發debug執行
 
@@ -2589,12 +2601,12 @@ function setFirstsetting() {
 	Features  = 2;    //[單刷] 1:主角刷 /2武器刷 / 3裝備 /4寵物 /5寶物 /7每日獎勵 /8背動技 //
 	//=================================================================================//
 
-	totalwptime = 720;  //武器刷持續時間後轉生
+	totalwptime = 680;  //武器刷持續時間後轉生
 	newwpDT   = 15;   //新武器出現時間差-更換頭盔
-	passistok = 2;    //頭盔-英雄劍加成-位置
-	fairystok = 1;    //頭盔-精靈劍加成-位置
-	wickestok = 3;    //頭盔-魔劍加成-位置
-	divinstok = 4;    //頭盔-神劍加成-位置
+	passistok = 1;    //頭盔-英雄劍加成-位置
+	fairystok = 4;    //頭盔-精靈劍加成-位置
+	wickestok = 2;    //頭盔-魔劍加成-位置
+	divinstok = 3;    //頭盔-神劍加成-位置
 
 	skillupSw = 1;    //大技升級開關
 	skill_1Sw = 0;    //第1大技點擊                                                   

@@ -3,25 +3,25 @@
 // ============================idlerpg=============================== //
 
 var config = {
-  appName: 'com.donny.bladecrafter2',   //最強名劍 2
-  oriScreenWidth: 1280, // source
-  oriScreenHeight: 720,
+  appName: 'com.donny.nonstop2',   //掛機終結者
+  oriScreenWidth: 720, // source
+  oriScreenHeight: 1280,
   oriVirtualButtonHeight: 0,
   oriResizeFactor: 1, 
   eventDelay: 50,
   imageThreshold: 1,
   imageQuality: 100,
   resizeFactor: 1, // small -> quickly
-  scriptDir: 'scripts/com.donny.bladecrafter2/images',
+  scriptDir: 'scripts/com.donny.nonstop2/images',
   isRunning: false,
-  PackangName: 'jp.co.ponos.battlecatstw',
-  LaunchActivityName: 'jp.co.ponos.battlecats.MyActivity',
+  PackangName: 'com.flaregames.nonstop.action.rpg',
+  LaunchActivityName: 'com.unity3d.player.UnityPlayerActivity',
   TiPackangName: 'com.keramidas.TitaniumBackup',
   TiLaunchActivityName: 'com.keramidas.TitaniumBackup.MainActivity',
 };
-// 應用:貓咪大戰爭
-// 包名:jp.co.ponos.battlecatstw
-// 啟動類:jp.co.ponos.battlecats.MyActivity
+// 應用:Nonstop 2
+// 包名:com.flaregames.nonstop.action.rpg
+// 啟動類:com.unity3d.player.UnityPlayerActivity
 
 var rbm = new RBM(config);
 rbm.init();
@@ -791,28 +791,21 @@ function useReturn(choiceF){          //各項回授點檢查
 	//console.log('各項升級限制條件');
 	
 	switch (choiceF) {
-		case  1: 
-			var img = getScreenshotModify(0, 48, 300, 1, 300, 1, 100);
-			for (var j = 1; j <= 3; j++) {
-				var getColor = getpointHex(img, calnX[j], 0);
-				var isSame = isSameColorHex(getColor, calnColor[j], 30);
-				// console.log('get:', getColor, ', OK:', calnColor[j]);
-				if (!isSame) {releaseImage(img); return false;}
-			} releaseImage(img); return true;
+		case  1: return CheckImageTap(550, 1130, 670, 1240, 0.95, 'fightingbag.png', 1, 1, 1, 1, 2, 0);  //戰鬥中背包
+		case  2: 
+			rbm.keepScreenshotPartial(240, 300, 480, 420);  //
+			for (var i = 1; i <= 2; i++) {
+				var img1 = rbm.findImage('gg_run_chk_0' + i + '.png', 0.90);   //確認戰鬥標題-開始
+				if (img1 != undefined) break;
+			} 
+			rbm.releaseScreenshot();
 
-		case  2: return chknewbubble( 53, 150);   //檢查是否有new紅泡泡(minigame)
-		case  3: return chknewbubble(620, 800);   //new泡泡有沒有，裝備
-		case  4: return chknewbubble(605, 805);   //new泡泡有沒有，寵物
+			if (img1 != undefined) rbm.log('gg_run_chk_0' + i + '.png:', img1);
 
-		case  5:
-			var pointColor = getPointcolorHex(560, 840);     //寶物能不能開對色
-			var chkColor = isSameColorHex(pointColor, 'EF6D34', 20);
-			if (chkColor) {return true;} 
-			return false;
+			if (img1 != undefined) {return true;}
+			else {return false;}
+		case  3:
 
-		case  6: return chknewbubble( 58, 295);   //檢查是否有new紅泡泡(world boss)
-		case  7: return chknewbubble(194,  25);   //檢查是否有new紅泡泡(每日獎勵)
-	
 	}
 }
 
@@ -897,29 +890,21 @@ function ADgetany() {
 	if (useReturn(1)) return false;
 	console.log('檢查廣告');
 
+	var colorOK1 = checkPointcolor(330, 540, 20, '7BFFFF');   //看廣告圖示(亮) SPEEDX2
+	var colorOK2 = checkPointcolor(330, 520, 20, '29AAEF');   //看廣告圖示(亮) questlvup
+	if(colorOK1 || colorOK2) {
+		tapFor(220, 770, 2, 50, 300, 1500);
+		waitAD2(65);
 
-	
-	var colorOK = checkPointcolor(310, 930, 20, '59678A');   //點灰色按鈕
-	if(colorOK) {tapFor(300, 940, 2, 50, 300, 100);}
-
-	for (var i = 8; i >= 4; i--){
-		var chkPoint = useReturn(i);
-		if (chkPoint.r) {
-			tapFor(chkPoint.x, chkPoint.y + 3, 1, 50, 100, 1000);
-
-			if (i != 8) {waitAD2(65);}
-			else sleep(1000);
-		} 
+		for (var j = 0; j <= 30; j++){
+			if (useReturn(1)) {
+				sleep(1500);
+				return false;
+			}
+			keycode('BACK', 200); sleep(400);
+			sleep(500);
+		}
 	}
-	
-
-	for (var j = 0; j <= 30; j++){
-		if (useReturn(1)) {return false;}
-		keycode('BACK', 200); sleep(400);
-		sleep(500);
-	}
-
-	return chkPoint;
 }
 
 function waitAD2(timer) {
@@ -939,7 +924,7 @@ function waitAD2(timer) {
 				sleep(200);
 			}
 			if (i >= 3) {
-				var mainpage = useReturn(1); //主畫面書本圖示
+				var mainpage = useReturn(1); //
 				if (mainpage) {
 					a = a + 1;
 					if (i < 10 && a >= 10) {console.log('選單鈕，出現10秒，異常'); return false;}
@@ -1006,86 +991,248 @@ function waitAD2(timer) {
 
 // ===========================================================
 
-function goldegg(c1, mod) {   //mod: 0:lucky card  1:
+function nonstop2() {
 	if (!config.isRunning) return false;
 
-	for (var i = 1; i <= c1; i++) {
-		if (!config.isRunning) return false;
-		console.log('egg cycle:', i, '/', c1);
-		tapFor(1080, 600, 2, 100, 100, 1000);
+	if (useReturn(1)) {
+		
+		if (startskill) {CheckImageTap(275, 165, 450, 250, 0.95, 'fightbossbtn.png', 1, 1, 1, 500, 1, 0);}  //
 
-		if (mod != 0){
-			tapFor(450, 470, 2, 100, 100, 1000);
+		if (!startskill) {startskill = chkstartskill();}
+		// if (ggcrackrun && useReturn(2)) {ggcrack2(4);}
+		if (!startskill) {ggcrack2(4);}
+		else if ((ggcrackrun && startskill) || !ggcrackrun ) {skilltap();}
+
+	} else{
+		startskill = false;
+		CheckImageTap(330, 250, 500, 350, 0.95, 'operbox.png', 1, 1, 10, 100, 1, 0);  //
+		CheckImageTap(260, 710, 460, 940, 0.95, 'getboxeqicon.png', 1, 1, 6, 100, 1, 0);  //
+
+		CheckImageTap(295, 410, 425, 500, 0.95, 'talent.png', 1, 1, 10, 100, 1, 0);  //
+		
+		
+		CheckImageTap(220, 250, 440, 350, 0.95, 'lvup.png', 1, 1, 10, 100, 1, 0);  //
+		
+		CheckImageTap(280, 940, 440, 1020, 0.95, 'continuebtn.png', 1, 1, 3, 100, 1, 0);  //
+
+		var fighticon = ['', 'bossicon.png', 'quest03_norun.png', 'gateicon.png', 'rankgameicon.png', 'rankgameicon2.png', 'dalyquestboss.png'];
+		var fightchkf = ['', 1, 1, 1, 1, 1, 1];
+		rbm.keepScreenshotPartial(25, 330, 710, 1160);         //
+		for (var i = 1; i <= 6; i++) {
+			if (fightchkf[i] == 1) {
+				var img1 = rbm.findImage(fighticon[i], 0.98);        //
+				if (img1 != undefined) {
+					rbm.log(fighticon[i] + ':', img1);
+					break;
+				}
+			}
 		}
+		rbm.releaseScreenshot();
 
-		tapFor(980, 600, 90, 50, 50, 1000);
+		if (img1 != undefined) {tapFor(img1.x + 20, img1.y + 5, 1, 30, 100, 500);}
 
-		if (mod != 0){
-			tapFor(930, 470, 4, 100, 200, 1500);
-		}      
+		// CheckImageTap(25, 390, 700, 1160, 0.99, 'bossicon.png', 1, 1, 1, 1000, 1, 0);  //
+		// CheckImageTap(25, 390, 700, 1160, 0.99, 'quest03_norun.png', 1, 1, 1, 1000, 1, 0);  //
+		// CheckImageTap(25, 390, 700, 1160, 0.99, 'gateicon.png', 1, 1, 1, 1000, 1, 0);  //
+
+
+		CheckImageTap(280, 740, 440, 890, 0.95, 'continue.png', 1, 1, 1, 1000, 1, 0);  //
+		CheckImageTap(300, 740, 420, 890, 0.95, 'intofight.png', 1, 1, 1, 1000, 1, 0);  //
 	}
-
 
 }
 
-function clearnStore(mod) {  //mod: 0:不換np/xp  1:換np  2:換xp
+function skilltap() {
 	if (!config.isRunning) return false;
-	console.log('clearn store')
 
-	// sleep(1000);
-	tapFor(180, 600, 2, 50, 100, 1500); //點儲藏庫
-
-	tapFor(440, 680, 2, 50, 100, 800); //點全部使用
-	tapFor(320, 440, 2, 50, 100, 800); //全部使用-點是
-	tapFor(320, 440, 2, 50, 100, 800); //確定使用-點是
-	tapFor(840, 440, 2, 50, 100, 800); //已經使用-點OK
-
-
-	// tapFor(860, 440, 2, 100, 100, 1500); //點全部使用-換卷
-
-
-	if (mod != 0) {
-		tapFor(740, 680, 2, 50, 100, 1500); //點換 NP/XP
-		
-		if (mod == 1) {
-			tapFor(320, 440, 2, 50, 100, 800); //一併交換-換成NP
-		} else if(mod == 2){
-			tapFor(800, 440, 2, 50, 100, 800); //一併交換-換成XP
-		}
-
-		tapFor(320, 440, 2, 50, 100, 800); //確定換成-點是
-	}
+	var skillX = [0, 150, 330, 510];
 	
+	if (skill01) {tapFor(skillX[1], 1100, skill01tap, 20, 50, skill01delay);}
+	if (skill02) {tapFor(skillX[2], 1100, skill02tap, 20, 50, skill02delay);}
+	if (skill03) {tapFor(skillX[3], 1100, skill03tap, 20, 50, skill03delay);}
+}
 
-	tapFor( 60, 680, 2, 50, 100, 1000); //點返回
+
+function chkstartskill() {
+	if (!config.isRunning) return false;
+
+	var skillX = [0, 150, 330, 510];
+	
+	tapFor(skillX[2], 1100, 3, 15, 20, 50);
+	var manalock =  checkPointcolor(620, 1045, 15, '10CFFF');
+	console.log('manalock:', manalock);
+
+	return manalock;
+}
+
+function menutap(pg) {
+	if (!config.isRunning) return false;
+	if (pg < 0 && pg > 6) {console.log('Page Error!!'); return false;}
+	// console.log('1 Menu - Page', pg);
+
+	tapFor(680, 680, 4, 30, 200, 200);   //點右邊向下三角型
+
+	var pgX = 50 + 123 * (pg - 1);
+	tapFor(pgX, 1260, 1, 50, 100, 1000);  //點選單-pg
+}
+
+function menutap2(pg, pg2) {
+	if (!config.isRunning) return false;
+	if (pg < 0 || pg > 6) {console.log('Page Error!!'); return false;}
+	// console.log('2 Menu - Page', pg);
+
+	//100,1270  dW = 120,  now:594E41   not:968169
+	var newbbX = [680,  100,  220,  340,  460,  580,  700];
+	var newbbY = [680, 1270, 1270, 1270, 1270, 1270, 1270];
+	var nowbbC = ['FFFFFF', '594E41', '594E41', '594E41', '594E41', '594E41', '594E41'];
+	var notbbC = ['FFFFFF', '968169', '968169', '968169', '968169', '968169', '968169'];
+
+	var img = getScreenshotModify(0, newbbY[pg], 710, 1, 710, 1, 100);
+	var getColor = getpointHex(img, newbbX[pg], 0);
+	var colorNow = isSameColorHex(getColor, nowbbC[pg], 20);
+	var colorNot = isSameColorHex(getColor, notbbC[pg], 20);
+	releaseImage(img);
+
+	if (pg == 0 && !colorNow) {return false;}
+	else if (colorNow && !colorNot) {return false;}
+	// rbm.log('mgNewBubble, i:', i, 'getColor:', getColor, ', newbbC[i]:', newbbC[i], ', colorOK:', colorOK);
+	tapFor(680, 60, 1, 30, 100, 200);
+	tapFor(newbbX[pg], newbbY[pg] + 5, 1, 30, 100, 500);//pg:0:點右邊向下三角型, 點選單-pg 
+
+	if (pg == 3 & pg2 > 0) {
+		//40,810  dW = 96,  now:E7A631   not:423021
+		var newgeX = [680,  40,  136,  232,  328,  424];
+		var newgeY = [680, 810,  810,  810,  810,  810];
+		var nowgeC = ['FFFFFF', 'E7A631', 'E7A631', 'E7A631', 'E7A631', 'E7A631'];
+		var notgeC = ['FFFFFF', '423021', '423021', '423021', '423021', '423021'];
+
+		var img = getScreenshotModify(0, newgeY[pg2], 450, 1, 450, 1, 100);
+		var getColor = getpointHex(img, newgeX[pg2], 0);
+		var colorNow = isSameColorHex(getColor, nowgeC[pg2], 20);
+		var colorNot = isSameColorHex(getColor, notgeC[pg2], 20);
+		releaseImage(img);
+		tapFor(newgeX[pg2], newgeY[pg2] + 5, 1, 30, 100, 200);//pg:0:點右邊向下三角型, 點選單-pg 
+	}
 }
 
 function debug(Timer) {
 	if (!config.isRunning) return false;
-	if (!debugFc) return debugTimer = Date.now();
+	if (Date.now() < debugTimer) {
+		var waittime = Math.round((debugTimer - Date.now())/1000);
+		console.log('Debug:', waittime, ' sec');
+		return false;
+	}
 	console.log('Debug');
+	CheckImageTap( 20, 225, 250, 300, 0.95, 'offlineresult.png', 360, 980, 1, 1000, 0, 1);  //重新啟動遊戲
 
-	if (debugFc) {
-		var ErrorTime = (Date.now() - debugTimer) / 1000 - Timer;
-		// console.log(ErrorTime, Date.now(), debugTimer, Timer);
-		console.log(ErrorTime, Timer);
+	crasherror();
 
-		
-		var pointColor = getPointcolorHex(360, 760);
-		var chkColor = isSameColorHex(pointColor, 'E7AC30', 20);
-		if (chkColor) {
-			tapFor(365, 765, 2, 50, 100, 500);   //點開始mini game / 關閉
-		} else if (ErrorTime > 0) {
-			console.log('Debug Click Back');
-			debugTimer = Date.now();
-			keycode('BACK', 500);
-			tapFor(360, 40, 2, 50, 100, 200);
-			sleep(2000);
-			debugFc = false;
+	debugTimer = Date.now() + Timer * 1000;
+}
+
+// =========Metal Slug============================================
+
+function puzzle() {
+	if (!config.isRunning) return false;
+	var puzzleX = ['', 520, 640, 760, 520, 640, 760];
+	var puzzleY = ['', 230, 230, 230, 350, 350, 350];
+
+	//filename: puzzle_'底圖'_'位置'_'圖片'
+
+	rbm.keepScreenshotPartial(129, 146, 1181, 576);  //關卡圖，比對是否卡關
+
+	for (k = 1; k <= 3; k++) {            //底圖數量 3張，k=1~3
+		for (j = 1; j <= 6; j++) {        //預備區有 6格，j=1~6
+			for (i = 1; i <= 6; i++) {    //每格可能圖 6張，i=1~6
+				var img = rbm.findImage( 'puzzle_' + k + '_' + j + '_' + i + '.PNG', 0.90);
+
+				rbm.log('puzzle_' + k + '_' + j + '_' + i + '.PNG', img);
+				
+				if (img != undefined && img.score > 0.90){
+					console.log('在底圖', k, '的第', j, '格找到圖片', i);
+					DIY_swipe(img.x, img.y, puzzleX[i], puzzleY[i], 50, 1000);
+				}
+			}
 		}
 	}
+	rbm.releaseScreenshot();
+}
+
+
+// =========Crash Error Shutting===================================
+function crasherror() {
+	console.log('crasherror reflash!')
+	CheckImageTap(475, 675, 635, 715, 0.95, 'crasherrorbox.png', 595, 695, 1, 1000, 0, 1);     //停止運作
+	CheckImageTap( 75, 440, 155, 580, 0.95, 'crasherrorGGlist.png', 220, 610, 1, 1000, 0, 1);  //重新啟動遊戲
 
 }
+
+// =========GG Crack========================================
+function ggcrack() {
+	if (!config.isRunning) return false;
+	if (!useReturn(1)) return false;
+
+	tapFor( 35, 165, 2, 30, 100, 1500);
+	tapFor(290,  30, 2, 30, 100, 1500);
+	tapFor(620, 155, 1, 30, 100, 1500);
+	tapFor(630, 825, 1, 30, 100, 1500);
+	tapFor(160, 640, 1, 30, 100, 2000);
+
+	for (i = 0; i <= 120; i++) {
+		console.log('GG crack wait time:', i, 'sec');
+		sleep(1000);
+		if (useReturn(1)) {break;}
+	}
+}
+
+function ggcrack2(ma_mun) {
+	if (!config.isRunning) return false;
+	// if (!useReturn(1)) return false;
+	console.log('gg crack 2!!');
+
+	for (var j = 1; j <= 150; j++) {
+
+		var wait = CheckImageTap(510, 610, 600, 990, 0.95, '/gg_img/gg_waitsearch.png', 1, 1, 1, 100, 2, 0);  //搜尋中-隱藏
+		if (wait) {
+			for (i = 0; i <= 120; i++) {
+				console.log('GG crack wait time:', i, 'sec');
+				sleep(800);
+				if (useReturn(1)) {sleep(1200); break;}
+			}
+			break;
+
+		} else {
+			CheckImageTap(0, 0, 720, 210, 0.95, '/gg_img/gg_icon_720.png', 1, 1, 1, 200, 1, 0);  //點gg圖示，畫面 y < 210
+
+			// var ggopen = CheckImageTap(265, 20, 315, 60, 0.96, 'gg_img/gg_search.png', 1, 1, 1, 100, 2, 1);  //確認放大鏡圖示
+			// console.log('ggopen:', ggopen);
+			// if (ggopen) {
+				rbm.keepScreenshotPartial( 580, 110, 650, 185);  //
+				var img1 = rbm.findImage('gg_img/gg_search_playscritp.png', 0.95);        //確認執行鈕-亮
+				var img2 = rbm.findImage('gg_img/gg_search_playscritp_dark.png', 0.95);   //確認執行鈕-暗
+				rbm.releaseScreenshot();
+				
+				// if (img1 != undefined) rbm.log('img1:', img1);
+				// if (img2 != undefined) rbm.log('img2:', img2);
+
+				if (img1 != undefined) {
+					tapFor(img1.x, img1.y, 1, 20, 100, 100, 100);
+
+				} else if (img2 != undefined) {
+					CheckImageTap(580, 610, 680, 990, 0.95, '/gg_img/gg_search_endscript_ok.png', 1, 1, 1, 100, 1, 0);  //腳本結束-確定
+					CheckImageTap(580, 610, 680, 990, 0.95, '/gg_img/gg_search_runscript.png', 1, 1, 1, 500, 1, 0);  //點腳本-執行
+					CheckImageTap(75, 380, 120, 900, 0.95, '/gg_img/gg_main_menu_0' + ma_mun + '.png', 1, 1, 1, 500, 1, 0);  //點腳本主選單-項目
+
+				} else {
+					tapFor(290, 30, 1, 20, 100, 100, 300);   //點選放大鏡
+
+				}
+			// }
+		}
+		sleep(200);
+	}
+}
+
 
 // =========TiBackup Used===================================
 function TireductGame(Tilst, sec, item, itemLv, cycle){ // 3:刷裝  4:刷寵  5:刷寶  7:簽到獎勵  8:背動技
@@ -1194,7 +1341,7 @@ function Tibackup(lst) {
 	tapFor(470, 130, 1, 50, 50, 200);   //點選-備份還原功能
 
 	tapFor(120, 210, 1, 50, 50, 2000);  //選第一個備份資料-還原 Y:350:還原  Y:210:備份
-	tapFor(510, 760, 1, 50, 50, 10000);  //點選-資料  X:510;Y:760;程式開啟確認備份
+	tapFor(510, 760, 1, 50, 50, 10000);  //點選-資料  X:510;Y:760;程式開啟確認��份
 	
 	// console.log('Start Game.....')
 	rbm.startApp(config.PackangName,config.LaunchActivityName); sleep(5000);
@@ -1247,31 +1394,53 @@ function Tireducbkup(lst, mod) {  //lst:點選列表第幾個  mod: 1:還原 2:�
 
 
 
+
 // ===========================================================
 
 function main(){       //主流程
 	if (!config.isRunning) return false;
 
-	goldegg(4, 1);
-	clearnStore(2);
+	nonstop2()
+
+	sleep(100);
+
 }
 
 // ===========================================================
 
 function setFirstTimer() {   //預設值設定
-	tapeggeqTimer = Date.now() + 900 * 1000;  //收裝備/寵蛋
-	newwpTimer    = Date.now() +  30 * 1000;  //新武器出現時間差
-	skilluseTimer =  Date.now() + 120 * 1000;  //大技使用控制時間(武器未更換時間)
-	taptreasuresTimer =  Date.now() + 300 * 1000;  //點寶物/太古石板
-	
+	checkScreenTimer  = Date.now() +   5 * 1000;  //畫面停止檢查用，不可刪
+	ScreenErrorTime1 = Date.now();
 	rbm.screencrop('checkADstop.png', 180, 270, 590, 860);
+
+
+	tapcapsuleTimer = Date.now() + 10 * 1000;    //膠囊檢查時間
+	watchaddailyTimer =  Date.now() + 5 * 1000;  //每日任務看廣告
+	questelvelvupTimer = Date.now() + 15 * 1000; //任務精靈自動看廣告
+	chkskillcdTimer = Date.now() + 15 * 1000;    //技能CD時間
+	debugTimer =   Date.now() + 10 * 1000;       //
+
+	startskill = 0;
+
 
 }
 
 function setFirstsetting() {
-	mstdncycle   =  2;  
+	skill01 = 0;
+	skill02 = 0;
+	skill03 = 1;
+
+	skill01tap = 10;
+	skill02tap = 10;
+	skill03tap = 10;
+
+	skill01delay = 1000;
+	skill02delay = 1000;
+	skill03delay = 1000;
 
 
+
+	ggcrackrun = 1;
 }
 
 function test(cycle, DT){
