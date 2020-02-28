@@ -1139,7 +1139,7 @@ function MasterLvUp(MaxLvup, Timer){    //劍術大師升級
 	}
 }
 
-function SkillLvUp(clearF){                   //大技升級
+function SkillLvUp(clearF){             //大技升級
 	if (!config.isRunning || checkReturn(11)) return false;
 	if (masterset[2] == 1) {console.log('技能全部LV25'); return false;}
 	console.log('大技升級');
@@ -1599,7 +1599,7 @@ function prestige(){                    //轉生
 					console.log(j, '轉生, 金蛻:', nowgold, '/', SwPrgolds, '; 次數:', pregold, '/', SwPrgoldT);
 				}				
 				//console.log(j, '我要轉生');
-				CheckImageTap(255, 815, 600, 1100, 0.90, 'prestigebutton2.png', 1, 1, 3, 50, 1);   //Prestige 按鈕 兩個
+				CheckImageTap(255, 815, 600, 1250, 0.90, 'prestigebutton2.png', 1, 1, 3, 50, 1);   //Prestige 按鈕 兩個
 			}
 			break;
 		}
