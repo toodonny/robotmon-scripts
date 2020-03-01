@@ -181,21 +181,23 @@ function findRegionPoint(intX, intY, finX, finY, diff, strRGB, mode) {    //尋�
 	return check;
 }
 
-function CheckImageTap(intX, intY, finX, finY, Siml, ImageName, TapX, TapY, TapTimes, Delay1, Taptype) {  //Taptype:  0:Tap X,Y, 1:tapImage, 2:return 
+function CheckImageTap(intX, intY, finX, finY, Siml, ImageName, TapX, TapY, TapTimes, Delay1, Taptype, mesg) {  //Taptype:  0:Tap X,Y, 1:tapImage, 2:return 
 	if (!config.isRunning) return false;
 	rbm.keepScreenshotPartial(intX, intY, finX, finY); // x1, y1, x2, y2
 	var targetImag = rbm.imageExists(ImageName, Siml);
+	var targetImg1 = rbm.findImage(ImageName, Siml);
 
-	if (Taptype == 2) {
-		rbm.releaseScreenshot();
-		return targetImag;
-	}
+	if (mesg == undefined) { mesg = 0; }
+	if (mesg == 1) { rbm.log(ImageName + ':', targetImg1)}
+	if (Taptype == 2) {	rbm.releaseScreenshot(); return targetImag; }
+	
+	if (!targetImag) return false;
 	
 	for (var i = 0; i < TapTimes; i++) {
 		if (!config.isRunning) return false;
 		if (targetImag) {
 			if (Taptype == 0) {
-				tap(TapX, TapY, 100)
+				tap(TapX, TapY, 50)
 				//console.log('Tap-' + TapX + ',' + TapY)
 			}
 			else if (Taptype == 1) {
@@ -820,7 +822,7 @@ function checkReturn(choiceF){          //各項回授點檢查
 		case 13: return CheckImageTap(395,   75, 430,  125, 0.90, 'icon_Inbox.png',   1, 1, 1, 50, 2);   //大師畫面 Inbox
 		case 14: return CheckImageTap(175,   90, 205,  130, 0.90, 'bossHPicon2.png',  1, 1, 1, 50, 2);   //確認打boss2中
 		
-		case 15: return CheckImageTap( 25, 1140,  90, 1210, 0.90, 'icon_prest.png',   1, 1, 1, 50, 2);   //prestige icon
+		case 15: return CheckImageTap( 25,  700,  90, 1210, 0.90, 'icon_prest.png',   1, 1, 1, 50, 2);   //prestige icon
 		
 		case 16: return CheckImageTap(650,   20, 715,   90, 0.93, 'buttleftboss.png',  1, 1, 1, 50, 2);  //leftboss button
 		case 17: return CheckImageTap(650,   20, 715,   90, 0.93, 'buttfightboss.png', 1, 1, 1, 50, 2);  //fightboss button
@@ -988,7 +990,7 @@ function checkAD(ctrlCode){             //確認是否出現看廣告  ctrlCode:
 							console.log('看廣告，拿【', ADbufftype[i],'】buffer');
 							tapFor(540, 950, 2, 50, 100)
 								
-							AD_watch(45);
+							AD_watch(35);
 						
 							if (i == 2) {
 								MasterLvUpTimer = Date.now() +  30 * 1000;
@@ -1152,7 +1154,7 @@ function SkillLvUp(clearF){             //大技升級
 			if (MasterLvUpTimer == 0 || clearF == 1) {
 				for (var l = 0; l < 6; l++){
 					var lvX1 = 107; 
-					var lvY1 = 340 + l * 113;
+					var lvY1 = 480 + l * 113;   // Y:340
 					var lvX2 = 170;
 					var lvY2 = lvY1 + 24;
 					// console.log(lvX1, lvY1, lvX2, lvY2);
@@ -1170,7 +1172,7 @@ function SkillLvUp(clearF){             //大技升級
 			for (var j = 0; j < 5; j++) {
 				if (!config.isRunning) return false;
 				
-				rbm.keepScreenshotPartial( 500, 300, 700, 1000);  //確認升級按鈕等級顯示
+				rbm.keepScreenshotPartial( 500, 430, 700, 1200);  //確認升級按鈕等級顯示 , Y:300
 				var results = rbm.findImages(buyModearray[k], 0.85, 6, false, false);
 				rbm.releaseScreenshot();
 				
@@ -1280,7 +1282,7 @@ function HerosLvUp(Timer1, Timer2){    //英雄升級
 	var imagenamearray  = new Array(  '', 'yellow.png', 'orange.png', 'yellow.png');
 	var thresholdarray  = new Array(  '',         0.85,         0.85,         0.85);
 	var checkcolorarray = new Array(  '',     'F7A308',     'EF6E14',     'F7A308');
-	var lvuptimesarray  = new Array(  '',            1,            1,            4);
+	var lvuptimesarray  = new Array(  '',            1,            1,            2);
 	
 	//usePerks(swRaintms, 0)
 	choiceMenu(2, 2); sleep(500);
@@ -1359,9 +1361,9 @@ function HerosLvUp(Timer1, Timer2){    //英雄升級
 	}
 	
 	if ( heromaya == 1 || heromaxlvv == 1 || heronew == 1 ) {
-		for (var j = 1; j <= 14; j++) {
+		for (var j = 1; j <= 10; j++) {
 			for (var k = 1; k <= 3; k++) {
-				for (var l = 1; l <= 2; l++) {
+				for (var l = 1; l <= 1; l++) {
 					if (!config.isRunning) return false;
 					//if (!checkReturn(18)) { console.log('沒有Hero DPS，跳出Hero Lvup'); return false; }
 
@@ -1399,7 +1401,7 @@ function HerosLvUp(Timer1, Timer2){    //英雄升級
 								//console.log('l:', l, ', k:', k, ', m:', m, ', x:', x0, ', y:', y0, checkcolorarray[k] + ':', checkPointcolor(x0, y0, 20, checkcolorarray[k]), ', 898989:', checkPointcolor(x0, y0, 20, '898989'));
 								var check = checkPointcolor(x0, y0, 20, '898989');
 								if (!check) { tapFor(x0, y0, lvuptimesarray[k], 50, 60); }     //console.log('check:false to tap'); 
-								else if ( check) { break; }                                    //console.log('check:true to break');
+								else if ( check) {break; }                                    //console.log('check:true to break');
 							}
 						}
 						else {
@@ -1548,7 +1550,7 @@ function prestige(){                    //轉生
 	choiceMenu(1, 1); sleep(300);
 	choiceMenu(1, 1); sleep(300);
 	for (var i = 0; i < 10; i++) {
-		if ( checkReturn(15)) {
+		if (checkReturn(15)) {
 			for (var j = 0; j < 15; j++) {
 				if (!config.isRunning) return false;
 				
@@ -1569,10 +1571,11 @@ function prestige(){                    //轉生
 				
 				sleep(1000);
 				
-				rbm.keepScreenshotPartial( 500, 1140, 550, 1210);  //確認轉生按鈕亮
-				var targetImg1 = rbm.imageExists('prestige.png', 0.90)
+				rbm.keepScreenshotPartial( 500, 700, 700, 1210);  //確認轉生按鈕亮
+				var Img = rbm.findImage('prestige.png', 0.90)
 				rbm.releaseScreenshot();
-				if (targetImg1) { tap(550, 1180, 100); }
+				if (Img != undefined) {rbm.log('Img:', Img); }
+				if (Img != undefined) {tapFor(Img.x, Img.y, 1, 30, 100, 100);}
 				
 				
 				if (checkReturn(1)) {
@@ -1604,7 +1607,7 @@ function prestige(){                    //轉生
 			break;
 		}
 		if (!checkReturn(15)) {
-			DIY_swipe(350, 1090, 350, 690, 40, 400);
+			DIY_swipe(350, 690, 350, 1090, 40, 400);
 		}
 		bossprestige = 0;
 	}
@@ -1977,7 +1980,7 @@ function testsetting() {
 
 	ctrlSkillcode = '111111';
 	ctrlFairyADcode = '11000';
-	SwFaADGD = 665;
+	SwFaADGD = 675;     //收金幣buffer金幣級次
 	
 	SwMastSw   = 1      //劍術大師 升級開關
 	SwMastTm   = 240    //劍術大師 升級檢查時間
@@ -1994,12 +1997,12 @@ function testsetting() {
 	
 	SwPrestig = 1       //蛻變開關
 	SwBossPrs = 3       //卡關的次數轉生
-	SwPrgolds = 670     //金幣級次蛻變
-	SwPrgoldT = 3       //金幣蛻變檢查次數
+	SwPrgolds = 680     //金幣級次蛻變
+	SwPrgoldT = 2       //金幣蛻變檢查次數
 	SwPrSaScr = 1       //蛻變時自動抓圖
 
 	
-	SwBossGd = 670      //金幣級次卡關轉生啟動
+	SwBossGd = 685      //金幣級次卡關轉生啟動
 	
 	SwArtifDv = 0       //自動開神器(轉生後觸發)
 	SwRedbook = 0       //自動點紅書(開神器後觸發)
@@ -2059,21 +2062,22 @@ function test(cycle){
 		else if (n >= 1) {
 			console.log('腳本測試開始, n:', n);
 
-			var attpart = ['左上', '左下', '中上', '中下', '下左', '下右', '右上', '右下'];
-			var chanBSX = [ 80,  80, 360, 360, 250, 440, 610, 610];
-			var chanBSY = [440, 720, 400, 600, 815, 815, 440, 720];
-			var hitSW = [1, 1, 1, 1, 1, 1, 1, 1];
-			for (var i = 0; i <= 7; i++) {
-				if (hitSW[i] == 1) {tapFor(chanBSX[i], chanBSY[i], 4, 10, 10);}
-			}
-			sleep(5);
+			// var attpart = ['左上', '左下', '中上', '中下', '下左', '下右', '右上', '右下'];
+			// var chanBSX = [ 80,  80, 360, 360, 250, 440, 610, 610];
+			// var chanBSY = [440, 720, 400, 600, 815, 815, 440, 720];
+			// var hitSW = [1, 1, 1, 1, 1, 1, 1, 1];
+			// for (var i = 0; i <= 7; i++) {
+			// 	if (hitSW[i] == 1) {tapFor(chanBSX[i], chanBSY[i], 4, 10, 10);}
+			// }
+			// sleep(5);
+
 
 			// SkillLvUp(1);
 			// DailyTimer      = Date.now() +  0 * 1000;
 			// Daily(10)
 			
 			// if (stage > 0 && stage < 55000) stageck = stage;
-			// while(config.isRunning) { main(); }
+			while(config.isRunning) { main(); }
 			
 			// sleep(1000);
 		}
