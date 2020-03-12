@@ -1023,6 +1023,15 @@ function buildlvup(Timer) {
 	var imgMAX = buildname.length - 1
 	// console.log(swipeupfastF, swipeudownF, imgMAX);
 
+
+	rbm.keepScreenshotPartial(890, 400, 990, 2090);  //
+	var Img1 = rbm.findImage('free4min.png', 0.90);
+	rbm.releaseScreenshot();
+	if (Img1 != undefined) {
+		console.log('tap freetime quest!!')
+		tapFor(Img1.x, Img1.y, 1, 30, 100, 100);
+	}
+
 	for (var i = 1; i <= swipeupfastF; i++) {
 		DIY_Fstswipe(540, 1400, 540, 800, 10, 1000);
 		console.log('快速上滑', i);
