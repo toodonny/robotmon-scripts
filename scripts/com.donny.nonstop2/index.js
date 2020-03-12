@@ -998,9 +998,9 @@ function nonstop2() {
 		
 		if (startskill) {CheckImageTap(275, 165, 450, 250, 0.95, 'fightbossbtn.png', 1, 1, 1, 500, 1, 0);}  //
 
-		if (!startskill) {startskill = chkstartskill();}
 		// if (ggcrackrun && useReturn(2)) {ggcrack2(4);}
-		if (!startskill) {ggcrack2(4);}
+		if(ggcrackrun) {if (!startskill || useReturn(2)) {ggcrack2(4);}}
+		if (!startskill) {startskill = chkstartskill();}
 		else if ((ggcrackrun && startskill) || !ggcrackrun ) {skilltap();}
 
 	} else{
@@ -1187,6 +1187,7 @@ function ggcrack() {
 
 function ggcrack2(ma_mun) {
 	if (!config.isRunning) return false;
+	// if (!ggcrackrun) return false;
 	// if (!useReturn(1)) return false;
 	console.log('gg crack 2!!');
 
@@ -1402,7 +1403,7 @@ function main(){       //主流程
 
 	nonstop2()
 
-	sleep(100);
+	sleep(150);
 
 }
 
@@ -1428,19 +1429,19 @@ function setFirstTimer() {   //預設值設定
 function setFirstsetting() {
 	skill01 = 0;
 	skill02 = 0;
-	skill03 = 1;
+	skill03 = 0;
 
 	skill01tap = 10;
 	skill02tap = 10;
-	skill03tap = 10;
+	skill03tap = 12;
 
-	skill01delay = 1000;
-	skill02delay = 1000;
-	skill03delay = 1000;
+	skill01delay = 600;
+	skill02delay = 100;
+	skill03delay = 800;
 
 
 
-	ggcrackrun = 1;
+	ggcrackrun = 0;
 }
 
 function test(cycle, DT){
