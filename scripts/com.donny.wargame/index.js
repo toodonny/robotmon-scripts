@@ -1005,51 +1005,61 @@ function waitAD2(timer) {
 
 // ===========================================================
 
-function buildup() {
+function buildlvup(Timer) {
 	if (!config.isRunning) return false;
 	// if (!useReturn(1)) return false;
-	console.log('build up');
+	if (Date.now() < buildlvupTime) {
+		var waittime = Math.round((buildlvupTime - Date.now()) / 1000);
+		console.log('Build Lvup Wait Time:', waittime, 'sec,(' + Timer + ')');
+		return false;
+	}
+	console.log('build lv up');
 
-	var buildname = ['', '導彈工廠', '石油廠', '指揮中心', '坦克工廠', '發電廠', '鐵礦廠', '直升機場', '軍團'];
+	var buildname = ['', '導彈工廠', '石油廠', '指揮中心', '坦克工廠', '發電廠', '鐵礦廠', '直升機場', '軍團', '研究所', '特種兵營'];
+	var buildsw = [0, bsw01, bsw02, bsw03, bsw04, bsw05, bsw06, bsw07, bsw08, bsw09, bsw10];
 
-	var swipeupF = 2
+	var swipeupfastF = 2
 	var swipeudownF = 3
 	var imgMAX = buildname.length - 1
-	console.log(swipeupF, swipeudownF, imgMAX);
+	// console.log(swipeupfastF, swipeudownF, imgMAX);
 
-	for (var i = 1; i <= swipeupF; i++) {
-		// DIY_swipe(540, 1400, 540, 800, 180, 1000);
+	for (var i = 1; i <= swipeupfastF; i++) {
 		DIY_Fstswipe(540, 1400, 540, 800, 10, 1000);
-		console.log('上滑', i);
+		console.log('快速上滑', i);
 	}
 
 	for (var k = 1; k <= swipeudownF; k++) {
 		for (var j = 1; j <= imgMAX; j++) {
-			if (checkstockfull()) {break;}
+			var chkstocksf = checkstockfull();
+			if (chkstocksf) {console.log('佇列已滿!!'); break;}
+			if (buildsw[j]) {
+				rbm.keepScreenshotPartial(220, 335, 450, 2060);  //
+				var namstr = j;
+				if (j <= 9) {namstr = '0' + j;}
+				var filename = 'build_' + namstr + '.png';
+				var Img1 = rbm.findImage(filename, 0.90);
+				rbm.releaseScreenshot();
 
-			rbm.keepScreenshotPartial(220, 335, 450, 2060);  //
-			var namstr = j;
-			if (j <= 9) {namstr = '0' + j;}
-			var filename = 'build_' + namstr + '.png';
-			var Img1 = rbm.findImage(filename, 0.90);
-			rbm.releaseScreenshot();
+				if (Img1 != undefined) {
+					// console.log('找到 ', filename, Img1.x, Img1.y, buildname[j]);
 
-			if (Img1 != undefined) {
-				console.log('找到 ', filename, Img1.x, Img1.y, buildname[j]);
-
-				checkPointcolorTap(1010, Img1.y + 25, 20, '39C2DC', 1015, Img1.y, 1, 2000, 1);
-				// swipFor(540, Img1.y, 1, 30, 100, 1000);
-				// tapFor(360, 1070, 1, 30, 100, 1000);
-			}
+					checkPointcolorTap(1010, Img1.y + 25, 20, '39C2DC', 1015, Img1.y, 1, 2000, 1);
+				}
+			} else {console.log(buildname[j], 'Switch is off!!');}
 		}
-		if (checkstockfull()) {break;}
+		if (chkstocksf) {break;}
 		
 		DIY_swipe(540, 800, 540, 1400, 60, 1000);
-		console.log('下滑', k);
+		console.log('等速下滑', k);
 	}
 	sleep(1000);
 
+	for (var l = 1; l <= swipeupfastF; l++) {
+		DIY_Fstswipe(540, 800, 540, 1400, 10, 1000);
+		console.log('快速下滑', l);
+	}
 
+	buildlvupTime = Date.now() + Timer * 1000;
 }
 
 function checkstockfull() {
@@ -1060,7 +1070,7 @@ function checkstockfull() {
 	rbm.releaseScreenshot();
 
 	if (Img1 != undefined) {
-		console.log('找到 ', 'stock_bi.png', Img1.x, Img1.y);
+		// console.log('找到 ', 'stock_bi.png', Img1.x, Img1.y);
 
 		rbm.screencrop( 'stockmax.png', Img1.x + 20, Img1.y, Img1.x + 55, Img1.y + 29);
 
@@ -1433,7 +1443,7 @@ function RelicLvChk() {
 
 function main(){       //主流程
 	if (!config.isRunning) return false;
-	buildup();
+	buildlvup(bscantime);
 	// buffer_check();
 	// debug(15);
 	sleep(1000);
@@ -1442,7 +1452,7 @@ function main(){       //主流程
 // ===========================================================
 
 function setFirstTimer() {   //預設值設定
-	partner_lvupTimer = Date.now() + 30 * 1000;  //收裝備/寵蛋
+	buildlvupTime = Date.now() + 5 * 1000;  //收裝備/寵蛋
 	newwpTimer    = Date.now() +  30 * 1000;  //新武器出現時間差
 	skilluseTimer =  Date.now() + 120 * 1000;  //大技使用控制時間(武器未更換時間)
 	taptreasuresTimer =  Date.now() + 300 * 1000;  //點寶物/太古石板
@@ -1455,7 +1465,17 @@ function setFirstTimer() {   //預設值設定
 }
 
 function setFirstsetting() {
-	
+	bscantime = 30; //建築檢查升級時間(s)
+	bsw01 = 1;  //'導彈工廠',        
+	bsw02 = 0;  //'石油廠',
+	bsw03 = 0;  //'指揮中心',
+	bsw04 = 0;  //'坦克工廠', 
+	bsw05 = 1;  //'發電廠',
+	bsw06 = 1;  //'鐵礦廠',
+	bsw07 = 1;  //'直升機場',
+	bsw08 = 1;  //'軍團',
+	bsw09 = 1;  //'研究所',
+	bsw10 = 1;  //'特種兵營'
 
 }
 
