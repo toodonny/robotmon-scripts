@@ -1289,13 +1289,12 @@ function choicefind() {    //採礦選擇及出戰
 
 		tapFor(200, 100, 1, 30, 100, 2000); //world 頁面，點擊搜索鈕
 	
-		rbm.keepScreenshotPartial(0, 330, 290, 940);  //
+		rbm.keepScreenshotPartial(0, 110, 290, 1360);  //
 		for (var i = 1; i <= 5; i++) {
 			if (!config.isRunning) return false;
 
-	
 			if (materialsw[i]) {
-				var img = rbm.findImage('findlist_materialicon_0' + i + '.png', 0.90);
+				var img = rbm.findImage('findlist_materialicon_0' + i + '.png', 0.95);
 				rbm.log('j:', j, 'i:', i, 'img:', img);
 				if (img != undefined) {
 					tapFor(img.x + 230, img.y + 50, 1, 30, 100, 2000);
@@ -1827,7 +1826,6 @@ function test(cycle, DT){
 			console.log('n = ', n, '/', cycle, ', CRA 腳本開始');
 
 			while(config.isRunning) {main();} 
-
 
 			// console.log('n = ', n, ', CRA 腳本結束');
 			console.log('=======================');
