@@ -434,7 +434,7 @@
 	</script>		
 	
     <script>
-      VERSION = 0.0011;
+      VERSION = 0.0013;
       var settings = [
         [
           {
@@ -463,18 +463,24 @@
             title_zh_TW: "☆★☆★☆==============一一一一一一一==============☆★☆★☆",
           },
           {
+            key: 'swipmode', 
+            title: "升級方式 0:下至上  1:上至下", 
+            title_zh_TW: "升級方式 0:下至上  1:上至下", 
+            default: true,
+          },
+          {
             key: 'bscantime', 
             title: "建築檢查升級時間(s)",
             title_zh_TW: "建築檢查升級時間(s)", 
-            default: 30, 
+            default: 16, 
             step: 2,
             max: 180, 
-            min: 10,
+            min: 6,
           },
           {
             key: 'bsw01', 
-            title: "導彈工廠", 
-            title_zh_TW: "導彈工廠", 
+            title: "指揮中心", 
+            title_zh_TW: "指揮中心", 
             default: true,
           },
           {
@@ -485,8 +491,8 @@
           },
           {
             key: 'bsw03', 
-            title: "指揮中心", 
-            title_zh_TW: "指揮中心", 
+            title: "導彈工廠", 
+            title_zh_TW: "導彈工廠", 
             default: true,
           },
           {
@@ -529,6 +535,143 @@
             key: 'bsw10', 
             title: "特種兵營", 
             title_zh_TW: "特種兵營", 
+            default: true,
+          },
+          {
+            key: 'bsw11', 
+            title: "一號倉庫", 
+            title_zh_TW: "一號倉庫", 
+            default: true,
+          },
+          {
+            key: 'bsw12', 
+            title: "二號倉庫", 
+            title_zh_TW: "二號倉庫", 
+            default: true,
+          },
+          {
+            key: 'bsw13', 
+            title: "改裝工廠", 
+            title_zh_TW: "改裝工廠", 
+            default: true,
+          },
+          {
+            key: 'bsw14', 
+            title: "矽礦提煉廠", 
+            title_zh_TW: "矽礦提煉廠", 
+            default: true,
+          },
+          {
+            key: 'bsw15', 
+            title: "晶礦加工廠", 
+            title_zh_TW: "晶礦加工廠", 
+            default: true,
+          }
+        ],
+        [
+          {
+            key: 'title1', 
+            title: "☆★☆★☆==========採礦設定==========☆★☆★☆",
+            title_zh_TW: "☆★☆★☆============採礦設定============☆★☆★☆",
+          },
+          {
+            key: 'collmaxstocks', 
+            title: "採集最大佇列數",
+            title_zh_TW: "採集最大佇列數", 
+            default: 2, 
+            step: 1,
+            max: 6, 
+            min: 2,
+          },
+          {
+            key: 'mscantime', 
+            title: "採礦檢查升級時間(s)",
+            title_zh_TW: "採礦檢查升級時間(s)", 
+            default: 60, 
+            step: 5,
+            max: 900, 
+            min: 10,
+          },
+          {
+            key: 'msw01', 
+            title: "電", 
+            title_zh_TW: "電", 
+            default: true,
+          },
+          {
+            key: 'msw02', 
+            title: "油", 
+            title_zh_TW: "油", 
+            default: true,
+          },
+          {
+            key: 'msw03', 
+            title: "鐵", 
+            title_zh_TW: "鐵", 
+            default: true,
+          },
+          {
+            key: 'msw04', 
+            title: "矽", 
+            title_zh_TW: "矽", 
+            default: true,
+          },
+          {
+            key: 'msw05', 
+            title: "晶", 
+            title_zh_TW: "晶", 
+            default: true,
+          }
+        ],
+        [
+          {
+            key: 'title1', 
+            title: "☆★☆★☆==========出戰設定==========☆★☆★☆",
+            title_zh_TW: "☆★☆★☆============出戰設定============☆★☆★☆",
+          },
+          {
+            key: 'fmodsw', 
+            title: "戰力配置 1:最大戰力  2:最大載重",
+            title_zh_TW: "戰力配置 1:最大戰力  2:最大載重", 
+            default: 1, 
+            step: 1,
+            max: 2, 
+            min: 1,
+          },
+          {
+            key: 'sto1sw', 
+            title: "設置部隊1格，開關", 
+            title_zh_TW: "設置部隊1格，開關", 
+            default: true,
+          },
+          {
+            key: 'sto2sw', 
+            title: "設置部隊2格，開關", 
+            title_zh_TW: "設置部隊2格，開關", 
+            default: true,
+          },
+          {
+            key: 'sto3sw', 
+            title: "設置部隊3格，開關", 
+            title_zh_TW: "設置部隊3格，開關", 
+            default: true,
+          },
+          {
+            key: 'sto4sw', 
+            title: "設置部隊4格，開關", 
+            title_zh_TW: "設置部隊4格，開關", 
+            default: true,
+          },
+          {
+            key: 'sto5sw', 
+            title: "設置部隊5格，開關", 
+            title_zh_TW: "設置部隊5格，開關", 
+            default: true,
+          },
+          {
+            key: 'sto6sw', 
+            title: "設置部隊6格，開關", 
+            title_zh_TW: "設置部隊6格，開關", 
             default: true,
           }
         ],
@@ -857,7 +1000,7 @@
         if (eventType == 'OnPlayClick') {
           var startCommand = genStartCommand(settings);
           JavaScriptInterface.runScript(startCommand);
-		      JavaScriptInterface.setXY(0, 0)
+		      JavaScriptInterface.setXY(360, 0);
 
         } else if (eventType == 'OnPauseClick') {
           JavaScriptInterface.runScript('stop();')
@@ -905,7 +1048,9 @@
       <br /><br /><br /><br />
       <table id='table_3_1' cellpadding="8" border="0">
         <br />==================Updata 更新日誌==================
-        <br />20190410 v0.001 亂寫的腳本，竟然有人要用。
+        <br />20200315 v0.0020 自動採礦+簡易戰力配置可用。
+        <br />20200314 v0.0015 自動建築升級及自動協助可用。
+        <br />20200312 v0.0010 自動學長要的自動採礦。
       </table>
         <br /><br /><br /><br /><br />
         <br /><br /><br /><br /><br />

@@ -789,22 +789,45 @@ function getImageHistCode(intX, intY, finX, finY, rate) {
 
 function useReturn(choiceF){          //各項回授點檢查 
 	if (!config.isRunning) return false;
-	//console.log('各項升級限制條件');
 	
 	switch (choiceF) {
 		case  1: 
-
-			rbm.keepScreenshotPartial(660, 110, 710, 150);  //關卡圖，比對是否卡關
-			var img1 = rbm.findImage('main_book.png', 0.90)
+			rbm.keepScreenshotPartial(0, 2200, 260, 2300);  //判斷左下 world 與 base圖片
+			var img1 = rbm.findImage('main_world.png', 0.90);
+			var img2 = rbm.findImage('main_base.png', 0.90);
 			rbm.releaseScreenshot();
+			if (img1 != undefined) {return 1;}
+			else if (img2 != undefined) {return 2;}
+			else {return 0;}
+
+		case  2: 
+			var pagename = ['基地', '世界', '快速建造', '查找附近'];
+			rbm.keepScreenshotPartial(0, 0, 1080, 2340);  //判斷左上各頁面位置
+			for (var i = 2; i <= 3; i++) {
+				var namstr = i;
+				if (i <= 9) {namstr = '0' + i;}
+				var filename = 'page_' + namstr + '.png';
+				var img1 = rbm.findImage(filename, 0.95);
+				// if (img1 != undefined) {rbm.log(filename, img1);}
+				if (img1 != undefined) {
+					rbm.releaseScreenshot();
+					console.log('This Page:', pagename[i]);
+					return i;
+				}
+			}
+			rbm.releaseScreenshot();
+			
+			console.log('This Page:', '無法判斷');
+			return -1;
 		
+		case  3: 
+			rbm.keepScreenshotPartial(290, 1000, 780, 1240);  //判斷exit game對話
+			var img1 = rbm.findImage('exitgamestr.png', 0.90);
+			rbm.releaseScreenshot();
 			if (img1 != undefined) {return true;}
-			else return false;
-
-
-
-		case  2: return chknewbubble( 53, 150);   //檢查是否有new紅泡泡(minigame)
-		case  3: return chknewbubble(620, 800);   //new泡泡有沒有，裝備
+			else {return false;}
+			
+			
 		case  4: return chknewbubble(605, 805);   //new泡泡有沒有，寵物
 
 		case  5:
@@ -1005,73 +1028,162 @@ function waitAD2(timer) {
 
 // ===========================================================
 
-function buildlvup(Timer) {
+function changepage(p) {  //頁面切換：  0:base  1:world  2:快速建造 3:搜索清單
+	if (!config.isRunning) return false;
+	
+	for (var i = 1; i <= 10; i++) {
+		if (!config.isRunning) return false;
+
+		switch (p) {
+			case 0: backmainpage(1); return false;
+			case 1: backmainpage(2); return false;
+			case 2: 
+				if(useReturn(2) == p) {return false;}
+				else {backmainpage(1); tapFor(60, 530, 1, 30, 100, 2000);}
+			case 3:
+				if(useReturn(2) == p) {return false;}
+				else {backmainpage(2); tapFor(190, 100, 1, 30, 100, 1000);}
+
+
+		}
+		sleep(200);
+	}
+}
+
+function backmainpage(mpg) {  //world(1) 與 base(0) 判斷
+	if (!config.isRunning) return false;
+
+	for (var i = 0; i <= 10; i++) {
+		var nowmainpage = useReturn(1);
+		console.log('nowmainpage:', nowmainpage, mpg);
+		if(useReturn(3)) {{keycode('BACK', 200); sleep(1000);}}
+		else if (nowmainpage == 0) {keycode('BACK', 200); sleep(1000);}
+		else if (nowmainpage == mpg) {break;}
+		else if (nowmainpage != mpg) {tapFor(30, 2230, 1, 30, 100, 1000);}
+		console.log('back main page:', i);
+		sleep(200);
+	}
+}
+
+function buildlvup(Timer) {  //自動建造
 	if (!config.isRunning) return false;
 	// if (!useReturn(1)) return false;
 	if (Date.now() < buildlvupTime) {
 		var waittime = Math.round((buildlvupTime - Date.now()) / 1000);
-		console.log('Build Lvup Wait Time:', waittime, 'sec,(' + Timer + ')');
+		console.log('Build Lvup Wait:', waittime, 'sec,(' + Timer + ')');
 		return false;
 	}
 	console.log('build lv up');
 
-	var buildname = ['', '導彈工廠', '石油廠', '指揮中心', '坦克工廠', '發電廠', '鐵礦廠', '直升機場', '軍團', '研究所', '特種兵營'];
-	var buildsw = [0, bsw01, bsw02, bsw03, bsw04, bsw05, bsw06, bsw07, bsw08, bsw09, bsw10];
+	changepage(2); //2:快速建造
 
-	var swipeupfastF = 2
-	var swipeudownF = 3
-	var imgMAX = buildname.length - 1
+	var buildname = ['', '指揮中心', '石油廠', '導彈工廠', '坦克工廠', '發電廠', '鐵礦廠', '直升機場', '軍團', '研究所', '特種兵營', '一號倉庫', '二號倉庫', '改裝工廠', '矽礦提煉廠', '晶礦加工廠'];
+	var buildsw = ['', bsw01, bsw02, bsw03, bsw04, bsw05, bsw06, bsw07, bsw08, bsw09, bsw10, bsw11, bsw12, bsw13, bsw14, bsw15];
+
+	var swipeupfastF = 2;
+	var swipeudownF = 8;
+	var imgMIN = 1;
+	var imgMAX = buildname.length - 1;
 	// console.log(swipeupfastF, swipeudownF, imgMAX);
 
+	swip_fast_up_down(2, swipeupfastF);
 
-	rbm.keepScreenshotPartial(890, 400, 990, 2090);  //
-	var Img1 = rbm.findImage('free4min.png', 0.90);
+	rbm.keepScreenshotPartial(890, 400, 1040, 1180);  //
+	var Img1s = rbm.findImages('free4min.png', 0.95, 4, false, false);
+	var Img2s = rbm.findImages('needhelp.png', 0.95, 4, false, false);
+	var Img12s =  Img1s.concat(Img2s);
 	rbm.releaseScreenshot();
-	if (Img1 != undefined) {
+	// rbm.log('Img1s:', Img1s);
+	// rbm.log('Img2s:', Img2s);
+	// rbm.log('Img12s:', Img12s);
+
+	if (Img12s != ''){
+		Img12s = Img12s.sort(function (a, b) {return a.y < b.y ? 1 : -1;});	
+		// rbm.log('Img12s', Img12s);
 		console.log('tap freetime quest!!')
-		tapFor(Img1.x, Img1.y, 1, 30, 100, 100);
+		for (var index in Img12s){
+			if (!config.isRunning) return false;
+			var Img12 = Img12s[index];
+			tapFor(Img12.x + 10, Img12.y + 10, 1, 30, 100, 500);
+		}
+		sleep(2000);
 	}
 
-	for (var i = 1; i <= swipeupfastF; i++) {
-		DIY_Fstswipe(540, 1400, 540, 800, 10, 1000);
-		console.log('快速上滑', i);
+	var chkstocksf = checkstockfull();
+	if (chkstocksf) {
+		buildlvupTime = Date.now() + Timer * 1000;
+		console.log('佇列已滿!!');
+		helpothers();
+		return false;
 	}
+
+	var chkbuild01 = chkcenterbuild();
+	if (!chkbuild01) {console.log('建設沒有 "指揮中心" !!'); imgMAX = 1;}
+	else {console.log('建設有 "指揮中心" !!'); imgMIN = 2;}
+
+	if(swipmode) {console.log('由上至下檢查"LV低優先"');}
+	else {console.log('由下至上檢查"LV高優先"');}
+
+	if(swipmode) {swip_fast_up_down(2, swipeupfastF);}
+	else {swip_fast_up_down(1, swipeupfastF);}
 
 	for (var k = 1; k <= swipeudownF; k++) {
-		for (var j = 1; j <= imgMAX; j++) {
+		for (var j = imgMIN; j <= imgMAX; j++) {
 			var chkstocksf = checkstockfull();
 			if (chkstocksf) {console.log('佇列已滿!!'); break;}
 			if (buildsw[j]) {
-				rbm.keepScreenshotPartial(220, 335, 450, 2060);  //
+
+				rbm.keepScreenshotPartial(220, 335, 450, 2330);  //
 				var namstr = j;
 				if (j <= 9) {namstr = '0' + j;}
 				var filename = 'build_' + namstr + '.png';
-				var Img1 = rbm.findImage(filename, 0.90);
+				var Img3s = rbm.findImages(filename, 0.90, 4, false, false);
 				rbm.releaseScreenshot();
+				if (Img3s != ''){
+					Img3s = Img3s.sort(function (a, b) {
+						return a.y < b.y ? 1 : -1;
+					});	
+					rbm.log(buildname[j], 'Img3s', Img3s);
+					console.log('build lvup tap!!')
+					for (var index in Img3s){
+						if (!config.isRunning) return false;
+						var Img3 = Img3s[index];
 
-				if (Img1 != undefined) {
-					// console.log('找到 ', filename, Img1.x, Img1.y, buildname[j]);
+						var newgeX = ['', 880,  1010];
+						var newgeY = Img3.y + 25
+						var nowgeC = ['', 'E84E4D', '31BDD7'];
+				
+						var img = getScreenshotModify(0, newgeY, 1080, 1, 1080, 1, 100);
+						var getColor1 = getpointHex(img, newgeX[1], 0);
+						var getColor2 = getpointHex(img, newgeX[2], 0);
+						var colorN1 = isSameColorHex(getColor1, nowgeC[1], 20);
+						var colorN2 = isSameColorHex(getColor2, nowgeC[2], 20);
+						releaseImage(img);
+						// console.log(newgeX[1], newgeX[2], newgeY, getColor1, getColor2, colorN1, colorN2);
+						if (!colorN1 && colorN2) {
+							console.log('找到', buildname[j], '可升級!!')
+							tapFor(1015, Img3.y + 35, 1, 30, 100, 1000);
+						}
 
-					checkPointcolorTap(1010, Img1.y + 25, 20, '39C2DC', 1015, Img1.y, 1, 2000, 1);
+						chkstocksf = checkstockfull();
+						if (chkstocksf) {console.log('佇列已滿!!'); break;}
+					}
 				}
+				
 			} else {console.log(buildname[j], 'Switch is off!!');}
 		}
 		if (chkstocksf) {break;}
 		
-		DIY_swipe(540, 800, 540, 1400, 60, 1000);
+		if(swipmode) {swip_fast_up_down(3, 1);}
+		else {swip_fast_up_down(4, 1);}
 		console.log('等速下滑', k);
 	}
-	sleep(1000);
-
-	for (var l = 1; l <= swipeupfastF; l++) {
-		DIY_Fstswipe(540, 800, 540, 1400, 10, 1000);
-		console.log('快速下滑', l);
-	}
+	sleep(500);
 
 	buildlvupTime = Date.now() + Timer * 1000;
 }
 
-function checkstockfull() {
+function checkstockfull() {   //判斷佇列是否滿(快速建造)
 	if (!config.isRunning) return false;
 
 	rbm.keepScreenshotPartial(170, 290, 320, 350);  //
@@ -1090,6 +1202,195 @@ function checkstockfull() {
 		else {return false;}
 	}
 }
+
+function swip_fast_up_down(mode, times) {  //滑動，上下，快速等速
+	if (!config.isRunning) return false;
+
+	var modename = ['', '快速上滑', '快速下滑', '等速上滑', '等速下滑'];
+	for (var i = 1; i <= times; i++) {
+		if(mode == 1) {DIY_Fstswipe(540, 1400, 540,  800, 5, 1000);}
+		if(mode == 2) {DIY_Fstswipe(540,  800, 540, 1400, 5, 1000);}
+		if(mode == 3) {DIY_swipe(540, 1200, 540,  600, 60, 300);}
+		if(mode == 4) {DIY_swipe(540,  600, 540, 1500, 60, 300);}
+		console.log(modename[mode], i);
+	}
+}
+
+function chkcenterbuild() {  //確認有無指揮中心
+	if (!config.isRunning) return false;
+
+	rbm.keepScreenshotPartial(220, 335, 450, 1180);  //
+	var Img = rbm.findImage('build_01.png', 0.90);
+	rbm.releaseScreenshot();
+	if (Img != undefined) {
+		// console.log('找到 ', filename, Img1.x, Img1.y, buildname[j]);
+		var chkpoint = checkPointcolor(880, Img.y + 25, 20, 'EA5251');
+		if (chkpoint) {return true;}
+		else {return false;}
+	} else {return false;}
+}
+
+function helpothers() {   //幫助他人減時間
+	if (!config.isRunning) return false;
+
+	changepage(0); //0:基地畫面
+	rbm.keepScreenshotPartial(680, 1880, 1080, 2000);  //
+	var Img = rbm.findImage('helpotherbtn.png', 0.90);
+	rbm.releaseScreenshot();
+	if (Img != undefined) {
+		tapFor(Img.x, Img.y, 1, 30, 100, 500);
+	}
+}
+
+function collmaterial(Timer) {  //自動採礦
+	if (!config.isRunning) return false;
+	if (Date.now() < collmaterialTime) {
+		var waittime = Math.round((collmaterialTime - Date.now()) / 1000);
+		console.log('Material Wait:', waittime, 'sec,(' + Timer + ')');
+		return false;
+	}
+	console.log('Collection Material');
+
+	changepage(1); //1:world
+	rbm.keepScreenshotPartial(10, 280, 100, 340);  //任務展開三角形鈕
+	var Img = rbm.findImage('materiallistbtn.png', 0.95);
+	rbm.releaseScreenshot();
+	if (Img != undefined) {tapFor(Img.x, Img.y, 1, 30, 100, 500);}
+
+	rbm.keepScreenshotPartial(0, 330, 290, 940);  //收集完成點擊
+	var imgs = rbm.findImages('collectioncomplete.png', 0.90, 5, false, false);
+	rbm.releaseScreenshot();
+	rbm.log('collectioncomplete, imgs:', imgs);
+	if (imgs != ''){
+		imgs = imgs.sort(function (a, b) {return a.y < b.y ? 1 : -1;});	
+		console.log('tap collection complete quest!!')
+		for (var index in imgs){
+			if (!config.isRunning) return false;
+			var img = imgs[index];
+			tapFor(img.x + 10, img.y + 10, 1, 30, 100, 1000);
+		}
+	}
+
+	choicefind();
+
+	collmaterialTime = Date.now() + Timer * 1000;
+}
+
+function choicefind() {    //採礦選擇及出戰
+	if (!config.isRunning) return false;
+
+	var materialname = ['', '電', '油', '鐵', '矽', '晶'];
+	var materialsw = ['', msw01, msw02, msw03, msw04, msw05];
+
+	for (var j = 0; j <= 5; j++) {
+		var collquest = collquests();
+		console.log('collquest:', collquest, '/', collmaxstocks);
+		if (collquest >= collmaxstocks) {return false;}
+
+		tapFor(200, 100, 1, 30, 100, 2000); //world 頁面，點擊搜索鈕
+	
+		rbm.keepScreenshotPartial(0, 330, 290, 940);  //
+		for (var i = 1; i <= 5; i++) {
+			if (!config.isRunning) return false;
+
+	
+			if (materialsw[i]) {
+				var img = rbm.findImage('findlist_materialicon_0' + i + '.png', 0.90);
+				rbm.log('j:', j, 'i:', i, 'img:', img);
+				if (img != undefined) {
+					tapFor(img.x + 230, img.y + 50, 1, 30, 100, 2000);
+					tapFor(540, 1180, 1, 30, 100, 2000);
+					tapFor(540, 1380, 1, 30, 100, 2000);
+					fightset(fmodsw, sto1sw, sto2sw, sto3sw, sto4sw, sto5sw, sto6sw)
+					
+					break;
+				}
+			}
+	
+	
+		}
+		rbm.releaseScreenshot();
+
+	}
+}
+
+function collquests() { //world畫面，左上任務數量判斷
+	if (!config.isRunning) return false;
+	var imgalls = [];
+	rbm.keepScreenshotPartial(0, 330, 290, 940);  //
+	for (var i = 1; i <= 2; i++) {
+		var imgs = rbm.findImages('collstateicon_0' + i + '.png', 0.90, 5, false, false);
+		imgalls = imgs.concat(imgalls);
+		// rbm.log('i:', i, 'imgs:', imgs);
+		// rbm.log('i:', i, 'imgalls:', imgalls);
+		console.log('i:', i, 'lenght:', imgs.length);
+	}
+	rbm.releaseScreenshot();
+	return imgalls.length;
+}
+
+function fightset(fmod, sto1, sto2, sto3, sto4, sto5, sto6) {  //戰鬥配置出戰
+	if (!config.isRunning) return false;
+
+	var fightmod = ['', '最大戰力', '最大載重'];
+	
+	var stockX = ['',  360,  520,  680,  160,  320,  470];
+	var stockY = ['', 1050, 1150, 1250, 1150, 1250, 1330];
+	var stockS = ['', sto1, sto2, sto3, sto4, sto5, sto6];
+
+	rbm.keepScreenshotPartial(530, 2080, 800, 2220);  //
+	var img1 = rbm.findImage('fight_mode_01.png', 0.95);
+	var img2 = rbm.findImage('fight_mode_02.png', 0.95);
+	rbm.releaseScreenshot();
+	if (img1 != undefined || img2 != undefined) {tapFor(img1.x, img1.y, 1, 30, 100, 500);}
+	if (fmod == 1 && img2 != undefined) {tapFor(img2.x, img2.y, 1, 30, 100, 500);}
+	else if (fmod == 2 && img1 != undefined) {tapFor(img1.x, img1.y, 1, 30, 100, 500);}
+
+	if (img1 != undefined || img2 != undefined) {
+		for (var i = 1; i <= 6; i++) {
+			if (!stockS[i]) {tapFor(stockX[i], stockY[i], 1, 30, 100, 1000);}
+		}
+	}
+
+	for (var j = 1; j <= 10; j++) {
+		rbm.keepScreenshotPartial(0, 2120, 1060, 2270);  //
+		var img3 = rbm.findImage('fightingbtn.png', 0.95);
+		var img4 = rbm.findImage('totalattack.png', 0.95);
+		var img5 = rbm.findImage('totalattack_allchk.png', 0.95);
+		var img6 = rbm.findImage('totalattack_pickoccupied.png', 0.95);
+		var img7 = rbm.findImage('totalattack_allchk_OK.png', 0.95);
+		var img8 = rbm.findImage('totalattack_pickoccupied_OK.png', 0.95);
+		rbm.releaseScreenshot();
+		if (img3 != undefined) {tapFor(img3.x, img3.y, 1, 30, 100, 500);}
+		if (img5 != undefined) {tapFor(img5.x + 50, img5.y + 50, 1, 30, 100, 200);}
+		if (img6 != undefined) {tapFor(img6.x + 50, img6.y + 50, 1, 30, 100, 200);}
+		if (img7 != undefined && img8 != undefined && img4 != undefined) {tapFor(img4.x, img4.y, 1, 30, 100, 500);}
+
+		sleep(500);
+	}
+}
+
+function answerABCD(t) {
+	if (!config.isRunning) return false;
+
+	var ABCD = ['', '29', '30', '31', '32'];
+	var s1 = 200
+	console.log('start ABCD!!')
+	for (var j = 1; j <= t; j++){
+		for (var i = 1; i <= 4; i++) {
+			tapFor(180, 2150, 2, 50, 50, 100);
+			keycode(ABCD[i], 100); sleep(100)
+			keycode('66', 100); sleep(200)
+			tapFor(1000, 2150, 1, 50, 50, 100);
+			tapFor(1010, 2150, 1, 50, 50, 100);
+		}
+	}
+	console.log('end ABCD!!')
+}
+
+
+
+
 
 function buffer_check() {
 	if (!config.isRunning) return false;
@@ -1453,6 +1754,7 @@ function RelicLvChk() {
 function main(){       //主流程
 	if (!config.isRunning) return false;
 	buildlvup(bscantime);
+	collmaterial(mscantime);
 	// buffer_check();
 	// debug(15);
 	sleep(1000);
@@ -1461,7 +1763,10 @@ function main(){       //主流程
 // ===========================================================
 
 function setFirstTimer() {   //預設值設定
-	buildlvupTime = Date.now() + 5 * 1000;  //收裝備/寵蛋
+	buildlvupTime = Date.now() + 3 * 1000;  //建築升級
+	collmaterialTime = Date.now() + 3 * 1000; //採礦
+
+
 	newwpTimer    = Date.now() +  30 * 1000;  //新武器出現時間差
 	skilluseTimer =  Date.now() + 120 * 1000;  //大技使用控制時間(武器未更換時間)
 	taptreasuresTimer =  Date.now() + 300 * 1000;  //點寶物/太古石板
@@ -1474,18 +1779,39 @@ function setFirstTimer() {   //預設值設定
 }
 
 function setFirstsetting() {
-	bscantime = 30; //建築檢查升級時間(s)
-	bsw01 = 1;  //'導彈工廠',        
+	swipmode = 1; //升級方式 0:下至上  1:上至下
+	bscantime = 15; //建築檢查升級時間(s)
+	bsw01 = 1;  //'指揮中心',
 	bsw02 = 0;  //'石油廠',
-	bsw03 = 0;  //'指揮中心',
-	bsw04 = 0;  //'坦克工廠', 
-	bsw05 = 1;  //'發電廠',
-	bsw06 = 1;  //'鐵礦廠',
-	bsw07 = 1;  //'直升機場',
-	bsw08 = 1;  //'軍團',
-	bsw09 = 1;  //'研究所',
-	bsw10 = 1;  //'特種兵營'
+	bsw03 = 1;  //'導彈工廠',
+	bsw04 = 1;  //'坦克工廠', 
+	bsw05 = 0;  //'發電廠',
+	bsw06 = 0;  //'鐵礦廠',
+	bsw07 = 0;  //'直升機場',
+	bsw08 = 0;  //'軍團',
+	bsw09 = 0;  //'研究所',
+	bsw10 = 0;  //'特種兵營'
+	bsw11 = 0;  //'一號倉庫'
+	bsw12 = 0;  //'二號倉庫'
+	bsw13 = 0;  //'改裝工廠'
+	bsw14 = 0;  //'矽礦提煉廠'
+	bsw15 = 0;  //'晶礦加工廠'
 
+	collmaxstocks = 3;  //採集最大佇列數
+	mscantime = 60; //採礦檢查升級時間(s)
+	msw01 = 1;  //'電',
+	msw02 = 1;  //'油',
+	msw03 = 1;  //'鐵',
+	msw04 = 1;  //'矽', 
+	msw05 = 1;  //'晶',
+
+	fmodsw = 1;  //戰力配置  1:最大戰力  2:最大載重
+	sto1sw = 1;  //設置部隊1格，開關
+	sto2sw = 0;  //設置部隊2格，開關
+	sto3sw = 1;  //設置部隊3格，開關
+	sto4sw = 0;  //設置部隊4格，開關
+	sto5sw = 1;  //設置部隊5格，開關
+	sto6sw = 0;  //設置部隊6格，開關
 }
 
 function test(cycle, DT){
@@ -1501,6 +1827,7 @@ function test(cycle, DT){
 			console.log('n = ', n, '/', cycle, ', CRA 腳本開始');
 
 			while(config.isRunning) {main();} 
+
 
 			// console.log('n = ', n, ', CRA 腳本結束');
 			console.log('=======================');
