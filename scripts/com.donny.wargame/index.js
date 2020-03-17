@@ -1067,6 +1067,7 @@ function backmainpage(mpg) {  //world(1) 與 base(0) 判斷
 
 function buildlvup(Timer, swipupt) {  //自動建造
 	if (!config.isRunning) return false;
+	if (!buildswitch) return false;
 	// if (!useReturn(1)) return false;
 	if (Date.now() < buildlvupTime) {
 		var waittime = Math.round((buildlvupTime - Date.now()) / 1000);
@@ -1244,6 +1245,7 @@ function helpothers() {   //幫助他人減時間
 
 function collmaterial(Timer) {  //自動採礦
 	if (!config.isRunning) return false;
+	if (!collswitch) return false;
 	if (Date.now() < collmaterialTime) {
 		var waittime = Math.round((collmaterialTime - Date.now()) / 1000);
 		console.log('Material Wait:', waittime, 'sec,(' + Timer + ')');
