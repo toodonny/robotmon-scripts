@@ -1217,6 +1217,7 @@ function swip_fast_up_down(mode, times) {  //滑動，上下，快速等速
 
 function chkcenterbuild() {  //確認有無指揮中心
 	if (!config.isRunning) return false;
+	if (!bsw01) return true;
 
 	rbm.keepScreenshotPartial(220, 335, 450, 1180);  //
 	var Img = rbm.findImage('build_01.png', 0.90);
