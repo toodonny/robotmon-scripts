@@ -1065,7 +1065,7 @@ function backmainpage(mpg) {  //world(1) 與 base(0) 判斷
 	}
 }
 
-function buildlvup(Timer) {  //自動建造
+function buildlvup(Timer, swipupt) {  //自動建造
 	if (!config.isRunning) return false;
 	// if (!useReturn(1)) return false;
 	if (Date.now() < buildlvupTime) {
@@ -1077,11 +1077,11 @@ function buildlvup(Timer) {  //自動建造
 
 	changepage(2); //2:快速建造
 
-	var buildname = ['', '指揮中心', '石油廠', '導彈工廠', '坦克工廠', '發電廠', '鐵礦廠', '直升機場', '軍團', '研究所', '特種兵營', '一號倉庫', '二號倉庫', '改裝工廠', '矽礦提煉廠', '晶礦加工廠'];
-	var buildsw = ['', bsw01, bsw02, bsw03, bsw04, bsw05, bsw06, bsw07, bsw08, bsw09, bsw10, bsw11, bsw12, bsw13, bsw14, bsw15];
+	var buildname = ['', '指揮中心', '石油廠', '導彈工廠', '坦克工廠', '發電廠', '鐵礦廠', '直升機場', '軍團', '研究所', '特種兵營', '一號倉庫', '二號倉庫', '改裝工廠', '矽礦提煉廠', '晶礦加工廠', '軍官學院'];
+	var buildsw = ['', bsw01, bsw02, bsw03, bsw04, bsw05, bsw06, bsw07, bsw08, bsw09, bsw10, bsw11, bsw12, bsw13, bsw14, bsw15, bsw16];
 
 	var swipeupfastF = 2;
-	var swipeudownF = 8;
+	var swipeudownF = swipupt;
 	var imgMIN = 1;
 	var imgMAX = buildname.length - 1;
 	// console.log(swipeupfastF, swipeudownF, imgMAX);
@@ -1176,7 +1176,6 @@ function buildlvup(Timer) {  //自動建造
 		
 		if(swipmode) {swip_fast_up_down(3, 1);}
 		else {swip_fast_up_down(4, 1);}
-		console.log('等速下滑', k);
 	}
 	sleep(500);
 
@@ -1752,7 +1751,7 @@ function RelicLvChk() {
 
 function main(){       //主流程
 	if (!config.isRunning) return false;
-	buildlvup(bscantime);
+	buildlvup(bscantime,swipupt);
 	collmaterial(mscantime);
 	// buffer_check();
 	// debug(15);
@@ -1778,8 +1777,10 @@ function setFirstTimer() {   //預設值設定
 }
 
 function setFirstsetting() {
+	buildswitch = 1 //建築升級開關
 	swipmode = 1; //升級方式 0:下至上  1:上至下
 	bscantime = 15; //建築檢查升級時間(s)
+	swipupt = 6 //'建築選單上滑次數'
 	bsw01 = 1;  //'指揮中心',
 	bsw02 = 0;  //'石油廠',
 	bsw03 = 1;  //'導彈工廠',
@@ -1796,6 +1797,7 @@ function setFirstsetting() {
 	bsw14 = 0;  //'矽礦提煉廠'
 	bsw15 = 0;  //'晶礦加工廠'
 
+	collswitch = 1; //採集開關
 	collmaxstocks = 3;  //採集最大佇列數
 	mscantime = 60; //採礦檢查升級時間(s)
 	msw01 = 1;  //'電',
