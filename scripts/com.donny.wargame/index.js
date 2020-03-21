@@ -1260,7 +1260,7 @@ function collmaterial(Timer) {  //自動採礦
 	if (Img != undefined) {tapFor(Img.x, Img.y, 1, 30, 100, 500);}
 
 	rbm.keepScreenshotPartial(0, 330, 290, 940);  //收集完成點擊
-	var imgs = rbm.findImages('collectioncomplete.png', 0.90, 5, false, false);
+	var imgs = rbm.findImages('collectioncomplete.png', 0.88, 5, false, false);
 	rbm.releaseScreenshot();
 	rbm.log('collectioncomplete, imgs:', imgs);
 	if (imgs != ''){
@@ -1780,16 +1780,16 @@ function setFirstTimer() {   //預設值設定
 }
 
 function setFirstsetting() {
-	buildswitch = 1 //建築升級開關
+	buildswitch = 1; //建築升級開關
 	swipmode = 1; //升級方式 0:下至上  1:上至下
 	bscantime = 15; //建築檢查升級時間(s)
-	swipupt = 6 //'建築選單上滑次數'
+	swipupt = 9 //'建築選單上滑次數'
 	bsw01 = 1;  //'指揮中心',
-	bsw02 = 0;  //'石油廠',
-	bsw03 = 1;  //'導彈工廠',
-	bsw04 = 1;  //'坦克工廠', 
-	bsw05 = 0;  //'發電廠',
-	bsw06 = 0;  //'鐵礦廠',
+	bsw02 = 1;  //'石油廠',
+	bsw03 = 0;  //'導彈工廠',
+	bsw04 = 0;  //'坦克工廠', 
+	bsw05 = 1;  //'發電廠',
+	bsw06 = 1;  //'鐵礦廠',
 	bsw07 = 0;  //'直升機場',
 	bsw08 = 0;  //'軍團',
 	bsw09 = 0;  //'研究所',
@@ -1799,6 +1799,7 @@ function setFirstsetting() {
 	bsw13 = 0;  //'改裝工廠'
 	bsw14 = 0;  //'矽礦提煉廠'
 	bsw15 = 0;  //'晶礦加工廠'
+	bsw16 = 0;  //'軍官學院'
 
 	collswitch = 1; //採集開關
 	collmaxstocks = 3;  //採集最大佇列數
@@ -1806,8 +1807,8 @@ function setFirstsetting() {
 	msw01 = 1;  //'電',
 	msw02 = 1;  //'油',
 	msw03 = 1;  //'鐵',
-	msw04 = 1;  //'矽', 
-	msw05 = 1;  //'晶',
+	msw04 = 0;  //'矽', 
+	msw05 = 0;  //'晶',
 
 	fmodsw = 1;  //戰力配置  1:最大戰力  2:最大載重
 	sto1sw = 1;  //設置部隊1格，開關
