@@ -1392,7 +1392,6 @@ function answerABCD(t) {
 
 
 
-
 function buffer_check() {
 	if (!config.isRunning) return false;
 	if (!useReturn(1)) return false;

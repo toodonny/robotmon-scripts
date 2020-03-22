@@ -2839,8 +2839,8 @@ function choiceDungeon(F1, F2) {  //【F1:地城類別 1:材料 2:突襲 3:遠�
 				switch(F1) {    //【F1:地城類別 1:材料 2:突襲 3:遠征 4:競技 】
 					case 1 :
 						//console.log('case 1', F1);
-						rbm.keepScreenshotPartial( 200, 560, 280, 1180);  //boss選單圖示範圍  屬性圖示
-						var targetImg2 = rbm.findImage('materialBoss/materialBoss2_0' + F2 + '.png', 0.90);
+						rbm.keepScreenshotPartial( 110, 590, 440, 1170);  //boss選單圖示範圍  屬性圖示
+						var targetImg2 = rbm.findImage('materialBoss/materialBoss3_0' + F2 + '.png', 0.90);
 						rbm.log('targetImg2:', targetImg2);
 						rbm.releaseScreenshot();
 						if (targetImg2 != undefined && targetImg2.score >= 0.90) {
@@ -3463,9 +3463,26 @@ function test(cycle){
 			stage = recoNum(1) * 1
 			console.log('============================================================================')
 			console.log('n = ', n, ', CRA 腳本開始', stage);
+
+			rbm.keepScreenshotPartial( 110, 590, 440, 1170);  //boss選單圖示範圍  屬性圖示
+
+				for (var i = 1; i <= 5; i++) {
+					var img1 = rbm.findImage('materialBoss/materialBoss2_0' + i + '.png', 0.90);
+					rbm.log('materialBoss2_0' + i, ', img1:', img1);
+				}
+				console.log('========================')
+				for (var i = 1; i <= 5; i++) {
+					var img2 = rbm.findImage('materialBoss/materialBoss3_0' + i + '.png', 0.90);
+					rbm.log('materialBoss3_0' + i, ', img2:', img2);
+				}
+
+			rbm.releaseScreenshot();
+
+
+
 			// choiceMenu(n-1)
-			
-			while(config.isRunning) {main();}
+			// console.log('r:', useReturn(1));
+			// while(config.isRunning) {main();}
 			// sleep(1000)
 			// console.log('n = ', n, ', CRA 腳本結束');
 		}
