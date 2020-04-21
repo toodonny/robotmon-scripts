@@ -161,8 +161,8 @@
     },
     "com.donny.wargame": {
       "title": "獵鷹行動!!",
-      "versionCode": 0.0021,
-      "description": "<h3>獵鷹行動!!！</h3><ul><li>0.002 爛爛版！</li> <li>2020.03.15 v0.0020 自動採礦+簡易戰力配置可用。</li>  <li>2020.03.14 v0.0015 自動建築升級及自動協助可用。</li>  </li><li>2020.03.12 新增刷建築升級。</li>",
+      "versionCode": 0.003,
+      "description": "<h3>獵鷹行動!!！</h3><ul><li>0.003 爛爛版！</li> <li>2020.03.15 v0.0030 新增採礦前按'海裡'鈕。</li><li>2020.03.15 v0.0020 自動採礦+簡易戰力配置可用。</li>  <li>2020.03.14 v0.0015 自動建築升級及自動協助可用。</li>  </li><li>2020.03.12 新增刷建築升級。</li>",
       "packageName": "com.joycrit.wargame.tc",
       "downloadURL": "https://github.com/toodonny/robotmon-scripts/raw/master/scripts/com.donny.wargame/index.zip"
     }

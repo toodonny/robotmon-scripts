@@ -1254,6 +1254,8 @@ function collmaterial(Timer) {  //自動採礦
 	console.log('Collection Material');
 
 	changepage(1); //1:world
+
+	
 	rbm.keepScreenshotPartial(10, 280, 100, 340);  //任務展開三角形鈕
 	var Img = rbm.findImage('materiallistbtn.png', 0.95);
 	rbm.releaseScreenshot();
@@ -1289,6 +1291,11 @@ function choicefind() {    //採礦選擇及出戰
 		console.log('collquest:', collquest, '/', collmaxstocks);
 		if (collquest >= collmaxstocks) {return false;}
 
+		rbm.keepScreenshotPartial(790, 190, 930, 310);  //WORLD 海裡按鈕回家
+		var Img = rbm.findImage('backhomebtn.png', 0.90);
+		rbm.releaseScreenshot();
+		if (Img != undefined) {tapFor(Img.x, Img.y, 1, 30, 100, 500);}
+	
 		tapFor(200, 100, 1, 30, 100, 2000); //world 頁面，點擊搜索鈕
 	
 		rbm.keepScreenshotPartial(0, 110, 290, 1360);  //
@@ -1782,7 +1789,7 @@ function setFirstsetting() {
 	buildswitch = 1; //建築升級開關
 	swipmode = 1; //升級方式 0:下至上  1:上至下
 	bscantime = 15; //建築檢查升級時間(s)
-	swipupt = 9 //'建築選單上滑次數'
+	swipupt = 11 //'建築選單上滑次數'
 	bsw01 = 1;  //'指揮中心',
 	bsw02 = 1;  //'石油廠',
 	bsw03 = 0;  //'導彈工廠',

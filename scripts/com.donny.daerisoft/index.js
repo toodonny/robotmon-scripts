@@ -1,4 +1,4 @@
-﻿importJS('RBM-0.0.3');
+﻿importJS('/sdcard/Robotmon/libs/RBM-0.0.3.js');
 
 // ============================idlerpg=============================== //
 
@@ -1067,35 +1067,196 @@ function partner_lvup(Timer) {
 	partner_lvupTimer = Date.now() + Timer * 1000;
 }
 
+function storereflash() {
+	if (!config.isRunning) return false;
+
+	var flow = 0;
+	if (useReturn(1)) {
+		console.log('主畫面書本，按商店!')
+		swipFor(600, 40, 1, 100, 100, 1000);
+		// return false;
+	}
+	
+	rbm.keepScreenshotPartial(50, 90, 540, 140);  //
+	var img1 = rbm.findImage('store_gold.png', 0.95);
+	var img2 = rbm.findImage('store_ruby.png', 0.95);
+	var img3 = rbm.findImage('store_slave.png', 0.95);
+	rbm.releaseScreenshot();
+	if (img1 != undefined && img2 != undefined && img3 != undefined) {flow = 1;}
+
+	if (flow == 1) {
+		console.log('At sotre!!')
+
+
+		var equSw = ['',   0,   0,   0,   0];
+		var listX = ['',  30, 246, 472, 690];
+		var poitX = ['', 190, 415, 640];
+		var chklv = ['',   0,   0,   0];
+		var chktp = ['',   0,   0,   0];
+		var chkCo = ['',   0,   0,   0];
+		var chkta = ['',   0,   0,   0];
+
+		var reflash = false;
+		var imgall1s = [];
+		var imgall2s = [];
+
+		rbm.keepScreenshotPartial(35, 290, 690, 370);   //確認有無物品
+		for (var i = 7; i <= 7; i++) {
+			var img1s = rbm.findImages('weaponlv_0' + i + '.png', 0.95, 3, false, false);
+			imgall1s = img1s.concat(imgall1s);
+			// rbm.log('i:', i, 'imgs:', imgs);
+			// rbm.log('i:', i, 'imgall1s:', imgall1s);
+			// console.log('i:', i, 'lenght:', imgs.length);
+		}
+
+		for (var j = 1; j <= 4; j++) {
+			if (equSw[j]) {
+				var img2s = rbm.findImages('equ_0' + j + '.png', 0.95, 3, false, false);
+				imgall2s = img2s.concat(imgall2s);
+				// rbm.log('j:', j, 'img2s:', img2s);
+				// rbm.log('j:', j, 'imgall2s:', imgall2s);
+				// console.log('j:', j, 'lenght:', imgall2s.length);
+			}
+		}
+		rbm.releaseScreenshot();
+
+		var findimgs = imgall1s.length;
+		// console.log('findimgs:', findimgs);
+		if (imgall1s != '') {
+			// console.log('find target equipment Lv!!');
+			for (var index in imgall1s){
+				if (!config.isRunning) return false;
+				
+				var imgall1 = imgall1s[index];
+				// rbm.log('imgall1 :', index, ', ', imgall1);
+
+				if (imgall1.x > listX[1] && imgall1.x < listX[2]) { chklv[1] = 1;}
+				if (imgall1.x > listX[2] && imgall1.x < listX[3]) { chklv[2] = 1;}
+				if (imgall1.x > listX[3] && imgall1.x < listX[4]) { chklv[3] = 1;}
+			}
+		}
+		rbm.log('chklv:', chklv);
+
+		if (imgall2s != '') {
+			// console.log('find target equipment type!!');
+			for (var index in imgall2s){
+				if (!config.isRunning) return false;
+				
+				var imgall2 = imgall2s[index];
+				// rbm.log('imgall2 :', index, ', ', imgall2);
+
+				if (imgall2.x > listX[1] && imgall2.x < listX[2]) { chktp[1] = 1;}
+				if (imgall2.x > listX[2] && imgall2.x < listX[3]) { chktp[2] = 1;}
+				if (imgall2.x > listX[3] && imgall2.x < listX[4]) { chktp[3] = 1;}
+			}
+		}
+		rbm.log('chktp:', chktp);
+
+		for (var k = 1; k <= 3; k++) {
+			var pointColor = getPointcolorHex(poitX[k], 537);     //寶物能不能開對色
+			var chkColor = isSameColorHex(pointColor, 'FFC577', 20);
+			// console.log(k, 'chkColor:', chkColor);
+			if (chkColor) {chkCo[k] = 1;}
+
+			if (chklv[k] == 1 && chktp[k] == 1 && chkCo[k] ==1) {chkta[k] = 1;}
+			if (chkta[k] == 1) {swipFor(poitX[k], 545, 1, 100, 100, 1000);}
+		}
+		rbm.log('chkCo:', chkCo);
+		rbm.log('chkta:', chkta);
+
+
+		var chktotal = chkta[1] + chkta[2] + chkta[3];
+		console.log('chktotal:', chktotal);
+		if (chktotal == 0) {
+			rbm.keepScreenshotPartial(590, 190, 700, 250);   //按更新商店
+			var img = rbm.findImage('store_reflash.png', 0.90);
+			rbm.releaseScreenshot();
+			if (img != undefined) {swipFor(img.x + 20, img.y + 20, 1, 100, 100, 500);}
+		}
+	}
+
+	rbm.keepScreenshotPartial(50, 90, 540, 140);  //
+	var img4 = rbm.findImage('store_gold_dark.png', 0.95);
+	var img5 = rbm.findImage('store_ruby_dark.png', 0.95);
+	var img6 = rbm.findImage('store_slave_dark.png', 0.95);
+	rbm.releaseScreenshot();
+	if (img4 != undefined && img5 != undefined && img6 != undefined) {flow = 2;}
+
+	if (flow == 2) {
+		console.log('At store dark!!')
+		rbm.keepScreenshotPartial(200, 580, 330, 630);   //更新商店-確定
+		var img = rbm.findImage('store_buybox.png', 0.90);
+		rbm.releaseScreenshot();
+		if (img != undefined) {swipFor(410, 760, 1, 100, 100, 300);}
+		
+		rbm.keepScreenshotPartial(300, 450, 410, 500);   //買武器-確定
+		var img = rbm.findImage('store_equipmentbuy.png', 0.90);
+		rbm.releaseScreenshot();
+		if (img != undefined) {swipFor(410, 780, 1, 100, 100, 800);}
+
+		rbm.keepScreenshotPartial(100, 630, 640, 680);   //武器取得-點掉
+		var img = rbm.findImage('word_!.png', 0.90);
+		if (img == undefined) {img = rbm.findImage('store_getword.png', 0.90);}
+		rbm.releaseScreenshot();
+		if (img != undefined) {swipFor(410, 780, 1, 100, 100, 300);}
+	
+	}
+	
+	if (flow == 0) {
+		console.log('Not At store!!');
+		debug(5);
+	}
+	
+
+
+}
+
+
+
 function debug(Timer) {
 	if (!config.isRunning) return false;
 	if (Date.now() < debugTimer ) return false;
 	console.log('Debug');
 
+
+
 	if (!useReturn(1)) {
 		console.log('沒看到主畫面書本，按退回鍵!')
 		keycode('BACK', 200); sleep(500);
+		// return false;
 	}
 
-	rbm.keepScreenshotPartial(320, 460, 400, 560);  //
+	rbm.keepScreenshotPartial(300, 460, 400, 560);  //
 	for (var p = 1; p <= 4; p++) {
-		var Img1 = rbm.findImage('AD_get_0' + p +'.png', 0.90);
+		var Img1 = rbm.findImage('AD_get_0' + p +'.png', 0.85);
 		if (Img1 != undefined) {
 			console.log('get something(debug)!!')
 			swipFor(320, 470, 1, 30, 100, 500);
-			break;
+			rbm.releaseScreenshot();
+			// break;
+			return false;
 		}
 	}
 	rbm.releaseScreenshot();
 
-
-	rbm.keepScreenshotPartial(30, 930, 65, 980);  //
-	var Img1 = rbm.findImage('quest_gold_get.png', 0.90) //pic 34,943,  20*20
+	
+	rbm.keepScreenshotPartial(310, 800, 410, 840);   //武器取得-點掉
+	var img = rbm.findImage('next_area.png', 0.90);
+	if (img == undefined) {img = rbm.findImage('next_area_dark.png', 0.90);}
 	rbm.releaseScreenshot();
-	if (Img1 != undefined) {
-		console.log('get quest gold!!')
-		swipFor(Img1.x, Img1.y, 1, 30, 100, 2000);
+	if (img != undefined) {
+		console.log('find ! !!')
+		swipFor(img.x - 20, img.y, 4, 50, 50, 300); return false;
 	}
+
+	// rbm.keepScreenshotPartial(30, 930, 65, 980);  //
+	// var Img1 = rbm.findImage('quest_gold_get.png', 0.90) //pic 34,943,  20*20
+	// rbm.releaseScreenshot();
+	// if (Img1 != undefined) {
+	// 	console.log('get quest gold!!')
+	// 	swipFor(Img1.x, Img1.y, 1, 30, 100, 2000);
+	// 	// return false;
+	// }
 
 
 	for (var k = 1; k <= 20; k++) {
@@ -1104,36 +1265,67 @@ function debug(Timer) {
 		rbm.releaseScreenshot();
 		if (Img1 != undefined) {
 			console.log('nowloading!!', k, "sec")
-		} else {break;}
+		} else {
+			break; 
+			// return false;
+		}
 
 		sleep(950);
 	}
 
-	rbm.keepScreenshotPartial(520, 740, 580, 800);  //
-	var Img1 = rbm.findImage('get_all_quest_gold.png', 0.90) //pic 532, 752,  30*30
+	// rbm.keepScreenshotPartial(520, 740, 580, 800);  //
+	// var Img1 = rbm.findImage('get_all_quest_gold.png', 0.90) //pic 532, 752,  30*30
+	// rbm.releaseScreenshot();
+	// if (Img1 != undefined) {
+	// 	console.log('get all quest gold!!')
+	// 	swipFor(Img1.x, Img1.y, 1, 30, 100, 600);
+	// 	swipFor(680, 220, 1, 30, 100, 600);
+	// 	return false;
+	// }
+
+	rbm.keepScreenshotPartial(170, 540, 550, 620);  //
+	var Img1 = rbm.findImage('dectect_error.png', 0.90) //pic 34,943,  20*20
 	rbm.releaseScreenshot();
 	if (Img1 != undefined) {
-		console.log('get all quest gold!!')
-		swipFor(Img1.x, Img1.y, 1, 30, 100, 600);
-		swipFor(680, 220, 1, 30, 100, 600);
+		console.log('dectect error!!')
+		swipFor(600, 700, 1, 60, 100, 2000);
 	}
-
 
 	rbm.keepScreenshotPartial(165, 540, 275, 650);  //
 	var Img1 = rbm.findImage('littleicon_home.png', 0.90) //pic 185, 560,  70*70
 	rbm.releaseScreenshot();
 	if (Img1 != undefined) {
 		console.log('little icon home!!')
-		swipFor(Img1.x, Img1.y, 4, 30, 50, 3000);
+		swipFor(Img1.x, Img1.y, 4, 30, 50, 10000);
+		return false;
 	}
 
-	
+
+	rbm.keepScreenshotPartial(0, 1210, 100, 1275);  //
+	var Img1 = rbm.findImage('skip.png', 0.90) //pic 34,943,  20*20
+	rbm.releaseScreenshot();
+	if (Img1 != undefined) {
+		console.log('skip!!')
+		swipFor(Img1.x, Img1.y, 1, 30, 100, 500);
+		return false;
+	}
+
+	rbm.keepScreenshotPartial(100, 630, 640, 680);   //武器取得-點掉
+	var img = rbm.findImage('word_!.png', 0.90);
+	if (img == undefined) {img = rbm.findImage('store_getword.png', 0.90);}
+	rbm.releaseScreenshot();
+	if (img != undefined) {
+		console.log('find ! !!')
+		swipFor(410, 780, 1, 100, 100, 300); return false;
+	}
+
 	rbm.keepScreenshotPartial(290, 610, 360, 660);  //
 	var Img1 = rbm.findImage('exitgame.png', 0.90) //pic 306, 620,  40*22
 	rbm.releaseScreenshot();
 	if (Img1 != undefined) {
 		console.log('exit game!!')
 		swipFor(290, 730, 1, 30, 100, 500);
+		return false;
 	}
 
 	debugTimer = Date.now() + Timer * 1000;
@@ -1369,7 +1561,8 @@ function main(){       //主流程
 	if (!config.isRunning) return false;
 
 	// buffer_check();
-	debug(15);
+	debug(10);
+	// storereflash();
 	sleep(1000);
 }
 
@@ -1404,6 +1597,9 @@ function test(cycle, DT){
 			setFirstTimer();     //設定初始時間值
 		} else if (n >= 1) {
 			console.log('n = ', n, '/', cycle, ', CRA 腳本開始');
+
+			// storereflash();
+
 
 			while(config.isRunning) {main();} 
 
