@@ -690,7 +690,7 @@ function useReturn(choiceF){          //各項回授點檢查
 		case  1: return CheckImageTap( 300, 665, 390, 755, 0.95, 'mainmark.png', 1, 1, 1, 50, 2);    return;   //主頁框上方圖
 		case  2: return CheckImageTap( 245, 830, 470, 910, 0.95, 'q_word.png', 1, 1, 1, 50, 2);    return;   //問答 "題"
 		case  3: return CheckImageTap( 550, 780, 670, 900, 0.95, 'fightbook.png', 1, 1, 1, 50, 2);    return;   //戰鬥日記
-		case  4: return CheckImageTap( 500,  30, 580, 110, 0.95, 'magic_icon.png', 1, 1, 1, 50, 2);    return;   //戰鬥日記
+		case  4: return CheckImageTap( 500,  30, 580, 110, 0.95, 'magic_icon.png', 1, 1, 1, 50, 2);    return;   //
 		
 
 			
@@ -820,7 +820,7 @@ function waitAD2(timer) {
 				rbm.startApp(config.PackangName,config.LaunchActivityName);
 				sleep(200);
 			}
-			if (i >= 3) {
+			if (i >= 2) {
 				var mainpage = useReturn(1); //主畫面書本圖示
 				if (mainpage) {
 					a = a + 1;
@@ -901,6 +901,12 @@ function getMaterial(ADf) {
 
 	var getchoi = ['', 'AD_YES.png', 'AD_NON.png'];
 
+	rbm.keepScreenshotPartial( 260, 610, 450, 660);        //
+	var Img3 = rbm.findImage('winboss.png', 0.95);         
+	rbm.releaseScreenshot();
+
+	if (Img3 != undefined) {tapFor(Img3.x, Img3.y, 1, 60, 300, 1000);}
+
 
 	rbm.keepScreenshotPartial( 220, 890, 300, 1125);        //
 	var Img1 = rbm.findImage(getchoi[ADf], 0.97);           //
@@ -908,7 +914,7 @@ function getMaterial(ADf) {
 	rbm.releaseScreenshot();
 
 	if (Img1 != undefined) {
-		tapFor(Img1.x, Img1.y, 1, 60, 300, 3000);
+		tapFor(Img1.x, Img1.y, 1, 60, 300, 1500);
 		if (ADf == 1) {	waitAD2(65); }
 
 	} else if (Img2 != undefined) {
@@ -917,24 +923,31 @@ function getMaterial(ADf) {
 	}
 }
 
-function startFight() {
+function startFight(ftboss) {
 	if (!config.isRunning) return false;
 
-	CheckImageTap( 95, 875, 210, 1000, 0.95, 'fightsword.png', 1, 1, 1, 50, 1);  //戰鬥藍劍
+	// CheckImageTap( 95, 875, 210, 1000, 0.95, 'fightsword.png', 1, 1, 1, 50, 1);  //戰鬥藍劍
+	fightin = CheckImageTap( 95, 875, 210, 1000, 0.95, 'fightsword.png', 1, 1, 1, 50, 2);  //戰鬥藍劍
+	if (fightin) {
+		if (ftboss) {tapFor(360, 900, 1, 30, 100, 300);}
+		tapFor(160, 950, 1, 30, 50, 1000);
+	}
 
-
-	if(useReturn(3)) {
-		if (useReturn(4)) {
-			tapFor(140, 1010, 1, 80, 100, 500);
+	if(useReturn(3)) {  //有無戰鬥日記
+		if (useReturn(4)) {  //是否為法師
+			tapFor(140, 1010, 1, 80, 100, 500);    //攻擊
 		} else {
-			tapFor(420, 1020, 1, 80, 100, 1000);
-			tapFor(160,  900, 2, 80, 400, 3000);
+			sleep(500);
+			tapFor(420, 1020, 1, 80, 100, 1000);   //換角
+			tapFor(160,  900, 2, 80, 400, 3000);   //選法師
 		}
 	}
 }
 
-function clickSkill() {
+function clickSkill(skX) {
 	if (!config.isRunning) return false;
+
+	skillX = ['', 140, 300, 430, 560]
 
 	for (i = 0; i < 4; i++) {
 		if (!config.isRunning) return false;
@@ -947,7 +960,7 @@ function clickSkill() {
 		if (Img1 != undefined) { 
 			tapFor(500, 740, 1, 80, 100, 200);	
 		} else if (Img2 != undefined) { 
-			tapFor(430, 1000, 1, 80, 100, 200);	 // 4:560, 3:430
+			tapFor(skillX[skX], 1000, 1, 80, 100, 200);	 // 4:560, 3:430
 		} else {
 			break;
 		}
@@ -960,6 +973,37 @@ function clickSkill() {
 function answer_magic() {
 	if (!config.isRunning) return false;
 
+
+	rbm.keepScreenshotPartial( 400, 840, 610, 1080);  //確認技能說明
+	var Img1 = rbm.findImage('Q_findHiragana.png', 0.98);  //Q_find_Hiragana
+	var Img2 = rbm.findImage('Q_findKatagana.png', 0.98);  //Q_find_Katagana
+	rbm.releaseScreenshot();
+
+	if (Img1 != undefined) { 
+		gana = 2
+	} else if (Img2 != undefined) { 
+		gana = 1
+	} else {
+		console.log('Not Question Screen !!');
+		// sleep(300);
+		return false
+	}
+	
+	console.log('Have Question Screen !!');
+
+	checkQ = checkQuestion(gana);
+	// console.log(checkQ);
+
+	if (checkQ != 0) {
+		// sleep(500);
+		clickA = clickAnswer(checkQ[0], checkQ[1]);
+	}
+
+}
+
+function answer_magic2() {
+	if (!config.isRunning) return false;
+
 	if (useReturn(2)) {
 		console.log('have "題" 字'); 
 
@@ -967,6 +1011,7 @@ function answer_magic() {
 		// console.log(checkQ);
 
 		if (checkQ != 0) {
+			sleep(1000);
 			clickA = clickAnswer(checkQ[0], checkQ[1]);
 		}
 
@@ -977,83 +1022,69 @@ function answer_magic() {
 
 }
 
-function checkQuestion() {
+function checkQuestion(ganaF) {
 	if (!config.isRunning) return false;
 	console.log('找題問，問什麼？？')
 
 	hirakata = ['', 'Q_Hiragana', 'Q_Katakana']
-	// subname = ['', 'a', 'i', 'u', 'e', 'o', 'ka', 'ki', 'ku', 'ka', 'ko']
 
 	rbm.keepScreenshotPartial( 255, 895, 375, 975);  //找發問問題
-	for (var j = 1; j <= 2; j++) {
-		for (var i = 1; i <= 10; i++) {
-			if (!config.isRunning) return false;
+	for (var i = 1; i <= 51; i++) {
+		if (!config.isRunning) return false;
 
-			subname0 = i;
-			if (i < 10) {subname0 = '0' + i;}
-			filename = hirakata[j] + '/' + subname0 + '_' + subname[i] + '.png';
-
+		if (subname[i] != 'xx') {
+			subname0 = i; if (i < 10) {subname0 = '0' + i;}
+			filename = hirakata[ganaF] + '/' + subname0 + '_' + subname[i] + '.png';
 			// console.log('filename:', filename);
 
-			var Img1 = rbm.findImage(filename, 0.98);  //找發問的題目
-			// if (Img1 != undefined) { rbm.log('Img1:',Img1); }
+			var Img1 = rbm.findImage(filename, 0.988);  //找發問的題目
+			if (Img1 != undefined) { rbm.log('Img1:',Img1); }
 			
 			if (Img1 != undefined) { 
-				rbm.log('問題：', hirakata[j] , subname[i]);
+				rbm.log('問題：', hirakata[ganaF] , subname[i]);
 				// rbm.log('return:', j, i);
 				rbm.releaseScreenshot();
-
-				return [j, i];
-				// break;
+				return [ganaF, i];
 			}
 		}
 	}
 	rbm.releaseScreenshot();
 	
+	
+	tapFor(200, 1070, 2, 50, 100, 200);
 	return false;
-
 }
 
 function clickAnswer(j1, i) {
 	if (!config.isRunning) return false;
 	console.log('找答案，點選!!')
 
-	// console.log(j1, i)
 	if (j1 == 1) { j = 2;}
 	if (j1 == 2) { j = 1;}
-	// console.log(j1, i)
 
 	hirakata = ['', 'A_Hiragana', 'A_Katakana']
-	// subname = ['', 'a', 'i', 'u', 'e', 'o', 'ka', 'ki', 'ku', 'ke', 'ko']
 
 	rbm.keepScreenshotPartial( 150, 1020, 570, 1130);  //找答案
 
-	subname0 = i;
-	if (i < 10) {subname0 = '0' + i;}
+	subname0 = i; if (i < 10) {subname0 = '0' + i;}
 	filename = hirakata[j] + '/' + subname0 + '_' + subname[i] + '.png';
-
 	// console.log('filename:', filename);
 
-	var Img1 = rbm.findImage(filename, 0.98);  //找答案
-	rbm.releaseScreenshot();
-
-
+	var Img1 = rbm.findImage(filename, 0.955);  //找答案
 	// if (Img1 != undefined) { rbm.log('Img1:',Img1); }
+	rbm.releaseScreenshot();
 	
 	if (Img1 != undefined) { 
 		rbm.log('答案：', hirakata[j] , subname[i]);
-		rbm.log('x:', Img1.x, ', y:', Img1.y);
+		// rbm.log('x:', Img1.x, ', y:', Img1.y);
 		rbm.releaseScreenshot();
 		
-		sleep(600);
+		sleep(300);
 		tapFor(Img1.x, Img1.y, 3, 80, 300, 1000);
 		return [Img1.x, Img1.y];
-		// break;
 	}
 	
-	return 0;	
-
-
+	return 0;
 }
 
 // ===========================================================
@@ -1062,8 +1093,8 @@ function main(){       //主流程
 	if (!config.isRunning) return false;
 	
 	
-	startFight();     //戰鬥&選法師
-	clickSkill();     //選技能
+	startFight(1);     //戰鬥&選法師
+	clickSkill(4);     //選技能  
 	answer_magic();   //法師答題模式
 	getMaterial(1);   //看廣告拿獎勵
 
@@ -1088,7 +1119,7 @@ function setFirstTimer() {   //預設值設定
 function setFirstsetting() {
 
 	// hirakata = ['', 'Q_Hiragana', 'Q_Katakana']
-	subname = ['', 'a', 'i', 'u', 'e', 'o', 'ka', 'ki', 'ku', 'ke', 'ko']
+	subname = ['', 'a', 'i', 'u', 'e', 'o', 'ka', 'ki', 'ku', 'ke', 'ko', 'sa', 'si', 'su', 'se', 'so', 'ta', 'chi', 'tsu', 'te', 'to', 'na', 'ni', 'nu', 'ne', 'no', 'ha', 'hi', 'hu', 'he', 'ho', 'ma', 'mi', 'mu', 'me', 'mo', 'ya', 'xx', 'yu', 'xx', 'yo', 'ra', 'ri', 'ru', 're', 'ro', 'wa', 'xx', 'xx', 'xx', 'wo', 'n']
 	
 	
 }
@@ -1105,12 +1136,12 @@ function test(cycle){
 		} else if (n >= 1) {
 			console.log('n = ', n, '/', cycle, ', CRA 腳本開始');
 
-			startFight();
-			clickSkill();
-			answer_magic();
-			getMaterial(1);
+			// startFight();
+			// clickSkill();
+			// answer_magic();
+			// getMaterial(1);
 
-			// while(config.isRunning) {main();}
+			while(config.isRunning) {main();}
 			// console.log('n = ', n, ', CRA 腳本結束');
 			sleep(1000);
 		}
