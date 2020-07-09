@@ -691,6 +691,7 @@ function useReturn(choiceF){          //各項回授點檢查
 		case  2: return CheckImageTap( 245, 830, 470, 910, 0.95, 'q_word.png', 1, 1, 1, 50, 2);    return;   //問答 "題"
 		case  3: return CheckImageTap( 550, 780, 670, 900, 0.95, 'fightbook.png', 1, 1, 1, 50, 2);    return;   //戰鬥日記
 		case  4: return CheckImageTap( 500,  30, 580, 110, 0.95, 'magic_icon.png', 1, 1, 1, 50, 2);    return;   //
+		case  5: return CheckImageTap( 260,  30, 288, 62, 0.95, 'coinicon.png', 1, 1, 1, 50, 2);    return;   //錢幣小圖示(上中)
 		
 
 			
@@ -896,35 +897,16 @@ function normalclick() {
 
 }
 
-function getMaterial(ADf) {
-	if (!config.isRunning) return false;
-
-	var getchoi = ['', 'AD_YES.png', 'AD_NON.png'];
-
-	rbm.keepScreenshotPartial( 260, 610, 450, 660);        //
-	var Img3 = rbm.findImage('winboss.png', 0.95);         
-	rbm.releaseScreenshot();
-
-	if (Img3 != undefined) {tapFor(Img3.x, Img3.y, 1, 60, 300, 1000);}
-
-
-	rbm.keepScreenshotPartial( 220, 890, 300, 1125);        //
-	var Img1 = rbm.findImage(getchoi[ADf], 0.97);           //
-	var Img2 = rbm.findImage('get2xmaterial.png', 0.97);    //
-	rbm.releaseScreenshot();
-
-	if (Img1 != undefined) {
-		tapFor(Img1.x, Img1.y, 1, 60, 300, 1500);
-		if (ADf == 1) {	waitAD2(65); }
-
-	} else if (Img2 != undefined) {
-		tapFor(Img2.x, Img2.y + 40, 2, 80, 100, 2000);
-
-	}
-}
-
 function startFight(ftboss) {
 	if (!config.isRunning) return false;
+	// if (!useReturn(5)) return false;
+	console.log('Start Fight !!!')
+
+	nomana = CheckImageTap( 470, 20, 520, 80, 0.80, 'nomana.png', 1, 1, 1, 50, 2);  //AD MANA
+	if (nomana & useReturn(5)) {
+		tapFor(550, 50, 2, 50, 100, 1500);
+		waitAD2(65);
+	}
 
 	// CheckImageTap( 95, 875, 210, 1000, 0.95, 'fightsword.png', 1, 1, 1, 50, 1);  //戰鬥藍劍
 	fightin = CheckImageTap( 95, 875, 210, 1000, 0.95, 'fightsword.png', 1, 1, 1, 50, 2);  //戰鬥藍劍
@@ -972,7 +954,6 @@ function clickSkill(skX) {
 
 function answer_magic() {
 	if (!config.isRunning) return false;
-
 
 	rbm.keepScreenshotPartial( 400, 840, 610, 1080);  //確認技能說明
 	var Img1 = rbm.findImage('Q_findHiragana.png', 0.98);  //Q_find_Hiragana
@@ -1038,7 +1019,8 @@ function checkQuestion(ganaF) {
 			// console.log('filename:', filename);
 
 			var Img1 = rbm.findImage(filename, 0.988);  //找發問的題目
-			if (Img1 != undefined) { rbm.log('Img1:',Img1); }
+			// if (Img1 != undefined) { rbm.log('QUESTION_Img1:',Img1); }
+			if (Img1 != undefined) { rbm.log('QUESTION_Img1:"',Img1.score,'"'); }
 			
 			if (Img1 != undefined) { 
 				rbm.log('問題：', hirakata[ganaF] , subname[i]);
@@ -1057,7 +1039,7 @@ function checkQuestion(ganaF) {
 
 function clickAnswer(j1, i) {
 	if (!config.isRunning) return false;
-	console.log('找答案，點選!!')
+	console.log('找答案，點選!!', j1, i);
 
 	if (j1 == 1) { j = 2;}
 	if (j1 == 2) { j = 1;}
@@ -1070,8 +1052,9 @@ function clickAnswer(j1, i) {
 	filename = hirakata[j] + '/' + subname0 + '_' + subname[i] + '.png';
 	// console.log('filename:', filename);
 
-	var Img1 = rbm.findImage(filename, 0.955);  //找答案
-	// if (Img1 != undefined) { rbm.log('Img1:',Img1); }
+	var Img1 = rbm.findImage(filename, 0.975);  //找答案
+	// if (Img1 != undefined) { rbm.log('ANSWER_Img1:',Img1); }
+	if (Img1 != undefined) { rbm.log('ANSWER_Img1:"',Img1.score,'"'); }
 	rbm.releaseScreenshot();
 	
 	if (Img1 != undefined) { 
@@ -1084,8 +1067,37 @@ function clickAnswer(j1, i) {
 		return [Img1.x, Img1.y];
 	}
 	
+	tapFor(200, 1070, 2, 30, 100, 300);
 	return 0;
 }
+
+function getMaterial(ADf) {
+	if (!config.isRunning) return false;
+
+	var getchoi = ['', 'AD_YES.png', 'AD_NON.png'];
+
+	rbm.keepScreenshotPartial( 260, 610, 450, 660);        //
+	var Img3 = rbm.findImage('winboss.png', 0.95);         
+	rbm.releaseScreenshot();
+
+	if (Img3 != undefined) {tapFor(Img3.x, Img3.y, 1, 60, 300, 1000);}
+
+
+	rbm.keepScreenshotPartial( 220, 890, 300, 1125);        //
+	var Img1 = rbm.findImage(getchoi[ADf], 0.97);           //
+	var Img2 = rbm.findImage('get2xmaterial.png', 0.97);    //
+	rbm.releaseScreenshot();
+
+	if (Img1 != undefined) {
+		tapFor(Img1.x, Img1.y, 1, 60, 300, 1500);
+		if (ADf == 1) {	waitAD2(65); }
+
+	} else if (Img2 != undefined) {
+		tapFor(Img2.x, Img2.y + 40, 2, 80, 100, 2000);
+
+	}
+}
+
 
 // ===========================================================
 
@@ -1094,7 +1106,7 @@ function main(){       //主流程
 	
 	
 	startFight(1);     //戰鬥&選法師
-	clickSkill(4);     //選技能  
+	clickSkill(2);     //選技能  
 	answer_magic();   //法師答題模式
 	getMaterial(1);   //看廣告拿獎勵
 

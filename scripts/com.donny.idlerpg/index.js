@@ -619,9 +619,23 @@ function useReturn(choiceF){          //各項回授點檢查
 		case 42: return CheckImageTap2( 110, 480, 160,  820, 0.90, 'ascending_prismicon.png', 'ascending_goldicon.png', 1, 1, 1, 50, 2);   return;  //輪回畫面確認
 		
 		case 50: return checkPointcolor3(360, 640, 40, '00BEFF', 360, 660, 40, 'FFFFFF', 360, 760, 40, '6D370C'); return;   //看box廣告圖示點 ok
-		case 51: return checkPointcolor3(286, 513, 50, '0091E0', 290, 513, 50, '003067', 300, 513, 50, '305985'); return;   //物品數量小G 新版y差+20 ok
-		case 52: return checkPointcolor3( 15, 515, 50, '0168A5', 125, 515, 50, 'B31B0F', 240, 515, 50, '45681F'); return;   //材料地下城材料清單 新版y差+20 ok
+		// case 51: return checkPointcolor3(286, 513, 50, '0091E0', 290, 513, 50, '003067', 300, 513, 50, '305985'); return;   //物品數量小G 新版y差+20 ok
+		// case 52: return checkPointcolor3( 15, 515, 50, '0168A5', 125, 515, 50, 'B31B0F', 240, 515, 50, '45681F'); return;   //材料地下城材料清單 新版y差+20 ok
 		
+		// case 50: return checkPointcolor3(360, 640, 40, '00BEFF', 360, 660, 40, 'FFFFFF', 360, 760, 40, '6D370C'); return;   //看box廣告圖示點 ok
+		case 51: 
+			
+			rbm.keepScreenshotPartial( 0,  490,  50,  560);
+			var Img1 = rbm.findImage('list_F_icon.png', 0.90);        //中間圖示 F 
+			var Img2 = rbm.findImage('list_water_icon.png', 0.90);    //中間圖示 水
+			rbm.log('list_F_icon:', Img1);
+			rbm.log('list_water_icon:', Img2);
+			rbm.releaseScreenshot();
+
+			if(Img1 == undefined && Img2 == undefined){return false}
+			return true
+
+
 		case 61: return checkPointcolor3( 42, 435, 50, 'FFA800',  51, 432, 50, 'FFA800',  51, 440, 50, 'FFA800'); return;   //對話頻道橘色驚嘆號
 		
 		case 81: return CheckImageTap( 300,  340, 415,  380, 0.90, 'areafightchoice.png', 1, 1, 1, 50, 2);       return;   //競技場挑戰對手文字
@@ -675,6 +689,308 @@ function recoNum(choiceF) {        //各項數字辨識
 		
 	}
 }
+
+//=============================2020.07.10 Retest================================//
+
+function getADBox() {   //寶箱廣告觀看 OK
+	//if (!config.isRunning) return false;
+	//if (!useReturn(51) && !useReturn(50)) return false;
+	//if (!useReturn(50)) return false;
+	console.log('寶箱廣告');
+
+	for (var i = 1; i <= 3; i++){
+		if (!config.isRunning) return false;
+		
+		sleep(200);
+		if (useReturn(1)) {
+			if (useReturn(3)) {
+				for (var j = 1; j <= 3; j++){
+					if (!config.isRunning) return false;
+					//console.log(' AD box click', i, j);
+					
+					sleep(300);
+					CheckImageTap( 310,  590, 410, 690, 0.90, 'ADbox.png', 1, 1, 2, 1000, 1);
+				}
+				
+				waitAD(adtimesetSw);
+				//getADGoldTimer =  getADGoldTimer + 30 * 1000;
+			}
+			else {
+				return false;
+			}
+		}
+	}
+}
+
+function getADSpeed() {  //看廣告拿2倍速 OK
+	if (!config.isRunning) return false;
+	if (!useReturn(51)) return false;
+	//if (useReturn(2)) return false;
+	console.log('檢查2倍速');
+	CheckImageTap( 230, 22, 262, 43, 0.90, 'speedoff.png',    1, 1, 1, 200, 1, 0);  //加速關閉點on
+	CheckImageTap( 651, 29, 687, 52, 0.85, 'upmenuclose.png', 1, 1, 1, 300, 1);  //右上功能圖示關閉
+	var speedx2 = useReturn(2);
+	for (var i = 1; i <= 8; i++){
+		if (!config.isRunning) return false;
+		//console.log(i, useReturn(1));
+		
+		sleep(200);
+		if (useReturn(1)) {
+			if (!useReturn(2)) {
+				choiceMenu(5);
+				
+				
+				var x2Y = -1;
+				for (var m = 1; m <= 10; m++){
+					rbm.keepScreenshotPartial( 5,  580,  130,  1180);  //x2 + x3 倍速選單圖示
+					var targetImg = rbm.findImage('speedX2icon.png', 0.90);
+					//rbm.log('speedX2icon:', targetImg)
+					rbm.releaseScreenshot();
+					
+					if (targetImg != undefined && targetImg.score >= 0.90){
+						if (x2Y == -1) x2Y = targetImg.y;
+						else if (x2Y != -1 && targetImg.y == x2Y) break;
+						else if (x2Y != -1 && targetImg.y != x2Y) x2Y = -1;
+					}
+					sleep(150);
+				}
+				
+				if (targetImg != undefined && targetImg.score >= 0.90) {
+					for (var j = 1; j <= 3; j++){
+						if (!config.isRunning) return false;
+						//console.log(' speedx2AD click', j);
+						
+						var inY = targetImg.y - 20;
+						var fiY = targetImg.y + 100;
+
+						rbm.keepScreenshotPartial(  550,  inY, 710,  fiY);  //x2 + x3 倍速選單圖示
+						var Img1 = rbm.findImage('timeplaying.png', 0.90);
+						var Img2 = rbm.findImage('watchAD_dark.png', 0.90);
+						var Img3 = rbm.findImage('watchAD.png', 0.90);
+						var Img4 = rbm.findImage('openButton.png', 0.90);
+						//rbm.log('Img1-timeplaying:', Img1)
+						//rbm.log('Img2-watchAD_dark:', Img2)
+						//rbm.log('Img3-watchAD:', Img3)
+						//rbm.log('Img4-openButton:', Img4)
+						rbm.releaseScreenshot();
+						if (Img1 != undefined) {
+							ADtimeout[0] = -1;
+							return false;
+						}		
+						if (Img2 != undefined) {
+							sleep(1000);
+							if ( ADtimeout[0] == -1) {
+								ADtimeout[0] = Date.now();
+								ADtimeout[1] = (Date.now() - ADtimeout[0])/1000
+								//console.log('ADtimeout[0]:', ADtimeout[0], ', ADtimeout[1]:', ADtimeout[1]);
+							}
+							else if ( ADtimeout[1] > 40) {
+								console.log('卡看廣告:', ADtimeout[1], '/40 秒，重啟app');
+								startApp(120);
+							}
+							else if (ADtimeout[0] > 0 && ADtimeout[1] != -1) {
+								ADtimeout[1] = (Date.now() - ADtimeout[0])/1000
+								//console.log('ADtimeout[0]:', ADtimeout[0], ', ADtimeout[1]:', ADtimeout[1]);
+							}
+							return false;
+						}		
+						if (Img3 != undefined) {
+							tapFor(Img3.x, Img3.y, 3, 60, 300);
+							ADtimeout[0] = -1;
+							waitAD(adtimesetSw, false);
+							getADGoldTimer =  getADGoldTimer + 30 * 1000;
+						}		
+						if (Img4 != undefined) {	
+							tapFor(Img4.x, Img4.y, 1, 60, 300);	
+							ADtimeout[0] = -1;
+						}
+						
+						sleep(200);
+					}
+				}				
+				else {
+					DIY_swipe(480, 660, 480, 800, 40, 1500);
+				}
+			}
+			else {
+				return false;
+			}
+		}
+	}
+}
+
+function getADGold(Timer) {  //看廣告拿金幣  OK
+	if (!config.isRunning || Date.now() < getADGoldTimer) {return false;}
+	if (!useReturn(2)) {return false;}
+	if (!useReturn(51)) {return false;}　　　//物品數量小G
+	console.log('檢查廣告拿金幣');
+
+	for (var i = 1; i <= 3; i++){
+		if (!config.isRunning) return false;
+		
+		sleep(200);
+		if (useReturn(1)) {
+			choiceMenu(5);
+			
+			rbm.keepScreenshotPartial( 5,  580,  130,  1180);  //廣告金幣選單圖示
+			var targetImg = rbm.findImage('ADgoldicon.png', 0.90);
+			rbm.releaseScreenshot();
+			
+			//rbm.log('ADgoldicon:',　targetImg);
+			
+			if (targetImg != undefined) {
+				for (var j = 1; j <= 8; j++){
+					if (!config.isRunning) return false;
+					//console.log(' GoldAD click', i, j);
+					
+					var inY = targetImg.y;
+					var fiY = targetImg.y + 120;
+					//console.log(550,  inY, 710,  fiY)
+					var waitTimer = CheckImageTap( 550,  inY, 710,  fiY, 0.90, 'timeplaying.png', 1, 1, 1, 50, 2); //看廣告金幣(開啟)
+					if (waitTimer) {
+						var waitStr = recoNum(5); //
+						var nexttimer = Math.floor(waitStr/100) * 60 + parseInt((waitStr % 100) / 10) * 10 + parseInt(waitStr % 10); //	
+						// console.log('waitStr:', recoNum(5), ', nexttimer:', nexttimer);
+						console.log('廣告金幣，下次檢查時間:', nexttimer, '秒');
+						getADGoldTimer =  Date.now() + nexttimer * 1000;
+						return false;
+					}
+					CheckImageTap2(550, inY, 710, fiY, 0.80, 'watchAD.png', 'openButton.png', 1, 1, 1, 500, 1)
+					
+					sleep(200);
+				}
+				
+				waitAD(adtimesetSw);
+				getADGoldTimer =  Date.now() + Timer * 1000;
+			}				
+			else {
+				DIY_swipe(480, 800, 480, 660, 40, 1500);
+			}
+		}
+	}
+}
+
+function waitAD(timer, speedx2) {   // OK
+	if (!config.isRunning) return false;
+	if (speedx2 == undefined) var speedx2 = true;
+	console.log('等待廣告', 'speedx2:', speedx2);
+	
+	a = 0;
+	for (var i = 1; i <= timer; i++){
+		if (!config.isRunning) return false;
+		
+		if (i > 5 && i < timer) {
+			console.log(i, 'sec');
+			//keycode('BACK', 40);	
+		}
+		if (i >= timer - 10) {
+			console.log('廣告觀看計時 = ' + i, '按BACK，切廣告')
+			keycode('BACK', 1000);
+		}
+		
+		var sizeObj = getScreenSize();
+		if (sizeObj.width == 720 && i >= 5 && admodeSw == 2) {
+			var stoptime1 = ScreenStopTimes( 180, 270, 590, 860, 0.999, 'checkADstop.png', 1)
+			if (stoptime1 >= 3 || i >= 35) {		
+				// console.log(i, 'sec', 'stoptime1 >= 3 || i >= 35 , press key BACK' );
+				console.log('廣告結束，畫面停3秒，回遊戲');
+				keycode('BACK', 200); sleep(500);
+				stoptime1 = 0;
+			}
+			  
+			if (useReturn(1)){
+				rbm.keepScreenshotPartial(260, 630, 450, 1180);  ///點擊獲取
+				var Img = rbm.findImage('getButton.png', 0.90);
+				rbm.releaseScreenshot();
+				if (Img != undefined && Img.score >= 0.90) {
+					console.log('出現獲取鈕，點擊跳出')
+					sleep(300);
+					tapFor(Img.x , Img.y, 3, 60, 200);
+					return false;
+				}
+				
+				a = a + 1;
+				if (i < 10 && a >= 10) {console.log('選單鈕，出現10秒，異常'); return false;}
+				else if (i > 10 && a >=  5) {console.log('選單鈕，出現 5秒，回到遊戲'); return false;}
+
+				if (!speedx2 && useReturn(2)) {console.log('廣告 2倍速 完成');return false;}  //無加速變有加速判斷
+			}
+			else {
+				a = 0;
+				
+				CheckImageTap(280, 490, 420, 540, 0.80,  'exitgame.png', 240, 830, 1, 500, 0, 0);    //取消退出遊戲
+				CheckImageTap(500, 0, 720, 530, 0.85, 'rightupXX.png', 1, 1, 1, 500, 1, 1);    //右上的叉叉			
+				CheckImageTap(310, 600, 405, 1170, 0.85, 'OKbutton.png', 1, 1, 1, 500, 1, 1);    //確認鈕
+				
+				// CheckImageTap(300,  570, 430,  700, 0.80, 'playAD.png',    1, 1, 1, 300, 1, 0);      //點擊播放廣告
+				// CheckImageTap(500, 1050, 720, 1280, 0.90, 'skipAD01.png',  1, 1, 1, 300, 1, 0);      //點擊右下略過廣告(中字)
+				// CheckImageTap(440,  660, 610,  750, 0.90, 'KPwatchAD.png', 1, 1, 1, 3000, 1, 0);     //點擊繼續看廣告
+				// CheckImageTap(440,  660, 610,  750, 0.90, 'KPwatchAD2.png', 1, 1, 1, 3000, 1, 0);     //點擊繼續看廣告2
+				// CheckImageTap(579,   12, 704,   44, 0.99, 'AD_rightup_01.png', 1,  1, 1, 300, 1, 0);   //右上叉叉01
+				
+				// CheckImageTap2(  0,   0, 110,   80, 0.90, 'AD_XX_03.png', 'AD_XX_04.png',   1,  1, 1, 3000, 1, 0);     //廣告結束，左上叉叉
+				
+
+				//CheckImageTap(650,  20, 700,  65, 0.80, 'ADdebug1.png', 360, 280, 1, 3000, 0);
+				//CheckImageTap(465,  655, 540,  740, 0.95, 'systemwait.png', 1, 1, 1, 3000, 1);      //無回應等待鈕
+				
+				//console.log('AD_XX_02', CheckImageTap2(510,  15, 710,  85, 0.95, 'AD_XX_02.png', 'AD_XX_05.png', 670, 50, 1, 500, 2));
+				//CheckImageTap2(510,  15, 710,  85, 0.95, 'AD_XX_02.png', 'AD_XX_05.png', 670, 50, 1, 3000, 0);     //
+				
+				//console.log('AD_XX_03', CheckImageTap2(  0,   0, 110,  80, 0.90, 'AD_XX_03.png', 'AD_XX_04.png',   1,  1, 1, 500, 2));
+			}
+		}
+		sleep(700);
+		//console.log('Wait Time: ', i, '/', timer);
+	}
+}
+
+function choiceMenu(page) {  //主選單頁面   OK
+	if (!config.isRunning) return false;
+	if (!useReturn(51)) return false;
+	console.log('Choice Manu : ', page);
+	
+	var colorHEX = new Array( '', 'E0A85A', 'FBE194', 'FFFFFF', '2B1708', '')
+	for (var i = 1; i <= 3; i++){
+		if (!config.isRunning) return false;
+		
+		if (useReturn(1)) {
+			if (page > 0) {
+				var colorX = 20 + 106 * (page - 1);
+				var colorY = 1210;
+				// console.log('X:', colorX, ', Y:', colorY);
+				var a = 0;
+				for (var j = 1; j <= 10; j++){ 
+					if (!config.isRunning) return false;
+					// console.log('i:', i, ', j:', j, ', a:', a);
+				
+					checkPointcolorTap(colorX, colorY, 20, colorHEX[1], 0, 0, 1, 100, 1)
+					if (checkPointcolor(colorX, colorY + 3, 20, colorHEX[2])) {
+						a = a + 1;
+						if (a >= 3) {return false }
+					}
+					sleep(100);
+				}
+			}
+			else if (page == 0) {
+				var colorX = 690; var colorY = 510;	var a = 0;
+				for (var k = 1; k <= 10; k++){ 
+					if (!config.isRunning) return false;
+				
+					checkPointcolorTap(colorX, colorY, 20, colorHEX[3], 0, 0, 1, 100, 1)
+					if (checkPointcolor(colorX, colorY + 3, 20, colorHEX[4])) {
+						a = a + 1;
+						if (a >= 3) { return false }
+					}
+					sleep(200);
+				}
+			}
+		}
+		
+		sleep(200);
+	}
+}
+
 
 //==============================遊戲function=====================================//
 
@@ -1100,7 +1416,7 @@ function tapBox(vdX, mode) {  //點寶箱  mode: 1:刷關  2:寶箱    OK
 	if (!config.isRunning) return false;
 	if (!useReturn(2)) getADSpeed();
 	// if (useReturn(50)) {console.log('top:ADBox'); getADBox();}
-	if (!useReturn(51) && !useReturn(52)) return false;
+	if (!useReturn(51)) return false;
 	console.log('寶箱亂亂點之術');
 	
 	var bossStage = stage % 100  //0:為boss關
@@ -1205,7 +1521,7 @@ function tapBoxXY(modLR, times, vdX2) {  //路上連點  OK
 function tapSkill(pc) {   //點大技打水晶  OK
 	if (!config.isRunning) return false;
 	if (!tapSkillSw) return false;
-	if (!useReturn(51) && !useReturn(52)) return false;
+	if (!useReturn(51)) return false;
 	console.log('放大技');
 	
 	var skillcolor = ['', '0094C8', 'FAED0E', '', '', ''];
@@ -1336,303 +1652,6 @@ function autoStuck() {  //  卡關自動判斷式   OK
 	//console.log('擊退次數:', autoStuckstage[0], '/', autoStuckSw)
 	
 	return autoStuckstage[0];
-}
-
-function getADBox() {   //寶箱廣告觀看 OK
-	//if (!config.isRunning) return false;
-	//if (!useReturn(51) && !useReturn(50)) return false;
-	//if (!useReturn(50)) return false;
-	console.log('寶箱廣告');
-
-	for (var i = 1; i <= 3; i++){
-		if (!config.isRunning) return false;
-		
-		sleep(200);
-		if (useReturn(1)) {
-			if (useReturn(3)) {
-				for (var j = 1; j <= 3; j++){
-					if (!config.isRunning) return false;
-					//console.log(' AD box click', i, j);
-					
-					sleep(300);
-					CheckImageTap( 310,  590, 410, 690, 0.90, 'ADbox.png', 1, 1, 2, 1000, 1);
-				}
-				
-				waitAD(adtimesetSw);
-				//getADGoldTimer =  getADGoldTimer + 30 * 1000;
-			}
-			else {
-				return false;
-			}
-		}
-	}
-}
-
-function getADSpeed() {  //看廣告拿2倍速 OK
-	if (!config.isRunning) return false;
-	if (!useReturn(51)) return false;
-	//if (useReturn(2)) return false;
-	console.log('檢查2倍速');
-	CheckImageTap( 230, 22, 262, 43, 0.90, 'speedoff.png',    1, 1, 1, 200, 1, 0);  //加速關閉點on
-	CheckImageTap( 651, 29, 687, 52, 0.85, 'upmenuclose.png', 1, 1, 1, 300, 1);  //右上功能圖示關閉
-	var speedx2 = useReturn(2);
-	for (var i = 1; i <= 8; i++){
-		if (!config.isRunning) return false;
-		//console.log(i, useReturn(1));
-		
-		sleep(200);
-		if (useReturn(1)) {
-			if (!useReturn(2)) {
-				choiceMenu(5);
-				
-				
-				var x2Y = -1;
-				for (var m = 1; m <= 10; m++){
-					rbm.keepScreenshotPartial( 5,  580,  130,  1180);  //x2 + x3 倍速選單圖示
-					var targetImg = rbm.findImage('speedX2icon.png', 0.90);
-					//rbm.log('speedX2icon:', targetImg)
-					rbm.releaseScreenshot();
-					
-					if (targetImg != undefined && targetImg.score >= 0.90){
-						if (x2Y == -1) x2Y = targetImg.y;
-						else if (x2Y != -1 && targetImg.y == x2Y) break;
-						else if (x2Y != -1 && targetImg.y != x2Y) x2Y = -1;
-					}
-					sleep(150);
-				}
-				
-				if (targetImg != undefined && targetImg.score >= 0.90) {
-					for (var j = 1; j <= 3; j++){
-						if (!config.isRunning) return false;
-						//console.log(' speedx2AD click', j);
-						
-						var inY = targetImg.y - 20;
-						var fiY = targetImg.y + 100;
-
-						rbm.keepScreenshotPartial(  550,  inY, 710,  fiY);  //x2 + x3 倍速選單圖示
-						var Img1 = rbm.findImage('timeplaying.png', 0.90);
-						var Img2 = rbm.findImage('watchAD_dark.png', 0.90);
-						var Img3 = rbm.findImage('watchAD.png', 0.90);
-						var Img4 = rbm.findImage('openButton.png', 0.90);
-						//rbm.log('Img1-timeplaying:', Img1)
-						//rbm.log('Img2-watchAD_dark:', Img2)
-						//rbm.log('Img3-watchAD:', Img3)
-						//rbm.log('Img4-openButton:', Img4)
-						rbm.releaseScreenshot();
-						if (Img1 != undefined) {
-							ADtimeout[0] = -1;
-							return false;
-						}		
-						if (Img2 != undefined) {
-							sleep(1000);
-							if ( ADtimeout[0] == -1) {
-								ADtimeout[0] = Date.now();
-								ADtimeout[1] = (Date.now() - ADtimeout[0])/1000
-								//console.log('ADtimeout[0]:', ADtimeout[0], ', ADtimeout[1]:', ADtimeout[1]);
-							}
-							else if ( ADtimeout[1] > 40) {
-								console.log('卡看廣告:', ADtimeout[1], '/40 秒，重啟app');
-								startApp(120);
-							}
-							else if (ADtimeout[0] > 0 && ADtimeout[1] != -1) {
-								ADtimeout[1] = (Date.now() - ADtimeout[0])/1000
-								//console.log('ADtimeout[0]:', ADtimeout[0], ', ADtimeout[1]:', ADtimeout[1]);
-							}
-							return false;
-						}		
-						if (Img3 != undefined) {
-							tapFor(Img3.x, Img3.y, 3, 60, 300);
-							ADtimeout[0] = -1;
-							waitAD(adtimesetSw, false);
-							getADGoldTimer =  getADGoldTimer + 30 * 1000;
-						}		
-						if (Img4 != undefined) {	
-							tapFor(Img4.x, Img4.y, 1, 60, 300);	
-							ADtimeout[0] = -1;
-						}
-						
-						sleep(200);
-					}
-				}				
-				else {
-					DIY_swipe(480, 660, 480, 800, 40, 1500);
-				}
-			}
-			else {
-				return false;
-			}
-		}
-	}
-}
-
-function getADGold(Timer) {  //看廣告拿金幣  OK
-	if (!config.isRunning || Date.now() < getADGoldTimer) {return false;}
-	if (!useReturn(2)) {return false;}
-	if (!useReturn(51)) {return false;}　　　//物品數量小G
-	console.log('檢查廣告拿金幣');
-
-	for (var i = 1; i <= 3; i++){
-		if (!config.isRunning) return false;
-		
-		sleep(200);
-		if (useReturn(1)) {
-			choiceMenu(5);
-			
-			rbm.keepScreenshotPartial( 5,  580,  130,  1180);  //廣告金幣選單圖示
-			var targetImg = rbm.findImage('ADgoldicon.png', 0.90);
-			rbm.releaseScreenshot();
-			
-			//rbm.log('ADgoldicon:',　targetImg);
-			
-			if (targetImg != undefined) {
-				for (var j = 1; j <= 8; j++){
-					if (!config.isRunning) return false;
-					//console.log(' GoldAD click', i, j);
-					
-					var inY = targetImg.y;
-					var fiY = targetImg.y + 120;
-					//console.log(550,  inY, 710,  fiY)
-					var waitTimer = CheckImageTap( 550,  inY, 710,  fiY, 0.90, 'timeplaying.png', 1, 1, 1, 50, 2); //看廣告金幣(開啟)
-					if (waitTimer) {
-						var waitStr = recoNum(5); //
-						var nexttimer = Math.floor(waitStr/100) * 60 + parseInt((waitStr % 100) / 10) * 10 + parseInt(waitStr % 10); //	
-						// console.log('waitStr:', recoNum(5), ', nexttimer:', nexttimer);
-						console.log('廣告金幣，下次檢查時間:', nexttimer, '秒');
-						getADGoldTimer =  Date.now() + nexttimer * 1000;
-						return false;
-					}
-					CheckImageTap2(550, inY, 710, fiY, 0.80, 'watchAD.png', 'openButton.png', 1, 1, 1, 500, 1)
-					
-					sleep(200);
-				}
-				
-				waitAD(adtimesetSw);
-				getADGoldTimer =  Date.now() + Timer * 1000;
-			}				
-			else {
-				DIY_swipe(480, 800, 480, 660, 40, 1500);
-			}
-		}
-	}
-}
-
-function waitAD(timer, speedx2) {   // OK
-	if (!config.isRunning) return false;
-	if (speedx2 == undefined) var speedx2 = true;
-	console.log('等待廣告', 'speedx2:', speedx2);
-	
-	a = 0;
-	for (var i = 1; i <= timer; i++){
-		if (!config.isRunning) return false;
-		
-		if (i > 5 && i < timer) {
-			//console.log(i, 'sec');
-			//keycode('BACK', 40);	
-		}
-		if (i >= timer - 15) {
-			console.log('廣告觀看計時 = ' + i, '按BACK，切廣告')
-			keycode('BACK', 1000);
-		}
-		
-		var sizeObj = getScreenSize();
-		if (sizeObj.width == 720 && i >= 5 && admodeSw == 2) {
-			var stoptime1 = ScreenStopTimes( 180, 270, 590, 860, 0.999, 'checkADstop.png', 1)
-			if (stoptime1 >= 3 || i >= 35) {		
-				// console.log(i, 'sec', 'stoptime1 >= 3 || i >= 35 , press key BACK' );
-				console.log('廣告結束，畫面停3秒，回遊戲');
-				keycode('BACK', 200); sleep(500);
-				stoptime1 = 0;
-			}
-			  
-			if (useReturn(1)){
-				rbm.keepScreenshotPartial(260, 630, 450, 1180);  ///點擊獲取
-				var Img = rbm.findImage('getButton.png', 0.90);
-				rbm.releaseScreenshot();
-				if (Img != undefined && Img.score >= 0.90) {
-					console.log('出現獲取鈕，點擊跳出')
-					sleep(300);
-					tapFor(Img.x , Img.y, 3, 60, 200);
-					return false;
-				}
-				
-				a = a + 1;
-				if (i < 10 && a >= 10) {console.log('選單鈕，出現10秒，異常    '); return false;}
-				else if (i > 10 && a >=  5) {console.log('選單鈕，出現 5秒，回到遊戲'); return false;}
-
-				if (!speedx2 && useReturn(2)) {console.log('廣告 2倍速 完成');return false;}  //無加速變有加速判斷
-			}
-			else {
-				a = 0;
-				
-				CheckImageTap(280, 490, 420, 540, 0.80,  'exitgame.png', 240, 830, 1, 300, 0, 0);    //取消退出遊戲
-				
-				CheckImageTap(300,  570, 430,  700, 0.80, 'playAD.png',    1, 1, 1, 300, 1, 0);      //點擊播放廣告
-				CheckImageTap(500, 1050, 720, 1280, 0.90, 'skipAD01.png',  1, 1, 1, 300, 1, 0);      //點擊右下略過廣告(中字)
-				CheckImageTap(440,  660, 610,  750, 0.90, 'KPwatchAD.png', 1, 1, 1, 3000, 1, 0);     //點擊繼續看廣告
-				CheckImageTap(440,  660, 610,  750, 0.90, 'KPwatchAD2.png', 1, 1, 1, 3000, 1, 0);     //點擊繼續看廣告2
-				CheckImageTap(579,   12, 704,   44, 0.99, 'AD_rightup_01.png', 1,  1, 1, 300, 1, 0);   //右上叉叉01
-				
-				CheckImageTap2(  0,   0, 110,   80, 0.90, 'AD_XX_03.png', 'AD_XX_04.png',   1,  1, 1, 3000, 1, 0);     //廣告結束，左上叉叉
-				
-
-				//CheckImageTap(650,  20, 700,  65, 0.80, 'ADdebug1.png', 360, 280, 1, 3000, 0);
-				//CheckImageTap(465,  655, 540,  740, 0.95, 'systemwait.png', 1, 1, 1, 3000, 1);      //無回應等待鈕
-				
-				//console.log('AD_XX_02', CheckImageTap2(510,  15, 710,  85, 0.95, 'AD_XX_02.png', 'AD_XX_05.png', 670, 50, 1, 500, 2));
-				//CheckImageTap2(510,  15, 710,  85, 0.95, 'AD_XX_02.png', 'AD_XX_05.png', 670, 50, 1, 3000, 0);     //
-				
-				//console.log('AD_XX_03', CheckImageTap2(  0,   0, 110,  80, 0.90, 'AD_XX_03.png', 'AD_XX_04.png',   1,  1, 1, 500, 2));
-			}
-		}
-		sleep(700);
-		//console.log('Wait Time: ', i, '/', timer);
-	}
-}
-
-function choiceMenu(page) {  //主選單頁面   OK
-	if (!config.isRunning) return false;
-	if (!useReturn(51) && !useReturn(52)) return false;
-	console.log('Choice Manu : ', page);
-	
-	var colorHEX = new Array( '', 'E0A85A', 'FBE194', 'FFFFFF', '2B1708', '')
-	for (var i = 1; i <= 3; i++){
-		if (!config.isRunning) return false;
-		
-		if (useReturn(1)) {
-			if (page > 0) {
-				var colorX = 20 + 106 * (page - 1);
-				var colorY = 1210;
-				// console.log('X:', colorX, ', Y:', colorY);
-				var a = 0;
-				for (var j = 1; j <= 10; j++){ 
-					if (!config.isRunning) return false;
-					// console.log('i:', i, ', j:', j, ', a:', a);
-				
-					checkPointcolorTap(colorX, colorY, 20, colorHEX[1], 0, 0, 1, 100, 1)
-					if (checkPointcolor(colorX, colorY + 3, 20, colorHEX[2])) {
-						a = a + 1;
-						if (a >= 3) {return false }
-					}
-					sleep(100);
-				}
-			}
-			else if (page == 0) {
-				var colorX = 690; var colorY = 510;	var a = 0;
-				for (var k = 1; k <= 10; k++){ 
-					if (!config.isRunning) return false;
-				
-					checkPointcolorTap(colorX, colorY, 20, colorHEX[3], 0, 0, 1, 100, 1)
-					if (checkPointcolor(colorX, colorY + 3, 20, colorHEX[4])) {
-						a = a + 1;
-						if (a >= 3) { return false }
-					}
-					sleep(200);
-				}
-			}
-		}
-		
-		sleep(200);
-	}
 }
 
 function Guildchat(Timer) {  //公會聊天室幫助&領取
@@ -2132,16 +2151,6 @@ function herolistchoice(attrib, herocode) {
 	return Img;
 }
 
-function choiceGuild() {
-	if (!config.isRunning) return false;
-	if (!useReturn(51)) return false;
-	if (!useReturn(2)) return false;
-	
-	
-	
-	
-}
-
 function getDailyreward(Timer) {   //領取每日任務獎勵   OK
 	if (!config.isRunning || Date.now() < getDailyTimer) return false;
 	if (!useReturn(51)) return false;
@@ -2259,7 +2268,7 @@ function toRincarnation(Timer) {  //輪迴   OK
 function DalyDungeons(mF2, pc, Timer) {  //【F2:材料魔王 1:水  2:火  3:木  4:光  5:暗】【PC:大技數量】   OK
 	if (!config.isRunning || Date.now() < maDungeonTimer) return false;
 	if (!autoWeekSw) return false;
-	if (!useReturn(51) && !useReturn(52)) return false;
+	if (!useReturn(51)) return false;
 	if (!useReturn(2)) return false;
 	//console.log('mF2:', mF2); console.log('mF2:', mF2, ', 本日自動打材料關閉'); 
 	if (mF2 == 0) {return false;}
@@ -2419,7 +2428,7 @@ function DalyDungeons(mF2, pc, Timer) {  //【F2:材料魔王 1:水  2:火  3:�
 
 function Blitz(Timer) {  //突襲
 	if (!config.isRunning) return false;
-	if (!useReturn(51) && !useReturn(52)) return false;
+	if (!useReturn(51)) return false;
 	if (!useReturn(2)) return false;
 	console.log('突襲');
 
@@ -2430,7 +2439,7 @@ function Expeditions(Timer) {   //遠征
 	if (!config.isRunning) return false;
 	if (!ExpedSw) return false;
 	if (!checkPointcolor(407, 1201, 20, 'FFA800') || Date.now() < ExpedTimer) return false;
-	if (!useReturn(51) && !useReturn(52)) return false;
+	if (!useReturn(51)) return false;
 	if (!useReturn(2)) return false;
 	console.log('遠征');		
 	
@@ -2665,7 +2674,7 @@ function expedStars(intX, intY, finX, finY) {	//遠征星數
 function Areafight(Timer) {  //競技場
 	if (!config.isRunning || Date.now() < AreafigthTimer) return false;
 	if (!arenaSw) return false;
-	if (!useReturn(51) && !useReturn(52)) return false;
+	if (!useReturn(51)) return false;
 	if (!useReturn(2)) return false;
 	console.log('競技場');
 	
@@ -2806,7 +2815,7 @@ function Areafight(Timer) {  //競技場
 
 function choiceDungeon(F1, F2) {  //【F1:地城類別 1:材料 2:突襲 3:遠征 4:競技 】 1-OK
 	if (!config.isRunning) return false;
-	if (!useReturn(51) && !useReturn(52)) return false;
+	if (!useReturn(51)) return false;
 	if (!useReturn(2)) return false;
 	console.log('選擇地下城', F1, F2);
 	
@@ -2950,7 +2959,7 @@ function choiceMaterialboss(w0, w1, w2, w3, w4, w5, w6, Timer) {  //每日材料
 function upMenu(Timer) {
 	if (!config.isRunning || Date.now() < upMenuTimer) return false;
 	if (!useReturn(2)) return false;
-	if (!useReturn(51) && !useReturn(52)) return false;
+	if (!useReturn(51)) return false;
 	
 	console.log('檢查收信、每日獎勵(右上)');
 	
@@ -3220,7 +3229,7 @@ function debug(Timer){       //異常檢查檢查
 		}
 		
 		CheckImageTap(500, 0, 720, 530, 0.85, 'rightupXX.png', 1, 1, 1, 200, 1, 0);    //右上的叉叉
-		CheckImageTap(310, 600, 405, 1170, 0.80, 'OKbutton.png', 1, 1, 1, 200, 1, 0);    //確認鈕
+		CheckImageTap(310, 600, 405, 1170, 0.85, 'OKbutton.png', 1, 1, 1, 200, 1, 0);    //確認鈕
 		
 		if (useReturn(50) || useReturn(51)) { return false;}
 		
@@ -3282,7 +3291,7 @@ function main(){       //主流程
 function setFirstTimer() {   //預設值設定
 	lvupHeroTimer     = Date.now() +   60 * 1000;
 	lvupVillageTimer  = Date.now() +  120 * 1000;
-	getADGoldTimer    = Date.now() +   45 * 1000;
+	getADGoldTimer    = Date.now() +   0 * 1000;
 	GuildchatTimer    = Date.now() +   20 * 1000;
 	GuildmedalTimer   = Date.now() +   80 * 1000;
 	GuildBossTimer    = Date.now() +  220 * 1000;
@@ -3464,26 +3473,15 @@ function test(cycle){
 			console.log('============================================================================')
 			console.log('n = ', n, ', CRA 腳本開始', stage);
 
-			rbm.keepScreenshotPartial( 110, 590, 440, 1170);  //boss選單圖示範圍  屬性圖示
+			console.log(useReturn(1), useReturn(2), useReturn(51));
 
-				for (var i = 1; i <= 5; i++) {
-					var img1 = rbm.findImage('materialBoss/materialBoss2_0' + i + '.png', 0.90);
-					rbm.log('materialBoss2_0' + i, ', img1:', img1);
-				}
-				console.log('========================')
-				for (var i = 1; i <= 5; i++) {
-					var img2 = rbm.findImage('materialBoss/materialBoss3_0' + i + '.png', 0.90);
-					rbm.log('materialBoss3_0' + i, ', img2:', img2);
-				}
+			getADSpeed();
+			getADBox();
+			getADGold(1);
 
-			rbm.releaseScreenshot();
-
-
-
-			// choiceMenu(n-1)
-			// console.log('r:', useReturn(1));
+			debug(10);
 			// while(config.isRunning) {main();}
-			// sleep(1000)
+			sleep(1000)
 			// console.log('n = ', n, ', CRA 腳本結束');
 		}
 	}
