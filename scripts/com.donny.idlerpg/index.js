@@ -642,7 +642,7 @@ function useReturn(choiceF){          //各項回授點檢查
 		case 82: return CheckImageTap( 390,   70, 440,  140, 0.90, 'arena_rest.png', 1, 1, 1, 50, 2);            return;   //競技場商店文字，當日停戰
 		
 		//case 91: return CheckImageTap( 660,    0, 720,   60, 0.90, 'guildbosshelpRU.png', 1, 1, 1, 50, 2);       return;   //工會BOSS,右上?圖
-		case 91: return CheckImageTap( 660,    0, 720,   60, 0.90, 'guildbosshelpRY.png', 1, 1, 1, 50, 2);       return;   //工會BOSS,右上?圖
+		case 91: return CheckImageTap( 600,    0, 720,   60, 0.90, 'guildbosshelpRY.png', 1, 1, 1, 50, 2);       return;   //工會BOSS,右上?圖
 		
 	}
 }
@@ -736,7 +736,7 @@ function getADSpeed() {  //看廣告拿2倍速 OK
 		//console.log(i, useReturn(1));
 		
 		sleep(200);
-		console.log('useReturn(1):', useReturn(1), ', usereturn(2):', useReturn(2));
+		// console.log('useReturn(1):', useReturn(1), ', usereturn(2):', useReturn(2));
 		if (useReturn(1)) {
 			if (!useReturn(2)) {
 				choiceMenu(5);
@@ -881,15 +881,20 @@ function waitAD(timer, speedx2) {   // OK
 	for (var i = 1; i <= timer; i++){
 		if (!config.isRunning) return false;
 		
-		if (i > 5 && i < timer) {
-			console.log(i, 'sec');
-			//keycode('BACK', 40);	
-		}
+		if (i > 5 && i < timer) {console.log(i, 'sec');}
 		if (i >= timer - 10) {
 			console.log('廣告觀看計時 = ' + i, '按BACK，切廣告')
 			keycode('BACK', 1000);
 		}
-		
+		console.log('i:', i, ', timer:', timer);
+		if (i >= timer) {
+			console.log('廣告觀看計時 = ' + timer, '按HOME，切回遊戲')
+			keycode('HOME', 200); sleep(200);
+			keycode('HOME', 200); sleep(1000);
+			rbm.startApp(config.PackangName,config.LaunchActivityName);
+			sleep(1000);
+		}
+
 		var sizeObj = getScreenSize();
 		if (sizeObj.width == 720 && i >= 5 && admodeSw == 2) {
 			var stoptime1 = ScreenStopTimes( 180, 270, 590, 860, 0.999, 'checkADstop.png', 1)
@@ -918,11 +923,11 @@ function waitAD(timer, speedx2) {   // OK
 				if (!speedx2 && useReturn(2)) {console.log('廣告 2倍速 完成');return false;}  //無加速變有加速判斷
 
 				CheckImageTap(280, 490, 420,  540, 0.90,  'exitgame.png', 240, 830, 1, 500, 0, 0);    //取消退出遊戲		
-				CheckImageTap(310, 600, 405, 1170, 0.90,  'OKbutton.png',   1,   1, 1, 500, 1, 1);    //確認鈕
+				CheckImageTap(310, 600, 405, 1170, 0.90,  'OKbutton.png',   1,   1, 1, 500, 1, 0);    //確認鈕
 			}
 			else {
 				a = 0;
-				CheckImageTap(500,   0, 720,  530, 0.90, 'rightupXX.png',   1,   1, 1, 500, 1, 1);    //右上的叉叉	
+				CheckImageTap(500,   0, 720,  530, 0.90, 'rightupXX.png',   1,   1, 1, 500, 1, 0);    //右上的叉叉	
 			}
 		}
 		sleep(700);
@@ -1036,10 +1041,10 @@ function lvupHero(stageMin, lvupl, Timer) {  //	   OK
 						console.log('自動判定人數:', harts, '人'); //取物件長度
 					}
 
-					if (Img2 != undefined && Img2.y > 720) {
-						console.log('Img2.y > 720');
-						DIY_swipe(Img2.x, Img2.y, 700, 720, 70, 100);
-						tapFor(700, 720, 1, 50, 300);
+					if (Img2 != undefined && Img2.y > 730) {
+						console.log('Img2.y > 730');
+						DIY_swipe(Img2.x, Img2.y, 700, 730, 70, 100);
+						tapFor(700, 730, 1, 50, 300);
 					}
 					else if (Img2 != undefined && Img2.y < 680) {
 						console.log('Img2.y > 680');
@@ -1273,7 +1278,7 @@ function villagelvup() {  //村莊不用vip4升級
 	
 				for (var k = 1; k <= 1; k++) {
 					if (!config.isRunning) return false;
-					console.log('villagelvup:', i, k);
+					// console.log('villagelvup:', i, k);
 					
 					var tapX1 = 20;
 					var tapY1 = result.y + 10;
@@ -1303,16 +1308,16 @@ function villagelvup() {  //村莊不用vip4升級
 						if (villagelv == -1 || villagelv >= 160) break;
 						
 						var lvupQ = 100 - villagelv % 100;		
-						rbm.log('1 lvupTaps:', lvupTaps, ', lvupQ:', lvupQ);						
+						// rbm.log('1 lvupTaps:', lvupTaps, ', lvupQ:', lvupQ);						
 						lvupTaps[2] = Math.floor(lvupQ/10);  // 取十位數
 						lvupTaps[1] = lvupQ - lvupTaps[2] * 10 + 1;  // 取個位數
-						rbm.log('2 lvupTaps:', lvupTaps, ', lvupQ:', lvupQ);
+						// rbm.log('2 lvupTaps:', lvupTaps, ', lvupQ:', lvupQ);
 						
 						lvupTap(2, result.y, 'FDB000', '8C4800');
 						tapFor(tapX1, tapY1, 6, 50, 100);
 						
 						lvupTaps = new Array( '', 20, 12, 5, 3);
-						rbm.log('3 lvupTaps:', lvupTaps, ', lvupQ:', lvupQ);
+						// rbm.log('3 lvupTaps:', lvupTaps, ', lvupQ:', lvupQ);
 						
 						a = a + 1;
 					}
@@ -1910,7 +1915,7 @@ function GuildBossCK(bosslv, th13) {  //公會BOSS
 		console.log('選boss，迴圈:', i);
 
 		rbm.keepScreenshotPartial( 475,  380, 565, 1105);  //找打BOSS組隊圖示
-		var Img0s = rbm.findImages('guildbossteamicon.png', 0.90, 4, true, false);
+		var Img0s = rbm.findImages('guildbossteamicon2.png', 0.90, 4, true, false);
 		rbm.releaseScreenshot();
 		
 		if (Img0s != '')  {
@@ -1933,6 +1938,8 @@ function GuildBossCK(bosslv, th13) {  //公會BOSS
 			rbm.keepScreenshotPartial( intX1,  intY1, intX2, intY2);  //BOSS降級按鈕
 			var Img1 = rbm.findImage('guildbossdonwlvbutton.png', 0.90);
 			var Img2 = rbm.findImage('guildbosshelpicon.png', 0.90);
+			rbm.log('Img1:',Img1);
+			rbm.log('Img2:',Img2);
 			rbm.releaseScreenshot();
 			
 			if (Img1 != undefined) { rbm.log('Img1:',Img1); }
@@ -2855,7 +2862,7 @@ function choiceDungeon(F1, F2) {  //【F1:地城類別 1:材料 2:突襲 3:遠�
 				
 				switch(F1) {    //【F1:地城類別 1:材料 2:突襲 3:遠征 4:競技 】
 					case 1 :
-						//console.log('case 1', F1);
+						console.log('case 1', F1);
 						rbm.keepScreenshotPartial( 110, 590, 440, 1170);  //boss選單圖示範圍  屬性圖示
 						var targetImg2 = rbm.findImage('materialBoss/materialBoss4_0' + F2 + '.png', 0.90);
 						rbm.log('targetImg2:', targetImg2);
@@ -2864,7 +2871,7 @@ function choiceDungeon(F1, F2) {  //【F1:地城類別 1:材料 2:突襲 3:遠�
 							
 							var spY = 0;
 							if (F2 == 7) {var spY = 50;} 
-							rbm.keepScreenshotPartial( targetImg2.x + 330, targetImg2.y - 140, targetImg2.x + 480, targetImg2.y + 40 + spY);  //boss選單圖示範圍
+							rbm.keepScreenshotPartial( targetImg2.x + 330, targetImg2.y - 54, targetImg2.x + 480, targetImg2.y + 40 + spY);  //boss選單圖示範圍
 							var targetImg7 = rbm.findImage('enterbossroom.png', 0.90);
 							rbm.log('targetImg7:', targetImg7);
 							rbm.releaseScreenshot();
@@ -3298,12 +3305,12 @@ function setFirstTimer() {   //預設值設定
 	getADGoldTimer    = Date.now() +   0 * 1000;
 	GuildchatTimer    = Date.now() +   20 * 1000;
 	GuildmedalTimer   = Date.now() +   80 * 1000;
-	GuildBossTimer    = Date.now() +  220 * 1000;
+	GuildBossTimer    = Date.now() +  1 * 1000;
 	
 	getDailyTimer     = Date.now() +    0 * 1000;
 	ScreenStoptimer   = Date.now() +    3 * 1000;
 	toRincarnTimer    = Date.now() +   30 * 1000;
-	maDungeonTimer    = Date.now() +   20 * 1000;
+	maDungeonTimer    = Date.now() +   10 * 1000;
 	chMatbossTimer    = Date.now() +   -1 * 1000;
 	upStartlvTimer    = Date.now() +   10 * 1000;
 	ExpedTimer        = Date.now() -  110 * 1000;
@@ -3355,7 +3362,7 @@ function setFirstsetting() {
 	lvupHerostgSw =   40;   //設定開始升級關卡
 	lvupheromdSw  =    3;   //1:定時, 2:自動, 3:設定
 	lvuptimeSw    =  120;   //英雄升級檢查間隔
-	lvuplimitSw   =  300;   //金幣等級到達不檢查
+	lvuplimitSw   =  500;   //金幣等級到達不檢查
 	//自動判斷是以魔晶+金幣等級-100為下次檢查關卡
 
 	lvupVillageSw =    1;
@@ -3376,7 +3383,7 @@ function setFirstsetting() {
 	menuW6Sw      =    4;   //星期六：光、火 (4, 2)
 
 	toRincarnSw   =    1;   //輪迴開關
-	ministageSw   = 310;   //輪迴關卡
+	ministageSw   = 501;   //輪迴關卡
 	rintimes1Sw   =    1;   //輪迴關卡檢查次數
 	doubMG        =    0;   //輪迴兩倍魔晶
 
@@ -3425,7 +3432,7 @@ function setFirstsetting() {
 	herocode2Sw   =   11;   //周日：英雄代碼請見設定頁最下方
 	maldhelpupTSw =    5;   //提早進入求助時間
 
-	guildbossSw   =    0;   //工會打BOSS開關
+	guildbossSw   =    1;   //工會打BOSS開關
 	guildbosshdSw =    3;   //工會打BOSS難度 1:弱, 2:中, 3:強
 	guildbossthSw =    1;   //工會打BOSS閃電用量 1:100, 2:300
 	failureth3Sw  =    0;   //打不過閃電改 300
@@ -3477,10 +3484,11 @@ function test(cycle){
 			console.log('============================================================================')
 			console.log('n = ', n, ', CRA 腳本開始', stage);
 
-			console.log(stage = recoNum(1) * 1, useReturn(1), useReturn(2), useReturn(51), '21:'+ useReturn(21), 'bosst'+recoNum(4));
+			// GuildBoss(guildbosshdSw, guildbossthSw, 5, 3600);
 
-			// CheckImageTap(280, 490, 420,  540, 0.90,  'exitgame.png', 240, 830, 1, 500, 2, 1);    //取消退出遊戲	
 
+			// console.log(stage = recoNum(1) * 1, useReturn(1), useReturn(2), useReturn(51), '21:'+ useReturn(21), 'bosst'+recoNum(4));
+			// console.log('useReturn(91):', useReturn(91));
 			while(config.isRunning) {main();}
 			sleep(1000)
 			// console.log('n = ', n, ', CRA 腳本結束');
