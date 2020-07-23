@@ -3225,6 +3225,7 @@ function debug(Timer){       //異常檢查檢查
 			CheckImageTap(235, 495, 450,  550, 0.85, 'noticks.png', 240, 820, 1, 300, 0, 0);    //
 			CheckImageTap(280, 400, 420,  460, 0.90, 'noAdenough.png', 360, 700, 1, 200, 0, 0);  //廣告不足
 			CheckImageTap(230,  22, 262,   43, 0.90, 'speedoff.png', 1, 1, 1, 200, 1, 0);  //加速關閉點on
+			CheckImageTap(280, 400, 440,  630, 0.90, 'X2SPEED_SMALL_ICON.png', 240, 820, 1, 200, 0, 1);  //加速直接點視窗關閉
 			
 			if (useReturn(52)){ checkPointcolorTap(690, 510, 20, 'FFFFFF', 0, 0, 2, 100, 1); } // 點向下箭頭 
 		}
@@ -3379,12 +3380,12 @@ function setFirstsetting() {
 	menuW1Sw      =    5;   //星期一：火、暗 (2, 5)
 	menuW2Sw      =    4;   //星期二：木、光 (3, 4)
 	menuW3Sw      =    2;   //星期三：水、火 (1, 2)
-	menuW4Sw      =    4;   //星期四：木、光 (3, 4)
+	menuW4Sw      =    3;   //星期四：木、光 (3, 4)
 	menuW5Sw      =    5;   //星期五：水、暗 (1, 5)
 	menuW6Sw      =    4;   //星期六：光、火 (4, 2)
 
 	toRincarnSw   =    1;   //輪迴開關
-	ministageSw   =  700;   //輪迴關卡
+	ministageSw   =  800;   //輪迴關卡
 	rintimes1Sw   =    1;   //輪迴關卡檢查次數
 	doubMG        =    0;   //輪迴兩倍魔晶
 
@@ -3486,6 +3487,10 @@ function test(cycle){
 			console.log('n = ', n, ', CRA 腳本開始', stage)
 
 	
+			// CheckImageTap( 230, 22, 262, 43, 0.90, 'speedoff.png',    1, 1, 1, 200, 1, 1);  //加速關閉點on
+			// CheckImageTap( 651, 29, 687, 52, 0.85, 'upmenuclose.png', 1, 1, 1, 300, 1, 1);  //右上功能圖示關閉
+
+
 			while(config.isRunning) {main();}
 			sleep(1000)
 			// console.log('n = ', n, ', CRA 腳本結束');
