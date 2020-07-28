@@ -1434,7 +1434,7 @@ function toRincarnation(Timer) {  //輪迴   OK
 		if (!config.isRunning) return false;
 		
 		if (useReturn(1)) {
-			CheckImageTap(20, 30, 85, 75, 0.90, 'reincarnationButton.png', 1, 1, 2, 500, 1);      //主畫面左上輪迴鈕
+			CheckImageTap(20, 30, 85, 75, 0.85, 'reincarnationButton.png', 1, 1, 2, 500, 1);      //主畫面左上輪迴鈕
 			
 			if (useReturn(42)) {
 				a = 1;
@@ -1610,7 +1610,7 @@ function tapBox(vdX, mode) {  //點寶箱  mode: 1:刷關  2:寶箱    OK
 		}
 	
 		//if (crystalR != undefined || bossStage == 0 || mode == 1) {}
-		tapSkill(5);
+		tapSkill(5, 1);
 
 		if (mode == 2) {
 			sleep(skillslepSw);
@@ -1671,30 +1671,34 @@ function tapBoxXY(modLR, times, vdX2) {  //路上連點  OK
 	//console.log(tapX[modLR][0], tapX[modLR][3])
 }
 
-function tapSkill(pc) {   //點大技打水晶  OK
+function tapSkill(pc, mod) {   //點大技  mod: 1:刷關  2:打BOSS
 	if (!config.isRunning) return false;
-	if (!tapSkillSw) return false;
-	if (!useReturn(51)) return false;
-	// console.log('放大技');
+	if (!tapSkillSw && mod == 1) return false;
+	if (!useReturn(51) && mod == 1) return false;
+	console.log('放大技, 模式:', mod);
 	
-	var skillcolor = ['', '0094C8', 'FAED0E', '', '', ''];
-	
-	//tapFor(  680,   410, 2, 50, 100);
-	// if (checkPointcolor(690, 510, 15, '2B1708')) {
-	// console.log('1:', useReturn(1));
-	if (useReturn(1)) {	
+	var skill_n = [66, 360, 418];
+	var skill_b = [74, 438, 538];
+
+	if (mod == 1) {var midX = skill_n[1]; var skilldX =  skill_n[0]; var skillY = skill_n[2];}
+	if (mod == 2) {var midX = skill_b[1]; var skilldX =  skill_b[0]; var skillY = skill_b[2];}
+	var firstX = midX - skilldX / 2 * pc + 50 
+
+	if ((mod == 1 && useReturn(1)) || mod == 2) {
 		for (var i = 1; i <= pc; i++){ 
 			if (!config.isRunning) return false;
 			
-			// var skillX = 150 + 104 * (i - 1);
-			var skillX = 210 + 66 * (i - 1);
-			
-			if (checkPointcolor(skillX, 418, 30, 'FFFFFF')) {    //修改前 y1010   修改後 y418
-				// console.log('tap big skill:', i);
-				tapFor( skillX, 428, 4, 50, 60);
-				stoptime[1] = 0;
-				if (stage % 100 != 0) return false;
+			var skillX = firstX + skilldX * (i - 1);
+			// console.log(i, skillX, stage, mod, useReturn(1));
+
+			if (checkPointcolor(skillX, skillY, 30, 'FFFFFF')) {
+				tapFor( skillX, skillY + 20, 4, 50, 60);
+				if (mod == 1) {
+					stoptime[1] = 0;
+					if (stage % 100 != 0) return false;
+				}
 			}
+
 		}
 	}
 }
@@ -1833,6 +1837,8 @@ function GuildBoss(bosslv, th13, pc, Timer) {  //公會BOSS
 		if (!config.isRunning) return false;
 		//console.log('Guild Boss Fight : ', i );
 
+
+
 		rbm.keepScreenshotPartial( 280, 1190, 440, 1280);  //確認打boss碼表圖
 		var Img3 = rbm.findImage('guildTimerlimiticon.png', 0.90);
 		var Img4 = rbm.findImage('guildTimerlimiticon_dark.png', 0.90);
@@ -1846,7 +1852,15 @@ function GuildBoss(bosslv, th13, pc, Timer) {  //公會BOSS
 			tapFor(Img4.x, Img4.y, 1, 70, 400);
 		}
 		else if (Img3 != undefined && Img4 == undefined) {
-			rbm.keepScreenshotPartial( 560, 150, 705, 370);  //確認打boss碼表圖
+
+
+			var bossft_dX = 0;
+			rbm.keepScreenshotPartial( 250, 280, 470, 360);  //確認有工會戰爭偏移找團戰
+			var Img5 = rbm.findImage('guildfightlable.png', 0.90);
+			rbm.releaseScreenshot();
+			if (Img5) {bossft_dX = 250;}
+
+			rbm.keepScreenshotPartial( 560, 150 + bossft_dX, 705, 370 + bossft_dX);  //確認打boss碼表圖
 			var Img2 = rbm.findImage('guildBosslock.png', 0.90);
 			rbm.releaseScreenshot();
 			
@@ -1895,15 +1909,17 @@ function GuildBoss(bosslv, th13, pc, Timer) {  //公會BOSS
 					//console.log('Fight Boss');
 					tapFor(  680,   410, 2, 70, 150);
 					
-					for (var k = 1; k <= pc; k++){ 
-						if (!config.isRunning) return false;
+					tapSkill(5, 2);
+
+					// for (var k = 1; k <= pc; k++){ 
+					// 	if (!config.isRunning) return false;
 						
-						var skillX = 290 + 74 * (k - 1);
+					// 	var skillX = 290 + 74 * (k - 1);
 						
-						if (checkPointcolor(skillX, 519, 15, 'FFFFFF')) {
-							tapFor( skillX, 519, 2, 50, 40);
-						}
-					}
+					// 	if (checkPointcolor(skillX, 519, 15, 'FFFFFF')) {
+					// 		tapFor( skillX, 519, 2, 50, 40);
+					// 	}
+					// }
 					
 				}
 				sleep(1000);
@@ -1924,7 +1940,7 @@ function GuildBossCK(bosslv, th13) {  //公會BOSS
 	console.log('工會BOSS, 選BOSS來打');
 	
 	
-	for (var i = 1; i <= 20; i++){
+	for (var i = 1; i <= 10; i++){
 		if (!config.isRunning) return false;
 		console.log('選boss，迴圈:', i);
 
@@ -1969,7 +1985,7 @@ function GuildBossCK(bosslv, th13) {  //公會BOSS
 				var checkX = Img2.x + 160 + 140 * (bosslv - 1);
 				var color1 = checkPointcolor(checkX, Img2.y, 30, 'F28459');   //等級按鈕  5D3322:暗的, F28459:亮的
 				
-				//if (color1) { rbm.log('color1:', color1, checkX, Img2.y); }
+				if (color1) { rbm.log('color1:', color1, checkX, Img2.y); }
 				
 				if (!color1) {
 					tapFor( checkX, Img2.y, 1, 60, 200);
@@ -1977,40 +1993,49 @@ function GuildBossCK(bosslv, th13) {  //公會BOSS
 				if (color1) {
 					if (!config.isRunning) return false;
 					
-					rbm.keepScreenshotPartial( 585,  Img2.y, 660, Img2.y + 275);  //BOSS降級按鈕
+					console.log(400,  Img1.y, 690, Img1.y + 325);
+					rbm.keepScreenshotPartial(400,  Img1.y, 690, Img1.y + 325);  //找閃電
 					var Img3 = rbm.findImage('guildbosschallenge.png', 0.90);
-					var Img4 = rbm.findImage('thundericon.png', 0.80);
+					var Img4 = rbm.findImage('thundericonBTN.png', 0.92);
+					var Img6 = rbm.findImage('thundericonBTN_dark.png', 0.92);
 					rbm.releaseScreenshot();
 					
-					// if (Img3 != undefined) { rbm.log('Img3:',Img3); }
-					// if (Img4 != undefined) { rbm.log('Img4:',Img4); }	
+					if (Img3 != undefined) { rbm.log('Img3:',Img3); }
+					if (Img4 != undefined) { rbm.log('Img4:',Img4); }
+					if (Img6 != undefined) { rbm.log('Img6:',Img6); }
 
-					if (Img3 != undefined && Img4 == undefined) {
-						tapFor( Img3.x, Img3.y, 1, 60, 300);
-					}
-					/*
-					else if (Img4 != undefined && Img4.score < 0.90 && th13 == 2) {
-						console.log('選 300 閃電，閃電低於 300，，跳出');
+
+					if (Img3 != undefined) {
 						
-						return -1;
-					}
-					*/
-					else if (Img4 != undefined) {
-						console.log('等待開打選100 or 300 閃電');
-						
-						var tapX = Img4.x - 160 * (2 - th13)
-						
-						var color2 = checkPointcolor(tapX, Img4.y, 30, 'E78900');   //等級按鈕  7E1C23:暗的, E78900:亮的
-						//if (color2) { rbm.log('color2:', color2, tapX, Img4.y); }
-						
-						if (color2) {
-							console.log('BOSS開打，選', 100 + 200 * (th13 - 1), '閃電', tapX, Img4.y)
-							tapFor( tapX, Img4.y, 1, 60, 500);
-						}
-						else if (!color2) {
+						if (Img6 != undefined) {
 							console.log('閃電低於', 100 + 200 * (th13 - 1), '，閃電不足，跳出');
 							return -1;
+							
 						}
+						else if (Img4 == undefined) {
+							tapFor( Img3.x, Img3.y, 1, 60, 300);
+						}
+						else if (Img4 != undefined) {
+							console.log('等待開打選100 or 300 閃電');
+							
+							var tapX = 440;
+							if (th13 == 3) {tapX = 580;}
+							
+							console.log(tapX, Img4.y, 30, 'E78900');
+							var color2 = checkPointcolor(tapX, Img4.y + 50, 30, 'E78900');   //等級按鈕  7E1C23:暗的, E78900:亮的
+							if (color2) { rbm.log('color2:', color2, tapX, Img4.y); }
+							
+							if (color2) {
+								console.log('BOSS開打，選', 100 + 200 * (th13 - 1), '閃電', tapX, Img4.y + 10)
+								tapFor( tapX, Img4.y + 10, 1, 60, 500);
+							}
+							// else if (!color2) {
+							// 	console.log('閃電低於', 100 + 200 * (th13 - 1), '，閃電不足，跳出');
+							// 	return -1;
+							// }
+						}
+
+
 					}
 				}
 			}
@@ -2434,22 +2459,24 @@ function DalyDungeons(mF2, pc, failureT, Timer) {  //【F2:材料魔王 1:水  2
 						break;
 					}
 
-					for (var k = 1; k <= pc; k++){ 
-						if (!config.isRunning) return false;
+					tapSkill(5, 2);
+
+					// for (var k = 1; k <= pc; k++){ 
+					// 	if (!config.isRunning) return false;
 						
-						// var skillX = 210 + 66 * (k - 1);
-						// if (checkPointcolor(skillX, 418, 30, 'FFFFFF')) {
-						// 	tapFor( skillX, 428, 4, 50, 40);
-						// }
+					// 	// var skillX = 210 + 66 * (k - 1);
+					// 	// if (checkPointcolor(skillX, 418, 30, 'FFFFFF')) {
+					// 	// 	tapFor( skillX, 428, 4, 50, 40);
+					// 	// }
 
-						var skillX = 343 + 74 * (k - 1);
-						if (checkPointcolor(skillX, 538, 30, 'FFFFFF')) {
-							tapFor( skillX, 538, 3, 50, 40);
-						}
+					// 	var skillX = 320 + 74 * (k - 1);
+					// 	if (checkPointcolor(skillX, 538, 30, 'FFFFFF')) {
+					// 		tapFor( skillX, 538, 3, 50, 40);
+					// 	}
 
 
 
-					}
+					// }
 					
 				}
 				
@@ -3257,6 +3284,7 @@ function debug(Timer){       //異常檢查檢查
 			CheckImageTap(185, 75, 245, 135, 0.85, 'getnewthing.png', 360, 310, 10, 400, 0);    //得到新物品
 			CheckImageTap( 80, 590, 410, 640, 0.95, 'androiderror.png', 600, 690, 1, 200, 0);    //android 停止
 			CheckImageTap(300, 125, 360, 190, 0.95, 'reincarnationOK2.png', 360, 1200, 1, 200, 0);    //轉生後的 好
+			CheckImageTap(300, 600, 410,  1270, 0.80, 'reincarnationOKbtn.png', 1, 1, 1, 500, 1, 1);      //"好"按鈕
 
 			
 			if (i == 3) {CheckImageTap(0, 0, 720, 1280, 0.85, 'waitinglogo.png', 1, 1, 1, 200, 1);}    //待機移動logo
@@ -3286,7 +3314,7 @@ function main(){       //主流程
 	tapBox(vdxx, tapmod); debug(6);  //卡畫面與重啟APP檢查
 
 	console.log('main 每日地牢')
-	tapBox(vdxx, tapmod); DalyDungeons(bossatt, 3, failureTime, 120);   //每日地牢
+	tapBox(vdxx, tapmod); DalyDungeons(bossatt, 5, failureTime, 120);   //每日地牢
 
 	console.log('main 廣告金幣')
 	tapBox(vdxx, tapmod); getADGold(60);  //廣告金幣
@@ -3328,7 +3356,7 @@ function setFirstTimer() {   //預設值設定
 	getADGoldTimer    = Date.now() +   60 * 1000; //tt
 	GuildchatTimer    = Date.now() +   20 * 1000;
 	GuildmedalTimer   = Date.now() +   80 * 1000;
-	GuildBossTimer    = Date.now() +  120 * 1000; //tt
+	GuildBossTimer    = Date.now() +  0 * 1000; //tt
 	
 	getDailyTimer     = Date.now() +    0 * 1000;
 	ScreenStoptimer   = Date.now() +    3 * 1000;
@@ -3381,10 +3409,10 @@ function setFirstTimer() {   //預設值設定
 
 function setFirstsetting() {
 	lvupHeroSw    =    1;   //英雄升級開關
-	lvupHeroDi    =    2;   //升級量級次 1:x1, 2:x10, 3:x100, 4:MAX
+	lvupHeroDi    =    4;   //升級量級次 1:x1, 2:x10, 3:x100, 4:MAX
 	lvupHerostgSw =   40;   //設定開始升級關卡
 	lvupheromdSw  =    3;   //1:定時, 2:自動, 3:設定
-	lvuptimeSw    =   10;   //英雄升級檢查間隔
+	lvuptimeSw    =  240;   //英雄升級檢查間隔
 	lvuplimitSw   =  600;   //金幣等級到達不檢查
 	//自動判斷是以魔晶+金幣等級-100為下次檢查關卡
 
@@ -3397,9 +3425,9 @@ function setFirstsetting() {
 	spdongeonSw   =    0;   //活動boss，9:雪怪，8:豬怪，7:龍怪
 	spdstageSw    =  300;
 
-	menuW0Sw      =    5;   //星期日：木、水、暗 (3, 1, 5)
+	menuW0Sw      =    3;   //星期日：木、水、暗 (3, 1, 5)
 	menuW1Sw      =    5;   //星期一：火、暗 (2, 5)
-	menuW2Sw      =    4;   //星期二：木、光 (3, 4)
+	menuW2Sw      =    3;   //星期二：木、光 (3, 4)
 	menuW3Sw      =    2;   //星期三：水、火 (1, 2)
 	menuW4Sw      =    3;   //星期四：木、光 (3, 4)
 	menuW5Sw      =    1;   //星期五：水、暗 (1, 5)
@@ -3408,7 +3436,7 @@ function setFirstsetting() {
 	failureTime   =   50;   //打材料boss，判定打不過(剩下時間s)
 
 	toRincarnSw   =    1;   //輪迴開關
-	ministageSw   =  800;   //輪迴關卡
+	ministageSw   =  1300;   //輪迴關卡
 	rintimes1Sw   =    1;   //輪迴關卡檢查次數
 	doubMG        =    0;   //輪迴兩倍魔晶
 
@@ -3451,13 +3479,13 @@ function setFirstsetting() {
 
 	guildchatSw   =    1;   //工會求幫助開關
 	guildmaldSw   =    1;   //工會求勛章開關
-	heroattribSw  =    5;   //周一~周六：屬性代碼：1:水  2:火  3:木  4:光  5:暗  0:關閉
-	herocodeSw    =    1;   //周一~周六：英雄代碼請見設定頁最下方
+	heroattribSw  =    4;   //周一~周六：屬性代碼：1:水  2:火  3:木  4:光  5:暗  0:關閉
+	herocodeSw    =    4;   //周一~周六：英雄代碼請見設定頁最下方
 	heroattrib2Sw =    1;   //周日：1:水  2:火  3:木  4:光  5:暗  0:關閉
 	herocode2Sw   =   11;   //周日：英雄代碼請見設定頁最下方
 	maldhelpupTSw =    5;   //提早進入求助時間
 
-	guildbossSw   =    0;   //工會打BOSS開關
+	guildbossSw   =    1;   //工會打BOSS開關
 	guildbosshdSw =    3;   //工會打BOSS難度 1:弱, 2:中, 3:強
 	guildbossthSw =    1;   //工會打BOSS閃電用量 1:100, 2:300
 	failureth3Sw  =    0;   //打不過閃電改 300
@@ -3509,6 +3537,21 @@ function test(cycle){
 			stage = recoNum(1) * 1
 			console.log('============================================================================')
 			console.log('n = ', n, ', CRA 腳本開始', stage)
+
+			// // console.log(400,  Img1.y, 690, Img1.y + 325);
+			// rbm.keepScreenshotPartial(400, 393, 690, 718);  //找閃電
+			// var Img3 = rbm.findImage('guildbosschallenge.png', 0.90);
+			// var Img4 = rbm.findImage('thundericonBTN.png', 0.92);
+			// var Img6 = rbm.findImage('thundericonBTN_dark.png', 0.92);
+			// rbm.releaseScreenshot();
+			
+			// if (Img3 != undefined) { rbm.log('Img3:',Img3); }
+			// if (Img4 != undefined) { rbm.log('Img4:',Img4); }
+			// if (Img6 != undefined) { rbm.log('Img6:',Img6); }
+
+			// CheckImageTap(300, 600, 410,  1270, 0.80, 'reincarnationOKbtn.png', 1, 1, 1, 500, 1, 1);      //輪迴"好"按鈕
+
+			// GuildBossCK(3, 1)
 
 			while(config.isRunning) {main();}
 			sleep(1000)
