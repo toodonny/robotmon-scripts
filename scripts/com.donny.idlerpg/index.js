@@ -1018,7 +1018,7 @@ function lvupHero(stageMin, lvupl, Timer) {  //	   OK
 		if (useReturn(1)) {
 			choiceMenu(1);
 
-			DIY_swipe(480, 790, 480, 850, 60, 500);
+			// DIY_swipe(480, 790, 480, 850, 60, 500);
 			
 			var list_dY = 92
 			// console.log('7;', useReturn(7), ', 6;', useReturn(6), ', 5;', useReturn(5));
@@ -1033,7 +1033,7 @@ function lvupHero(stageMin, lvupl, Timer) {  //	   OK
 				for (var j = 1; j <= 5; j++){
 					if (!config.isRunning) return false;
 					// console.log('Hero Lvup click', i, j);
-					sleep(300);
+					// sleep(300);
 					
 					// rbm.keepScreenshotPartial( 230, 550, 280, 1180);  //確認"愛心"按鈕出現量
 					// var Img2s = rbm.findImages('heroHarticon.png', 0.90, 6, true, false);
@@ -1058,12 +1058,12 @@ function lvupHero(stageMin, lvupl, Timer) {  //	   OK
 					if (Img2 != undefined && Img2.y > 730 + list_dY) {
 						// console.log('Img2.y > 730');
 						DIY_swipe(Img2.x, Img2.y, 700, 730 + list_dY, 70, 100);
-						tapFor(700, 730, 1, 50, 300);
+						// tapFor(700, 730, 1, 50, 300);
 					}
 					else if (Img2 != undefined && Img2.y < 680 + list_dY) {
 						console.log('Img2.y > 680');
-						DIY_swipe(Img2.x, Img2.y, 700, 680 + list_dY, 70, 100);- 
-						tapFor(700, 680, 1, 50, 300);
+						DIY_swipe(Img2.x, Img2.y, 700, 680 + list_dY, 70, 100);
+						// tapFor(700, 680, 1, 50, 300);
 					}
 					else if (Img2 != undefined) {
 						
@@ -1780,8 +1780,8 @@ function Guildchat(Timer) {  //公會聊天室幫助&領取
 				rbm.keepScreenshotPartial( 540, 65, 720, 1080);             //
 				var Img3 = rbm.findImage('guildChathelp.png', scoreValue);
 				var Img4 = rbm.findImage('guildChatget.png', scoreValue);  //
-				rbm.log('guildChathelp.png Img3', Img3)
-				rbm.log('guildChatget.png Img4',Img4)
+				// rbm.log('guildChathelp.png Img3', Img3);
+				// rbm.log('guildChatget.png Img4',Img4);
 				rbm.releaseScreenshot();
 				
 				if (Img3 != undefined) {
@@ -2241,6 +2241,9 @@ function herolistchoice(attrib, herocode) {
 	if (!config.isRunning) return false;
 	//console.log('選英雄', attrib, no);
 	
+	
+	ScreenShottoPath('CTA_herolistchoice_');
+
 	var atribdir = new Array( '', '1_water',  '2_fire',  '3_wood',  '4_light',  '5_dark')
 	
 	switch (attrib) {
@@ -3231,7 +3234,7 @@ function checkScreenStop(Time1, Time2, Timer) {
 	ScreenStoptimer = Date.now() + Timer * 1000
 }
 
-function startApp(Timer, scrShot) {  
+function startApp(Timer, scrShot) {   //重啟APP
 	if (!config.isRunning) return false;
 	console.log('RestartApp')
 	
@@ -3415,7 +3418,7 @@ function setFirstTimer() {   //預設值設定
 
 function setFirstsetting() {
 	lvupHeroSw    =    1;   //英雄升級開關
-	lvupHeroDi    =    4;   //升級量級次 1:x1, 2:x10, 3:x100, 4:MAX
+	lvupHeroDi    =    3;   //升級量級次 1:x1, 2:x10, 3:x100, 4:MAX
 	lvupHerostgSw =   40;   //設定開始升級關卡
 	lvupheromdSw  =    3;   //1:定時, 2:自動, 3:設定
 	lvuptimeSw    =  240;   //英雄升級檢查間隔
@@ -3431,18 +3434,18 @@ function setFirstsetting() {
 	spdongeonSw   =    0;   //活動boss，9:雪怪，8:豬怪，7:龍怪
 	spdstageSw    =  300;
 
-	menuW0Sw      =    3;   //星期日：木、水、暗 (3, 1, 5)
+	menuW0Sw      =    1;   //星期日：木、水、暗 (3, 1, 5)
 	menuW1Sw      =    5;   //星期一：火、暗 (2, 5)
 	menuW2Sw      =    3;   //星期二：木、光 (3, 4)
-	menuW3Sw      =    2;   //星期三：水、火 (1, 2)
+	menuW3Sw      =    1;   //星期三：水、火 (1, 2)
 	menuW4Sw      =    3;   //星期四：木、光 (3, 4)
 	menuW5Sw      =    1;   //星期五：水、暗 (1, 5)
 	menuW6Sw      =    4;   //星期六：光、火 (4, 2)
 
-	failureTime   =   50;   //打材料boss，判定打不過(剩下時間s)
+	failureTime   =   5;   //打材料boss，判定打不過(剩下時間s)
 
 	toRincarnSw   =    1;   //輪迴開關
-	ministageSw   =  1500;   //輪迴關卡
+	ministageSw   =  1400;   //輪迴關卡
 	rintimes1Sw   =    1;   //輪迴關卡檢查次數
 	doubMG        =    0;   //輪迴兩倍魔晶
 
@@ -3486,7 +3489,7 @@ function setFirstsetting() {
 	guildchatSw   =    1;   //工會求幫助開關
 	guildmaldSw   =    1;   //工會求勛章開關
 	heroattribSw  =    4;   //周一~周六：屬性代碼：1:水  2:火  3:木  4:光  5:暗  0:關閉
-	herocodeSw    =    4;   //周一~周六：英雄代碼請見設定頁最下方
+	herocodeSw    =    1;   //周一~周六：英雄代碼請見設定頁最下方
 	heroattrib2Sw =    1;   //周日：1:水  2:火  3:木  4:光  5:暗  0:關閉
 	herocode2Sw   =   11;   //周日：英雄代碼請見設定頁最下方
 	maldhelpupTSw =    5;   //提早進入求助時間
@@ -3559,7 +3562,7 @@ function test(cycle){
 
 			// GuildBossCK(3, 1)
 
-			herolistchoice(3, 18);
+			herolistchoice(2, 16);
 
 			// while(config.isRunning) {main();}
 			sleep(1000)
