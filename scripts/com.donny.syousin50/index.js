@@ -1089,11 +1089,23 @@ function getMaterial(ADf) {
 	rbm.releaseScreenshot();
 
 	if (Img1 != undefined) {
+		console.log(getchoi[ADf]);
 		tapFor(Img1.x, Img1.y, 1, 60, 300, 1500);
 		if (ADf == 1) {	waitAD2(65); }
+		else {
+			sleep(2000);
+			keycode('BACK', 600);
+			sleep(1000);
+
+
+		}
 
 	} else if (Img2 != undefined) {
-		tapFor(Img2.x, Img2.y + 40, 2, 80, 100, 2000);
+		console.log('AD_NON');
+		tapFor(Img2.x, Img2.y + 40, 2, 80, 100, 3000);
+		keycode('BACK', 600);
+		sleep(5000);
+
 
 	}
 }
@@ -1106,9 +1118,9 @@ function main(){       //主流程
 	
 	
 	startFight(1);     //戰鬥&選法師
-	clickSkill(2);     //選技能  
+	clickSkill(4);     //選技能  
 	answer_magic();   //法師答題模式
-	getMaterial(1);   //看廣告拿獎勵
+	getMaterial(2);   //看廣告拿獎勵
 
 	 sleep(1000);
 }

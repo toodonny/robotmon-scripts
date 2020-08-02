@@ -1839,7 +1839,7 @@ function GuildBoss(bosslv, th13, pc, Timer) {  //公會BOSS
 
 
 
-		rbm.keepScreenshotPartial( 280, 1190, 440, 1280);  //確認打boss碼表圖
+		rbm.keepScreenshotPartial( 280, 1190, 440, 1280);  //確認打boss
 		var Img3 = rbm.findImage('guildTimerlimiticon.png', 0.90);
 		var Img4 = rbm.findImage('guildTimerlimiticon_dark.png', 0.90);
 		rbm.releaseScreenshot();		
@@ -1857,8 +1857,10 @@ function GuildBoss(bosslv, th13, pc, Timer) {  //公會BOSS
 			var bossft_dX = 0;
 			rbm.keepScreenshotPartial( 250, 280, 470, 360);  //確認有工會戰爭偏移找團戰
 			var Img5 = rbm.findImage('guildfightlable.png', 0.90);
+			console.log('Img5:', Img5);
 			rbm.releaseScreenshot();
 			if (Img5) {bossft_dX = 250;}
+			console.log('bossft_dx:', bossft_dX);
 
 			rbm.keepScreenshotPartial( 560, 150 + bossft_dX, 705, 370 + bossft_dX);  //確認打boss碼表圖
 			var Img2 = rbm.findImage('guildBosslock.png', 0.90);
@@ -1871,7 +1873,7 @@ function GuildBoss(bosslv, th13, pc, Timer) {  //公會BOSS
 			}
 			if (Img2 == undefined) {
 				console.log('工會boss開放可打');
-				tapFor(560, 150, 1, 70, 400);
+				tapFor(560, 150 + bossft_dX, 1, 70, 400);
 			}
 		}
 
@@ -2250,12 +2252,16 @@ function herolistchoice(attrib, herocode) {
 	}
 	
 	rbm.keepScreenshotPartial( 10, 455, 705, 1270);  //找英雄畫面
-	var Img = rbm.findImage('hero_list/' + atribdir[attrib] + '/herolist_' + attrib + '_' + herocode + '.png', 0.85);
+	var Img1 = rbm.findImage('hero_list_o/' + atribdir[attrib] + '/herolist_' + attrib + '_' + herocode + '.png', 0.85);
+	var Img2 = rbm.findImage('hero_list_w/' + atribdir[attrib] + '/herolist_' + attrib + '_' + herocode + '.png', 0.85);
 	rbm.releaseScreenshot();
 	
-	if (Img != undefined) {rbm.log('herolist_' + attrib + '_' + herocode + '.png', 'Img:',Img);}
+	if (Img1 != undefined) {rbm.log("_o", 'herolist_' + attrib + '_' + herocode + '.png', 'Img1:',Img1);}
+	if (Img2 != undefined) {rbm.log("_w", 'herolist_' + attrib + '_' + herocode + '.png', 'Img2:',Img2);}
 	
-	return Img;
+	if (Img1 != undefined) {return Img2;}
+	if (Img2 != undefined) {return Img2;}
+	
 }
 
 function getDailyreward(Timer) {   //領取每日任務獎勵   OK
@@ -3436,7 +3442,7 @@ function setFirstsetting() {
 	failureTime   =   50;   //打材料boss，判定打不過(剩下時間s)
 
 	toRincarnSw   =    1;   //輪迴開關
-	ministageSw   =  1300;   //輪迴關卡
+	ministageSw   =  1500;   //輪迴關卡
 	rintimes1Sw   =    1;   //輪迴關卡檢查次數
 	doubMG        =    0;   //輪迴兩倍魔晶
 
@@ -3553,7 +3559,9 @@ function test(cycle){
 
 			// GuildBossCK(3, 1)
 
-			while(config.isRunning) {main();}
+			herolistchoice(3, 18);
+
+			// while(config.isRunning) {main();}
 			sleep(1000)
 			// console.log('n = ', n, ', CRA 腳本結束');
 		}
