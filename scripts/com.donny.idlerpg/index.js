@@ -3435,8 +3435,8 @@ function setFirstsetting() {
 	spdstageSw    =  300;
 
 	menuW0Sw      =    1;   //星期日：木、水、暗 (3, 1, 5)
-	menuW1Sw      =    5;   //星期一：火、暗 (2, 5)
-	menuW2Sw      =    3;   //星期二：木、光 (3, 4)
+	menuW1Sw      =    2;   //星期一：火、暗 (2, 5)
+	menuW2Sw      =    4;   //星期二：木、光 (3, 4)
 	menuW3Sw      =    1;   //星期三：水、火 (1, 2)
 	menuW4Sw      =    3;   //星期四：木、光 (3, 4)
 	menuW5Sw      =    1;   //星期五：水、暗 (1, 5)
@@ -3445,7 +3445,7 @@ function setFirstsetting() {
 	failureTime   =   5;   //打材料boss，判定打不過(剩下時間s)
 
 	toRincarnSw   =    1;   //輪迴開關
-	ministageSw   =  1400;   //輪迴關卡
+	ministageSw   =  1500;   //輪迴關卡
 	rintimes1Sw   =    1;   //輪迴關卡檢查次數
 	doubMG        =    0;   //輪迴兩倍魔晶
 
@@ -3562,9 +3562,9 @@ function test(cycle){
 
 			// GuildBossCK(3, 1)
 
-			herolistchoice(2, 16);
+			// herolistchoice(2, 16);
 
-			// while(config.isRunning) {main();}
+			while(config.isRunning) {main();}
 			sleep(1000)
 			// console.log('n = ', n, ', CRA 腳本結束');
 		}
