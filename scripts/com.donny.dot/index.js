@@ -3,16 +3,16 @@
 // ============================idlerpg=============================== //
 
 var config = {
-  appName: 'com.donny.idlerpg',
-  oriScreenWidth: 720, // source
-  oriScreenHeight: 1280,
+  appName: 'com.donny.dot',
+  oriScreenWidth: 1280, // source
+  oriScreenHeight: 720,
   oriVirtualButtonHeight: 0,
   oriResizeFactor: 1, 
   eventDelay: 50,
   imageThreshold: 1,
   imageQuality: 100,
   resizeFactor: 1, // small -> quickly
-  scriptDir: 'scripts/com.donny.idlerpg/images',
+  scriptDir: 'scripts/com.donny.dot/images',
   isRunning: false,
   PackangName: 'com.godzilab.idlerpg',
   LaunchActivityName: 'com.godzilab.idlerpg.Main',
@@ -3541,35 +3541,234 @@ function test(cycle){
 			setFirstsetting();   //設定初值設定值
 			setFirstTimer();     //設定初始時間值
 			// commandsetting();    //初始設定值顯示
+
+			var ftCode = 2;
 		}
 		else if (n >= 1) {
-			stage = recoNum(1) * 1
-			console.log('============================================================================')
-			console.log('n = ', n, ', CRA 腳本開始', stage)
+			console.log('============================================================================');
+			console.log('n = ', n, ', CRA 腳本開始');
 
-			// // console.log(400,  Img1.y, 690, Img1.y + 325);
-			// rbm.keepScreenshotPartial(400, 393, 690, 718);  //找閃電
-			// var Img3 = rbm.findImage('guildbosschallenge.png', 0.90);
-			// var Img4 = rbm.findImage('thundericonBTN.png', 0.92);
-			// var Img6 = rbm.findImage('thundericonBTN_dark.png', 0.92);
-			// rbm.releaseScreenshot();
 			
-			// if (Img3 != undefined) { rbm.log('Img3:',Img3); }
-			// if (Img4 != undefined) { rbm.log('Img4:',Img4); }
-			// if (Img6 != undefined) { rbm.log('Img6:',Img6); }
+			var lita_book_Sw = 0;
+			var stt = 300;
 
-			// CheckImageTap(300, 600, 410,  1270, 0.80, 'reincarnationOKbtn.png', 1, 1, 1, 500, 1, 1);      //輪迴"好"按鈕
+			var Img0 = [];
+			rbm.keepScreenshotPartial(220, 140, 1060, 650);
+			var Img1 = rbm.findImage('hero_dot.png', 0.90);          //
+			// var Img2 = rbm.findImage('help_man.png', 0.90);          //
+			var Img3 = rbm.findImage('start_fight_wd.png', 0.95);    //
+			var Img4 = rbm.findImage('reward.png', 0.95);            //
+			// var Img5 = rbm.findImage('next_floo_way.png', 0.95);     //
+			// var Img6 = rbm.findImage('defeat.png', 0.95);            //
+			// var Img7 = rbm.findImage('lita_book.png', 0.95);            //
+			// var Img8 = rbm.findImage('start_fight_lita.png', 0.95);    //
+			var Img9 = rbm.findImage('reconnection.png', 0.95);    //
+			var Img11 = rbm.findImage('start_fight_dayboss.png', 0.95);    //
 
-			// GuildBossCK(3, 1)
+			rbm.releaseScreenshot();
 
-			// herolistchoice(2, 16);
+			// // rbm.log('hero_dot:', Img1);
+			// // rbm.log('help_man:', Img2);
+			rbm.log('start_fight_wd:', Img3);
+			rbm.log('reward:', Img4);
+			// // rbm.log('next_floo_way:', Img5);
+			// // rbm.log('defeat:', Img6);
+			// // rbm.log('lita_book:', Img7);
+			// // rbm.log('start_fight_lita:', Img8);
+			rbm.log('start_fight_dayboss:', Img11);
 
-			// while(config.isRunning) {main();}
+			     if (Img1 != undefined){Img0 = Img1;}
+			// else if (Img2 != undefined){Img0 = Img2;}
+			else if (Img3 != undefined){Img0 = Img3;}
+			else if (Img4 != undefined){Img0 = Img4;}
+			// else if (Img5 != undefined){Img0 = Img5;}
+			// else if (Img6 != undefined){Img0 = Img6;}
+			// else if (Img7 != undefined){Img0 = Img7;}
+			// else if (Img8 != undefined){Img0 = Img8;}
+			else if (Img9 != undefined){Img0 = Img9;}
+			else if (Img11 != undefined){Img0 = Img11;}
+
+			if (Img0 != '') {tapFor(Img0.x, Img0.y, 1, 40, 100, 500);}
+			// sleep(stt);
 
 
-			CheckImageTap(460, 140, 1060, 650, 0.90, '00_HUNGR_hero_dot.png', 1, 1, 1, 1000, 1);       //
+			if (n % 15 == -1) {
+				CheckImageTap(950, 660, 990, 700, 0.95, 'conver_tri_icon.png', 1230, 30, 1, 1500, 0, 1);       //
+				sleep(100);
+
+				CheckImageTap(460, 140, 1060, 650, 0.95, 'skip_story_ok.png', 550, 430, 1, 500, 0, 1);       //
+				sleep(stt);
+			}
+
+			if (n % 5 == 5 & lita_book_Sw) {
+				CheckImageTap(1100, 600, 1230, 700, 0.95, 'map_fighting.png', 1, 1, 1, 1000, 1, 0);       //
+				sleep(100);
+
+				CheckImageTap(800, 100, 920, 190, 0.95, 'castle_lita.png', 1, 1, 1, 500, 1, 0);       //
+				sleep(stt);
+			}
+
+			var menuX = [280, 400, 480, 610, 280, 400, 480, 610, 280, 400, 480, 610, 280, 400, 480, 610];
+			var menuY = [200, 200, 200, 200, 310, 310, 310, 310, 420, 420, 420, 420, 520, 520, 520, 520];
+			if (n % 120 == -1) {
+				console.log('menu cooking !!!');
+				tapFor(1200, 240, 4, 30, 100, 500);
+				tapFor(  65, 650, 1, 30, 100, 1000);
+
+				for (var i = 0; i <= 15; i++) {
+					tapFor(menuX[i], menuY[i], 2, 30, 100, 500);
+					var makeP = checkPointcolor(950, 570, 20, '319242');
+					if (makeP) {
+						tapFor(980, 550, 1, 30, 100, 500);
+						tapFor(menuX[i], menuY[i], 4, 30, 100, 200);
+					}
+				}
+				tapFor(1200, 240, 4, 30, 100, 500);
+			} else {console.log('menu cooking :', n%120, '/', 120);}
+
+			if (n % 60 == -1) {
+				console.log('cooking speed up !!!');
+				tapFor(1200, 240, 4, 30, 100, 500);
+				tapFor( 175, 650, 1, 30, 100, 1000);
+
+				var makeP = checkPointcolor(970, 570, 20, 'D6A221');
+				if (makeP) {
+					tapFor( 980, 550, 8, 30, 100, 500);
+				}
+				tapFor(1200, 240, 4, 30, 100, 500);
+			} else {console.log('cooking speed up :', n%60, '/', 60);}
+
+
+			var ckftX = [0, 210, 300, 390, 480, 570, 660, 750, 840, 930, 1020];
+			var ckftS = [0,   1,   2,   3,   4,   5,   6,   7,   8,   9,   10];
+			var ftTime = 260;
+			if (n % ftTime == -1) {
+				console.log('cooking to fight !!! fight:', ftCode);
+				tapFor(1230,  30, 8, 30, 200, 500);
+				tapFor(1200, 240, 6, 30, 100, 500);
+				tapFor(  65, 650, 1, 30, 100, 1000);
+				
+				tapFor(ckftX[ckftS[ftCode]], 640, 3, 30, 100, 500);
+				for (var j = 1; j <= 25; j++){
+					console.log('cooking to fight', j, "/", 60);
+
+					var Img0 = [];
+					rbm.keepScreenshotPartial(460, 140, 1060, 650);
+					var Img3 = rbm.findImage('start_fight_wd.png', 0.95);    //
+					var Img4 = rbm.findImage('reward.png', 0.95);            //
+					var Img6 = rbm.findImage('defeat.png', 0.95);            //
+					rbm.releaseScreenshot();
+		
+					if (Img4 != undefined){tapFor(1200, 240, 20, 30, 200, 500); ftCode = ftCode + 1; break;}
+
+						 if (Img3 != undefined){Img0 = Img3;}
+					else if (Img6 != undefined){Img0 = Img6;}
+
+					if (Img0 != '') {tapFor(Img0.x, Img0.y, 1, 40, 100, 500);}
+
+					sleep(1000);
+				}
+
+			} else {console.log('cooking to fight :', n%ftTime, '/', ftTime);}
+
+			if (ftCode > 3){ftCode = 2;}
+
+			if (n % ftTime == -2) {
+				console.log('WATcH AD !!!');
+				tapFor(1230,  30, 8, 30, 200, 500);
+				tapFor(1200, 240, 6, 30, 100, 500);
+				tapFor( 350, 30, 1, 30, 100, 1000);
+
+				var makeP = checkPointcolor(660, 530, 20, 'D6A221');
+				if (makeP) {
+					tapFor( 660, 550, 1, 30, 100, 1000);
+					tapFor( 540, 440, 1, 30, 100, 3000);
+
+					for (var k = 1; k <= 40; k++) {
+						
+						sleep(2000);
+						console.log("AD wait time: ", k*2, " sec");
+
+						rbm.keepScreenshotPartial(460, 140, 1060, 650);
+						var Img4 = rbm.findImage('reward.png', 0.95);            //
+						var Img10 = rbm.findImage('coustomerService.png', 0.95);            //
+						rbm.releaseScreenshot();
 			
-			sleep(1000)
+						rbm.log('reward:', Img4);
+						rbm.log('coustomerService:', Img10);
+
+						     if (Img4  != undefined){tapFor(1200, 240, 4, 30, 100, 500); break;}
+						else if (Img10 != undefined){break;}
+						else {keycode('BACK', 100);}
+
+					}
+					
+					
+
+
+				} else {console.log('WATcH AD OVER !!!');}
+
+
+
+				
+
+			} else {console.log('WATcH AD :', n%ftTime, '/', ftTime);}
+
+			if (n % ftTime == -3) {
+				console.log('fishing !!!');
+				tapFor(1230,  30, 8, 30, 200, 500);
+				tapFor(1200, 240, 6, 30, 100, 500);
+				tapFor(1030, 650, 1, 30, 100, 900);
+				tapFor( 540, 440, 1, 30, 100, 900);
+				tapFor(1200, 240, 4, 30, 100, 500);
+				
+
+			} else {console.log('fishing :', n%ftTime, '/', ftTime);}
+			sleep(760);
+			
+
+
+			/*
+			var ther = 0.97
+			var Img0 = [];
+			rbm.keepScreenshotPartial(0, 190, 630, 1240);
+			var Img1 = rbm.findImage('pornhub_nodown.png', ther);          //
+			var Img2 = rbm.findImage('pornhub_keepnext.png', ther);          //
+			var Img3 = rbm.findImage('pornhub_okdown.png', ther);    //
+			var Img4 = rbm.findImage('pornhub_720down.png', ther);            // 
+			var Img5 = rbm.findImage('pornhub_480down.png', ther);     //
+			var Img6 = rbm.findImage('pornhub_retrydwon.png', ther);            //
+			var Img7 = rbm.findImage('pornhub_notavailable.png', ther);            //
+			// var Img8 = rbm.findImage('start_fight_lita.png', 0.95);    //
+			// var Img9 = rbm.findImage('reconnection.png', 0.95);    //
+			rbm.releaseScreenshot();
+
+			rbm.log('pornhub_nodown:', Img1);
+			rbm.log('pornhub_keepnext:', Img2);
+			rbm.log('pornhub_okdown:', Img3);
+			rbm.log('pornhub_720down:', Img4);
+			rbm.log('pornhub_480down:', Img5);
+			rbm.log('pornhub_retrydwon:', Img6);
+			rbm.log('pornhub_notavailable:', Img7);
+			// // rbm.log('start_fight_lita:', Img8);
+
+			     if (Img1 != undefined){Img0 = Img1;}
+			else if (Img2 != undefined){Img0 = Img2;}
+			else if (Img3 != undefined){Img0 = Img3;}
+			else if (Img4 != undefined){Img0 = Img4;}
+			else if (Img5 != undefined){Img0 = Img5;}
+			else if (Img6 != undefined){Img0 = Img6;}
+			else if (Img7 != undefined){Img0 = Img7;}
+			// else if (Img8 != undefined){Img0 = Img8;}
+			// else if (Img9 != undefined){Img0 = Img9;}
+
+			if (Img0 != '') {tapFor(Img0.x + 5, Img0.y + 5, 1, 40, 100, 100);}
+			sleep(800);
+			*/
+
+
+
+
 			// console.log('n = ', n, ', CRA 腳本結束');
 		}
 	}
