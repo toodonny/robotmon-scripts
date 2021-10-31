@@ -1220,8 +1220,8 @@ function ggcrack2(ma_mun) {
 					tapFor(img1.x, img1.y, 1, 20, 100, 100, 100);
 
 				} else if (img2 != undefined) {
-					CheckImageTap(580, 610, 680, 990, 0.95, '/gg_img/gg_search_endscript_ok.png', 1, 1, 1, 100, 1, 0);  //腳本結束-確定
-					CheckImageTap(580, 610, 680, 990, 0.95, '/gg_img/gg_search_runscript.png', 1, 1, 1, 500, 1, 0);  //點腳本-執行
+					CheckImageTap(580, 610, 680, 1190, 0.95, '/gg_img/gg_search_endscript_ok.png', 1, 1, 1, 100, 1, 0);  //腳本結束-確定
+					CheckImageTap(580, 610, 680, 1190, 0.95, '/gg_img/gg_search_runscript.png', 1, 1, 1, 500, 1, 0);  //點腳本-執行
 					CheckImageTap(75, 380, 120, 900, 0.95, '/gg_img/gg_main_menu_0' + ma_mun + '.png', 1, 1, 1, 500, 1, 0);  //點腳本主選單-項目
 
 				} else {
