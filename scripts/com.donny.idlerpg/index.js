@@ -579,7 +579,7 @@ function useReturn(choiceF){          //各項回授點檢查
 	//console.log('各項升級限制條件');
 	
 	switch (choiceF) {
-		case  1: return CheckImageTap( 625,   10, 710,   70, 0.95, 'mainpagebutton.png', 1, 1, 1, 50, 2);    return;   //右上功能圖示 OK
+		case  1: return CheckImageTap( 625,   10, 710,   70, 0.95, 'mainpagebutton.png', 1, 1, 1, 50, 2, 0);    return;   //右上功能圖示 OK
 		case  2: return CheckImageTap( 170,   10, 220,   50, 0.95, 'speedx2.png', 1, 1, 1, 50, 2);           return;   //檢查2倍速圖示 OK
 		case  3: return CheckImageTap( 310,  590, 410,  690, 0.85, 'ADbox.png', 1, 1, 1, 50, 2);             return;   //檢查寶箱看廣告  OK
 		case  4: return CheckImageTap(   0,  580, 110,  820, 0.85, 'speedX2icon.png', 1, 1, 1, 50, 2);       return;   //2倍速選單圖示 OK
@@ -645,6 +645,8 @@ function useReturn(choiceF){          //各項回授點檢查
 		
 		//case 91: return CheckImageTap( 660,    0, 720,   60, 0.90, 'guildbosshelpRU.png', 1, 1, 1, 50, 2);       return;   //工會BOSS,右上?圖
 		case 91: return CheckImageTap( 600,    0, 720,   60, 0.90, 'guildbosshelpRY.png', 1, 1, 1, 50, 2);       return;   //工會BOSS,右上?圖
+
+		case 101: return CheckImageTap( 625,  10, 710,   70, 0.90, 'mainpagebutton_bk.png', 1, 1, 1, 50, 2, 1);    return;   //右上功能圖示_模糊
 		
 	}
 }
@@ -705,14 +707,14 @@ function getADBox() {   //寶箱廣告觀看 OK
 		if (!config.isRunning) return false;
 		
 		sleep(200);
-		if (useReturn(1)) {
+		// if (useReturn(1)) {
 			if (useReturn(3)) {
 				for (var j = 1; j <= 3; j++){
 					if (!config.isRunning) return false;
 					//console.log(' AD box click', i, j);
 					
 					sleep(300);
-					CheckImageTap( 310,  590, 410, 690, 0.90, 'ADbox.png', 1, 1, 2, 1000, 1);
+					CheckImageTap( 310,  590, 410, 690, 0.90, 'ADbox.png', 1, 1, 1, 4000, 1, 1);
 				}
 				
 				waitAD(adtimesetSw);
@@ -721,7 +723,7 @@ function getADBox() {   //寶箱廣告觀看 OK
 			else {
 				return false;
 			}
-		}
+		// }
 	}
 }
 
@@ -902,24 +904,30 @@ function waitAD(timer, speedx2) {   // OK
 		var sizeObj = getScreenSize();
 		if (sizeObj.width == 720 && i >= 5 && admodeSw == 2) {
 			var stoptime1 = ScreenStopTimes( 180, 270, 590, 860, 0.999, 'checkADstop.png', 1, 1)
+
+			if (stoptime1 > 8 || i > 45) {
+				tapFor(690, 35, 1, 30, 100, 4000);
+				tapFor(690, 35, 1, 30, 100, 2000);
+			}
+
 			if (stoptime1 >= 3 || i >= 35) {		
 				// console.log(i, 'sec', 'stoptime1 >= 3 || i >= 35 , press key BACK' );
 				console.log('廣告結束，畫面停3秒，回遊戲');
 				keycode('BACK', 200); sleep(500);
 				stoptime1 = 0;
 			}
-			  
-			if (useReturn(1)){
-				rbm.keepScreenshotPartial(260, 500, 450, 1180);  ///點擊獲取
-				var Img = rbm.findImage('getButton.png', 0.90);
-				rbm.releaseScreenshot();
-				if (Img != undefined && Img.score >= 0.90) {
-					console.log('出現獲取鈕，點擊跳出');
-					sleep(300);
-					tapFor(Img.x , Img.y, 3, 60, 200);
-					return false;
-				}
-				
+
+			rbm.keepScreenshotPartial(260, 500, 450, 1180);  ///點擊獲取
+			var Img = rbm.findImage('getButton.png', 0.90);
+			rbm.releaseScreenshot();
+			if (Img != undefined && Img.score >= 0.90) {
+				console.log('出現獲取鈕，點擊跳出');
+				sleep(300);
+				tapFor(Img.x , Img.y, 3, 60, 200);
+				return false;
+			}
+
+			if (useReturn(1)) {
 				a = a + 1;
 				if (i < 10 && a >= 10) {console.log('選單鈕，出現10秒，異常'); return false;}
 				else if (i > 10 && a >=  5) {console.log('選單鈕，出現 5秒，回到遊戲'); return false;}
@@ -1564,42 +1572,7 @@ function autoStuck() {  //  卡關自動判斷式   OK
 	return autoStuckstage[0];
 }
 
-<<<<<<< HEAD
-function getADBox() {   //寶箱廣告觀看 OK
-	//if (!config.isRunning) return false;
-	//if (!useReturn(51) && !useReturn(50)) return false;
-	//if (!useReturn(50)) return false;
-	console.log('寶箱廣告');
-
-	for (var i = 1; i <= 3; i++){
-		if (!config.isRunning) return false;
-		
-		sleep(200);
-		// if (useReturn(1)) {
-			if (useReturn(3)) {
-				for (var j = 1; j <= 3; j++){
-					if (!config.isRunning) return false;
-					//console.log(' AD box click', i, j);
-					
-					sleep(300);
-					CheckImageTap( 310,  590, 410, 690, 0.90, 'ADbox.png', 1, 1, 2, 1000, 1);
-				}
-				
-				waitAD(adtimesetSw);
-				//getADGoldTimer =  getADGoldTimer + 30 * 1000;
-			}
-			else {
-				return false;
-			}
-		// }
-	}
-}
-
-function getADSpeed() {  //看廣告拿2倍速 OK
-=======
-// -撿寶箱&大技--
-function tapBox(vdX, mode) {  //點寶箱  mode: 1:刷關  2:寶箱    OK
->>>>>>> fb56708fbcfe29c812b57e7c81d5802de94ffe49
+function tapBox(vdX, mode) {  //看廣告拿2倍速 OK
 	if (!config.isRunning) return false;
 	if (!useReturn(2)) getADSpeed();
 	// if (useReturn(50)) {console.log('top:ADBox'); getADBox();}
@@ -3311,7 +3284,6 @@ function debug(Timer){       //異常檢查檢查
 		
 		//console.log('1:', useReturn(1));
 		if (useReturn(1)) {
-			CheckImageTap(260, 630, 450, 1180, 0.90, 'getButton.png', 1, 1, 2, 200, 1, 0);      //點擊獲取
 			CheckImageTap(280, 490, 420,  540, 0.90, 'exitgame.png', 240, 830, 1, 200, 0, 0);    //取消退出遊戲
 			CheckImageTap(235, 495, 450,  550, 0.85, 'noticks.png', 240, 820, 1, 300, 0, 0);    //
 			CheckImageTap(280, 400, 420,  460, 0.90, 'noAdenough.png', 360, 700, 1, 200, 0, 0);  //廣告不足
@@ -3319,9 +3291,11 @@ function debug(Timer){       //異常檢查檢查
 			CheckImageTap(280, 400, 440,  630, 0.90, 'X2SPEED_SMALL_ICON.png', 240, 820, 1, 200, 0, 1);  //加速直接點視窗關閉
 			
 			if (useReturn(52)){ checkPointcolorTap(690, 510, 20, 'FFFFFF', 0, 0, 2, 100, 1); } // 點向下箭頭 
-		}
-		else {
-			
+
+		}else {
+			if (i == 1){
+				CheckImageTap(260, 500, 450, 1180, 0.90, 'getButton.png', 1, 1, 2, 200, 1, 1);      //點擊獲取
+			}
 			CheckImageTap( 651, 29, 687, 52, 0.85, 'upmenuclose.png', 1, 1, 1, 300, 1);  //右上功能圖示關閉
 			CheckImageTap2(620, 1200, 690, 1260, 0.85, 'guildBack.png', 'guildBack2.png', 1, 1, 1, 200, 1);    //公會退出鈕1,2
 			CheckImageTap(185, 75, 245, 135, 0.85, 'getnewthing.png', 360, 310, 10, 400, 0);    //得到新物品
@@ -3354,43 +3328,56 @@ function main(){       //主流程
 	var bossatt = choiceMaterialboss(menuW0Sw, menuW1Sw, menuW2Sw, menuW3Sw, menuW4Sw, menuW5Sw, menuW6Sw, 1)
 
 	console.log('main 卡畫面與重啟APP檢查')
-	tapBox(vdxx, tapmod); debug(6);  //卡畫面與重啟APP檢查
+	tapBox(vdxx, tapmod); 
+	debug(6);  //卡畫面與重啟APP檢查
 
 	console.log('main 每日地牢')
-	tapBox(vdxx, tapmod); DalyDungeons(bossatt, 5, failureTime, 120);   //每日地牢
+	tapBox(vdxx, tapmod); 
+	DalyDungeons(bossatt, 5, failureTime, 120);   //每日地牢
 
 	console.log('main 廣告金幣')
-	tapBox(vdxx, tapmod); getADGold(60);  //廣告金幣
+	tapBox(vdxx, tapmod); 
+	getADGold(60);  //廣告金幣
 
 	console.log('main 村莊升級')
-	tapBox(vdxx, tapmod); lvupVillage2(2, 60);   //村莊升級
+	tapBox(vdxx, tapmod); 
+	lvupVillage2(2, 60);   //村莊升級
 
-	console.log('main 每日挑戰任務')
-	tapBox(vdxx, tapmod); getDailyreward(900);  
+	// console.log('main 每日挑戰任務')
+	// tapBox(vdxx, tapmod); 
+	// getDailyreward(900);  
 
 	console.log('main 競技場')
-	tapBox(vdxx, tapmod); Areafight(1800);    //每日挑戰任務、競技場
+	tapBox(vdxx, tapmod); 
+	Areafight(1800);    //每日挑戰任務、競技場
 
 	console.log('main 英雄升級')
-	tapBox(vdxx, tapmod); lvupHero(lvupHerostgSw, lvupHeroDi, lvuptimeSw);  //英雄升級
+	tapBox(vdxx, tapmod); 
+	lvupHero(lvupHerostgSw, lvupHeroDi, lvuptimeSw);  //英雄升級
 
 	console.log('main 公會幫助')
-	tapBox(vdxx, tapmod); Guildchat(180);
+	tapBox(vdxx, tapmod); 
+	Guildchat(180);
 
 	console.log('main 公會勛章')
-	tapBox(vdxx, tapmod); Guildmedal(heroattribSw, herocodeSw, 1020)   //公會幫助、公會勛章
+	tapBox(vdxx, tapmod); 
+	Guildmedal(heroattribSw, herocodeSw, 1020)   //公會幫助、公會勛章
 
 	console.log('main 遠征')
-	tapBox(vdxx, tapmod); Expeditions(60);  //遠征
+	tapBox(vdxx, tapmod); 
+	Expeditions(60);  //遠征
 
 	console.log('main 畫面停止判斷')
-	tapBox(vdxx, tapmod); checkScreenStop(30, resetappTm, 6);
+	tapBox(vdxx, tapmod); 
+	checkScreenStop(30, resetappTm, 6);
 
 	console.log('main 自動收信每日獎勵');
-	tapBox(vdxx, tapmod); upMenu(3600);  //畫面停止判斷，自動收信每日獎勵
+	tapBox(vdxx, tapmod); 
+	upMenu(3600);  //畫面停止判斷，自動收信每日獎勵
 	
 	console.log('main 公會BOSS')
-	tapBox(vdxx, tapmod); GuildBoss(guildbosshdSw, guildbossthSw, 5, 3600);  //公會BOSS
+	tapBox(vdxx, tapmod); 
+	GuildBoss(guildbosshdSw, guildbossthSw, 5, 3600);  //公會BOSS
 	
 	console.log('main 寶箱廣告')
 	getADBox();
@@ -3465,7 +3452,7 @@ function setFirstsetting() {
 	lvupVillageSw =    1;
 	lvupVillageDi =    2;
 
-	autoWeekSw    =    1;   //每日可打材料屬性【1:水  2:火  3:木  4:光  5:暗】
+	autoWeekSw    =    0;   //每日可打材料屬性【0:關閉 1:水  2:火  3:木  4:光  5:暗】
 	dgticksSw     =    0;   //保留票數
 
 	spdongeonSw   =    0;   //活動boss，9:雪怪，8:豬怪，7:龍怪
@@ -3506,7 +3493,7 @@ function setFirstsetting() {
 	ExpedstarSw   =    2;   //刷目標的星級(以上)
 	ExpeditemSw   =    0;   //刷目標的物品
 
-	arenaSw       =    1;   //競技開關
+	arenaSw       =    0;   //競技開關
 	arenaticksSw  =    0;   //保留票數
 	arenaFightpw  = 90000;  //對戰戰力
 	arenatkchgSw  =    0;   //打不過刷新
@@ -3523,15 +3510,15 @@ function setFirstsetting() {
 	//② 點擊右邊(A)次 → 等待(B)毫秒 → 檢查右水晶(C)次 → 點擊  10~510(每50pix)
 	//③ 施放大技(D) → 等待(E)毫秒 →  回到 ①
 
-	guildchatSw   =    1;   //工會求幫助開關
-	guildmaldSw   =    1;   //工會求勛章開關
+	guildchatSw   =    0;   //工會求幫助開關
+	guildmaldSw   =    0;   //工會求勛章開關
 	heroattribSw  =    4;   //周一~周六：屬性代碼：1:水  2:火  3:木  4:光  5:暗  0:關閉
 	herocodeSw    =    1;   //周一~周六：英雄代碼請見設定頁最下方
 	heroattrib2Sw =    1;   //周日：1:水  2:火  3:木  4:光  5:暗  0:關閉
 	herocode2Sw   =   11;   //周日：英雄代碼請見設定頁最下方
 	maldhelpupTSw =    5;   //提早進入求助時間
 
-	guildbossSw   =    1;   //工會打BOSS開關
+	guildbossSw   =    0;   //工會打BOSS開關
 	guildbosshdSw =    3;   //工會打BOSS難度 1:弱, 2:中, 3:強
 	guildbossthSw =    1;   //工會打BOSS閃電用量 1:100, 2:300
 	failureth3Sw  =    0;   //打不過閃電改 300
@@ -3601,10 +3588,10 @@ function test(cycle){
 
 			// herolistchoice(2, 16);
 
-			// while(config.isRunning) {main();}
+			while(config.isRunning) {main();}
 
 
-			CheckImageTap(460, 140, 1060, 650, 0.90, '00_HUNGR_hero_dot.png', 1, 1, 1, 1000, 1);       //
+			// CheckImageTap(460, 140, 1060, 650, 0.90, '00_HUNGR_hero_dot.png', 1, 1, 1, 1000, 1);       //
 			
 			sleep(1000)
 			// console.log('n = ', n, ', CRA 腳本結束');
