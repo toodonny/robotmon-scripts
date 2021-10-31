@@ -1348,7 +1348,7 @@ function getADBox() {   //寶箱廣告觀看 OK
 		if (!config.isRunning) return false;
 		
 		sleep(200);
-		if (useReturn(1)) {
+		// if (useReturn(1)) {
 			if (useReturn(3)) {
 				for (var j = 1; j <= 3; j++){
 					if (!config.isRunning) return false;
@@ -1364,7 +1364,7 @@ function getADBox() {   //寶箱廣告觀看 OK
 			else {
 				return false;
 			}
-		}
+		// }
 	}
 }
 
@@ -3277,6 +3277,9 @@ function main(){       //主流程
 	
 	console.log('main 公會BOSS')
 	tapBox(vdxx, tapmod); GuildBoss(guildbosshdSw, guildbossthSw, 5, 3600);  //公會BOSS
+	
+	console.log('main 寶箱廣告')
+	getADBox();
 }
 
 function setFirstTimer() {   //預設值設定

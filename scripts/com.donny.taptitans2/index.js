@@ -33,6 +33,26 @@ function isSameColor(c1, c2, diff) {
 	return true;
 }
 
+function isSameColorHex(c1, c2, diff) {
+	if (!config.isRunning) return false;
+	if (diff == undefined) diff = 20;
+
+	// rbm.log('c1 str:', c1, ', c2 str:', c2)
+	var chkr = parseInt(c1.substr(0, 2), 16)*1 - parseInt(c2.substr(0, 2), 16)*1;
+	var chkg = parseInt(c1.substr(2, 2), 16)*1 - parseInt(c2.substr(2, 2), 16)*1;
+	var chkb = parseInt(c1.substr(4, 2), 16)*1 - parseInt(c2.substr(4, 2), 16)*1;
+
+	// console.log(c1.substr(0, 2), c2.substr(0, 2));
+	// console.log(c1.substr(2, 2), c2.substr(2, 2));
+	// console.log(c1.substr(4, 2), c2.substr(4, 2));
+	// console.log('chkr:', chkr, ', chkg:', chkg, ', chkb:', chkb);
+
+	if (Math.abs(chkr) > diff) return false;
+	if (Math.abs(chkg) > diff) return false;
+	if (Math.abs(chkb) > diff) return false;
+	return true;
+}
+
 function checkPointcolor0(intX, intY, diff, strRGB) {  //return 
 	if (!config.isRunning) return false;
 
@@ -49,6 +69,62 @@ function checkPointcolor0(intX, intY, diff, strRGB) {  //return
 	return check;
 }
 
+function getPointcolor(intX, intY) {  //return 
+	if (!config.isRunning) return false;
+	
+	var img = getScreenshotModify(intX, intY, 1, 1, 1, 1, 100);
+    var getpoint = getImageColor(img, 0, 0);
+	releaseImage(img);
+	// console.log(getpoint.r, getpoint.g, getpoint.b);
+	
+	return getpoint;
+}
+
+function getPointcolorHex(intX, intY) {  //return 
+	if (!config.isRunning) return false;
+	
+	var img = getScreenshotModify(intX, intY, 1, 1, 1, 1, 100);
+    var getpoint = getImageColor(img, 0, 0);
+	releaseImage(img);
+	// console.log(getpoint.r, getpoint.g, getpoint.b);
+	
+	getkr = getpoint.r.toString(16);
+	getkg = getpoint.g.toString(16);
+	getkb = getpoint.b.toString(16);
+	
+	// console.log(getkr, getkb, getkg);
+	
+	if (getpoint.r <= 15) getkr = '0' + getkr;
+	if (getpoint.g <= 15) getkg = '0' + getkg;
+	if (getpoint.b <= 15) getkb = '0' + getkb;
+
+	getcolorHEX = getkr + getkg + getkb;
+
+	getcolorHEX = getcolorHEX.toUpperCase();
+
+	// console.log(getkr, getkb, getkg, getcolorHEX);
+	
+	return getcolorHEX;
+}
+
+function getpointHex(imgN, x, y) {
+	if (!config.isRunning) return false;
+
+	var getpoint = getImageColor(imgN, x, y);
+	// rbm.log('getpoint:', getpoint);
+
+	getkr = getpoint.r.toString(16);
+	getkg = getpoint.g.toString(16);
+	getkb = getpoint.b.toString(16);
+	
+	if (getpoint.r <= 16) getkr = '0' + getkr;
+	if (getpoint.g <= 16) getkg = '0' + getkg;
+	if (getpoint.b <= 16) getkb = '0' + getkb;
+
+	var colorRGB = getkr + getkg + getkb;
+	return colorRGB.toUpperCase();
+}
+
 function checkPointcolor(intX, intY, diff, strRGB) {  //return 
 	if (!config.isRunning) return false;
 
@@ -61,6 +137,21 @@ function checkPointcolor(intX, intY, diff, strRGB) {  //return
     var getpoint = getImageColor(img, 0, 0);
 	var check = isSameColor({b:checkb, g:checkg, r:checkr, a:checka}, getpoint, diff);
 	releaseImage(img);
+	//rbm.log('getpoint:', getpoint);
+	return check;
+}
+
+function checkPointcolor3(intX1, intY1, diff1, strRGB1, intX2, intY2, diff2, strRGB2, intX3, intY3, diff3, strRGB3 ) {  //return 
+	if (!config.isRunning) return false;
+
+	if (checkPointcolor(intX1, intY1, diff1, strRGB1) & checkPointcolor(intX2, intY2, diff2, strRGB2) & checkPointcolor(intX3, intY3, diff3, strRGB3)) {
+		var check = true;
+		//console.log('3p check true');
+	}
+	else {
+		var check =  false;
+		//console.log('3p check false');
+	}
 	
 	return check;
 }
@@ -921,7 +1012,7 @@ function tapSkill(ctrlCode){            //大技施放控制  (20,1105)~(700,116
 				rbm.imageClick('mainSkill_' + i + '.png', 0.95);
 				rbm.imageClick('mainSkill_' + i + '.png', 0.95);
 			}
-			sleep(300);
+			sleep(100);
 			//console.log( 'i=', i, '; skilljump=', skilljump);
 		}
 		rbm.releaseScreenshot();
@@ -1149,54 +1240,77 @@ function SkillLvUp(clearF){             //大技升級
 	var skillname = ['Heavenly Strike', 'Deadly strike', 'Hand of Midas', 'Fire Sword', 'War Cry', 'Shadow Clone'];
 
 	if ( checkReturn(13)) {             //大師畫面 Inbox
-		for (var k = 1; k <= 2; k++) {
+		for (var k = 1; k <= 1; k++) {
 			var a = 0;
 			if (MasterLvUpTimer == 0 || clearF == 1) {
-				for (var l = 0; l < 6; l++){
-					var lvX1 = 107; 
-					var lvY1 = 480 + l * 113;   // Y:340
-					var lvX2 = 170;
-					var lvY2 = lvY1 + 24;
-					// console.log(lvX1, lvY1, lvX2, lvY2);
-					rbm.keepScreenshotPartial(lvX1, lvY1, lvX2, lvY2);  //確認大技等級 25
-					var Img1 = rbm.findImage('skill_lv25a.png', 0.96);
-					rbm.releaseScreenshot();
-					if (Img1 != undefined) {rbm.log('skill_lv25a.png', Img1);}
-					if (Img1 != undefined) {a = a + 1; console.log(skillname[l], 'LV 25, Skip', a);}
-					else { tapFor(690, lvY1, 1, 60, 100);}
-					sleep(200);
+				var btn_chkX = [680];
+				var btn_chkY = [480, 594, 708, 822, 936, 1050, 173];   //btn distance: 144 pix
+				var btn_skill = ['1.Heavenly Strike', '2.Deadly Strike', '3.Hand of Midas', '4.Fire Sword', '5.War Cry', '6.Shadow Clone', 'Master Upgrade'];
+				var btn_color = ['A22804', '006286', '494849'];
+				var btn_state = ['upgrade', 'active', 'nothing'];
+				var img = getScreenshotModify(680, 0, 1, 1200, 1, 1200, 100);  //確認技能按鈕狀態(含大師升級鈕)
+				for (var l = 0; l <= 6; l++){
+					// var lvX1 = 107; 
+					// var lvY1 = 480 + l * 114;   // Y:340
+					// var lvX2 = 170;
+					// var lvY2 = lvY1 + 24;
+					// // console.log(lvX1, lvY1, lvX2, lvY2);
+					// rbm.keepScreenshotPartial(lvX1, lvY1, lvX2, lvY2);  //確認大技等級 25
+					// var Img1 = rbm.findImage('skill_lv25a.png', 0.96);
+					// rbm.releaseScreenshot();
+					// if (Img1 != undefined) {rbm.log('skill_lv25a.png', Img1);}
+					// if (Img1 != undefined) {a = a + 1; console.log(skillname[l], 'LV 25, Skip', a);}
+					// else { tapFor(690, lvY1, 1, 30, 80);}
+					// // sleep(200);
+					
+					var get_color = getpointHex(img, 0, btn_chkY[l]);
+					var chk_color1 = isSameColorHex(get_color,btn_color[0], 25);
+					var chk_color2 = isSameColorHex(get_color,btn_color[1], 20);
+
+					if (chk_color1 || chk_color2) {
+						console.log('Skill:', btn_skill[l], 'Upgrade or Active !!')
+						for (var i = 0; i <= 12; i++) {
+							var check = checkPointcolor(btn_chkX[0], btn_chkY[l], 20, btn_color[2]);
+							if (!check) {tapFor(690, btn_chkY[l], 3, 20, 50, 30);}
+							else if (check) { break; }
+						}
+					}
+					
+					sleep(50);
+
 				}
-				if (a >= 6) {console.log('技能全部LV25'); masterset[2] = 1; break;}
+				releaseImage(img);
+				// if (a >= 6) {console.log('技能全部LV25'); masterset[2] = 1; break;}
 			}
 			
-			for (var j = 0; j < 5; j++) {
-				if (!config.isRunning) return false;
+			// for (var j = 0; j < 5; j++) {
+			// 	if (!config.isRunning) return false;
 				
-				rbm.keepScreenshotPartial( 500, 430, 700, 1200);  //確認升級按鈕等級顯示 , Y:300
-				var results = rbm.findImages(buyModearray[k], 0.85, 6, false, false);
-				rbm.releaseScreenshot();
+			// 	rbm.keepScreenshotPartial( 500, 430, 700, 1200);  //確認升級按鈕等級顯示 , Y:300
+			// 	var results = rbm.findImages(buyModearray[k], 0.85, 6, false, false);
+			// 	rbm.releaseScreenshot();
 				
-				if (results == '') break;
+			// 	if (results == '') break;
 				
-				results = results.sort(function (a, b) {
-					return a.y < b.y ? 1 : -1;
-				});	
+			// 	results = results.sort(function (a, b) {
+			// 		return a.y < b.y ? 1 : -1;
+			// 	});	
 				
-				for (var index in results) {
-					if (!config.isRunning) return false;
-					var result = results[index];
+			// 	for (var index in results) {
+			// 		if (!config.isRunning) return false;
+			// 		var result = results[index];
 					
-					var x0 = 695;	
-					var y0 = result.y + 10;
+			// 		var x0 = 695;	
+			// 		var y0 = result.y + 10;
 					
-					for (var m = 1; m <= 10; m++){
-						//console.log('k:', k, ', m:', m, ', x:', x0, ', y:', y0, ', color898989:', checkPointcolor(x0, y0, 20, '898989'));
-						var check = checkPointcolor(x0, y0, 20, '898989');
-						if (!check) { tapFor(x0, y0, 4, 50, 60); }  //console.log('check:false to tap');
-						else if ( check) { break; }
-					}
-				}
-			}
+			// 		for (var m = 1; m <= 10; m++){
+			// 			//console.log('k:', k, ', m:', m, ', x:', x0, ', y:', y0, ', color898989:', checkPointcolor(x0, y0, 20, '898989'));
+			// 			var check = checkPointcolor(x0, y0, 20, '898989');
+			// 			if (!check) { tapFor(x0, y0, 4, 50, 60); }  //console.log('check:false to tap');
+			// 			else if ( check) { break; }
+			// 		}
+			// 	}
+			// }
 		}			
 	}
 }
@@ -1219,11 +1333,11 @@ function Daily(Timer) {                //每日任務獎勵
 			CheckImageTap(44, 120, 680, 190, 0.95, 'daily_dark.png', 1, 1, 2, 100, 1);
 
 			rbm.keepScreenshotPartial( 460, 258, 670, 868);  //確認完成收集
-			var results2 = rbm.findImages("daily_complete.png", 0.90, 5, true, false);
+			var results2 = rbm.findImages('daily_complete.png', 0.90, 5, true, false);
 			
 			var completes = Object.keys(results2).length;
 			console.log('任務完成', completes, '個');
-			if (completes < 5) {var results = rbm.findImages("daily_collect.png", 0.90, 5, true, false);}
+			if (completes < 5) {var results = rbm.findImages('daily_collect.png', 0.90, 5, true, false);}
 			rbm.releaseScreenshot();
 
 			if (completes == 5) {
@@ -1630,7 +1744,7 @@ function prestigeSendMessage() {
 		var ShotImg = getScreenshotModify( Char.Att[i].x, Char.Att[i].y, Char.Att[i].w, Char.Att[i].h, Char.Att[i].w/Char.Att[i].r, Char.Att[i].h/Char.Att[i].r, Char.Att[i].q);
 		var base64 = getBase64FromImage(ShotImg);
 		releaseImage(ShotImg);
-		sendNormalMessage("Donny-TT2", base64);
+		sendNormalMessage('Donny-TT2', base64);
 	}
 	
 	/*
@@ -1638,7 +1752,7 @@ function prestigeSendMessage() {
 	var ShotImg = getScreenshotModify( 0, 0, 720, 1280, 720/2, 1280/2, 80);
 	var base64 = getBase64FromImage(ShotImg);
 	releaseImage(ShotImg);
-	sendNormalMessage("Donny-TT2", base64);
+	sendNormalMessage('Donny-TT2', base64);
 	*/
 }
 
@@ -1988,7 +2102,7 @@ function testsetting() {
 	SwMastLvRu = 0      //劍術大師 cost -90%升級
 	
 	SwHeroSw   = 1      //全  體 英雄 升級開關
-	SwHrfsTm   = 20     //第一頁 英雄 升級檢查時間
+	SwHrfsTm   = 60     //第一頁 英雄 升級檢查時間
 	SwHeroTm   = 180    //全  體 英雄 升級檢查時間
 	SwHeroLvLm = 4000   //第一位 英雄 優先升級等級
 	SwHeroLvRu = 0      //全  體 英雄 cost -90%升級
@@ -1997,12 +2111,12 @@ function testsetting() {
 	
 	SwPrestig = 1       //蛻變開關
 	SwBossPrs = 3       //卡關的次數轉生
-	SwPrgolds = 680     //金幣級次蛻變
-	SwPrgoldT = 2       //金幣蛻變檢查次數
-	SwPrSaScr = 1       //蛻變時自動抓圖
+	SwPrgolds = 70     //金幣級次蛻變
+	SwPrgoldT = 15       //金幣蛻變檢查次數
+	SwPrSaScr = 0       //蛻變時自動抓圖
 
 	
-	SwBossGd = 685      //金幣級次卡關轉生啟動
+	SwBossGd = 70      //金幣級次卡關轉生啟動
 	
 	SwArtifDv = 0       //自動開神器(轉生後觸發)
 	SwRedbook = 0       //自動點紅書(開神器後觸發)
