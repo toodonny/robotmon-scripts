@@ -580,7 +580,7 @@ function useReturn(choiceF){          //各項回授點檢查
 	
 	switch (choiceF) {
 		case  1: return CheckImageTap( 625,   10, 710,   70, 0.95, 'mainpagebutton.png', 1, 1, 1, 50, 2, 0);    return;   //右上功能圖示 OK
-		case  2: return CheckImageTap( 170,   10, 220,   50, 0.95, 'speedx2.png', 1, 1, 1, 50, 2);           return;   //檢查2倍速圖示 OK
+		case  2: return CheckImageTap( 440,   10, 570,   70, 0.95, 'speedx2.png', 1, 1, 1, 50, 2);           return;   //檢查2倍速圖示 OK
 		case  3: return CheckImageTap( 310,  590, 410,  690, 0.85, 'ADbox.png', 1, 1, 1, 50, 2);             return;   //檢查寶箱看廣告  OK
 		case  4: return CheckImageTap(   0,  580, 110,  820, 0.85, 'speedX2icon.png', 1, 1, 1, 50, 2);       return;   //2倍速選單圖示 OK
 		case  5: return CheckImageTap( 220,  560, 360,  700, 0.85, 'herostore_str.png', 1, 1, 1, 50, 2);     return;   //英雄商店文字
