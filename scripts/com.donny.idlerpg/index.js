@@ -3293,9 +3293,6 @@ function debug(Timer){       //異常檢查檢查
 			if (useReturn(52)){ checkPointcolorTap(690, 510, 20, 'FFFFFF', 0, 0, 2, 100, 1); } // 點向下箭頭 
 
 		}else {
-			if (i == 1){
-				CheckImageTap(260, 500, 450, 1180, 0.90, 'getButton.png', 1, 1, 2, 200, 1, 1);      //點擊獲取
-			}
 			CheckImageTap( 651, 29, 687, 52, 0.85, 'upmenuclose.png', 1, 1, 1, 300, 1);  //右上功能圖示關閉
 			CheckImageTap2(620, 1200, 690, 1260, 0.85, 'guildBack.png', 'guildBack2.png', 1, 1, 1, 200, 1);    //公會退出鈕1,2
 			CheckImageTap(185, 75, 245, 135, 0.85, 'getnewthing.png', 360, 310, 10, 400, 0);    //得到新物品
@@ -3307,6 +3304,9 @@ function debug(Timer){       //異常檢查檢查
 			if (i == 3) {CheckImageTap(0, 0, 720, 1280, 0.85, 'waitinglogo.png', 1, 1, 1, 200, 1);}    //待機移動logo
 		}
 		
+		if (i == 1){
+			CheckImageTap(260, 500, 450, 1180, 0.90, 'getButton.png', 1, 1, 2, 200, 1, 1);      //點擊獲取
+		}
 		CheckImageTap(500, 0, 720, 530, 0.85, 'rightupXX.png', 1, 1, 1, 200, 1, 0);    //右上的叉叉
 		CheckImageTap(310, 600, 405, 1170, 0.85, 'OKbutton.png', 1, 1, 1, 200, 1, 0);    //確認鈕
 		
