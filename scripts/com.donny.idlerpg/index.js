@@ -1617,7 +1617,7 @@ function tapBox(vdX, mode) {  //看廣告拿2倍速 OK
 		}
 	
 		//if (crystalR != undefined || bossStage == 0 || mode == 1) {}
-		tapSkill(5, 1);
+		tapSkill(3, 1);
 
 		if (mode == 2) {
 			sleep(skillslepSw);
@@ -1663,7 +1663,7 @@ function tapBoxXY(modLR, times, vdX2) {  //路上連點  OK
 
 	var tapX = { 
 	    1: ['Left  X:', 210, 265, ''], //左半邊  新版 [2]y差值 -60 ok
-	    2: ['Right X:',  10, 265, '']  //右半邊  新版 [2]y差值 -60 ok
+	    2: ['Right X:',  90, 265, '']  //右半邊  新版 [2]y差值 -60 ok
 	}; 		
 		
 	var dX = ( 640 - 220 ) / vdX2
@@ -3469,8 +3469,8 @@ function setFirstsetting() {
 	failureTime   =   5;   //打材料boss，判定打不過(剩下時間s)
 
 	toRincarnSw   =    1;   //輪迴開關
-	ministageSw   =  1500;   //輪迴關卡
-	rintimes1Sw   =    1;   //輪迴關卡檢查次數
+	ministageSw   =  200;   //輪迴關卡
+	rintimes1Sw   =    2;   //輪迴關卡檢查次數
 	doubMG        =    0;   //輪迴兩倍魔晶
 
 	mlvupautoSw   =    1;   //自動升級魔晶等級
