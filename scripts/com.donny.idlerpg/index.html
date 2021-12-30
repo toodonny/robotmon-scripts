@@ -434,7 +434,7 @@
 	</script>		
 	
     <script>
-      VERSION = 0.552;
+      VERSION = 0.631;
 
 	  var pow10 = 0; 
       var settings = [
@@ -471,6 +471,12 @@
             key: 'lvupHeroSw', 
             title: "Heros Upgraud", 
             title_zh_TW: "英雄升級", 
+            default: false,
+          },
+          {
+            key: 'lvupAllHeroSw', 
+            title: "All Heros Upgraud (VIP3 ↑)", 
+            title_zh_TW: "升級所有英雄鈕 (VIP3 ↑)", 
             default: false,
           },
           {
@@ -534,11 +540,6 @@
             title: "☆ Mode 3:Hero goldLv set arrival, stop upgrad check",   
             title_zh_TW: "☆ 模式3:英雄金幣等級到達，停止進行升級檢查",
           },
-          {
-            key: 'title', 
-            title: "☆ Script does not use VIP3 full hero upgrade",   
-            title_zh_TW: "☆ 腳本不採用 VIP3 全英雄升級功能",
-          },
 		  
         ],
         [
@@ -578,6 +579,21 @@
             title: "Auto Ascend", 
             title_zh_TW: "自動輪迴開關", 
             default: false,
+          },
+          {
+            key: 'doubMG', 
+            title: " Mg X2", 
+            title_zh_TW: "兩倍魔晶輪迴", 
+            default: false,
+          },
+          {
+            key: 'ministage0UI', 
+            title: "Ascend Stage (ten thousands)",
+            title_zh_TW: "輪迴關卡 (萬位)", 
+            default: 0, 
+            step: 10000, 
+            max: 90000, 
+            min: 0,
           },
           {
             key: 'ministage1UI', 
@@ -646,12 +662,6 @@
             step: 1, 
             max: 60, 
             min: 1,
-          },
-          {
-            key: 'doubMG', 
-            title: " Mg X2", 
-            title_zh_TW: "兩倍魔晶輪迴", 
-            default: false,
           },
           {
             key: 'StucktimeSw', 
@@ -1136,11 +1146,11 @@
         [
           {
             key: 'admodeSw', 
-            title: "AD check mode (1:Timer, 2:Auto)",
-            title_zh_TW: "看廣告模式 (1:定時, 2:自動判斷)", 
+            title: "AD check mode (1:Timer, 2:Auto, 3:Chance to skip AD)",
+            title_zh_TW: "看廣告模式 (1:定時, 2:自動判斷, 3:機率跳廣告)", 
             default: 2, 
             step: 1, 
-            max: 2, 
+            max: 3, 
             min: 1,
           },
           {
@@ -1166,13 +1176,19 @@
         ],
         [
           {
-            key: 'upStartlvSw', 
-            title: "Auto hero start up", 
-            title_zh_TW: "英雄自動升星", 
+            key: 'goldADSw', 
+            title: "AD to get Gold", 
+            title_zh_TW: "廣告拿金幣開關", 
             default: false,
           },
         ],
         [
+          {
+            key: 'rouletShotSw', 
+            title: "Before Restart App Screenshoot", 
+            title_zh_TW: "輪迴輪盤抓圖", 
+            default: false,
+          },
           {
             key: 'scrShotSw', 
             title: "Before Restart App Screenshoot", 

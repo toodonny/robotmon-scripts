@@ -322,7 +322,7 @@ function ScreenShottoPath(filename) {    //全畫面截圖存檔
 
 	var DateName = Math.floor(Date.now()/1000);
 	var ShotFilename = filename + DateName.toString() + '.png';
-	var PicSharePath = '/storage/emulated/legacy/Pictures/CTA';
+	var PicSharePath = '/sdcard/Pictures/CTA';
 	var Savefile = PicSharePath + '/' + ShotFilename;	
 	var Shot = getScreenshot();
 	saveImage(Shot, Savefile);
@@ -582,10 +582,10 @@ function useReturn(choiceF){          //各項回授點檢查
 		case  1: return CheckImageTap( 625,   10, 710,   70, 0.95, 'mainpagebutton.png', 1, 1, 1, 50, 2, 0);    return;   //右上功能圖示 OK
 		case  2: return CheckImageTap( 440,   10, 570,   70, 0.95, 'speedx2.png', 1, 1, 1, 50, 2);           return;   //檢查2倍速圖示 OK
 		case  3: return CheckImageTap( 310,  590, 410,  690, 0.85, 'ADbox.png', 1, 1, 1, 50, 2);             return;   //檢查寶箱看廣告  OK
-		case  4: return CheckImageTap(   0,  580, 110,  820, 0.85, 'speedX2icon.png', 1, 1, 1, 50, 2);       return;   //2倍速選單圖示 OK
-		case  5: return CheckImageTap( 220,  560, 360,  700, 0.85, 'herostore_str.png', 1, 1, 1, 50, 2);     return;   //英雄商店文字
-		case  6: return CheckImageTap( 220,  600, 340,  700, 0.85, 'lvupallhero2.png', 1, 1, 1, 50, 2);      return;   //英雄頁面全英雄升級文字
-		case  7: return CheckImageTap( 240,  600, 400,  700, 0.85, 'lvupallhero.png', 1, 1, 1, 50, 2);       return;   //英雄頁面全英雄升級文字 Y差 +60 ok
+		case  4: return CheckImageTap(   0,  580, 110,  820, 0.85, 'speedX2icon_2.png', 1, 1, 1, 50, 2);       return;   //2倍速選單圖示 OK
+		case  5: return CheckImageTap( 220,  560, 360,  700, 0.85, 'herostore_str.png', 1, 1, 1, 50, 2, 1);     return;   //英雄商店文字
+		case  6: return CheckImageTap( 220,  600, 340,  700, 0.85, 'lvupallhero2.png', 1, 1, 1, 50, 2, 1);      return;   //英雄頁面全英雄升級文字
+		case  7: return 
 		case  8: return CheckImageTap( 110, 1210, 310, 1280, 0.85, 'guildChaticon.png', 1, 1, 1, 50, 2);     return;   //工會聊天室圖示
 		case  9: return CheckImageTap( 270,   60, 500,  375, 0.85, 'dailystr.png', 1, 1, 1, 50, 2);          return;   //每日獎勵字樣
 		
@@ -595,12 +595,14 @@ function useReturn(choiceF){          //各項回授點檢查
 		
 		case 13: return CheckImageTap( 270,  510, 380,  560, 0.85, 'herobookicon.png', 1, 1, 1, 50, 2);      return;   //英雄冊文字
 		case 14: return CheckImageTap(  25, 1180, 160, 1280, 0.85, 'herowepon.png', 1, 1, 1, 50, 2);         return;   //英雄冊文字
+
+		case 15: return CheckImageTap( 440,   10, 570,   70, 0.95, 'speedx3.png', 1, 1, 1, 50, 2);           return;   //檢查3倍速圖示 OK
 		
 		case 21: return CheckImageTap(  45,  530, 110,  590, 0.80, 'retreatBoss02.png', 1, 1, 1, 50, 2);       return;  //BOSS戰鬥，撤退鈕
 		case 22: return CheckImageTap( 135,  510, 560,  560, 0.80, 'bossticks.png', 1, 1, 1, 50, 2);         return;  //地城BOSS選關(門票字樣)
 		case 23: return CheckImageTap2( 220, 510, 390,  560, 0.95, 'bossticks_0.png', 'bossticks2_0.png', 1, 1, 1, 50, 2);   return;  //地城BOSS票=0
 		case 24: return CheckImageTap( 480,  610, 610,  660, 0.96, 'spdongeon_0_2.png', 1, 1, 1, 50, 2, 0);       return;  //活動BOSS票=0 //地城BOSS票=0
-		case 25: return CheckImageTap(  15,  510,  90,  570, 0.95, 'backarry2.png', 1, 1, 1, 50, 2);             return;  //
+		case 25: return CheckImageTap(  15,  510,  90,  570, 0.95, 'backarry2.png', 1, 1, 1, 50, 2);             return;  //戰鬥中退回按鈕
 		
 		
 		case 26: return CheckImageTap( 640,  200, 700,  260, 0.95, 'exped_help.png', 1, 1, 1, 50, 2);        return;  //遠征問號圖示
@@ -626,9 +628,11 @@ function useReturn(choiceF){          //各項回授點檢查
 		case 51: 
 			
 			rbm.keepScreenshotPartial( 0,  490,  710,  560);
-			var Img1 = rbm.findImage('list_F_icon2.png', 0.90);        //中間圖示 F 
-			var Img2 = rbm.findImage('list_water_icon2.png', 0.90);    //中間圖示 水
+			var Img1 = rbm.findImage('list_F_icon2.png', 0.90);        //中間圖示 魔晶
+			var Img2 = rbm.findImage('list_F_icon.png', 0.90);         //中間圖示 F
+			// var Img2 = rbm.findImage('list_water_icon2.png', 0.90);    //中間圖示 水
 			// rbm.log('list_F_icon2:', Img1);
+			// rbm.log('list_F_icon:', Img2);
 			// rbm.log('list_water_icon2:', Img2);
 			rbm.releaseScreenshot();
 
@@ -709,15 +713,22 @@ function getADBox() {   //寶箱廣告觀看 OK
 		sleep(200);
 		// if (useReturn(1)) {
 			if (useReturn(3)) {
-				for (var j = 1; j <= 3; j++){
-					if (!config.isRunning) return false;
-					//console.log(' AD box click', i, j);
-					
-					sleep(300);
-					CheckImageTap( 310,  590, 410, 690, 0.90, 'ADbox.png', 1, 1, 1, 4000, 1, 1);
-				}
+				if (admodeSw == 3) {
+					tapFor(350, 780, 3, 30, 100, 200);
+					return false;
+
+				}else {
+					for (var j = 1; j <= 3; j++){
+						if (!config.isRunning) return false;
+						//console.log(' AD box click', i, j);
+						
+						sleep(300);
+						CheckImageTap( 310,  590, 410, 690, 0.90, 'ADbox.png', 1, 1, 1, 4000, 1, 1);
+					}
 				
-				waitAD(adtimesetSw);
+					waitAD(adtimesetSw);
+
+				}
 				//getADGoldTimer =  getADGoldTimer + 30 * 1000;
 			}
 			else {
@@ -735,6 +746,7 @@ function getADSpeed() {  //看廣告拿2倍速 OK
 	CheckImageTap( 230, 22, 262, 43, 0.90, 'speedoff.png',    1, 1, 1, 200, 1, 0);  //加速關閉點on
 	CheckImageTap( 651, 29, 687, 52, 0.85, 'upmenuclose.png', 1, 1, 1, 300, 1);  //右上功能圖示關閉
 	var speedx2 = useReturn(2);
+	var speedx2 = useReturn(15);
 	for (var i = 1; i <= 8; i++){
 		if (!config.isRunning) return false;
 		//console.log(i, useReturn(1));
@@ -749,8 +761,8 @@ function getADSpeed() {  //看廣告拿2倍速 OK
 				var x2Y = -1;
 				for (var m = 1; m <= 10; m++){
 					rbm.keepScreenshotPartial( 5,  580,  130,  1180);  //x2 + x3 倍速選單圖示
-					var targetImg = rbm.findImage('speedX2icon.png', 0.90);
-					//rbm.log('speedX2icon:', targetImg)
+					var targetImg = rbm.findImage('speedX2icon_2.png', 0.90);
+					//rbm.log('speedX2icon_2:', targetImg)
 					rbm.releaseScreenshot();
 					
 					if (targetImg != undefined && targetImg.score >= 0.90){
@@ -827,6 +839,7 @@ function getADSpeed() {  //看廣告拿2倍速 OK
 
 function getADGold(Timer) {  //看廣告拿金幣  OK
 	if (!config.isRunning || Date.now() < getADGoldTimer) {return false;}
+	if (!goldADSw){return false;}
 	if (!useReturn(2)) {return false;}
 	if (!useReturn(51)) {return false;}　　　//物品數量小G
 	console.log('檢查廣告拿金幣');
@@ -913,10 +926,40 @@ function waitAD(timer, speedx2) {   // OK
 			if (stoptime1 >= 3 || i >= 35) {		
 				// console.log(i, 'sec', 'stoptime1 >= 3 || i >= 35 , press key BACK' );
 				console.log('廣告結束，畫面停3秒，回遊戲');
-				keycode('BACK', 200); sleep(500);
+				keycode('BACK', 200); sleep(400);
 				stoptime1 = 0;
 			}
 
+			rbm.keepScreenshotPartial(470, 690, 600, 720);  ///點擊獲取
+			var Img = rbm.findImage('AD_YESNO_01.png', 0.90);
+			rbm.releaseScreenshot();
+			if (Img != undefined && Img.score >= 0.90) {
+				console.log('AD_YES_NO，Wait 6 sec');
+				tapFor(Img.x , Img.y, 1, 60, 200);
+				sleep(6000);
+				stoptime1 = 0;
+			}
+
+			// rbm.keepScreenshotPartial(610, 50, 650, 90);  ///點擊獲取
+			// var Img = rbm.findImage('AD_googlestore_search.png', 0.99);
+			// rbm.releaseScreenshot();
+			// if (Img != undefined && Img.score >= 0.99) {
+			// 	console.log('AD_googlestore_search');
+			// 	keycode('BACK', 200); sleep(400);
+			// 	tapFor(675 , 75, 1, 60, 200);
+			// 	sleep(1000);
+			// }
+
+			rbm.keepScreenshotPartial(660, 60, 690, 90);  ///點擊獲取
+			var Img = rbm.findImage('AD_XX_001.png', 0.90);
+			rbm.releaseScreenshot();
+			if (Img != undefined && Img.score >= 0.90) {
+				console.log('AD_XX_001');
+				tapFor(675 , 75, 1, 60, 200);
+				sleep(1000);
+			}
+
+			
 			rbm.keepScreenshotPartial(260, 500, 450, 1180);  ///點擊獲取
 			var Img = rbm.findImage('getButton.png', 0.90);
 			rbm.releaseScreenshot();
@@ -927,6 +970,8 @@ function waitAD(timer, speedx2) {   // OK
 				return false;
 			}
 
+			CheckImageTap(280, 490, 420,  540, 0.90,  'exitgame.png', 240, 830, 1, 500, 0, 0);    //取消退出遊戲
+
 			if (useReturn(1)) {
 				a = a + 1;
 				if (i < 10 && a >= 10) {console.log('選單鈕，出現10秒，異常'); return false;}
@@ -934,7 +979,6 @@ function waitAD(timer, speedx2) {   // OK
 
 				if (!speedx2 && useReturn(2)) {console.log('廣告 2倍速 完成');return false;}  //無加速變有加速判斷
 
-				CheckImageTap(280, 490, 420,  540, 0.90,  'exitgame.png', 240, 830, 1, 500, 0, 1);    //取消退出遊戲		
 				CheckImageTap(310, 600, 405, 1170, 0.90,  'OKbutton.png',   1,   1, 1, 500, 1, 1);    //確認鈕
 			}
 			else {
@@ -953,6 +997,8 @@ function choiceMenu(page) {  //主選單頁面   OK
 	if (!useReturn(51)) return false;
 	// console.log('Choice Manu : ', page);
 	
+	tapFor(300, 70, 2, 50, 100, 100);
+
 	var colorHEX = new Array( '', 'E0A85A', 'FBE194', 'FFFFFF', '2B1708', '')
 	for (var i = 1; i <= 3; i++){
 		if (!config.isRunning) return false;
@@ -967,8 +1013,8 @@ function choiceMenu(page) {  //主選單頁面   OK
 					if (!config.isRunning) return false;
 					// console.log('i:', i, ', j:', j, ', a:', a);
 				
-					checkPointcolorTap(colorX, colorY, 20, colorHEX[1], 0, 0, 1, 100, 1)
-					if (checkPointcolor(colorX, colorY + 3, 20, colorHEX[2])) {
+					checkPointcolorTap(colorX, colorY, 50, colorHEX[1], colorX+5, colorY+5, 1, 100, 0)
+					if (checkPointcolor(colorX, colorY + 3, 50, colorHEX[2])) {
 						a = a + 1;
 						if (a >= 3) {return false }
 					}
@@ -996,7 +1042,7 @@ function choiceMenu(page) {  //主選單頁面   OK
 
 
 // -英雄資料-----
-function lvupHero(stageMin, lvupl, Timer) {  //	   OK
+function lvupHero(stageMin, lvupl, Timer) {  //	 英雄升級  OK
 	if (!config.isRunning || Date.now() < lvupHeroTimer) return false;	
 	// if (stage > 0 && totallvupstage > 0 &&  stage <= totallvupstage) {return false;}
 	// if (herogoldlvmin >= lvuplimitSw) return false;
@@ -1030,12 +1076,14 @@ function lvupHero(stageMin, lvupl, Timer) {  //	   OK
 			
 			var list_dY = 92
 			// console.log('7;', useReturn(7), ', 6;', useReturn(6), ', 5;', useReturn(5));
-			if (useReturn(7)) { var heroheart = 1; }
-			else if (useReturn(6)) { var heroheart = 2; }
-			else if (useReturn(5)) { var heroheart = 3; list_dY = 0}
-			else { var heroheart = 0; }
+			var heroheart = 0;
+			if (useReturn(5)) {heroheart = 1; list_dY = 0}
+			if (useReturn(6) && lvupAllHeroSw) {heroheart = 3; }
 			
-			if (heroheart > 0) {
+			if (heroheart == 3) {
+				tapFor(630, 680, 3, 40, 200, 500);
+
+			}else if (heroheart == 1) {
 				
 				var a = 1;
 				for (var j = 1; j <= 5; j++){
@@ -1207,6 +1255,19 @@ function lvupVillage2(lvupl, Timer) {  //村莊升級2
 		if (useReturn(1)) {
 			choiceMenu(2);
 			
+			for (var k = 1; k <= 4; k++) {
+				
+				rbm.keepScreenshotPartial( 260,  600, 380, 700);  //村莊列表第一、二格，開啟檢查
+				var Img1 = rbm.findImage('villageNoopenTimemin.png', 0.90);  //村莊未開時間 :00
+				rbm.releaseScreenshot();
+				if (Img1 != undefined){
+					DIY_swipe(550, 625, 550, 1030, 80, 100);
+					tapFor(550, 1030, 1, 30, 100, 100);
+				}else {
+					break;
+				}
+			}
+
 			for (var j = 1; j <= 4; j++){
 				if (!config.isRunning) return false;
 				// console.log('Village AutoLvup click', i, j);
@@ -1274,7 +1335,7 @@ function lvupVillage2(lvupl, Timer) {  //村莊升級2
 	}	
 }
 
-function villagelvup() {  //村莊不用vip4升級
+function villagelvup() {  //村莊不用vip4升級  //留存用
 	if (!config.isRunning) return false;
 
 	for (var i = 1; i <= 4; i++) {
@@ -1412,7 +1473,7 @@ function lvupTap(uplv, intY, strOK, strNG) {  //英雄、村莊升級
 	if (lvupCheckNG) {return false;}
 	if (lvupCheckOK) {
 		if (uplv > 1) {		
-			DIY_swipe(lvupX[1], intY, 160, intY, 120, 200);
+			DIY_swipe(lvupX[1], intY, 160, intY, 80, 200);
 		}
 		for (var j = uplv; j >= 1; j--){
 			checkPointcolorTap(lvupX[j], intY + 3, 40, strOK, 1, 1, lvupTaps[j], 80, 1);
@@ -1468,9 +1529,19 @@ function toRincarnation(Timer) {  //輪迴   OK
 					CheckImageTap(280, 630, 440,  680, 0.80, 'reincarnationQ.png', 480, 830, 2, 500, 0);      //輪迴確認
 					CheckImageTap(300, 1105, 410,  1270, 0.80, 'reincarnationOKbtn.png', 1, 1, 1, 500, 1);      //輪迴"好"按鈕
 					
+					if(rouletShotSw) {
+						var roulet = CheckImageTap(300, 900, 420, 1080, 0.80, 'reincarnGame.png', 1, 1, 2, 500, 2);         //輪盤遊戲開始鈕
+						if (roulet) {
+							console.log('Shot Roulette');
+							ScreenShottoPath('reincarRoulette');
+							sleep(500);
+						}
+					}
+
 					CheckImageTap(300, 900, 420, 1080, 0.80, 'reincarnGame.png', 1, 1, 2, 500, 1);         //輪盤遊戲開始鈕
 					CheckImageTap(300, 900, 420, 1080, 0.80, 'reincarnGame_dark.png', 630, 215, 10, 500, 0);    //輪盤遊戲開始鈕_按過
-					
+					sleep(500);
+
 					CheckImageTap(185, 75, 245, 135, 0.80, 'getnewthing.png', 360, 310, 12, 500, 0, 0);    //得到新物品
 
 
@@ -1617,7 +1688,7 @@ function tapBox(vdX, mode) {  //看廣告拿2倍速 OK
 		}
 	
 		//if (crystalR != undefined || bossStage == 0 || mode == 1) {}
-		tapSkill(3, 1);
+		tapSkill(5, 1);
 
 		if (mode == 2) {
 			sleep(skillslepSw);
@@ -1739,8 +1810,9 @@ function tapSkill2(ski, skf, timer) {    //設定時間差點大技打水晶
 function Guildchat(Timer) {  //公會聊天室幫助&領取
 	if (!config.isRunning) return false;
 	if (!guildchatSw) return false;
-	if (!useReturn(61) && Date.now() < GuildchatTimer) return false;
-	if (!useReturn(51)) return false;
+	if (!useReturn(61)) return false;
+	if (Date.now() < GuildchatTimer && !useReturn(51)) return false;
+	// if (!useReturn(51)) return false;
 	if (!useReturn(2)) return false;
 	console.log('工會聊天室幫助&領取');
 
@@ -1792,11 +1864,11 @@ function Guildchat(Timer) {  //公會聊天室幫助&領取
 				rbm.releaseScreenshot();
 				
 				if (Img3 != undefined) {
-					tapFor( Img3.x + 10, Img3.y + 10, 2, 60, 300);
+					tapFor( Img3.x + 10, Img3.y + 10, 2, 120, 300);
 					//console.log('Have Help', k);	
 				}
 				else if (Img4 != undefined) {
-					tapFor(Img4.x + 10, Img4.y + 10, 5, 60, 400);
+					tapFor(Img4.x + 10, Img4.y + 10, 5, 120, 400);
 					//console.log('Have Get', k);
 				}
 				else if (Img3 == undefined && Img4 == undefined) {
@@ -2332,7 +2404,6 @@ function getDailyreward(Timer) {   //領取每日任務獎勵   OK
 	}
 }
 
-
 function DalyDungeons(mF2, pc, failureT, Timer) {  //【F2:材料魔王 1:水  2:火  3:木  4:光  5:暗】【PC:大技數量】   OK
 	if (!config.isRunning || Date.now() < maDungeonTimer) return false;
 	if (!autoWeekSw) return false;
@@ -2367,10 +2438,11 @@ function DalyDungeons(mF2, pc, failureT, Timer) {  //【F2:材料魔王 1:水  2
 				// console.log('Choice Boss Fight : ', i, j, ', bossLV:', DalyDungeonsLv );
 
 				// console.log('21:', useReturn(21));
-				if (!useReturn(21)){  //BOSS戰鬥，撤退鈕
+				if (!useReturn(21)){  //BOSS戰鬥，撤退鈕，判斷不在boss畫面
 					
 					// console.log('21:false', 1111)
-					rbm.keepScreenshotPartial( 310, 880, 405, 1170);  //完成後確認鈕
+					// rbm.keepScreenshotPartial( 310, 880, 405, 1170);  //完成後確認鈕
+					rbm.keepScreenshotPartial( 300, 990, 560, 1080);  //完成後確認鈕
 					var targetImg3 = rbm.findImage('OKbutton.png', 0.80);
 					rbm.releaseScreenshot();
 
@@ -3134,9 +3206,9 @@ function receiveMail() {  //收mail，預設全收
 		if (!config.isRunning) return false;
 		// console.log('receiveMail', i)
 		
-		rbm.keepScreenshotPartial( 149, 99, 350, 115);  //確認"有mail提示"
+		rbm.keepScreenshotPartial( 140, 90, 360, 125);  //確認"有mail提示"
 		var results = rbm.findImages('mailExclamationmark.png', 0.90, 2, true, false);
-		if (results == '') results = rbm.findImages('mailExclamationmark2.png', 0.90, 2, true, false);
+		if (results == '') results = rbm.findImages('mailExclamationmark3.png', 0.90, 2, true, false);
 		rbm.releaseScreenshot();
 		
 		if (results == '')  {
@@ -3162,7 +3234,7 @@ function receiveMail() {  //收mail，預設全收
 				var result = results[index];
 				// rbm.log(result);
 				// rbm.log(result.x, result.y + 5);
-				tapFor(result.x, result.y + 5, 2, 50, 100, 300);
+				tapFor(result.x - 5, result.y + 5, 2, 50, 100, 300);
 				
 				for (var j = 1; j <= 15; j++) {
 					if (!config.isRunning) return false;
@@ -3202,6 +3274,59 @@ function receiveMail() {  //收mail，預設全收
 			sleep(300);
 		}
 		sleep(300);
+	}
+}
+
+function activityCHK() {   //活動判斷  1:Fx3倍
+	if (!config.isRunning) return false;
+
+	var activityQuest = new Array( '', '寶箱Fx3倍', '突襲manta', '工會戰爭');
+	var activityState = new Array( '',  '-無',   '-有-開啟',   '-有-等待');
+	var activityCheck = new Array( '',  -1,   -1,   -1);
+
+	//統一抓圖坐標
+	//活動類 x1:420, x2:510
+	//碼錶圖 x1:550, x2:585
+
+	for (var i = 1; i <= 3; i++) {
+
+		rbm.keepScreenshotPartial( 400, 80, 560, 1080);  //完成後確認鈕
+		var filename = 'activityList_0' + i + '.png'
+		var targetImg1 = rbm.findImage(filename, 0.80);
+		rbm.releaseScreenshot();
+
+		if (targetImg1 != undefined) {
+			activityCheck[i] = 2
+
+			// console.log(targetImg1.x, targetImg1.y);
+
+			rbm.keepScreenshotPartial( 520, targetImg1.y - 20, 600, targetImg1.y + 80);  //完成後確認鈕
+			var targetImg2 = rbm.findImage('activityClock.png', 0.80);
+			rbm.releaseScreenshot();
+			if (targetImg2 != undefined) {
+				activityCheck[i] = 3;
+
+				var hrX1 = targetImg2.x - 423;
+				var hrX2 = targetImg2.x - 390;
+				var hrY1 = targetImg2.y + 47;
+				var hrY2 = targetImg2.y + 70;
+
+				var minX1 = targetImg2.x - 369;
+				var minX2 = targetImg2.x - 330;
+				var minY1 = targetImg2.y + 47;
+				var minY2 = targetImg2.y + 70;
+
+				// console.log(targetImg2.x, targetImg2.y);
+				// console.log(hrX1, hrY1, hrX2, hrY2);
+				// console.log(minX1, minY1, minX2, minY2);
+
+				var hrORC = num_Recognition(hrX1, hrY1, hrX2, hrY2, 0.85, 'num_Reco/activity_num/wait/activitywait_num_');
+				var minORC = num_Recognition(minX1, minY1, minX2, minY2, 0.85, 'num_Reco/activity_num/wait/activitywait_num_');
+			}
+
+		}else {activityCheck[i] = 1;}
+
+		console.log('每日活動-', activityQuest[i], activityState[activityCheck[i]], ',PLZ wait:', hrORC, 'hr ', minORC, 'min');
 	}
 }
 
@@ -3284,7 +3409,6 @@ function debug(Timer){       //異常檢查檢查
 		
 		//console.log('1:', useReturn(1));
 		if (useReturn(1)) {
-			CheckImageTap(280, 490, 420,  540, 0.90, 'exitgame.png', 240, 830, 1, 200, 0, 0);    //取消退出遊戲
 			CheckImageTap(235, 495, 450,  550, 0.85, 'noticks.png', 240, 820, 1, 300, 0, 0);    //
 			CheckImageTap(280, 400, 420,  460, 0.90, 'noAdenough.png', 360, 700, 1, 200, 0, 0);  //廣告不足
 			CheckImageTap(230,  22, 262,   43, 0.90, 'speedoff.png', 1, 1, 1, 200, 1, 0);  //加速關閉點on
@@ -3293,6 +3417,7 @@ function debug(Timer){       //異常檢查檢查
 			if (useReturn(52)){ checkPointcolorTap(690, 510, 20, 'FFFFFF', 0, 0, 2, 100, 1); } // 點向下箭頭 
 
 		}else {
+			CheckImageTap(280, 490, 420,  540, 0.90, 'exitgame.png', 240, 830, 1, 200, 0, 0);    //取消退出遊戲
 			CheckImageTap( 651, 29, 687, 52, 0.85, 'upmenuclose.png', 1, 1, 1, 300, 1);  //右上功能圖示關閉
 			CheckImageTap2(620, 1200, 690, 1260, 0.85, 'guildBack.png', 'guildBack2.png', 1, 1, 1, 200, 1);    //公會退出鈕1,2
 			CheckImageTap(185, 75, 245, 135, 0.85, 'getnewthing.png', 360, 310, 10, 400, 0);    //得到新物品
@@ -3310,6 +3435,17 @@ function debug(Timer){       //異常檢查檢查
 		CheckImageTap(500, 0, 720, 530, 0.85, 'rightupXX.png', 1, 1, 1, 200, 1, 0);    //右上的叉叉
 		CheckImageTap(310, 600, 405, 1170, 0.85, 'OKbutton.png', 1, 1, 1, 200, 1, 0);    //確認鈕
 		
+		CheckImageTap(  10,  540,  100,  600, 0.90, 'backarry.png', 1, 1, 1, 200, 1);  //地牢選單退回鈕
+		CheckImageTap( 300,  990,  560, 1080, 0.80, 'OKbutton.png', 1, 1, 1, 500, 1);  //地牢完成後確認鈕
+
+		// rbm.keepScreenshotPartial( 300, 990, 560, 1080);  //完成後確認鈕
+		// var targetImg3 = rbm.findImage('OKbutton.png', 0.80);
+		// rbm.releaseScreenshot();
+		// if (targetImg3 != undefined && targetImg3.score >= 0.80) {
+		// 	// console.log('21:false', 2222)
+		// 	tapFor(targetImg3.x, targetImg3.y, 1, 60, 500);
+		// }
+
 		if (useReturn(50) || useReturn(51)) { return false;}
 		
 		sleep(100);
@@ -3343,9 +3479,9 @@ function main(){       //主流程
 	tapBox(vdxx, tapmod); 
 	lvupVillage2(2, 60);   //村莊升級
 
-	// console.log('main 每日挑戰任務')
-	// tapBox(vdxx, tapmod); 
-	// getDailyreward(900);  
+	console.log('main 每日挑戰任務')
+	tapBox(vdxx, tapmod); 
+	getDailyreward(900);  
 
 	console.log('main 競技場')
 	tapBox(vdxx, tapmod); 
@@ -3442,36 +3578,25 @@ function setFirstTimer() {   //預設值設定
 
 function setFirstsetting() {
 	lvupHeroSw    =    1;   //英雄升級開關
+	lvupAllHeroSw =    1;   //使用升級所有英雄鈕
 	lvupHeroDi    =    3;   //升級量級次 1:x1, 2:x10, 3:x100, 4:MAX
-	lvupHerostgSw =   40;   //設定開始升級關卡
+	lvupHerostgSw =  100;   //設定開始升級關卡
 	lvupheromdSw  =    3;   //1:定時, 2:自動, 3:設定
 	lvuptimeSw    =  240;   //英雄升級檢查間隔
 	lvuplimitSw   =  600;   //金幣等級到達不檢查
 	//自動判斷是以魔晶+金幣等級-100為下次檢查關卡
 
-	lvupVillageSw =    1;
-	lvupVillageDi =    2;
-
-	autoWeekSw    =    0;   //每日可打材料屬性【0:關閉 1:水  2:火  3:木  4:光  5:暗】
-	dgticksSw     =    0;   //保留票數
-
-	spdongeonSw   =    0;   //活動boss，9:雪怪，8:豬怪，7:龍怪
-	spdstageSw    =  300;
-
-	menuW0Sw      =    1;   //星期日：木、水、暗 (3, 1, 5)
-	menuW1Sw      =    2;   //星期一：火、暗 (2, 5)
-	menuW2Sw      =    4;   //星期二：木、光 (3, 4)
-	menuW3Sw      =    1;   //星期三：水、火 (1, 2)
-	menuW4Sw      =    3;   //星期四：木、光 (3, 4)
-	menuW5Sw      =    1;   //星期五：水、暗 (1, 5)
-	menuW6Sw      =    4;   //星期六：光、火 (4, 2)
-
-	failureTime   =   5;   //打材料boss，判定打不過(剩下時間s)
+	lvupVillageSw =    1;    //村莊升級
+	lvupVillageDi =    2;    //級次 (1:x1, 2:x10, 3:x100)
 
 	toRincarnSw   =    1;   //輪迴開關
-	ministageSw   =  200;   //輪迴關卡
-	rintimes1Sw   =    2;   //輪迴關卡檢查次數
 	doubMG        =    0;   //輪迴兩倍魔晶
+	ministageSw   =  1200;  //輪迴關卡
+	rintimes1Sw   =    1;   //輪迴關卡檢查次數
+
+	autoMinSw     =  140;   //開始檢查關卡 (140~9000)
+	autoStuckSw   =   50;   //擊退次數輪回 (1~60)
+	StucktimeSw   =   30;   //當前關卡時限 (10~300秒)
 
 	mlvupautoSw   =    1;   //自動升級魔晶等級
 	mlvuptargetSw = 2600;   //魔晶等級目標值(0:自動以最小等級為基準)
@@ -3484,9 +3609,25 @@ function setFirstsetting() {
 	//由級別差值大到小進行升級
 	//每次升級以10級為基礎量
 
-	autoStuckSw   =   50;
-	autoMinSw     =  140;
-	StucktimeSw   =   30;
+
+	autoWeekSw    =    1;   //每日可打材料屬性【0:關閉 1:水  2:火  3:木  4:光  5:暗】
+	dgticksSw     =    0;   //保留票數
+
+	spdongeonSw   =    0;   //活動boss，9:雪怪，8:豬怪，7:龍怪
+	spdstageSw    =   40;   //開始打活動boss關卡
+
+	materialX2    =    0;   //材料x2，指定屬性【0:關閉 1:水  2:火  3:木  4:光  5:暗】 NO UI
+
+	menuW0Sw      =    5;   //星期日：木、水、暗 (3, 1, 5)
+	menuW1Sw      =    5;   //星期一：火、暗 (2, 5)
+	menuW2Sw      =    4;   //星期二：木、光 (3, 4)
+	menuW3Sw      =    1;   //星期三：水、火 (1, 2)
+	menuW4Sw      =    4;   //星期四：木、光 (3, 4)
+	menuW5Sw      =    5;   //星期五：水、暗 (1, 5)
+	menuW6Sw      =    4;   //星期六：光、火 (4, 2)
+
+	failureTime   =   15;   //打材料boss，判定打不過(剩下時間s)
+
 
 	ExpedSw       =    1;   //遠征開關
 	ExpedHeroSw   =    1;   //每個遠征最大人數
@@ -3498,19 +3639,7 @@ function setFirstsetting() {
 	arenaFightpw  = 90000;  //對戰戰力
 	arenatkchgSw  =    0;   //打不過刷新
 
-	getADBoxSw    =    1;   //撿寶箱開關
-	tapBOXmodSw   =    2;   //寶箱亂點之術  1:刷關強化  2:點寶箱強化
-	tapRLtimeSw   =    2;   //(A) 點左右頁面次數(按住50ms，間隔50ms)
-	afterRLDySw   =   80;   //(B) 點完左右頁面等待時間 ms
-	crystalCKSw   =    2;   //(C) 檢查左右水晶次數 (每次35ms)
-	tapSkillSw    =    1;   //(D)放大技開關
-	skillslepSw   =  300;   //(E)放大技後延遲 ms
-	//動作流程與時間差說明
-	//① 點擊左邊(A)次 → 等待(B)毫秒 → 檢查左水晶(C)次 → 點擊 210~710(每50pix)
-	//② 點擊右邊(A)次 → 等待(B)毫秒 → 檢查右水晶(C)次 → 點擊  10~510(每50pix)
-	//③ 施放大技(D) → 等待(E)毫秒 →  回到 ①
-
-	guildchatSw   =    0;   //工會求幫助開關
+	guildchatSw   =    1;   //工會求幫助開關
 	guildmaldSw   =    0;   //工會求勛章開關
 	heroattribSw  =    4;   //周一~周六：屬性代碼：1:水  2:火  3:木  4:光  5:暗  0:關閉
 	herocodeSw    =    1;   //周一~周六：英雄代碼請見設定頁最下方
@@ -3524,14 +3653,28 @@ function setFirstsetting() {
 	failureth3Sw  =    0;   //打不過閃電改 300
 	failuredwlvSw =    0;   //閃電300 打不過降級打
 
+	getADBoxSw    =    1;   //撿寶箱開關
+	tapBOXmodSw   =    2;   //寶箱亂點之術  1:刷關強化  2:點寶箱強化
+	tapRLtimeSw   =    2;   //(A) 點左右頁面次數(按住50ms，間隔50ms)
+	afterRLDySw   =   80;   //(B) 點完左右頁面等待時間 ms
+	crystalCKSw   =    2;   //(C) 檢查左右水晶次數 (每次35ms)
+	tapSkillSw    =    1;   //(D)放大技開關
+	skillslepSw   =  300;   //(E)放大技後延遲 ms
+	//動作流程與時間差說明
+	//① 點擊左邊(A)次 → 等待(B)毫秒 → 檢查左水晶(C)次 → 點擊 210~710(每50pix)
+	//② 點擊右邊(A)次 → 等待(B)毫秒 → 檢查右水晶(C)次 → 點擊  10~510(每50pix)
+	//③ 施放大技(D) → 等待(E)毫秒 →  回到 ①
+
 	admodeSw      =    2;   //看廣告模式
-	adtimesetSw   =   85;   //廣告檢查總時間
+	adtimesetSw   =   60;   //廣告檢查總時間
 	resetappTm    =   60;   //卡畫面重啟時間
-	upStartlvSw   =    0;   //英雄自動升星
+	upStartlvSw   =    0;   //英雄自動升星---UI_DEL
+	goldADSw      =    0;   //廣告拿金幣開關                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
 
 	receiveMailSw =    1;   //收mail
 	loginDailySw  =    1;   //每日登入獎勵
 
+	rouletShotSw  =    1;   //輪回輪盤抓圖
 	scrShotSw     =    1;   //重啟前畫面抓圖(Debug用)
 	//************預計功能********************
 	artifactsSw   =    0;   //自動刷寶物
@@ -3588,6 +3731,8 @@ function test(cycle){
 
 			// herolistchoice(2, 16);
 
+			// activityCHK()
+
 			while(config.isRunning) {main();}
 
 
@@ -3612,7 +3757,7 @@ function start(settingString) {
 	// console.log(settingString, settings);
 	for(var key in settings) {global[key] = settings[key] * 1;};
   
-	ministageSw = ministage1UI * 1 + ministage2UI * 1 + ministage3UI * 1 + ministage4UI * 1;
+	ministageSw = ministage0UI * 1 +  ministage1UI * 1 + ministage2UI * 1 + ministage3UI * 1 + ministage4UI * 1;
 	if (ministageSw <= 140) ministageSw = 140;
 	arenaFightpw = arenaFgpw1UI * 1 + arenaFgpw2UI * 1 + arenaFgpw3UI * 1 + arenaFgpw4UI * 1;
 
