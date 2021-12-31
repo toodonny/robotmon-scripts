@@ -631,8 +631,8 @@ function useReturn(choiceF){          //各項回授點檢查
 			var Img1 = rbm.findImage('list_F_icon2.png', 0.90);        //中間圖示 魔晶
 			var Img2 = rbm.findImage('list_F_icon.png', 0.90);         //中間圖示 F
 			// var Img2 = rbm.findImage('list_water_icon2.png', 0.90);    //中間圖示 水
-			rbm.log('list_F_icon2:', Img1);
-			rbm.log('list_F_icon:', Img2);
+			// rbm.log('list_F_icon2:', Img1);
+			// rbm.log('list_F_icon:', Img2);
 			// rbm.log('list_water_icon2:', Img2);
 			rbm.releaseScreenshot();
 
@@ -1075,7 +1075,10 @@ function lvupHero(stageMin, lvupl, Timer) {  //	 英雄升級  OK
 			if (useReturn(6) && lvupAllHeroSw) {heroheart = 3; }
 			
 			if (heroheart == 3) {
-				tapFor(630, 680, 3, 40, 200, 500);
+				tapFor(630, 680, 8, 30, 100, 100);
+				tapFor(250, 680, 3, 30, 100, 500);
+
+				//lvupTap(lvupl, 683, 'E38100', '8C4800');               // lvupTap(uplv, intY, strOK, strNG)
 
 			}else if (heroheart == 1) {
 				
@@ -1459,7 +1462,7 @@ function lvupTap(uplv, intY, strOK, strNG) {  //英雄、村莊升級
 	if (!config.isRunning) return false;
 	// console.log('Lv Up Tap!!');
 
-	var lvupX = [20, 580, 540, 440, 340];
+	var lvupX = [20, 580, 540, 440, 340, 250];
 	var lvupCheckNG = checkPointcolor(lvupX[1], intY, 30, strNG);
 	var lvupCheckOK = checkPointcolor(lvupX[1], intY, 30, strOK);
 	// console.log('lvupCheckNG', lvupCheckNG, ', lvupCheckOK', lvupCheckOK);
@@ -1505,6 +1508,8 @@ function toRincarnation(Timer) {  //輪迴   OK
 					if (!config.isRunning) return false;
 					//if (useReturn(41)) return false;
 					console.log('Reincarnation', i, j);
+
+					
 					
 					if (useReturn(41)) {
 						tapFor( 650, 200, 2, 50, 100);
@@ -1539,6 +1544,8 @@ function toRincarnation(Timer) {  //輪迴   OK
 					CheckImageTap(185, 75, 245, 135, 0.80, 'getnewthing.png', 360, 310, 12, 500, 0, 0);    //得到新物品
 
 
+					CheckImageTap(500, 0, 720, 530, 0.85, 'rightupXX.png', 1, 1, 1, 200, 1, 0);    //右上的叉叉
+
 					if (useReturn(1)) {
 						a = a + 1;
 						if (a >= 3) { sleep(200); return false }
@@ -1562,7 +1569,7 @@ function stagerincarnation() {  //自動輪回   OK
 	if (!toRincarnSw) {console.log('自動輪迴關閉，不檢查關卡'); return false;}
 	
 	var ministage  =  ministageSw;
-	var maxstage   =  9500;
+	var maxstage   =  19500;
 	var stuckstage =  -1; 
 	var rintimes1  =  rintimes1Sw;
 
@@ -1764,7 +1771,7 @@ function tapSkill(pc, mod) {   //點大技  mod: 1:刷關  2:打BOSS
 			// console.log(i, skillX, stage, mod, useReturn(1));
 
 			if (checkPointcolor(skillX, skillY, 30, 'FFFFFF')) {
-				tapFor( skillX, skillY + 20, 4, 50, 60);
+				tapFor( skillX, skillY + 5, 4, 50, 60);
 				if (mod == 1) {
 					stoptime[1] = 0;
 					if (stage % 100 != 0) return false;
@@ -3398,7 +3405,7 @@ function debug(Timer){       //異常檢查檢查
 	// console.log('debug檢查', 11111);
 	if (!config.isRunning || Date.now() < debugTimer) return false;
 	// console.log('debug檢查', 22222);
-	console.log(useReturn(50) , useReturn(51))
+	// console.log(useReturn(50) , useReturn(51))
 	if (useReturn(50) || useReturn(51)) { return false;}
 	// console.log('debug檢查', 33333);
 	
@@ -3410,7 +3417,7 @@ function debug(Timer){       //異常檢查檢查
 			CheckImageTap(235, 495, 450,  550, 0.85, 'noticks.png', 240, 820, 1, 300, 0, 0);    //
 			CheckImageTap(280, 400, 420,  460, 0.90, 'noAdenough.png', 360, 700, 1, 200, 0, 0);  //廣告不足
 			CheckImageTap(230,  22, 262,   43, 0.90, 'speedoff.png', 1, 1, 1, 200, 1, 0);  //加速關閉點on
-			CheckImageTap(280, 400, 440,  630, 0.90, 'X2SPEED_SMALL_ICON.png', 240, 820, 1, 200, 0, 1);  //加速直接點視窗關閉
+			CheckImageTap(280, 400, 440,  630, 0.90, 'X2SPEED_SMALL_ICON.png', 240, 820, 1, 200, 0, 0);  //加速直接點視窗關閉
 			
 			if (useReturn(52)){ checkPointcolorTap(690, 510, 20, 'FFFFFF', 0, 0, 2, 100, 1); } // 點向下箭頭 
 
@@ -3592,7 +3599,7 @@ function setFirstsetting() {
 
 	toRincarnSw   =    1;   //輪迴開關
 	doubMG        =    0;   //輪迴兩倍魔晶
-	ministageSw   =  1200;  //輪迴關卡
+	ministageSw   =  1400;  //輪迴關卡
 	rintimes1Sw   =    1;   //輪迴關卡檢查次數
 
 	autoMinSw     =  140;   //開始檢查關卡 (140~9000)
@@ -3641,11 +3648,11 @@ function setFirstsetting() {
 	arenatkchgSw  =    0;   //打不過刷新
 
 	guildchatSw   =    1;   //工會求幫助開關
-	guildmaldSw   =    0;   //工會求勛章開關
+	guildmaldSw   =    1;   //工會求勛章開關
 	heroattribSw  =    4;   //周一~周六：屬性代碼：1:水  2:火  3:木  4:光  5:暗  0:關閉
-	herocodeSw    =    1;   //周一~周六：英雄代碼請見設定頁最下方
-	heroattrib2Sw =    1;   //周日：1:水  2:火  3:木  4:光  5:暗  0:關閉
-	herocode2Sw   =   11;   //周日：英雄代碼請見設定頁最下方
+	herocodeSw    =    3;   //周一~周六：英雄代碼請見設定頁最下方
+	heroattrib2Sw =    4;   //周日：1:水  2:火  3:木  4:光  5:暗  0:關閉
+	herocode2Sw   =    3;   //周日：英雄代碼請見設定頁最下方
 	maldhelpupTSw =    5;   //提早進入求助時間
 
 	guildbossSw   =    0;   //工會打BOSS開關
@@ -3715,42 +3722,13 @@ function test(cycle){
 			console.log('============================================================================')
 			console.log('n = ', n, ', CRA 腳本開始', stage)
 
-			// // console.log(400,  Img1.y, 690, Img1.y + 325);
-			// rbm.keepScreenshotPartial(400, 393, 690, 718);  //找閃電
-			// var Img3 = rbm.findImage('guildbosschallenge.png', 0.90);
-			// var Img4 = rbm.findImage('thundericonBTN.png', 0.92);
-			// var Img6 = rbm.findImage('thundericonBTN_dark.png', 0.92);
-			// rbm.releaseScreenshot();
-			
-			// if (Img3 != undefined) { rbm.log('Img3:',Img3); }
-			// if (Img4 != undefined) { rbm.log('Img4:',Img4); }
-			// if (Img6 != undefined) { rbm.log('Img6:',Img6); }
-
-			// CheckImageTap(300, 600, 410,  1270, 0.80, 'reincarnationOKbtn.png', 1, 1, 1, 500, 1, 1);      //輪迴"好"按鈕
-
-			// GuildBossCK(3, 1)
-
-			// herolistchoice(2, 16);
-
-			// activityCHK()
-
-			// rbm.keepScreenshotPartial(260, 500, 450, 1180);  ///點擊獲取
-			// var Img = rbm.findImage('getButton.png', 0.90);
-			// rbm.releaseScreenshot();
-			// if (Img != undefined && Img.score >= 0.90) {
-			// 	console.log('出現獲取鈕，點擊跳出');
-			// 	sleep(300);
-			// 	tapFor(Img.x , Img.y, 3, 60, 200);
-			// 	return false;
-			// }
-			debugTimer =  Date.now() - 100
-			console.log( debugTimer -  Date.now() );
-			debug(6);  //卡畫面與重啟APP檢查
-			// while(config.isRunning) {main();}
 
 
-			// CheckImageTap(460, 140, 1060, 650, 0.90, '00_HUNGR_hero_dot.png', 1, 1, 1, 1000, 1);       //
-			
+
+
+
+			while(config.isRunning) {main();}
+
 			sleep(1000)
 			// console.log('n = ', n, ', CRA 腳本結束');
 		}
