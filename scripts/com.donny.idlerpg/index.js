@@ -1078,6 +1078,7 @@ function lvupHero(stageMin, lvupl, Timer) {  //	 英雄升級  OK
 				tapFor(630, 680, 8, 30, 100, 100);
 				tapFor(250, 680, 3, 30, 100, 500);
 
+				lvupHeroTimer =  Date.now() + Timer * 1000;
 				//lvupTap(lvupl, 683, 'E38100', '8C4800');               // lvupTap(uplv, intY, strOK, strNG)
 
 			}else if (heroheart == 1) {
