@@ -1272,7 +1272,7 @@ function lvupVillage2(lvupl, Timer) {  //村莊升級2
 				
 				var robotplantck = villagerobotplant();
 				if (robotplantck == 1 || robotplantck == 2 || robotplantck == 4 || robotplantck == 5) {
-					rbm.keepScreenshotPartial( 210,  520, 715, 565);  //村莊vip4確認
+					rbm.keepScreenshotPartial( 210,  520, 715, 600);  //村莊vip4確認
 					var Img1 = rbm.findImage('v4villageautobt.png', 0.90);  //vip4全升級按鈕
 					var Img2 = rbm.findImage('v4villageautock.png', 0.90);  //vip4只升到自動的 check box
 					rbm.releaseScreenshot();
@@ -3722,9 +3722,6 @@ function test(cycle){
 			stage = recoNum(1) * 1
 			console.log('============================================================================')
 			console.log('n = ', n, ', CRA 腳本開始', stage)
-
-
-
 
 
 
