@@ -631,13 +631,13 @@ function useReturn(choiceF){          //各項回授點檢查
 			var Img1 = rbm.findImage('list_F_icon2.png', 0.90);        //中間圖示 魔晶
 			var Img2 = rbm.findImage('list_F_icon.png', 0.90);         //中間圖示 F
 			// var Img2 = rbm.findImage('list_water_icon2.png', 0.90);    //中間圖示 水
-			// rbm.log('list_F_icon2:', Img1);
-			// rbm.log('list_F_icon:', Img2);
+			rbm.log('list_F_icon2:', Img1);
+			rbm.log('list_F_icon:', Img2);
 			// rbm.log('list_water_icon2:', Img2);
 			rbm.releaseScreenshot();
 
-			if(Img1 == undefined && Img2 == undefined){return false}
-			return true
+			if(Img1 != undefined && Img2 != undefined){return true;}
+			return false;
 
 
 		// case 61: return checkPointcolor3( 42, 435, 50, 'FFA800',  51, 432, 50, 'FFA800',  51, 440, 50, 'FFA800'); return;   //對話頻道橘色驚嘆號
@@ -713,22 +713,16 @@ function getADBox() {   //寶箱廣告觀看 OK
 		sleep(200);
 		// if (useReturn(1)) {
 			if (useReturn(3)) {
-				if (admodeSw == 3) {
-					tapFor(350, 780, 3, 30, 100, 200);
-					return false;
-
-				}else {
-					for (var j = 1; j <= 3; j++){
-						if (!config.isRunning) return false;
-						//console.log(' AD box click', i, j);
-						
-						sleep(300);
-						CheckImageTap( 310,  590, 410, 690, 0.90, 'ADbox.png', 1, 1, 1, 4000, 1, 1);
-					}
-				
-					waitAD(adtimesetSw);
-
+				for (var j = 1; j <= 3; j++){
+					if (!config.isRunning) return false;
+					//console.log(' AD box click', i, j);
+					
+					sleep(300);
+					CheckImageTap( 310,  590, 410, 690, 0.90, 'ADbox.png', 1, 1, 1, 4000, 1, 1);
 				}
+			
+				waitAD(adtimesetSw);
+
 				//getADGoldTimer =  getADGoldTimer + 30 * 1000;
 			}
 			else {
@@ -3401,8 +3395,12 @@ function startApp(Timer, scrShot) {   //重啟APP
 
 function debug(Timer){       //異常檢查檢查
 	if (Timer == 0) debugTimer = 0;
+	// console.log('debug檢查', 11111);
 	if (!config.isRunning || Date.now() < debugTimer) return false;
+	// console.log('debug檢查', 22222);
+	console.log(useReturn(50) , useReturn(51))
 	if (useReturn(50) || useReturn(51)) { return false;}
+	// console.log('debug檢查', 33333);
 	
 	for (var i = 1; i <= 3; i++){
 		console.log('debug檢查', i);
@@ -3446,7 +3444,10 @@ function debug(Timer){       //異常檢查檢查
 		// 	tapFor(targetImg3.x, targetImg3.y, 1, 60, 500);
 		// }
 
-		if (useReturn(50) || useReturn(51)) { return false;}
+		if (useReturn(50) || useReturn(51)) { 
+			debugTimer =  Date.now() + Timer * 1000;
+			return false;
+		}
 		
 		sleep(100);
 	}
@@ -3733,7 +3734,19 @@ function test(cycle){
 
 			// activityCHK()
 
-			while(config.isRunning) {main();}
+			// rbm.keepScreenshotPartial(260, 500, 450, 1180);  ///點擊獲取
+			// var Img = rbm.findImage('getButton.png', 0.90);
+			// rbm.releaseScreenshot();
+			// if (Img != undefined && Img.score >= 0.90) {
+			// 	console.log('出現獲取鈕，點擊跳出');
+			// 	sleep(300);
+			// 	tapFor(Img.x , Img.y, 3, 60, 200);
+			// 	return false;
+			// }
+			debugTimer =  Date.now() - 100
+			console.log( debugTimer -  Date.now() );
+			debug(6);  //卡畫面與重啟APP檢查
+			// while(config.isRunning) {main();}
 
 
 			// CheckImageTap(460, 140, 1060, 650, 0.90, '00_HUNGR_hero_dot.png', 1, 1, 1, 1000, 1);       //
