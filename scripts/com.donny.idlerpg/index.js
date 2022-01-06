@@ -713,6 +713,12 @@ function getADBox() {   //寶箱廣告觀看 OK
 		sleep(200);
 		// if (useReturn(1)) {
 			if (useReturn(3)) {
+
+				if(admodeSw == 3) {
+					tapFor(360, 780, 3, 30, 100, 300);
+					return false;
+				}
+
 				for (var j = 1; j <= 3; j++){
 					if (!config.isRunning) return false;
 					//console.log(' AD box click', i, j);
@@ -737,20 +743,21 @@ function getADSpeed() {  //看廣告拿2倍速 OK
 	if (!useReturn(51)) return false;
 	//if (useReturn(2)) return false;
 	console.log('檢查2倍速');
-	CheckImageTap( 230, 22, 262, 43, 0.90, 'speedoff.png',    1, 1, 1, 200, 1, 0);  //加速關閉點on
+	CheckImageTap( 440, 10, 570, 70, 0.90, 'speedoff.png',    1, 1, 1, 200, 1, 0);  //加速關閉點on
 	CheckImageTap( 651, 29, 687, 52, 0.85, 'upmenuclose.png', 1, 1, 1, 300, 1);  //右上功能圖示關閉
-	var speedx2 = useReturn(2);
-	var speedx2 = useReturn(15);
+
 	for (var i = 1; i <= 8; i++){
 		if (!config.isRunning) return false;
 		//console.log(i, useReturn(1));
 		
 		sleep(200);
-		// console.log('useReturn(1):', useReturn(1), ', usereturn(2):', useReturn(2));
 		if (useReturn(1)) {
-			if (!useReturn(2)) {
+			var speedx2 = useReturn(2);
+			var speedx3 = useReturn(15);
+			
+			// if (!useReturn(2)) {
+			if (!speedx2 && !speedx3){
 				choiceMenu(5);
-				
 				
 				var x2Y = -1;
 				for (var m = 1; m <= 10; m++){
@@ -806,16 +813,31 @@ function getADSpeed() {  //看廣告拿2倍速 OK
 							}
 							return false;
 						}		
-						if (Img3 != undefined) {
-							tapFor(Img3.x, Img3.y, 3, 60, 300);
+						if (Img3 != undefined || Img4 != undefined) {
+							// tapFor(Img3.x, Img3.y, 3, 60, 300);
+
+							for (var j = 1; j <= 2; j++){
+								tapFor(530,  30, 1, 200, 300);
+								tapFor(480, 820, 1, 200, 300);
+							}
+
 							ADtimeout[0] = -1;
 							waitAD(adtimesetSw, false);
 							getADGoldTimer =  getADGoldTimer + 30 * 1000;
-						}		
-						if (Img4 != undefined) {	
-							tapFor(Img4.x, Img4.y, 1, 60, 300);	
-							ADtimeout[0] = -1;
 						}
+
+						// if (Img3 != undefined) {
+						// 	// tapFor(Img3.x, Img3.y, 3, 60, 300);
+						// 	tapFor(530, 30, 3, 60, 300);
+
+						// 	ADtimeout[0] = -1;
+						// 	waitAD(adtimesetSw, false);
+						// 	getADGoldTimer =  getADGoldTimer + 30 * 1000;
+						// }		
+						// if (Img4 != undefined) {	
+						// 	tapFor(Img4.x, Img4.y, 1, 60, 300);	
+						// 	ADtimeout[0] = -1;
+						// }
 						
 						sleep(200);
 					}
@@ -1253,17 +1275,19 @@ function lvupVillage2(lvupl, Timer) {  //村莊升級2
 		if (useReturn(1)) {
 			choiceMenu(2);
 			
-			for (var k = 1; k <= 4; k++) {
+			for (var k = 1; k <= 8; k++) {
 				
-				rbm.keepScreenshotPartial( 260,  600, 380, 700);  //村莊列表第一、二格，開啟檢查
-				var Img1 = rbm.findImage('villageNoopenTimemin.png', 0.90);  //村莊未開時間 :00
+				sleep(300);
+				rbm.keepScreenshotPartial( 50,  600, 250, 700);  //村莊列表第一、二格，開啟檢查
+				var Img1 = rbm.findImage('villagelevel0.png', 0.90);  //村莊未開 lv0
 				rbm.releaseScreenshot();
 				if (Img1 != undefined){
-					DIY_swipe(550, 625, 550, 1030, 80, 100);
+					DIY_swipe(550, 625, 550, 1030, 60, 100);
 					tapFor(550, 1030, 1, 30, 100, 100);
 				}else {
 					break;
 				}
+
 			}
 
 			for (var j = 1; j <= 4; j++){
@@ -1281,7 +1305,7 @@ function lvupVillage2(lvupl, Timer) {  //村莊升級2
 					// if (Img2 != undefined) { rbm.log('Img2:',Img2); }	
 					// Img1 = undefined;
 					if(robotplantck == 4 || robotplantck == 5) {
-						tapFor(20, 1100, 6, 70, 200);
+						tapFor(20, 1100, 4, 30, 100, 100);
 					}
 					if (Img1 != undefined && Img2 != undefined) { 
 						if (robotplantck == 1) {
@@ -1297,7 +1321,7 @@ function lvupVillage2(lvupl, Timer) {  //村莊升級2
 					}
 					else if (Img1 == undefined) {
 						rbm.log('無村莊自動升級，進行點擊升級'); 
-						tapFor(20, 1100, 6, 70, 200);
+						tapFor(20, 1100, 3, 30, 100, 100);
 						var villback = villagelvup();
 						lvupVillageTimer =  Date.now() + Timer * 1000;
 						return false;
@@ -1333,7 +1357,7 @@ function lvupVillage2(lvupl, Timer) {  //村莊升級2
 	}	
 }
 
-function villagelvup() {  //村莊不用vip4升級  //留存用
+function villagelvup() {  //村莊不用vip4升級
 	if (!config.isRunning) return false;
 
 	for (var i = 1; i <= 4; i++) {
@@ -1395,7 +1419,7 @@ function villagelvup() {  //村莊不用vip4升級  //留存用
 						// rbm.log('2 lvupTaps:', lvupTaps, ', lvupQ:', lvupQ);
 						
 						lvupTap(2, result.y, 'FDB000', '8C4800');
-						tapFor(tapX1, tapY1, 6, 50, 100);
+						tapFor(tapX1, tapY1, 6, 30, 100, 100);
 						
 						lvupTaps = new Array( '', 20, 12, 5, 3);
 						// rbm.log('3 lvupTaps:', lvupTaps, ', lvupQ:', lvupQ);
@@ -1471,7 +1495,7 @@ function lvupTap(uplv, intY, strOK, strNG) {  //英雄、村莊升級
 	if (lvupCheckNG) {return false;}
 	if (lvupCheckOK) {
 		if (uplv > 1) {		
-			DIY_swipe(lvupX[1], intY, 160, intY, 80, 200);
+			DIY_swipe(lvupX[1], intY, 160, intY, 60, 150);
 		}
 		for (var j = uplv; j >= 1; j--){
 			checkPointcolorTap(lvupX[j], intY + 3, 40, strOK, 1, 1, lvupTaps[j], 80, 1);
@@ -1510,8 +1534,6 @@ function toRincarnation(Timer) {  //輪迴   OK
 					//if (useReturn(41)) return false;
 					console.log('Reincarnation', i, j);
 
-					
-					
 					if (useReturn(41)) {
 						tapFor( 650, 200, 2, 50, 100);
 						console.log(' Lv < 140 out Rincarnation')
@@ -1520,14 +1542,20 @@ function toRincarnation(Timer) {  //輪迴   OK
 					}
 					
 					if (doubMG) {
-						CheckImageTap(60, 600, 650, 1100, 0.90, 'reincarnationx2OK5.png', 1, 1, 2, 500, 1, 1);      //輪迴按鈕X2
+						var reincX2CHK = CheckImageTap(60, 600, 650, 1100, 0.90, 'reincarnationx2OK5.png', 1, 1, 2, 500, 2, 1);      //輪迴按鈕X2
+						if (reincX2CHK) {
+							tapFor(300, 1030, 2, 30, 200, 1000);
+						}else {
+							CheckImageTap(200, 980, 280, 1150, 0.80, 'reincarnationOK.png', 1, 1, 2, 500, 1);      //輪迴按鈕
+						}
 					} else { 
 						CheckImageTap(200, 980, 280, 1150, 0.80, 'reincarnationOK.png', 1, 1, 2, 500, 1);      //輪迴按鈕
 					}
-					CheckImageTap(280, 630, 440,  680, 0.80, 'reincarnationQ.png', 480, 830, 2, 500, 0);      //輪迴確認
-					CheckImageTap(200, 980, 280, 1110, 0.80, 'reincarnationOK.png', 1, 1, 2, 500, 1);      //輪迴按鈕
-					CheckImageTap(280, 630, 440,  680, 0.80, 'reincarnationQ.png', 480, 830, 2, 500, 0);      //輪迴確認
-					CheckImageTap(300, 1105, 410,  1270, 0.80, 'reincarnationOKbtn.png', 1, 1, 1, 500, 1);      //輪迴"好"按鈕
+
+					CheckImageTap(280, 630, 440,  680, 0.80, 'reincarnationQ.png', 480, 830, 2, 500, 0, 1);      //輪迴確認
+					CheckImageTap(200, 980, 280, 1110, 0.80, 'reincarnationOK.png', 1, 1, 2, 500, 1, 1);      //輪迴按鈕
+					CheckImageTap(280, 630, 440,  680, 0.80, 'reincarnationQ.png', 480, 830, 2, 500, 0, 1);      //輪迴確認
+					CheckImageTap(300, 1105, 410,  1270, 0.80, 'reincarnationOKbtn.png', 1, 1, 1, 500, 1, 1);      //輪迴"好"按鈕
 					
 					if(rouletShotSw) {
 						var roulet = CheckImageTap(300, 900, 420, 1080, 0.80, 'reincarnGame.png', 1, 1, 2, 500, 2);         //輪盤遊戲開始鈕
@@ -1535,17 +1563,26 @@ function toRincarnation(Timer) {  //輪迴   OK
 							console.log('Shot Roulette');
 							ScreenShottoPath('reincarRoulette');
 							sleep(500);
+
+							tapFor(360, 1000, 2, 30, 100, 500);
+						}
+
+						var reinGame_dk = CheckImageTap(300, 900, 420, 1080, 0.80, 'reincarnGame_dark.png', 630, 215, 10, 500, 2, 1);    //輪盤遊戲開始鈕_按過
+						if (reinGame_dk) {
+							tapFor(630, 215, 4, 30, 50, 500);
+							console.log('Shot reincarnGame_dark2 ');
+							ScreenShottoPath('reincarnGame_dark2 ');
+							sleep(100);
+	
+							tapFor(630, 215, 7, 30, 50, 200);
 						}
 					}
 
-					CheckImageTap(300, 900, 420, 1080, 0.80, 'reincarnGame.png', 1, 1, 2, 500, 1);         //輪盤遊戲開始鈕
-					CheckImageTap(300, 900, 420, 1080, 0.80, 'reincarnGame_dark.png', 630, 215, 10, 500, 0);    //輪盤遊戲開始鈕_按過
-					sleep(500);
+					// CheckImageTap(300, 900, 420, 1080, 0.80, 'reincarnGame.png', 1, 1, 2, 500, 1);              //輪盤遊戲開始鈕
+					// CheckImageTap(300, 900, 420, 1080, 0.80, 'reincarnGame_dark.png', 630, 215, 10, 500, 1);    //輪盤遊戲開始鈕_按過
 
-					CheckImageTap(185, 75, 245, 135, 0.80, 'getnewthing.png', 360, 310, 12, 500, 0, 0);    //得到新物品
-
-
-					CheckImageTap(500, 0, 720, 530, 0.85, 'rightupXX.png', 1, 1, 1, 200, 1, 0);    //右上的叉叉
+					CheckImageTap(185, 75, 245, 135, 0.80, 'getnewthing.png', 360, 310, 12, 500, 0, 1);    //得到新物品
+					CheckImageTap(500, 0, 720, 530, 0.85, 'rightupXX.png', 1, 1, 1, 200, 1, 1);    //右上的叉叉
 
 					if (useReturn(1)) {
 						a = a + 1;
@@ -1574,9 +1611,16 @@ function stagerincarnation() {  //自動輪回   OK
 	var stuckstage =  -1; 
 	var rintimes1  =  rintimes1Sw;
 
-	stage = recoNum(1) * 1;
+	stage = stageChk();
+	// stage = recoNum(1) * 1;
+	
+	// if (stage - stageOld > 10) {
+	// 	console.log('關卡辨識有誤, stageOld:', stageOld, ', stage:', stage);
+	// 	stage = stageOld
+	// }
 	console.log('關卡', stage, '到達');
-	if (stage % 50 == 0) console.log('關卡', stage, '到達');
+
+	if (stage % 50 == 0) {console.log('關卡', stage, '到達');}
 	if (stage >= ministage && stage <= maxstage) {
 		RinF = RinF + 1;
 		//console.log('Rang:', RinF + '/' + rintimes1, ', Stuck:',  RinF + '/' + rintimes2);
@@ -1591,6 +1635,25 @@ function stagerincarnation() {  //自動輪回   OK
 	else if (autoStuck() >= autoStuckSw) {
 		toRincarnTimer = 0;
 		toRincarnation(600);
+	}
+}
+
+function stageChk() {
+	var stageGet = recoNum(1) * 1;
+	if (stageOld > 0) {
+		if (stageGet - stageOld > 20) {
+			console.log('關卡辨識有誤, stageOld:', stageOld, ', stageGet:', stageGet);
+			stageOld = -1
+			return -1
+		} else {
+			console.log('關卡辨識正確, stageOld:', stageOld, ', stageGet:', stageGet);
+			stageOld = stageGet
+			return stageGet
+		}
+	}else if(stageOld < 1){
+		console.log('關卡暫存比對, stageOld:', stageOld, ', stageGet:', stageGet);
+		stageOld = stageGet
+		return -1
 	}
 }
 
@@ -1675,14 +1738,14 @@ function tapBox(vdX, mode) {  //看廣告拿2倍速 OK
 		}
 		else if (mode == 2) {
 			if (bossStage != 0) {
-				tapFor(40, 410, tapRLtimeSw, 50, 50, afterRLDySw);
+				tapFor(40, 410, tapRLtimeSw, 30, 50, afterRLDySw);
 				var crystalR = checkCrystal(1, crystalCKSw, 2);
 				tapBoxXY(1, 1, vdX);
 			}
 			
 			if (useReturn(50)) { getADBox();}  //console.log('mid2:ADBox');
 			
-			tapFor(680, 410, tapRLtimeSw, 50, 50, afterRLDySw);
+			tapFor(680, 410, tapRLtimeSw, 30, 50, afterRLDySw);
 			if (bossStage != 0) {
 				var crystalR = checkCrystal(2, crystalCKSw, 2);
 			}
@@ -1744,7 +1807,7 @@ function tapBoxXY(modLR, times, vdX2) {  //路上連點  OK
 		for (var j = 1; j <= vdX2 + 1; j++){
 			if (!config.isRunning) return false;
 			var tapBX = tapX[modLR][1] + dX * (j - 1);
-			tapFor(tapBX, tapX[modLR][2], 1, 20, 10);
+			tapFor(tapBX, tapX[modLR][2], 1, 15, 10, 10);
 			tapX[modLR][3] = tapX[modLR][3] + tapBX + ', ';
 		}
 	}
@@ -1755,7 +1818,7 @@ function tapSkill(pc, mod) {   //點大技  mod: 1:刷關  2:打BOSS
 	if (!config.isRunning) return false;
 	if (!tapSkillSw && mod == 1) return false;
 	if (!useReturn(51) && mod == 1) return false;
-	console.log('放大技, 模式:', mod);
+	// console.log('放大技, 模式:', mod);
 	
 	var skill_n = [66, 360, 418];
 	var skill_b = [74, 438, 538];
@@ -1772,7 +1835,7 @@ function tapSkill(pc, mod) {   //點大技  mod: 1:刷關  2:打BOSS
 			// console.log(i, skillX, stage, mod, useReturn(1));
 
 			if (checkPointcolor(skillX, skillY, 30, 'FFFFFF')) {
-				tapFor( skillX, skillY + 5, 4, 50, 60);
+				tapFor( skillX, skillY + 5, 2, 40, 50);
 				if (mod == 1) {
 					stoptime[1] = 0;
 					if (stage % 100 != 0) return false;
@@ -2442,19 +2505,14 @@ function DalyDungeons(mF2, pc, failureT, Timer) {  //【F2:材料魔王 1:水  2
 				// console.log('21:', useReturn(21));
 				if (!useReturn(21)){  //BOSS戰鬥，撤退鈕，判斷不在boss畫面
 					
-					// console.log('21:false', 1111)
-					// rbm.keepScreenshotPartial( 310, 880, 405, 1170);  //完成後確認鈕
 					rbm.keepScreenshotPartial( 300, 990, 560, 1080);  //完成後確認鈕
 					var targetImg3 = rbm.findImage('OKbutton.png', 0.80);
 					rbm.releaseScreenshot();
 
 					if (targetImg3 != undefined && targetImg3.score >= 0.80) {
-					// console.log('21:false', 2222)
 						tapFor(targetImg3.x, targetImg3.y, 1, 60, 500);
-					}
-					else {	
 
-						// console.log('21:false', 3333)
+					}else {	
 						for (var l = 1; l <= 4; l++){
 							dgticks[1] = recoNum(2); sleep(150); //1 確認目前票數
 							dgticks[2] = recoNum(2); sleep(150); //2 確認目前票數
@@ -2466,7 +2524,6 @@ function DalyDungeons(mF2, pc, failureT, Timer) {  //【F2:材料魔王 1:水  2
 							}
 						}
 						
-					// console.log('21:false', 4444)
 						// console.log(' 24:', useReturn(24));
 						if (useReturn(24)) {
 							sleep(300);
@@ -2476,26 +2533,36 @@ function DalyDungeons(mF2, pc, failureT, Timer) {  //【F2:材料魔王 1:水  2
 							return false;
 						}
 						
-					// console.log('21:false', 5555)
-						if ( (dgticks[0] == 0 || dgticks[0] <= dgticksSw) && dgticks[0] != -1) {
+						var dgticksInput = dgticksSw;
+						if (earlydgMaterialSw > 0) {
+							var nextDaymateral = choiceMaterialboss(menuW0Sw, menuW1Sw, menuW2Sw, menuW3Sw, menuW4Sw, menuW5Sw, menuW6Sw, 1, 1);
+							if (nextDaymateral == earlydgMaterialSw){
+								console.log('提前保留屬性符合，保留票為:', earlydgticksSw);
+								dgticksInput = earlydgticksSw
+							}else{
+								console.log('提前保留屬性不符合，保留票為:', dgticksSw);
+							}
+						}
+
+						if ( (dgticks[0] == 0 || dgticks[0] <= dgticksInput) && dgticks[0] != -1) {
 							sleep(300);
 							checkPointcolorTap(690, 510, 20, 'FFFFFF', 0, 0, 2, 100, 1);
-							// console.log('1Timer:', Timer, dgticksSw, dgticks);
-							Timer = Timer + 1200 //* (dgticksSw - dgticks[0] + 1);
+							// console.log('1Timer:', Timer, dgticksInput, dgticks);
+							Timer = Timer + 1200 //* (dgticksInput - dgticks[0] + 1);
 							// console.log('2Timer:', Timer);
 							maDungeonTimer =  Date.now() + Timer * 1000;
-							console.log('小於保留票數', dgticks[0], '<=', dgticksSw, '或 0票，', Timer / 60, '分，後檢查', i, j);
+							console.log('小於保留票數', dgticks[0], '<=', dgticksInput, '或 0票，', Timer / 60, '分，後檢查', i, j);
 							return false;
 						}
 
-						// console.log('21:false', 6666)
-						if (dgticks[0] > dgticksSw){
-							console.log('大於保留票數', dgticks[0], '>', dgticksSw, ', 正常打BOSS', 'bossLV:', DalyDungeonsLv);
+						if (dgticks[0] > dgticksInput){
+							console.log('大於保留票數', dgticks[0], '>', dgticksInput, ', 正常打BOSS', 'bossLV:', DalyDungeonsLv);
 							rbm.keepScreenshotPartial( 590, 560, 680, 1170);  //挑戰BOSS
 							var results = rbm.findImages('challengeBoss.png', 0.90, 6, true, false);
 							// rbm.log('challengeBoss:', results);
 							rbm.releaseScreenshot();
 							// rbm.log('results:', results);
+
 							if (results != '')  {
 								results = results.sort(function (a, b) {return a.y < b.y ? 1 : -1;});								
 
@@ -2532,8 +2599,7 @@ function DalyDungeons(mF2, pc, failureT, Timer) {  //【F2:材料魔王 1:水  2
 							return false;
 						}
 					}
-				}
-				else {
+				}else {
 					// console.log('Fight Boss');
 					tapFor(  680,   410, 2, 70, 150);
 					var fighttime = recoNum(4);
@@ -2550,24 +2616,6 @@ function DalyDungeons(mF2, pc, failureT, Timer) {  //【F2:材料魔王 1:水  2
 					}
 
 					tapSkill(5, 2);
-
-					// for (var k = 1; k <= pc; k++){ 
-					// 	if (!config.isRunning) return false;
-						
-					// 	// var skillX = 210 + 66 * (k - 1);
-					// 	// if (checkPointcolor(skillX, 418, 30, 'FFFFFF')) {
-					// 	// 	tapFor( skillX, 428, 4, 50, 40);
-					// 	// }
-
-					// 	var skillX = 320 + 74 * (k - 1);
-					// 	if (checkPointcolor(skillX, 538, 30, 'FFFFFF')) {
-					// 		tapFor( skillX, 538, 3, 50, 40);
-					// 	}
-
-
-
-					// }
-					
 				}
 				
 				sleep(600)
@@ -2680,7 +2728,7 @@ function Expeditions(Timer) {   //遠征
 				else if (Img5 != undefined) {tapFor( Img5.x, Img5.y, 1, 60, 500);}
 				else if (Img2 != undefined) {
 					//確認按刷新條件
-					if (ExpeditemSw == 0 && ExpedstarSw == 0) {
+					if (Expeditem1Sw == 0 && ExpedstarSw == 0) {
 						tapFor( Img2.x, Img2.y, 1, 60, 700);
 					}
 					else {
@@ -2689,8 +2737,8 @@ function Expeditions(Timer) {   //遠征
 						// rbm.log('refresh:', Img3);
 						rbm.releaseScreenshot();
 						
-						if (Img3 != undefined && ExpeditemSw > 0) {
-							var itemFile = 'exped_item/exped_item_' + ExpeditemSw + '.png';
+						if (Img3 != undefined && Expeditem1Sw > 0) {
+							var itemFile = 'exped_item/exped_item_' + Expeditem1Sw + '.png';
 							rbm.keepScreenshotPartial(Img2.x - distIt[1],  Img2.y - distIt[2], Img2.x - distIt[3], Img2.y - distIt[4]);  //
 							var Img4 = rbm.findImage(itemFile, 0.90);
 							rbm.releaseScreenshot();
@@ -2976,7 +3024,23 @@ function choiceDungeon(F1, F2) {  //【F1:地城類別 1:材料 2:突襲 3:遠�
 		
 		if (useReturn(1)) {
 			choiceMenu(4);
+			sleep(400);
 			
+			rbm.keepScreenshotPartial( 650, 530, 718, 600);  //確認是否為兩倍活動
+			var targetImg8 = rbm.findImage('materialX2icon.png', 0.80);
+			rbm.log('targetImg8:', targetImg8);
+			rbm.releaseScreenshot();
+			if (targetImg8 != undefined) {
+				console.log('發現地牢兩倍，自動檢查兩倍設定');
+
+				if(materialX2S2w > 0) {
+					console.log('材料兩倍屬性指定:', materialX2S2w);
+					F2 = materialX2S2w
+				}else{
+					console.log('材料兩倍屬性指定關閉');
+				}
+			}
+
 			var a = 1;
 			for (var j = 1; j <= 6; j++){
 				if (!config.isRunning) return false;
@@ -2994,27 +3058,27 @@ function choiceDungeon(F1, F2) {  //【F1:地城類別 1:材料 2:突襲 3:遠�
 				
 				rbm.releaseScreenshot();
 				if (targetImg != undefined && targetImg.score >= 0.90) {
-					tapFor(targetImg.x, targetImg.y, 1, 60, 400);
+					tapFor(targetImg.x, targetImg.y, 1, 60, 600);
 				}
 				
 				switch(F1) {    //【F1:地城類別 1:材料 2:突襲 3:遠征 4:競技 】
 					case 1 :
-						console.log('case 1', F1);
+						// console.log('case 1', F1);
 						rbm.keepScreenshotPartial( 110, 590, 440, 1170);  //boss選單圖示範圍  屬性圖示
 						var targetImg2 = rbm.findImage('materialBoss/materialBoss4_0' + F2 + '.png', 0.90);
-						rbm.log('targetImg2:', targetImg2);
+						// rbm.log('targetImg2:', targetImg2);
 						rbm.releaseScreenshot();
-						if (targetImg2 != undefined && targetImg2.score >= 0.90) {
+						if (targetImg2 != undefined) {
 							
 							var spY = 0;
 							if (F2 == 7) {var spY = 50;} 
 							rbm.keepScreenshotPartial( targetImg2.x + 330, targetImg2.y - 54, targetImg2.x + 480, targetImg2.y + 40 + spY);  //boss選單圖示範圍
 							var targetImg7 = rbm.findImage('enterbossroom.png', 0.90);
-							rbm.log('targetImg7:', targetImg7);
+							// rbm.log('targetImg7:', targetImg7);
 							rbm.releaseScreenshot();
 							
 							if (targetImg7 != undefined && targetImg7.score >= 0.90) {
-								console.log('tap targetImg7');
+								// console.log('tap targetImg7');
 								tapFor(targetImg7.x, targetImg7.y, 1, 60, 300);
 							}
 						}
@@ -3039,11 +3103,11 @@ function choiceDungeon(F1, F2) {  //【F1:地城類別 1:材料 2:突襲 3:遠�
 	}
 }
 
-function choiceMaterialboss(w0, w1, w2, w3, w4, w5, w6, Timer) {  //每日材料BOSS屬性
+function choiceMaterialboss(w0, w1, w2, w3, w4, w5, w6, Timer, offset) {  //每日材料BOSS屬性
 	if (!config.isRunning || Date.now() < chMatbossTimer) return false;
 	if (!autoWeekSw){console.log('自動打材料總開關：關閉'); return false;}
 	if (!useReturn(1)) return false;
-	//console.log('每日材料BOSS屬性');
+	console.log('每日材料BOSS屬性');
 	
 	
 	//每日可打材料屬性【1:水  2:火  3:木  4:光  5:暗】
@@ -3057,7 +3121,8 @@ function choiceMaterialboss(w0, w1, w2, w3, w4, w5, w6, Timer) {  //每日材料
 	//星期六：光、火 (4, 2)
 	
 	//變數陣列定義
-	var week = new Date().getDay() * 1;
+	var weekCal = new Date().getDay() * 1 + offset;
+	var week = weekCal % 7;
 	var hours = new Date().getHours() * 1;
 	//console.log('week:', week, ', hours:', hours);
 	
@@ -3425,18 +3490,17 @@ function debug(Timer){       //異常檢查檢查
 		}else {
 			CheckImageTap(280, 490, 420,  540, 0.90, 'exitgame.png', 240, 830, 1, 200, 0, 0);    //取消退出遊戲
 			CheckImageTap( 651, 29, 687, 52, 0.85, 'upmenuclose.png', 1, 1, 1, 300, 1);  //右上功能圖示關閉
-			CheckImageTap2(620, 1200, 690, 1260, 0.85, 'guildBack.png', 'guildBack2.png', 1, 1, 1, 200, 1);    //公會退出鈕1,2
+			CheckImageTap2(620, 1200, 690, 1260, 0.85, 'guildBack.png', 'guildBack2.png', 1, 1, 1, 200, 0);    //公會退出鈕1,2
 			CheckImageTap(185, 75, 245, 135, 0.85, 'getnewthing.png', 360, 310, 10, 400, 0);    //得到新物品
 			CheckImageTap( 80, 590, 410, 640, 0.95, 'androiderror.png', 600, 690, 1, 200, 0);    //android 停止
 			CheckImageTap(300, 125, 360, 190, 0.95, 'reincarnationOK2.png', 360, 1200, 1, 200, 0);    //轉生後的 好
-			CheckImageTap(300, 600, 410,  1270, 0.80, 'reincarnationOKbtn.png', 1, 1, 1, 500, 1, 1);      //"好"按鈕
+			CheckImageTap(300, 600, 410,  1270, 0.80, 'reincarnationOKbtn.png', 1, 1, 1, 500, 1, 0);      //"好"按鈕
 
-			
-			if (i == 3) {CheckImageTap(0, 0, 720, 1280, 0.85, 'waitinglogo.png', 1, 1, 1, 200, 1);}    //待機移動logo
+			if (i == 3) {CheckImageTap(0, 0, 720, 1280, 0.85, 'waitinglogo.png', 1, 1, 1, 200, 0);}    //待機移動logo
 		}
 		
 		if (i == 1){
-			CheckImageTap(260, 500, 450, 1180, 0.90, 'getButton.png', 1, 1, 2, 200, 1, 1);      //點擊獲取
+			CheckImageTap(260, 500, 450, 1180, 0.90, 'getButton.png', 1, 1, 2, 200, 1, 0);      //點擊獲取
 		}
 		CheckImageTap(500, 0, 720, 530, 0.85, 'rightupXX.png', 1, 1, 1, 200, 1, 0);    //右上的叉叉
 		CheckImageTap(310, 600, 405, 1170, 0.85, 'OKbutton.png', 1, 1, 1, 200, 1, 0);    //確認鈕
@@ -3470,7 +3534,7 @@ function Donnylog() {
 function main(){       //主流程
 	if (!config.isRunning) return false;
 	var gg = 0;	var vdxx = 10; var tapmod = tapBOXmodSw
-	var bossatt = choiceMaterialboss(menuW0Sw, menuW1Sw, menuW2Sw, menuW3Sw, menuW4Sw, menuW5Sw, menuW6Sw, 1)
+	var bossatt = choiceMaterialboss(menuW0Sw, menuW1Sw, menuW2Sw, menuW3Sw, menuW4Sw, menuW5Sw, menuW6Sw, 1, 0);
 
 	console.log('main 卡畫面與重啟APP檢查')
 	tapBox(vdxx, tapmod); 
@@ -3502,7 +3566,7 @@ function main(){       //主流程
 
 	console.log('main 公會幫助')
 	tapBox(vdxx, tapmod); 
-	Guildchat(180);
+	Guildchat(900);
 
 	console.log('main 公會勛章')
 	tapBox(vdxx, tapmod); 
@@ -3534,7 +3598,7 @@ function setFirstTimer() {   //預設值設定
 	getADGoldTimer    = Date.now() +   60 * 1000; //tt
 	GuildchatTimer    = Date.now() +   20 * 1000;
 	GuildmedalTimer   = Date.now() +   80 * 1000;
-	GuildBossTimer    = Date.now() +  0 * 1000; //tt
+	GuildBossTimer    = Date.now() +    0 * 1000; //tt
 	
 	getDailyTimer     = Date.now() +    0 * 1000;
 	ScreenStoptimer   = Date.now() +    3 * 1000;
@@ -3574,6 +3638,7 @@ function setFirstTimer() {   //預設值設定
 	
 	stopbugV = 0;
 	stage = 0;
+	stageOld = 0;
 	RinF = 0;
 	spdstage = 0;
 	stage0Error = 0;     //關卡判斷初值
@@ -3583,24 +3648,26 @@ function setFirstTimer() {   //預設值設定
 	totallvupstage = 0;
 	villageF       = 1;
 	herolvupQ      = 0;
+
 }
 
 function setFirstsetting() {
 	lvupHeroSw    =    1;   //英雄升級開關
-	lvupAllHeroSw =    1;   //使用升級所有英雄鈕
+	lvupAllHeroSw =    0;   //使用升級所有英雄鈕
 	lvupHeroDi    =    3;   //升級量級次 1:x1, 2:x10, 3:x100, 4:MAX
-	lvupHerostgSw =  100;   //設定開始升級關卡
+	lvupHerostgSw =  300;   //設定開始升級關卡
 	lvupheromdSw  =    3;   //1:定時, 2:自動, 3:設定
-	lvuptimeSw    =  240;   //英雄升級檢查間隔
-	lvuplimitSw   =  600;   //金幣等級到達不檢查
+	lvuptimeSw    =  600;   //英雄升級檢查間隔
+	lvuplimitSw   =  180;   //金幣等級到達不檢查
 	//自動判斷是以魔晶+金幣等級-100為下次檢查關卡
 
-	lvupVillageSw =    1;    //村莊升級
+	lvupVillageSw =    0;    //村莊升級
 	lvupVillageDi =    2;    //級次 (1:x1, 2:x10, 3:x100)
+	lvupViltimeSw =  240;    //村莊升級檢查間隔
 
 	toRincarnSw   =    1;   //輪迴開關
 	doubMG        =    0;   //輪迴兩倍魔晶
-	ministageSw   =  1400;  //輪迴關卡
+	ministageSw   = 1500;   //輪迴關卡
 	rintimes1Sw   =    1;   //輪迴關卡檢查次數
 
 	autoMinSw     =  140;   //開始檢查關卡 (140~9000)
@@ -3620,12 +3687,15 @@ function setFirstsetting() {
 
 
 	autoWeekSw    =    1;   //每日可打材料屬性【0:關閉 1:水  2:火  3:木  4:光  5:暗】
-	dgticksSw     =    0;   //保留票數
+	dgticksSw     =    3;   //保留票數
+
+	earlydgMaterialSw  =   0;  //提前保留屬性【0:關閉 1:水  2:火  3:木  4:光  5:暗】
+	earlydgticksSw     =  99;  //提前保留票數
 
 	spdongeonSw   =    0;   //活動boss，9:雪怪，8:豬怪，7:龍怪
 	spdstageSw    =   40;   //開始打活動boss關卡
 
-	materialX2    =    0;   //材料x2，指定屬性【0:關閉 1:水  2:火  3:木  4:光  5:暗】 NO UI
+	materialX2S2w =    5;   //材料x2，指定屬性【0:關閉 1:水  2:火  3:木  4:光  5:暗】 NO UI
 
 	menuW0Sw      =    5;   //星期日：木、水、暗 (3, 1, 5)
 	menuW1Sw      =    5;   //星期一：火、暗 (2, 5)
@@ -3635,13 +3705,15 @@ function setFirstsetting() {
 	menuW5Sw      =    5;   //星期五：水、暗 (1, 5)
 	menuW6Sw      =    4;   //星期六：光、火 (4, 2)
 
-	failureTime   =   15;   //打材料boss，判定打不過(剩下時間s)
-
+	failureTime   =   59;   //打材料boss，判定打不過(剩下時間s)
 
 	ExpedSw       =    1;   //遠征開關
 	ExpedHeroSw   =    1;   //每個遠征最大人數
-	ExpedstarSw   =    2;   //刷目標的星級(以上)
-	ExpeditemSw   =    0;   //刷目標的物品
+	ExpedstarSw   =    1;   //刷目標的星級(以1上)
+	Expeditem1Sw  =    0;   //刷目標的物品1
+	Expeditem2Sw  =    0;   //刷目標的物品2
+	Expeditem3Sw  =    0;   //刷目標的物品3
+	Expeditem4Sw  =    0;   //刷目標的物品4
 
 	arenaSw       =    0;   //競技開關
 	arenaticksSw  =    0;   //保留票數
@@ -3652,8 +3724,8 @@ function setFirstsetting() {
 	guildmaldSw   =    1;   //工會求勛章開關
 	heroattribSw  =    4;   //周一~周六：屬性代碼：1:水  2:火  3:木  4:光  5:暗  0:關閉
 	herocodeSw    =    3;   //周一~周六：英雄代碼請見設定頁最下方
-	heroattrib2Sw =    4;   //周日：1:水  2:火  3:木  4:光  5:暗  0:關閉
-	herocode2Sw   =    3;   //周日：英雄代碼請見設定頁最下方
+	heroattrib2Sw =    1;   //周日：1:水  2:火  3:木  4:光  5:暗  0:關閉
+	herocode2Sw   =   18;   //周日：英雄代碼請見設定頁最下方
 	maldhelpupTSw =    5;   //提早進入求助時間
 
 	guildbossSw   =    0;   //工會打BOSS開關
@@ -3663,28 +3735,30 @@ function setFirstsetting() {
 	failuredwlvSw =    0;   //閃電300 打不過降級打
 
 	getADBoxSw    =    1;   //撿寶箱開關
-	tapBOXmodSw   =    2;   //寶箱亂點之術  1:刷關強化  2:點寶箱強化
-	tapRLtimeSw   =    2;   //(A) 點左右頁面次數(按住50ms，間隔50ms)
-	afterRLDySw   =   80;   //(B) 點完左右頁面等待時間 ms
-	crystalCKSw   =    2;   //(C) 檢查左右水晶次數 (每次35ms)
+	tapBOXmodSw   =    2;   //寶箱亂點之術  1:刷關強化  2:點寶箱強化 
+	tapRLtimeSw   =    3;   //(A) 點左右頁面次數(按住50ms，間隔50ms)
+	afterRLDySw   =   100;   //(B) 點完左右頁面等待時間 ms
+	crystalCKSw   =    1;   //(C) 檢查左右水晶次數 (每次35ms)
 	tapSkillSw    =    1;   //(D)放大技開關
-	skillslepSw   =  300;   //(E)放大技後延遲 ms
+	skillslepSw   =  150;   //(E)放大技後延遲 ms
 	//動作流程與時間差說明
 	//① 點擊左邊(A)次 → 等待(B)毫秒 → 檢查左水晶(C)次 → 點擊 210~710(每50pix)
 	//② 點擊右邊(A)次 → 等待(B)毫秒 → 檢查右水晶(C)次 → 點擊  10~510(每50pix)
 	//③ 施放大技(D) → 等待(E)毫秒 →  回到 ①
 
-	admodeSw      =    2;   //看廣告模式
+	receiveMailSw =    0;   //收mail
+	loginDailySw  =    0;   //每日登入獎勵
+
+	admodeSw      =    2;   //看廣告模式  (1:定時, 2:自動判斷  3:VIP5 點跳過)
 	adtimesetSw   =   60;   //廣告檢查總時間
 	resetappTm    =   60;   //卡畫面重啟時間
 	upStartlvSw   =    0;   //英雄自動升星---UI_DEL
-	goldADSw      =    0;   //廣告拿金幣開關                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
-
-	receiveMailSw =    1;   //收mail
-	loginDailySw  =    1;   //每日登入獎勵
+	goldADSw      =    1;   //廣告拿金幣開關    
+	fcoinex2Sw    =    0;   //當日Fx2判斷，活動開始前停撿寶箱                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
 
 	rouletShotSw  =    1;   //輪回輪盤抓圖
 	scrShotSw     =    1;   //重啟前畫面抓圖(Debug用)
+
 	//************預計功能********************
 	artifactsSw   =    0;   //自動刷寶物
 	buyartifactSw =    0;   //買刷到的寶物
@@ -3722,7 +3796,6 @@ function test(cycle){
 			stage = recoNum(1) * 1
 			console.log('============================================================================')
 			console.log('n = ', n, ', CRA 腳本開始', stage)
-
 
 
 			while(config.isRunning) {main();}
