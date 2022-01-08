@@ -583,8 +583,8 @@ function useReturn(choiceF){          //各項回授點檢查
 		case  2: return CheckImageTap( 440,   10, 570,   70, 0.95, 'speedx2.png', 1, 1, 1, 50, 2);           return;   //檢查2倍速圖示 OK
 		case  3: return CheckImageTap( 310,  590, 410,  690, 0.85, 'ADbox.png', 1, 1, 1, 50, 2);             return;   //檢查寶箱看廣告  OK
 		case  4: return CheckImageTap(   0,  580, 110,  820, 0.85, 'speedX2icon_2.png', 1, 1, 1, 50, 2);       return;   //2倍速選單圖示 OK
-		case  5: return CheckImageTap( 220,  560, 360,  700, 0.85, 'herostore_str.png', 1, 1, 1, 50, 2, 1);     return;   //英雄商店文字
-		case  6: return CheckImageTap( 220,  600, 340,  700, 0.85, 'lvupallhero2.png', 1, 1, 1, 50, 2, 1);      return;   //英雄頁面全英雄升級文字
+		case  5: return CheckImageTap( 220,  560, 360,  700, 0.85, 'herostore_str.png', 1, 1, 1, 50, 2, 0);     return;   //英雄商店文字
+		case  6: return CheckImageTap( 220,  600, 340,  700, 0.85, 'lvupallhero2.png', 1, 1, 1, 50, 2, 0);      return;   //英雄頁面全英雄升級文字
 		case  7: return 
 		case  8: return CheckImageTap( 110, 1210, 310, 1280, 0.85, 'guildChaticon.png', 1, 1, 1, 50, 2);     return;   //工會聊天室圖示
 		case  9: return CheckImageTap( 270,   60, 500,  375, 0.85, 'dailystr.png', 1, 1, 1, 50, 2);          return;   //每日獎勵字樣
@@ -934,7 +934,7 @@ function waitAD(timer, speedx2) {   // OK
 		if (sizeObj.width == 720 && i >= 5 && admodeSw == 2) {
 			var stoptime1 = ScreenStopTimes( 180, 270, 590, 860, 0.999, 'checkADstop.png', 1, 1)
 
-			if (stoptime1 > 8 || i > 45) {
+			if (stoptime1 > 8 || i > 40) {
 				tapFor(690, 35, 1, 30, 100, 4000);
 				tapFor(690, 35, 1, 30, 100, 2000);
 			}
@@ -1008,7 +1008,7 @@ function waitAD(timer, speedx2) {   // OK
 	}
 }
 
-function choiceMenu(page) {  //主選單頁面   OK
+function choiceMenu(page) {  //主選單頁面  page: 1:英雄 2:村莊 3:寶物 4:挑戰 5:商店
 	if (!config.isRunning) return false;
 	if (!useReturn(51)) return false;
 	// console.log('Choice Manu : ', page);
@@ -1618,9 +1618,9 @@ function stagerincarnation() {  //自動輪回   OK
 	// 	console.log('關卡辨識有誤, stageOld:', stageOld, ', stage:', stage);
 	// 	stage = stageOld
 	// }
-	console.log('關卡', stage, '到達');
+	console.log('關卡', stage, '到達,', mainMsg, ', 寶物商店:', artifictGet);
 
-	if (stage % 50 == 0) {console.log('關卡', stage, '到達');}
+	// if (stage % 50 == 0) {console.log('關卡', stage, '到達');}
 	if (stage >= ministage && stage <= maxstage) {
 		RinF = RinF + 1;
 		//console.log('Rang:', RinF + '/' + rintimes1, ', Stuck:',  RinF + '/' + rintimes2);
@@ -1642,16 +1642,16 @@ function stageChk() {
 	var stageGet = recoNum(1) * 1;
 	if (stageOld > 0) {
 		if (stageGet - stageOld > 20) {
-			console.log('關卡辨識有誤, stageOld:', stageOld, ', stageGet:', stageGet);
+			// console.log('關卡辨識有誤, stageOld:', stageOld, ', stageGet:', stageGet);
 			stageOld = -1
 			return -1
 		} else {
-			console.log('關卡辨識正確, stageOld:', stageOld, ', stageGet:', stageGet);
+			// console.log('關卡辨識正確, stageOld:', stageOld, ', stageGet:', stageGet);
 			stageOld = stageGet
 			return stageGet
 		}
 	}else if(stageOld < 1){
-		console.log('關卡暫存比對, stageOld:', stageOld, ', stageGet:', stageGet);
+		// console.log('關卡暫存比對, stageOld:', stageOld, ', stageGet:', stageGet);
 		stageOld = stageGet
 		return -1
 	}
@@ -2223,8 +2223,8 @@ function Guildmedal(attrib, herocode, Timer) {  //工會求勛章
 				rbm.keepScreenshotPartial( 0, 425, 250, 500);             //
 				var Img1 = rbm.findImage('chatMenuButton.png', 0.9);
 				var Img2 = rbm.findImage('guildChatButton.png', 0.9);  //
-				rbm.log('Img1:', Img1);
-				rbm.log('Img2:', Img2);
+				// rbm.log('Img1:', Img1);
+				// rbm.log('Img2:', Img2);
 				rbm.releaseScreenshot();
 				
 				if (Img1 != undefined) {
@@ -2251,9 +2251,9 @@ function Guildmedal(attrib, herocode, Timer) {  //工會求勛章
 				var Img3 = rbm.findImage('guildmedalbutton.png', 0.90);
 				var Img7 = rbm.findImage('guildmedalbutton_dark.png', 0.90);
 				var Img8 = rbm.findImage('guildmedalgetbutton.png', 0.90);
-				rbm.log('Img3:', Img3);
-				rbm.log('Img7:', Img7);
-				rbm.log('Img8:', Img8);
+				// rbm.log('Img3:', Img3);
+				// rbm.log('Img7:', Img7);
+				// rbm.log('Img8:', Img8);
 				rbm.releaseScreenshot();
 				
 				//if (Img3 != undefined) {rbm.log('Img3:', Img3);}
@@ -2313,8 +2313,8 @@ function Guildmedal(attrib, herocode, Timer) {  //工會求勛章
 					var Img5 = rbm.findImage('herolist_attributton.png', 0.90);
 					rbm.releaseScreenshot();
 					
-					if (Img4 != undefined) {rbm.log('Img4:', Img4);}
-					if (Img5 != undefined) {rbm.log('Img5:', Img5);}
+					// if (Img4 != undefined) {rbm.log('Img4:', Img4);}
+					// if (Img5 != undefined) {rbm.log('Img5:', Img5);}
 					
 					if (Img4 != undefined) {
 						tapFor(Img4.x + 10, Img4.y + 10, 1, 60, 300);
@@ -2415,7 +2415,7 @@ function getDailyreward(Timer) {   //領取每日任務獎勵   OK
 	if (!config.isRunning || Date.now() < getDailyTimer) return false;
 	if (!useReturn(51)) return false;
 	if (!useReturn(2)) return false;
-	console.log('領取每日任務獎勵');
+	console.log('領取今日挑戰');
 
 	for (var i = 1; i <= 4; i++){
 		if (!config.isRunning) return false;
@@ -2426,14 +2426,14 @@ function getDailyreward(Timer) {   //領取每日任務獎勵   OK
 				
 			for (var j = 1; j <= 3; j++){
 				if (!config.isRunning) return false;
-				console.log(' Daily Reward', i, j);
+				// console.log(' Daily Reward', i, j);
 				
 				var chkPointX = 400 + 106 * (j - 1);
 				if (checkPointcolor(chkPointX, 710, 40, 'FF2281')) {
 					for (var k = 1; k <= 3; k++){
 						checkPointcolorTap(chkPointX, 710, 40, 'FF2281', 1, 1, 1, 1000, 1);
 						
-						console.log('9:', useReturn(9));
+						// console.log('9:', useReturn(9));
 						if (useReturn(9)) {
 							
 							var a = 0;
@@ -2518,7 +2518,7 @@ function DalyDungeons(mF2, pc, failureT, Timer) {  //【F2:材料魔王 1:水  2
 							dgticks[2] = recoNum(2); sleep(150); //2 確認目前票數
 							dgticks[3] = recoNum(2); sleep(150); //3 確認目前票數
 							
-							console.log('l:', l, dgticks[0], dgticks[1], dgticks[2], dgticks[3])
+							// console.log('l:', l, dgticks[0], dgticks[1], dgticks[2], dgticks[3])
 							if (dgticks[1] == dgticks[2] && dgticks[2] == dgticks[3] && dgticks[1] != -1){
 								dgticks[0] = dgticks[1]; break;
 							}
@@ -2538,12 +2538,16 @@ function DalyDungeons(mF2, pc, failureT, Timer) {  //【F2:材料魔王 1:水  2
 							var nextDaymateral = choiceMaterialboss(menuW0Sw, menuW1Sw, menuW2Sw, menuW3Sw, menuW4Sw, menuW5Sw, menuW6Sw, 1, 1);
 							if (nextDaymateral == earlydgMaterialSw){
 								console.log('提前保留屬性符合，保留票為:', earlydgticksSw);
-								dgticksInput = earlydgticksSw
-							}else{
-								console.log('提前保留屬性不符合，保留票為:', dgticksSw);
+								dgticksInput = earlydgticksSw;
 							}
 						}
 
+						if (materialCHK && materialX2Sw) {
+							console.log('材料x2 指定屬性開啟, 材料x2 發現, 保留票為', materX2TickSw);
+							dgticksInput = materX2TickSw;
+						}
+
+						// console.log('保留票為:', dgticksInput);
 						if ( (dgticks[0] == 0 || dgticks[0] <= dgticksInput) && dgticks[0] != -1) {
 							sleep(300);
 							checkPointcolorTap(690, 510, 20, 'FFFFFF', 0, 0, 2, 100, 1);
@@ -2638,7 +2642,8 @@ function Blitz(Timer) {  //突襲
 function Expeditions(Timer) {   //遠征
 	if (!config.isRunning) return false;
 	if (!ExpedSw) return false;
-	if (!checkPointcolor(407, 1201, 20, 'FFA800') || Date.now() < ExpedTimer) return false;
+	if (Date.now() < ExpedTimer) return false;
+	if (!checkPointcolor(402, 1200, 20, 'DD1819')) return false;
 	if (!useReturn(51)) return false;
 	if (!useReturn(2)) return false;
 	console.log('遠征');		
@@ -2738,8 +2743,8 @@ function Expeditions(Timer) {   //遠征
 						rbm.releaseScreenshot();
 						
 						if (Img3 != undefined && Expeditem1Sw > 0) {
-							var itemFile = 'exped_item/exped_item_' + Expeditem1Sw + '.png';
 							rbm.keepScreenshotPartial(Img2.x - distIt[1],  Img2.y - distIt[2], Img2.x - distIt[3], Img2.y - distIt[4]);  //
+							var itemFile = 'exped_item/exped_item_' + Expeditem1Sw + '.png';
 							var Img4 = rbm.findImage(itemFile, 0.90);
 							rbm.releaseScreenshot();
 							// rbm.log('item:', Img4);
@@ -3032,10 +3037,11 @@ function choiceDungeon(F1, F2) {  //【F1:地城類別 1:材料 2:突襲 3:遠�
 			rbm.releaseScreenshot();
 			if (targetImg8 != undefined) {
 				console.log('發現地牢兩倍，自動檢查兩倍設定');
+				materialCHK = 1;
 
-				if(materialX2S2w > 0) {
-					console.log('材料兩倍屬性指定:', materialX2S2w);
-					F2 = materialX2S2w
+				if(materialX2Sw > 0) {
+					console.log('材料兩倍屬性指定:', materialX2Sw);
+					F2 = materialX2Sw
 				}else{
 					console.log('材料兩倍屬性指定關閉');
 				}
@@ -3046,10 +3052,10 @@ function choiceDungeon(F1, F2) {  //【F1:地城類別 1:材料 2:突襲 3:遠�
 				if (!config.isRunning) return false;
 				console.log('Choice Dungeon : ', i, j );
 				
-				rbm.keepScreenshotPartial( 500, 525, 560, 1140);  //地城選單圖示範圍
+				rbm.keepScreenshotPartial( 500, 525, 719, 1140);  //地城選單圖示範圍
 				var targetImg = rbm.findImage('Dungeon_0' + F1 + '.png', 0.90);
-				if (F1 == 1 && targetImg == undefined) {
 
+				if (F1 == 1 && targetImg == undefined) {
 					for (var k = 1; k <= 3; k++) {
 						var targetImg = rbm.findImage('Dungeon_0' + F1 + '_' + k + '.png', 0.90);  //活動boss主選單畫面
 						if (targetImg != undefined) break;
@@ -3090,8 +3096,8 @@ function choiceDungeon(F1, F2) {  //【F1:地城類別 1:材料 2:突襲 3:遠�
 							//console.log(countchl); //取物件長度，挑戰鈕數量
 							if (countchl >= 1) {console.log('挑戰鈕 >= 2個，BOSS選擇完成'); return false;}
 						
-					case 2 : if (useReturn(27)) {a = a + 1; if ( a >= 2 ) {sleep(300); return false;}}; break;  //遠征問號圖示
-					case 3 : if (useReturn(26)) {a = a + 1; if ( a >= 2 ) {sleep(300); return false;}}; break;  //突襲幣圖示
+					case 2 : if (useReturn(27)) {a = a + 1; if ( a >= 2 ) {sleep(300); return false;}}; break;  //突襲幣圖示
+					case 3 : if (useReturn(26)) {a = a + 1; if ( a >= 2 ) {sleep(300); return false;}}; break;  //遠征問號圖示
 					case 4 : if (useReturn(28)) {a = a + 1; if ( a >= 2 ) {sleep(300); return false;}}; break;  //競技幣圖示	
 				}	
 
@@ -3107,7 +3113,7 @@ function choiceMaterialboss(w0, w1, w2, w3, w4, w5, w6, Timer, offset) {  //每�
 	if (!config.isRunning || Date.now() < chMatbossTimer) return false;
 	if (!autoWeekSw){console.log('自動打材料總開關：關閉'); return false;}
 	if (!useReturn(1)) return false;
-	console.log('每日材料BOSS屬性');
+	// console.log('每日材料BOSS屬性');
 	
 	
 	//每日可打材料屬性【1:水  2:火  3:木  4:光  5:暗】
@@ -3344,6 +3350,72 @@ function receiveMail() {  //收mail，預設全收
 	}
 }
 
+function artifictStore(Timer) {  //商店刷寶物
+	if (!config.isRunning) return false;
+	if (!artistorereSw) return false;
+	if (Date.now() < artiStoreTimer) return false;
+	if (artifictGet) return false;
+	console.log('商店刷寶物');
+
+	var recolorHEX = new Array( 0, '48270D', '330000');
+	var recolorStr = new Array( '無法判斷', '免費刷', 'F幣刷');
+	var artifictTg = new Array( 0, artitarget1Sw, artitarget2Sw, artitarget3Sw);
+
+	choiceMenu(3);
+	
+	for (var i = 0; i <= 5; i++) {
+		CheckImageTap(690, 520, 719,  550, 0.85, 'artifictStore_!.png', 630, 560, 1, 600, 0, 0);    //寶物商店按鈕驚嘆號
+
+		for (var j = 0; j <= 1; j++) {
+			var chkJ = j % 2 + 1;
+			var chkColor = checkPointcolorTap(580, 590, 20, recolorHEX[chkJ], 0, 0, 1, 100, 2);
+			// console.log('j:', j, ', chkJ:', chkJ, ', chkColor:', chkColor, recolorHEX[chkJ]);
+			if (chkColor) {recolorHEX[0] = chkJ; break;}
+			sleep(50);
+		}
+		console.log('寶物商店狀態:', recolorStr[recolorHEX[0]]);
+
+		if (recolorHEX[0] == 2) { 
+			checkPointcolorTap(690, 510, 20, 'FFFFFF', 0, 0, 1, 100, 1)  //點選單向下三角形
+
+		}else if(recolorHEX[0] == 1) {
+
+			var artifictTg = new Array( 0, artitarget1Sw, artitarget2Sw, artitarget3Sw);
+			for (var k = 1; k <= 3; k++) {
+				if (artifictTg[k] > 0) {
+					var add0 = ''; if (artifictTg[k] < 10) { add0 = 0;}
+					var filename = 'artifict_list/star' + artistarlvSw + '/90x80/artifict_90x80_' + artistarlvSw + '_' + add0 + artifictTg[k] + '.png'
+					
+					rbm.keepScreenshotPartial( 0, 600, 110, 1170);  //確認是否有指定寶物
+					var Img = rbm.findImage(filename, 0.90);
+					rbm.log(filename, Img);
+					if (Img != undefined) {
+						console.log('已刷到指定寶物! star:', artistarlvSw, ',target:', artifictTg[k]);
+						rbm.releaseScreenshot();
+						artifictGet = 1;
+						artiStoreTimer =  Date.now() + Timer * 1000;
+						rbm.releaseScreenshot();
+						return false;
+					}
+					rbm.releaseScreenshot();
+				}
+			}
+
+			if(artifictGet == 0) {
+
+				tapFor(570, 560, 1, 30, 100, 700);
+				tapFor(480, 820, 1, 30, 100, 500);
+			} 
+
+		}else if(recolorHEX[0] == 0) {
+
+		}
+		sleep(100);
+	}
+		
+	artiStoreTimer =  Date.now() + Timer * 1000;
+}
+
 function activityCHK() {   //活動判斷  1:Fx3倍
 	if (!config.isRunning) return false;
 
@@ -3505,16 +3577,10 @@ function debug(Timer){       //異常檢查檢查
 		CheckImageTap(500, 0, 720, 530, 0.85, 'rightupXX.png', 1, 1, 1, 200, 1, 0);    //右上的叉叉
 		CheckImageTap(310, 600, 405, 1170, 0.85, 'OKbutton.png', 1, 1, 1, 200, 1, 0);    //確認鈕
 		
-		CheckImageTap(  10,  540,  100,  600, 0.90, 'backarry.png', 1, 1, 1, 200, 1);  //地牢選單退回鈕
-		CheckImageTap( 300,  990,  560, 1080, 0.80, 'OKbutton.png', 1, 1, 1, 500, 1);  //地牢完成後確認鈕
+		checkPointcolorTap(690, 510, 20, 'FFFFFF', 0, 0, 1, 100, 1)  //點選單向下三角形
 
-		// rbm.keepScreenshotPartial( 300, 990, 560, 1080);  //完成後確認鈕
-		// var targetImg3 = rbm.findImage('OKbutton.png', 0.80);
-		// rbm.releaseScreenshot();
-		// if (targetImg3 != undefined && targetImg3.score >= 0.80) {
-		// 	// console.log('21:false', 2222)
-		// 	tapFor(targetImg3.x, targetImg3.y, 1, 60, 500);
-		// }
+		// CheckImageTap(  10,  540,  100,  600, 0.90, 'backarry.png', 1, 1, 1, 200, 1);  //地牢選單退回鈕
+		CheckImageTap( 300,  990,  560, 1080, 0.80, 'OKbutton.png', 1, 1, 1, 500, 1);  //地牢完成後確認鈕
 
 		if (useReturn(50) || useReturn(51)) { 
 			debugTimer =  Date.now() + Timer * 1000;
@@ -3536,60 +3602,91 @@ function main(){       //主流程
 	var gg = 0;	var vdxx = 10; var tapmod = tapBOXmodSw
 	var bossatt = choiceMaterialboss(menuW0Sw, menuW1Sw, menuW2Sw, menuW3Sw, menuW4Sw, menuW5Sw, menuW6Sw, 1, 0);
 
-	console.log('main 卡畫面與重啟APP檢查')
-	tapBox(vdxx, tapmod); 
-	debug(6);  //卡畫面與重啟APP檢查
-
-	console.log('main 每日地牢')
-	tapBox(vdxx, tapmod); 
-	DalyDungeons(bossatt, 5, failureTime, 120);   //每日地牢
-
-	console.log('main 廣告金幣')
-	tapBox(vdxx, tapmod); 
-	getADGold(60);  //廣告金幣
-
-	console.log('main 村莊升級')
-	tapBox(vdxx, tapmod); 
-	lvupVillage2(2, 60);   //村莊升級
-
-	console.log('main 每日挑戰任務')
-	tapBox(vdxx, tapmod); 
-	getDailyreward(900);  
-
-	console.log('main 競技場')
-	tapBox(vdxx, tapmod); 
-	Areafight(1800);    //每日挑戰任務、競技場
-
-	console.log('main 英雄升級')
-	tapBox(vdxx, tapmod); 
-	lvupHero(lvupHerostgSw, lvupHeroDi, lvuptimeSw);  //英雄升級
-
-	console.log('main 公會幫助')
-	tapBox(vdxx, tapmod); 
-	Guildchat(900);
-
-	console.log('main 公會勛章')
-	tapBox(vdxx, tapmod); 
-	Guildmedal(heroattribSw, herocodeSw, 1020)   //公會幫助、公會勛章
-
-	console.log('main 遠征')
-	tapBox(vdxx, tapmod); 
-	Expeditions(60);  //遠征
-
-	console.log('main 畫面停止判斷')
-	tapBox(vdxx, tapmod); 
-	checkScreenStop(30, resetappTm, 6);
-
-	console.log('main 自動收信每日獎勵');
-	tapBox(vdxx, tapmod); 
-	upMenu(3600);  //畫面停止判斷，自動收信每日獎勵
+	var stepMsg = new Array( 0, '卡畫面與重啟檢查', '每日地牢', '廣告金幣', '村莊升級', '每日挑戰', '競技場', '英雄升級', '公會幫助', '公會勛章', '遠征', '畫面停止', '自動收信每日獎勵', '商店刷寶物', '寶箱廣告');
 	
-	console.log('main 公會BOSS')
+	mainMsg = stepMsg[stepCtrl];
 	tapBox(vdxx, tapmod); 
-	GuildBoss(guildbosshdSw, guildbossthSw, 5, 3600);  //公會BOSS
+
+	switch(stepCtrl) {
+		case 1 :debug(6); break;                                           //卡畫面與重啟APP檢查
+		case 2 :DalyDungeons(bossatt, 5, failureTime, 120); break;         //每日地牢
+		case 3 :getADGold(60); break;                                      //廣告金幣
+		case 4 :lvupVillage2(2, lvupViltimeSw); break;                     //村莊升級
+		case 5 :getDailyreward(900); break;                                //每日挑戰任務
+		case 6 :Areafight(1800); break;                                    //競技場
+		case 7 :lvupHero(lvupHerostgSw, lvupHeroDi, lvuptimeSw); break;    //英雄升級
+		case 8 :Guildmedal(heroattribSw, herocodeSw, 1020); break;         //公會幫助、公會勛章
+		case 9 :Expeditions(60); break;                                    //遠征
+		case 10 :checkScreenStop(30, resetappTm, 6); break;                //畫面停止判斷
+		case 11 :upMenu(3600); break;                                      //自動收信每日獎勵
+		case 12 :GuildBoss(guildbosshdSw, guildbossthSw, 5, 3600); break;  //公會BOSS
+		case 13 :artifictStore(artistoTimeSw); break;                      //商店刷寶物(不自動購買)
+		case 14 :getADBox(); break;                                        //寶箱廣告
+	}
+	stepCtrl = stepCtrl + 1;
+	if (stepCtrl > 14){stepCtrl = 1;}
+
+
 	
-	console.log('main 寶箱廣告')
-	getADBox();
+	// mainMsg = 'main 卡畫面與重啟APP檢查';
+	// tapBox(vdxx, tapmod); 
+	// debug(6);  //卡畫面與重啟APP檢查
+
+	// mainMsg = 'main 每日地牢';
+	// tapBox(vdxx, tapmod); 
+	// DalyDungeons(bossatt, 5, failureTime, 120);   //每日地牢
+
+	// mainMsg = 'main 廣告金幣';
+	// tapBox(vdxx, tapmod); 
+	// getADGold(60);  //廣告金幣
+
+	// mainMsg = 'main 村莊升級';
+	// tapBox(vdxx, tapmod); 
+	// lvupVillage2(2, lvupViltimeSw);   //村莊升級
+
+	// mainMsg = 'main 每日挑戰任務';
+	// tapBox(vdxx, tapmod); 
+	// getDailyreward(900);  
+
+	// mainMsg = 'main 競技場';
+	// tapBox(vdxx, tapmod); 
+	// Areafight(1800);    //每日挑戰任務、競技場
+
+	// mainMsg = 'main 英雄升級';
+	// tapBox(vdxx, tapmod); 
+	// lvupHero(lvupHerostgSw, lvupHeroDi, lvuptimeSw);  //英雄升級
+
+	// mainMsg = 'main 公會幫助';
+	// tapBox(vdxx, tapmod); 
+	// Guildchat(900);
+
+	// mainMsg = 'main 公會勛章';
+	// tapBox(vdxx, tapmod); 
+	// Guildmedal(heroattribSw, herocodeSw, 1020)   //公會幫助、公會勛章
+
+	// mainMsg = 'main 遠征';
+	// tapBox(vdxx, tapmod); 
+	// Expeditions(60);  //遠征
+
+	// mainMsg = 'main 畫面停止判斷';
+	// tapBox(vdxx, tapmod); 
+	// checkScreenStop(30, resetappTm, 6);
+
+	// mainMsg = 'main 自動收信每日獎勵';
+	// tapBox(vdxx, tapmod); 
+	// upMenu(3600);  //畫面停止判斷，自動收信每日獎勵
+	
+	// mainMsg = 'main 公會BOSS';
+	// tapBox(vdxx, tapmod); 
+	// GuildBoss(guildbosshdSw, guildbossthSw, 5, 3600);  //公會BOSS
+	
+	// mainMsg = 'main 商店刷寶物';
+	// tapBox(vdxx, tapmod); 
+	// artifictStore(artistoTimeSw);  //商店刷寶物, 不自動購買
+
+	// console.log('main 寶箱廣告')
+	// getADBox();
+
 }
 
 function setFirstTimer() {   //預設值設定
@@ -3608,6 +3705,8 @@ function setFirstTimer() {   //預設值設定
 	upStartlvTimer    = Date.now() +   10 * 1000;
 	ExpedTimer        = Date.now() -  110 * 1000;
 	AreafigthTimer    = Date.now() +  210 * 1000;
+
+	artiStoreTimer    = Date.now() +   20 * 1000;
 	
 	debugTimer        = Date.now() -   10 * 1000;
 	checkScreenTimer  = Date.now() +    0 * 1000;
@@ -3632,7 +3731,7 @@ function setFirstTimer() {   //預設值設定
 			{'NO': 5, 'magiclv': '', 'goldlv': '', 'attrib': '', 'totallv': ''},
 		],
 	}	
-	
+
 	furniture = true;
 	Autofight = false;
 	
@@ -3649,6 +3748,12 @@ function setFirstTimer() {   //預設值設定
 	villageF       = 1;
 	herolvupQ      = 0;
 
+	materialCHK    = 0;
+
+	mainMsg        = '';
+	artifictGet    =  0;
+
+	stepCtrl       =  1;
 }
 
 function setFirstsetting() {
@@ -3658,7 +3763,7 @@ function setFirstsetting() {
 	lvupHerostgSw =  300;   //設定開始升級關卡
 	lvupheromdSw  =    3;   //1:定時, 2:自動, 3:設定
 	lvuptimeSw    =  600;   //英雄升級檢查間隔
-	lvuplimitSw   =  180;   //金幣等級到達不檢查
+	lvuplimitSw   =  200;   //金幣等級到達不檢查
 	//自動判斷是以魔晶+金幣等級-100為下次檢查關卡
 
 	lvupVillageSw =    0;    //村莊升級
@@ -3667,7 +3772,7 @@ function setFirstsetting() {
 
 	toRincarnSw   =    1;   //輪迴開關
 	doubMG        =    0;   //輪迴兩倍魔晶
-	ministageSw   = 1500;   //輪迴關卡
+	ministageSw   = 1661;   //輪迴關卡
 	rintimes1Sw   =    1;   //輪迴關卡檢查次數
 
 	autoMinSw     =  140;   //開始檢查關卡 (140~9000)
@@ -3687,7 +3792,7 @@ function setFirstsetting() {
 
 
 	autoWeekSw    =    1;   //每日可打材料屬性【0:關閉 1:水  2:火  3:木  4:光  5:暗】
-	dgticksSw     =    3;   //保留票數
+	dgticksSw     =    0;   //保留票數
 
 	earlydgMaterialSw  =   0;  //提前保留屬性【0:關閉 1:水  2:火  3:木  4:光  5:暗】
 	earlydgticksSw     =  99;  //提前保留票數
@@ -3695,7 +3800,8 @@ function setFirstsetting() {
 	spdongeonSw   =    0;   //活動boss，9:雪怪，8:豬怪，7:龍怪
 	spdstageSw    =   40;   //開始打活動boss關卡
 
-	materialX2S2w =    5;   //材料x2，指定屬性【0:關閉 1:水  2:火  3:木  4:光  5:暗】 NO UI
+	materialX2Sw  =    5;   //材料x2，指定屬性【0:關閉 1:水  2:火  3:木  4:光  5:暗】 NO UI
+	materX2TickSw =    0;   //材料x2 保留票
 
 	menuW0Sw      =    5;   //星期日：木、水、暗 (3, 1, 5)
 	menuW1Sw      =    5;   //星期一：火、暗 (2, 5)
@@ -3710,10 +3816,10 @@ function setFirstsetting() {
 	ExpedSw       =    1;   //遠征開關
 	ExpedHeroSw   =    1;   //每個遠征最大人數
 	ExpedstarSw   =    1;   //刷目標的星級(以1上)
-	Expeditem1Sw  =    0;   //刷目標的物品1
-	Expeditem2Sw  =    0;   //刷目標的物品2
-	Expeditem3Sw  =    0;   //刷目標的物品3
-	Expeditem4Sw  =    0;   //刷目標的物品4
+	Expeditem1Sw  =    0;   //刷目標的物品1 (0:保持現有)
+	Expeditem2Sw  =    0;   //刷目標的物品2 (0:保持現有)
+	Expeditem3Sw  =    0;   //刷目標的物品3 (0:保持現有)
+	Expeditem4Sw  =    0;   //刷目標的物品4 (0:保持現有)
 
 	arenaSw       =    0;   //競技開關
 	arenaticksSw  =    0;   //保留票數
@@ -3745,6 +3851,14 @@ function setFirstsetting() {
 	//① 點擊左邊(A)次 → 等待(B)毫秒 → 檢查左水晶(C)次 → 點擊 210~710(每50pix)
 	//② 點擊右邊(A)次 → 等待(B)毫秒 → 檢查右水晶(C)次 → 點擊  10~510(每50pix)
 	//③ 施放大技(D) → 等待(E)毫秒 →  回到 ①
+
+	artistorereSw =    1;   //商店刷寶物
+	artistoTimeSw =  300;   //商店刷寶物檢查時間(s)
+	artistarlvSw  =    5;   //目標寶物星級 (5~7)
+	artitarget1Sw =    1;   //目標寶物1 (0:關閉)
+	artitarget2Sw =    0;   //目標寶物2 (0:關閉)
+	artitarget3Sw =    0;   //目標寶物3 (0:關閉)
+
 
 	receiveMailSw =    0;   //收mail
 	loginDailySw  =    0;   //每日登入獎勵
@@ -3796,7 +3910,6 @@ function test(cycle){
 			stage = recoNum(1) * 1
 			console.log('============================================================================')
 			console.log('n = ', n, ', CRA 腳本開始', stage)
-
 
 			while(config.isRunning) {main();}
 
