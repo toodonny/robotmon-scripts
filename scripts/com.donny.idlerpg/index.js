@@ -3368,6 +3368,7 @@ function artifictStore(Timer) {  //商店刷寶物
 	var artifictTg = new Array( 0, artitarget1Sw, artitarget2Sw, artitarget3Sw);
 
 	choiceMenu(3);
+	sleep(500);
 	tapFor(630, 560, 1, 30, 100, 1500);
 
 	for (var i = 0; i <= 5; i++) {
@@ -3382,48 +3383,44 @@ function artifictStore(Timer) {  //商店刷寶物
 		}
 		console.log('寶物商店狀態:', recolorStr[recolorHEX[0]]);
 
+		var artifictTg = new Array( 0, artitarget1Sw, artitarget2Sw, artitarget3Sw);
+		rbm.keepScreenshotPartial( 0, 600, 110, 1170);  //確認是否有指定寶物
+		for (var k = 1; k <= 3; k++) {
+			if (artifictTg[k] > 0) {
+
+				var add0 = ''; if (artifictTg[k] < 10) { add0 = 0;}
+				var filename = 'artifict_list/star' + artistarlvSw + '/90x80/artifict_90x80_' + artistarlvSw + '_' + add0 + artifictTg[k] + '.png'
+				var Img = rbm.findImage(filename, 0.90);
+				// rbm.log(filename, Img);
+
+				if (Img != undefined) {
+					console.log('刷寶物, Star:', artistarlvSw, ',No.:', artifictTg[k], '刷到!');
+					rbm.releaseScreenshot();
+					artifictGet = 1;
+					artiStoreTimer =  Date.now() + Timer * 1000;
+					rbm.releaseScreenshot();
+					return false;
+				} else {
+					console.log('刷寶物, Star:', artistarlvSw, ',No.:', artifictTg[k], '沒有!');
+				}
+			}
+			sleep(50);
+		}
+		rbm.releaseScreenshot();
+
 		if (recolorHEX[0] == 2) { 
 			checkPointcolorTap(690, 510, 20, 'FFFFFF', 0, 0, 1, 100, 1)  //點選單向下三角形
 			break;
 
-		}else if(recolorHEX[0] == 1) {
-
-			var artifictTg = new Array( 0, artitarget1Sw, artitarget2Sw, artitarget3Sw);
-			for (var k = 1; k <= 3; k++) {
-				if (artifictTg[k] > 0) {
-					var add0 = ''; if (artifictTg[k] < 10) { add0 = 0;}
-					var filename = 'artifict_list/star' + artistarlvSw + '/90x80/artifict_90x80_' + artistarlvSw + '_' + add0 + artifictTg[k] + '.png'
-					
-					rbm.keepScreenshotPartial( 0, 600, 110, 1170);  //確認是否有指定寶物
-					var Img = rbm.findImage(filename, 0.90);
-					rbm.log(filename, Img);
-					if (Img != undefined) {
-						console.log('已刷到指定寶物! star:', artistarlvSw, ',target:', artifictTg[k]);
-						rbm.releaseScreenshot();
-						artifictGet = 1;
-						artiStoreTimer =  Date.now() + Timer * 1000;
-						rbm.releaseScreenshot();
-						return false;
-
-					}else {
-						tapFor(570, 560, 1, 30, 100, 700);
-						tapFor(480, 820, 1, 30, 100, 500);
-						rbm.releaseScreenshot();
-						return false;
-						
-					}
-				}
-			}
-
-			// if(artifictGet == 0) {
-
-			// 	tapFor(570, 560, 1, 30, 100, 700);
-			// 	tapFor(480, 820, 1, 30, 100, 500);
-			// } 
+		}else if(recolorHEX[0] == 1 && artifictGet == 0) {
+			tapFor(570, 560, 1, 30, 100, 700);
+			tapFor(480, 820, 1, 30, 100, 500);
+			break;
 
 		}else if(recolorHEX[0] == 0) {
 			break;
 		}
+
 		sleep(100);
 	}
 		
