@@ -3372,7 +3372,7 @@ function artifictStore(Timer) {  //商店刷寶物
 	tapFor(630, 560, 1, 30, 100, 1500);
 
 	for (var i = 0; i <= 5; i++) {
-		// CheckImageTap(690, 520, 719,  550, 0.85, 'artifictStore_!.png', 630, 560, 1, 600, 0, 0);    //寶物商店按鈕驚嘆號
+		// CheckImageTap(690, 520,   719,  550, 0.85, 'artifictStore_!.png', 630, 560, 1, 600, 0, 0);    //寶物商店按鈕驚嘆號
 
 		for (var j = 0; j <= 1; j++) {
 			var chkJ = j % 2 + 1;
@@ -3626,16 +3626,17 @@ function main(){       //主流程
 		case 5 :getDailyreward(900); break;                                //每日挑戰任務
 		case 6 :Areafight(1800); break;                                    //競技場
 		case 7 :lvupHero(lvupHerostgSw, lvupHeroDi, lvuptimeSw); break;    //英雄升級
-		case 8 :Guildmedal(heroattribSw, herocodeSw, 1020); break;         //公會幫助、公會勛章
-		case 9 :Expeditions(60); break;                                    //遠征
-		case 10 :checkScreenStop(30, resetappTm, 6); break;                //畫面停止判斷
-		case 11 :upMenu(3600); break;                                      //自動收信每日獎勵
-		case 12 :GuildBoss(guildbosshdSw, guildbossthSw, 5, 3600); break;  //公會BOSS
-		case 13 :artifictStore(artistoTimeSw); break;                      //商店刷寶物(不自動購買)
-		case 14 :getADBox(); break;                                        //寶箱廣告
+		case 8 :Guildchat(900);                                            //公會幫助
+		case 9 :Guildmedal(heroattribSw, herocodeSw, 1020); break;         //公會勛章
+		case 10 :Expeditions(60); break;                                    //遠征
+		case 11 :checkScreenStop(30, resetappTm, 6); break;                //畫面停止判斷
+		case 12 :upMenu(3600); break;                                      //自動收信每日獎勵
+		case 13 :GuildBoss(guildbosshdSw, guildbossthSw, 5, 3600); break;  //公會BOSS
+		case 14 :artifictStore(artistoTimeSw); break;                      //商店刷寶物(不自動購買)
+		case 15 :getADBox(); break;                                        //寶箱廣告
 	}
 	stepCtrl = stepCtrl + 1;
-	if (stepCtrl > 14){stepCtrl = 1;}
+	if (stepCtrl > 15){stepCtrl = 1;}
 
 
 	
@@ -3669,11 +3670,11 @@ function main(){       //主流程
 
 	// mainMsg = 'main 公會幫助';
 	// tapBox(vdxx, tapmod); 
-	// Guildchat(900);
+	// Guildchat(900);                           //公會幫助
 
 	// mainMsg = 'main 公會勛章';
 	// tapBox(vdxx, tapmod); 
-	// Guildmedal(heroattribSw, herocodeSw, 1020)   //公會幫助、公會勛章
+	// Guildmedal(heroattribSw, herocodeSw, 1020)   //公會勛章
 
 	// mainMsg = 'main 遠征';
 	// tapBox(vdxx, tapmod); 
@@ -3855,7 +3856,7 @@ function setFirstsetting() {
 	getADBoxSw    =    1;   //撿寶箱開關
 	tapBOXmodSw   =    2;   //寶箱亂點之術  1:刷關強化  2:點寶箱強化 
 	tapRLtimeSw   =    3;   //(A) 點左右頁面次數(按住50ms，間隔50ms)
-	afterRLDySw   =   100;   //(B) 點完左右頁面等待時間 ms
+	afterRLDySw   =  100;   //(B) 點完左右頁面等待時間 ms
 	crystalCKSw   =    1;   //(C) 檢查左右水晶次數 (每次35ms)
 	tapSkillSw    =    1;   //(D)放大技開關
 	skillslepSw   =  150;   //(E)放大技後延遲 ms
