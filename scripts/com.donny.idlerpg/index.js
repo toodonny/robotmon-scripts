@@ -3358,6 +3358,8 @@ function artifictStore(Timer) {  //商店刷寶物
 	if (!config.isRunning) return false;
 	if (!artistorereSw) return false;
 	if (Date.now() < artiStoreTimer) return false;
+	if (!useReturn(51)) return false;
+	if (!useReturn(2)) return false;
 	if (artifictGet) return false;
 	console.log('商店刷寶物');
 
@@ -3366,9 +3368,10 @@ function artifictStore(Timer) {  //商店刷寶物
 	var artifictTg = new Array( 0, artitarget1Sw, artitarget2Sw, artitarget3Sw);
 
 	choiceMenu(3);
-	
+	tapFor(630, 560, 1, 30, 100, 1500);
+
 	for (var i = 0; i <= 5; i++) {
-		CheckImageTap(690, 520, 719,  550, 0.85, 'artifictStore_!.png', 630, 560, 1, 600, 0, 0);    //寶物商店按鈕驚嘆號
+		// CheckImageTap(690, 520, 719,  550, 0.85, 'artifictStore_!.png', 630, 560, 1, 600, 0, 0);    //寶物商店按鈕驚嘆號
 
 		for (var j = 0; j <= 1; j++) {
 			var chkJ = j % 2 + 1;
@@ -3381,6 +3384,7 @@ function artifictStore(Timer) {  //商店刷寶物
 
 		if (recolorHEX[0] == 2) { 
 			checkPointcolorTap(690, 510, 20, 'FFFFFF', 0, 0, 1, 100, 1)  //點選單向下三角形
+			break;
 
 		}else if(recolorHEX[0] == 1) {
 
@@ -3400,19 +3404,25 @@ function artifictStore(Timer) {  //商店刷寶物
 						artiStoreTimer =  Date.now() + Timer * 1000;
 						rbm.releaseScreenshot();
 						return false;
+
+					}else {
+						tapFor(570, 560, 1, 30, 100, 700);
+						tapFor(480, 820, 1, 30, 100, 500);
+						rbm.releaseScreenshot();
+						return false;
+						
 					}
-					rbm.releaseScreenshot();
 				}
 			}
 
-			if(artifictGet == 0) {
+			// if(artifictGet == 0) {
 
-				tapFor(570, 560, 1, 30, 100, 700);
-				tapFor(480, 820, 1, 30, 100, 500);
-			} 
+			// 	tapFor(570, 560, 1, 30, 100, 700);
+			// 	tapFor(480, 820, 1, 30, 100, 500);
+			// } 
 
 		}else if(recolorHEX[0] == 0) {
-
+			break;
 		}
 		sleep(100);
 	}
@@ -3861,8 +3871,8 @@ function setFirstsetting() {
 	artistoTimeSw =  300;   //商店刷寶物檢查時間(s)
 	artistarlvSw  =    5;   //目標寶物星級 (5~7)
 	artitarget1Sw =    1;   //目標寶物1 (0:關閉)
-	artitarget2Sw =    0;   //目標寶物2 (0:關閉)
-	artitarget3Sw =    0;   //目標寶物3 (0:關閉)
+	artitarget2Sw =   13;   //目標寶物2 (0:關閉)
+	artitarget3Sw =   14;   //目標寶物3 (0:關閉)
 
 
 	receiveMailSw =    0;   //收mail
