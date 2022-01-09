@@ -3613,7 +3613,7 @@ function main(){       //主流程
 	var gg = 0;	var vdxx = 10; var tapmod = tapBOXmodSw
 	var bossatt = choiceMaterialboss(menuW0Sw, menuW1Sw, menuW2Sw, menuW3Sw, menuW4Sw, menuW5Sw, menuW6Sw, 1, 0);
 
-	var stepMsg = new Array( 0, '卡畫面與重啟檢查', '每日地牢', '廣告金幣', '村莊升級', '每日挑戰', '競技場', '英雄升級', '公會幫助', '公會勛章', '遠征', '畫面停止', '自動收信每日獎勵', '商店刷寶物', '寶箱廣告');
+	var stepMsg = new Array( 0, '卡畫面與重啟檢查', '每日地牢', '廣告金幣', '村莊升級', '每日挑戰', '競技場', '英雄升級', '公會幫助', '公會勛章', '遠征', '畫面停止', '自動收信每日獎勵', '公會BOSS', '商店刷寶物', '寶箱廣告');
 	
 	mainMsg = stepMsg[stepCtrl];
 	tapBox(vdxx, tapmod); 
