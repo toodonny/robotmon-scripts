@@ -724,7 +724,7 @@ function getADBox() {   //寶箱廣告觀看 OK
 					//console.log(' AD box click', i, j);
 					
 					sleep(300);
-					CheckImageTap( 310,  590, 410, 690, 0.90, 'ADbox.png', 1, 1, 1, 4000, 1, 1);
+					CheckImageTap( 310,  590, 410, 690, 0.90, 'ADbox.png', 1, 1, 1, 4000, 1, 0);
 				}
 			
 				waitAD(adtimesetSw);
@@ -1542,7 +1542,7 @@ function toRincarnation(Timer) {  //輪迴   OK
 					}
 					
 					if (doubMG) {
-						var reincX2CHK = CheckImageTap(60, 600, 650, 1100, 0.90, 'reincarnationx2OK5.png', 1, 1, 2, 500, 2, 1);      //輪迴按鈕X2
+						var reincX2CHK = CheckImageTap(60, 600, 650, 1100, 0.90, 'reincarnationx2OK5.png', 1, 1, 2, 500, 2, 0);      //輪迴按鈕X2
 						if (reincX2CHK) {
 							tapFor(300, 1030, 2, 30, 200, 1000);
 						}else {
@@ -1552,10 +1552,10 @@ function toRincarnation(Timer) {  //輪迴   OK
 						CheckImageTap(200, 980, 280, 1150, 0.80, 'reincarnationOK.png', 1, 1, 2, 500, 1);      //輪迴按鈕
 					}
 
-					CheckImageTap(280, 630, 440,  680, 0.80, 'reincarnationQ.png', 480, 830, 2, 500, 0, 1);      //輪迴確認
-					CheckImageTap(200, 980, 280, 1110, 0.80, 'reincarnationOK.png', 1, 1, 2, 500, 1, 1);      //輪迴按鈕
-					CheckImageTap(280, 630, 440,  680, 0.80, 'reincarnationQ.png', 480, 830, 2, 500, 0, 1);      //輪迴確認
-					CheckImageTap(300, 1105, 410,  1270, 0.80, 'reincarnationOKbtn.png', 1, 1, 1, 500, 1, 1);      //輪迴"好"按鈕
+					CheckImageTap(280, 630, 440,  680, 0.80, 'reincarnationQ.png', 480, 830, 2, 500, 0, 0);      //輪迴確認
+					CheckImageTap(200, 980, 280, 1110, 0.80, 'reincarnationOK.png', 1, 1, 2, 500, 1, 0);      //輪迴按鈕
+					CheckImageTap(280, 630, 440,  680, 0.80, 'reincarnationQ.png', 480, 830, 2, 500, 0, 0);      //輪迴確認
+					CheckImageTap(300, 1105, 410,  1270, 0.80, 'reincarnationOKbtn.png', 1, 1, 1, 500, 1, 0);      //輪迴"好"按鈕
 					
 					if(rouletShotSw) {
 						var roulet = CheckImageTap(300, 900, 420, 1080, 0.80, 'reincarnGame.png', 1, 1, 2, 500, 2);         //輪盤遊戲開始鈕
@@ -1567,7 +1567,7 @@ function toRincarnation(Timer) {  //輪迴   OK
 							tapFor(360, 1000, 2, 30, 100, 500);
 						}
 
-						var reinGame_dk = CheckImageTap(300, 900, 420, 1080, 0.80, 'reincarnGame_dark.png', 630, 215, 10, 500, 2, 1);    //輪盤遊戲開始鈕_按過
+						var reinGame_dk = CheckImageTap(300, 900, 420, 1080, 0.80, 'reincarnGame_dark.png', 630, 215, 10, 500, 2, 0);    //輪盤遊戲開始鈕_按過
 						if (reinGame_dk) {
 							tapFor(630, 215, 4, 30, 50, 500);
 							console.log('Shot reincarnGame_dark2 ');
@@ -1581,8 +1581,8 @@ function toRincarnation(Timer) {  //輪迴   OK
 					// CheckImageTap(300, 900, 420, 1080, 0.80, 'reincarnGame.png', 1, 1, 2, 500, 1);              //輪盤遊戲開始鈕
 					// CheckImageTap(300, 900, 420, 1080, 0.80, 'reincarnGame_dark.png', 630, 215, 10, 500, 1);    //輪盤遊戲開始鈕_按過
 
-					CheckImageTap(185, 75, 245, 135, 0.80, 'getnewthing.png', 360, 310, 12, 500, 0, 1);    //得到新物品
-					CheckImageTap(500, 0, 720, 530, 0.85, 'rightupXX.png', 1, 1, 1, 200, 1, 1);    //右上的叉叉
+					CheckImageTap(185, 75, 245, 135, 0.80, 'getnewthing.png', 360, 310, 12, 500, 0, 0);    //得到新物品
+					CheckImageTap(500, 0, 720, 530, 0.85, 'rightupXX.png', 1, 1, 1, 200, 1, 0);    //右上的叉叉
 
 					if (useReturn(1)) {
 						a = a + 1;
@@ -1620,7 +1620,7 @@ function stagerincarnation() {  //自動輪回   OK
 	console.log('關卡', stage, '到達,', mainMsg, ', 寶物商店:', artifictGet);
 
 	if (!toRincarnSw) {
-		// console.log('自動輪迴關閉，不檢查關卡'); 
+		console.log('自動輪迴:關閉'); 
 		return false;
 	}
 
