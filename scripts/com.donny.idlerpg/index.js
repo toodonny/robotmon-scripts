@@ -580,7 +580,22 @@ function useReturn(choiceF){          //各項回授點檢查
 	
 	switch (choiceF) {
 		case  1: return CheckImageTap( 625,   10, 710,   70, 0.95, 'mainpagebutton.png', 1, 1, 1, 50, 2, 0);    return;   //右上功能圖示 OK
-		case  2: return CheckImageTap( 440,   10, 570,   70, 0.95, 'speedx2.png', 1, 1, 1, 50, 2);           return;   //檢查2倍速圖示 OK
+		case  2: 
+		
+		// var spdx2 = CheckImageTap(440, 10, 570, 70, 0.95, 'speedx2.png', 1, 1, 1, 50, 2);    //檢查2倍速圖示 OK
+		// if (spdx2) {return true;}
+		// var spdx3 = CheckImageTap(440, 10, 570, 70, 0.95, 'speedx3.png', 1, 1, 1, 50, 2);    //檢查3倍速圖示 OK
+		// if (spdx3) {return true;}
+		// else {return false;}
+
+		rbm.keepScreenshotPartial( 440, 10, 570, 70);
+		var Img1 = rbm.findImage('speedx2.png', 0.90);        //檢查2倍速圖示
+		var Img2 = rbm.findImage('speedx3.png', 0.90);        //檢查3倍速圖示
+		rbm.releaseScreenshot();
+
+		if(Img1 != undefined || Img2 != undefined){return true;}
+		return false;
+
 		case  3: return CheckImageTap( 310,  590, 410,  690, 0.85, 'ADbox.png', 1, 1, 1, 50, 2);             return;   //檢查寶箱看廣告  OK
 		case  4: return CheckImageTap(   0,  580, 110,  820, 0.85, 'speedX2icon_2.png', 1, 1, 1, 50, 2);       return;   //2倍速選單圖示 OK
 		case  5: return CheckImageTap( 220,  560, 360,  700, 0.85, 'herostore_str.png', 1, 1, 1, 50, 2, 0);     return;   //英雄商店文字
@@ -2680,7 +2695,7 @@ function Expeditions(Timer) {   //遠征
 	checkPointcolorTap(690, 510, 20, 'FFFFFF', 0, 0, 2, 500, 1)
 	choiceDungeon(3, 5);
 	
-	for (var i = 1; i <= 5; i++){
+	for (var i = 1; i <= 7; i++){
 		if (!config.isRunning) return false;
 		
 		//console.log('遠征問號圖示, 26:', useReturn(26));
@@ -3613,7 +3628,7 @@ function main(){       //主流程
 	var gg = 0;	var vdxx = 10; var tapmod = tapBOXmodSw
 	var bossatt = choiceMaterialboss(menuW0Sw, menuW1Sw, menuW2Sw, menuW3Sw, menuW4Sw, menuW5Sw, menuW6Sw, 1, 0);
 
-	var stepMsg = new Array( 0, '卡畫面與重啟檢查', '每日地牢', '廣告金幣', '村莊升級', '每日挑戰', '競技場', '英雄升級', '公會幫助', '公會勛章', '遠征', '畫面停止', '自動收信每日獎勵', '公會BOSS', '商店刷寶物', '寶箱廣告');
+	var stepMsg = new Array( 0, '1 卡畫面與重啟檢查', '2 每日地牢', '3 廣告金幣', '4 村莊升級', '5 每日挑戰', '6 競技場', '7 英雄升級', '8 公會幫助', '9 公會勛章', '10 遠征', '11 畫面停止', '12 自動收信每日獎勵', '13 公會BOSS', '14 商店刷寶物', '15 寶箱廣告');
 	
 	mainMsg = stepMsg[stepCtrl];
 	tapBox(vdxx, tapmod); 
@@ -3628,7 +3643,7 @@ function main(){       //主流程
 		case 7 :lvupHero(lvupHerostgSw, lvupHeroDi, lvuptimeSw); break;    //英雄升級
 		case 8 :Guildchat(900);                                            //公會幫助
 		case 9 :Guildmedal(heroattribSw, herocodeSw, 1020); break;         //公會勛章
-		case 10 :Expeditions(60); break;                                    //遠征
+		case 10 :Expeditions(60); break;                                   //遠征
 		case 11 :checkScreenStop(30, resetappTm, 6); break;                //畫面停止判斷
 		case 12 :upMenu(3600); break;                                      //自動收信每日獎勵
 		case 13 :GuildBoss(guildbosshdSw, guildbossthSw, 5, 3600); break;  //公會BOSS
@@ -3640,63 +3655,63 @@ function main(){       //主流程
 
 
 	
-	// mainMsg = 'main 卡畫面與重啟APP檢查';
+	// mainMsg = 'main 1 卡畫面與重啟APP檢查';
 	// tapBox(vdxx, tapmod); 
 	// debug(6);  //卡畫面與重啟APP檢查
 
-	// mainMsg = 'main 每日地牢';
+	// mainMsg = 'main 2 每日地牢';
 	// tapBox(vdxx, tapmod); 
 	// DalyDungeons(bossatt, 5, failureTime, 120);   //每日地牢
 
-	// mainMsg = 'main 廣告金幣';
+	// mainMsg = 'main 3 廣告金幣';
 	// tapBox(vdxx, tapmod); 
 	// getADGold(60);  //廣告金幣
 
-	// mainMsg = 'main 村莊升級';
+	// mainMsg = 'main 4 村莊升級';
 	// tapBox(vdxx, tapmod); 
 	// lvupVillage2(2, lvupViltimeSw);   //村莊升級
 
-	// mainMsg = 'main 每日挑戰任務';
+	// mainMsg = 'main 5 每日挑戰任務';
 	// tapBox(vdxx, tapmod); 
 	// getDailyreward(900);  
 
-	// mainMsg = 'main 競技場';
+	// mainMsg = 'main 6 競技場';
 	// tapBox(vdxx, tapmod); 
 	// Areafight(1800);    //每日挑戰任務、競技場
 
-	// mainMsg = 'main 英雄升級';
+	// mainMsg = 'main 7 英雄升級';
 	// tapBox(vdxx, tapmod); 
 	// lvupHero(lvupHerostgSw, lvupHeroDi, lvuptimeSw);  //英雄升級
 
-	// mainMsg = 'main 公會幫助';
+	// mainMsg = 'main 8 公會幫助';
 	// tapBox(vdxx, tapmod); 
 	// Guildchat(900);                           //公會幫助
 
-	// mainMsg = 'main 公會勛章';
+	// mainMsg = 'main 9 公會勛章';
 	// tapBox(vdxx, tapmod); 
 	// Guildmedal(heroattribSw, herocodeSw, 1020)   //公會勛章
 
-	// mainMsg = 'main 遠征';
+	// mainMsg = 'main 10 遠征';
 	// tapBox(vdxx, tapmod); 
 	// Expeditions(60);  //遠征
 
-	// mainMsg = 'main 畫面停止判斷';
+	// mainMsg = 'main 11 畫面停止判斷';
 	// tapBox(vdxx, tapmod); 
 	// checkScreenStop(30, resetappTm, 6);
 
-	// mainMsg = 'main 自動收信每日獎勵';
+	// mainMsg = 'main 12 自動收信每日獎勵';
 	// tapBox(vdxx, tapmod); 
 	// upMenu(3600);  //畫面停止判斷，自動收信每日獎勵
 	
-	// mainMsg = 'main 公會BOSS';
+	// mainMsg = 'main 13 公會BOSS';
 	// tapBox(vdxx, tapmod); 
 	// GuildBoss(guildbosshdSw, guildbossthSw, 5, 3600);  //公會BOSS
 	
-	// mainMsg = 'main 商店刷寶物';
+	// mainMsg = 'main 14 商店刷寶物';
 	// tapBox(vdxx, tapmod); 
 	// artifictStore(artistoTimeSw);  //商店刷寶物, 不自動購買
 
-	// console.log('main 寶箱廣告')
+	// console.log('main 15 寶箱廣告')
 	// getADBox();
 
 }
