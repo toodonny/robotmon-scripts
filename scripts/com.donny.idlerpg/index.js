@@ -717,7 +717,7 @@ function recoNum(choiceF) {        //各項數字辨識
 
 // -廣告獎勵-----
 function getADBox() {   //寶箱廣告觀看 OK
-	//if (!config.isRunning) return false;
+	if (!config.isRunning) return false;
 	//if (!useReturn(51) && !useReturn(50)) return false;
 	//if (!useReturn(50)) return false;
 	console.log('寶箱廣告');
@@ -758,8 +758,10 @@ function getADSpeed() {  //看廣告拿2倍速 OK
 	if (!useReturn(51)) return false;
 	//if (useReturn(2)) return false;
 	console.log('檢查2倍速');
-	CheckImageTap( 440, 10, 570, 70, 0.90, 'speedoff.png',    1, 1, 1, 200, 1, 0);  //加速關閉點on
-	CheckImageTap( 651, 29, 687, 52, 0.85, 'upmenuclose.png', 1, 1, 1, 300, 1);  //右上功能圖示關閉
+	CheckImageTap( 440, 10, 570, 70, 0.90, 'speedoff.png',    1, 1, 1, 500, 1, 0);  //加速關閉點on
+	CheckImageTap( 651, 29, 687, 52, 0.85, 'upmenuclose.png', 1, 1, 1, 500, 1);  //右上功能圖示關閉
+
+	if (useReturn(2)) {return false;}
 
 	for (var i = 1; i <= 8; i++){
 		if (!config.isRunning) return false;
@@ -831,7 +833,7 @@ function getADSpeed() {  //看廣告拿2倍速 OK
 						if (Img3 != undefined || Img4 != undefined) {
 							// tapFor(Img3.x, Img3.y, 3, 60, 300);
 
-							for (var j = 1; j <= 2; j++){
+							for (var j = 1; j <= 3; j++){
 								tapFor(530,  30, 1, 200, 300);
 								tapFor(480, 820, 1, 200, 300);
 							}
@@ -948,10 +950,14 @@ function waitAD(timer, speedx2) {   // OK
 		var sizeObj = getScreenSize();
 		if (sizeObj.width == 720 && i >= 5 && admodeSw == 2) {
 			var stoptime1 = ScreenStopTimes( 180, 270, 590, 860, 0.999, 'checkADstop.png', 1, 1)
-
-			if (stoptime1 > 8 || i > 40) {
-				tapFor(690, 35, 1, 30, 100, 4000);
-				tapFor(690, 35, 1, 30, 100, 2000);
+			
+			rbm.keepScreenshotPartial(674, 22, 700, 45);  ///點擊獲取
+			var Img = rbm.findImage('AD_rr_001.png', 0.90);
+			rbm.releaseScreenshot();
+			if (Img){rbm.log('AD_rr_001.png:', Img);}
+			if (Img != undefined || stoptime1 > 8 || i > 40) {
+				tapFor(690, 35, 1, 30, 100, 4500);
+				tapFor(690, 35, 1, 30, 100, 3000);
 			}
 
 			if (stoptime1 >= 3 || i >= 35) {		
@@ -971,16 +977,6 @@ function waitAD(timer, speedx2) {   // OK
 				stoptime1 = 0;
 			}
 
-			// rbm.keepScreenshotPartial(610, 50, 650, 90);  ///點擊獲取
-			// var Img = rbm.findImage('AD_googlestore_search.png', 0.99);
-			// rbm.releaseScreenshot();
-			// if (Img != undefined && Img.score >= 0.99) {
-			// 	console.log('AD_googlestore_search');
-			// 	keycode('BACK', 200); sleep(400);
-			// 	tapFor(675 , 75, 1, 60, 200);
-			// 	sleep(1000);
-			// }
-
 			rbm.keepScreenshotPartial(660, 60, 690, 90);  ///點擊獲取
 			var Img = rbm.findImage('AD_XX_001.png', 0.90);
 			rbm.releaseScreenshot();
@@ -990,7 +986,6 @@ function waitAD(timer, speedx2) {   // OK
 				sleep(1000);
 			}
 
-			
 			rbm.keepScreenshotPartial(260, 500, 450, 1180);  ///點擊獲取
 			var Img = rbm.findImage('getButton.png', 0.90);
 			rbm.releaseScreenshot();
@@ -1601,10 +1596,10 @@ function toRincarnation(Timer) {  //輪迴   OK
 
 					if (useReturn(1)) {
 						a = a + 1;
-						if (a >= 3) { sleep(200); return false }
+						if (a >= 2) { sleep(200); return false }
 					}
 					
-					sleep(500);
+					sleep(200);
 					toRincarnTimer =  Date.now() + Timer * 1000;
 				}
 			}
@@ -1632,7 +1627,7 @@ function stagerincarnation() {  //自動輪回   OK
 	// 	console.log('關卡辨識有誤, stageOld:', stageOld, ', stage:', stage);
 	// 	stage = stageOld
 	// }
-	console.log('關卡', stage, '到達,', mainMsg, ', 寶物商店:', artifictGet);
+	console.log('第', stage, '關,', mainMsg, ', 寶物:', artifictGet);
 
 	if (!toRincarnSw) {
 		console.log('自動輪迴:關閉'); 
@@ -3203,13 +3198,13 @@ function upMenu(Timer) {
 	if (!useReturn(2)) return false;
 	if (!useReturn(51)) return false;
 	
-	console.log('檢查收信、每日獎勵(右上)');
-	
 	if (!receiveMailSw && !loginDailySw) {
-		console.log('!receiveMailSw && !loginDailySw');
+		// console.log('!receiveMailSw && !loginDailySw');
 		upMenuTimer =  Date.now() + Timer * 1000;
 		return false;
 	}
+	console.log('檢查收信、每日獎勵(右上)');
+	
 	
 	var a = 0; var b = 0;
 	for (var i = 1; i <= 8; i++) {
@@ -3384,7 +3379,7 @@ function artifictStore(Timer) {  //商店刷寶物
 
 	choiceMenu(3);
 	sleep(500);
-	tapFor(630, 560, 1, 30, 100, 1500);
+	tapFor(710, 560, 4, 30, 200, 500);
 
 	for (var i = 0; i <= 5; i++) {
 		// CheckImageTap(690, 520,   719,  550, 0.85, 'artifictStore_!.png', 630, 560, 1, 600, 0, 0);    //寶物商店按鈕驚嘆號
@@ -3628,30 +3623,30 @@ function main(){       //主流程
 	var gg = 0;	var vdxx = 10; var tapmod = tapBOXmodSw
 	var bossatt = choiceMaterialboss(menuW0Sw, menuW1Sw, menuW2Sw, menuW3Sw, menuW4Sw, menuW5Sw, menuW6Sw, 1, 0);
 
-	var stepMsg = new Array( 0, '1 卡畫面與重啟檢查', '2 每日地牢', '3 廣告金幣', '4 村莊升級', '5 每日挑戰', '6 競技場', '7 英雄升級', '8 公會幫助', '9 公會勛章', '10 遠征', '11 畫面停止', '12 自動收信每日獎勵', '13 公會BOSS', '14 商店刷寶物', '15 寶箱廣告');
-	
-	mainMsg = stepMsg[stepCtrl];
+	var stepMsg = new Array( '', '1_卡屏重啟', '2_每日地牢', '3_廣告金幣', '4_村莊升級', '5_今日挑戰', '6_打競技場', '7_英雄升級', '8_公會幫助', '9_公會勛章', '10_英雄遠征', '11_畫面停止', '12_收信日獎', '13_公會BOSS', '14_商店刷寶物', '15_寶箱廣告');
+	var logMsg = new Array(0, stepMsg[1]+', '+stepMsg[2], stepMsg[3]+', '+stepMsg[4], stepMsg[5]+', '+stepMsg[6], stepMsg[7], stepMsg[8]+', '+stepMsg[9], stepMsg[10], stepMsg[11]+', '+stepMsg[12], stepMsg[13], stepMsg[14]+', '+stepMsg[15])
+	mainMsg = logMsg[stepCtrl];
 	tapBox(vdxx, tapmod); 
 
 	switch(stepCtrl) {
-		case 1 :debug(6); break;                                           //卡畫面與重啟APP檢查
-		case 2 :DalyDungeons(bossatt, 5, failureTime, 120); break;         //每日地牢
-		case 3 :getADGold(60); break;                                      //廣告金幣
-		case 4 :lvupVillage2(2, lvupViltimeSw); break;                     //村莊升級
-		case 5 :getDailyreward(900); break;                                //每日挑戰任務
-		case 6 :Areafight(1800); break;                                    //競技場
-		case 7 :lvupHero(lvupHerostgSw, lvupHeroDi, lvuptimeSw); break;    //英雄升級
-		case 8 :Guildchat(900);                                            //公會幫助
-		case 9 :Guildmedal(heroattribSw, herocodeSw, 1020); break;         //公會勛章
-		case 10 :Expeditions(60); break;                                   //遠征
-		case 11 :checkScreenStop(30, resetappTm, 6); break;                //畫面停止判斷
-		case 12 :upMenu(3600); break;                                      //自動收信每日獎勵
-		case 13 :GuildBoss(guildbosshdSw, guildbossthSw, 5, 3600); break;  //公會BOSS
-		case 14 :artifictStore(artistoTimeSw); break;                      //商店刷寶物(不自動購買)
-		case 15 :getADBox(); break;                                        //寶箱廣告
+		case 1 :debug(6); DalyDungeons(bossatt, 5, failureTime, 120);  break;   //1 卡屏重啟       //2 每日地牢
+		case 2 :getADGold(60); lvupVillage2(2, lvupViltimeSw); break;           //3 廣告金幣       //4 村莊升級
+		case 3 :getDailyreward(900); Areafight(1800); break;                    //5 今日挑戰       //6 打競技場
+		case 4 :lvupHero(lvupHerostgSw, lvupHeroDi, lvuptimeSw); break;         //7 英雄升級
+		case 5 :Guildchat(900); Guildmedal(heroattribSw, herocodeSw, 1020);     //8 公會幫助       //9 公會勛章
+		case 6 :Expeditions(60); break;                                         //10 英雄遠征
+		case 7 :checkScreenStop(30, resetappTm, 6); upMenu(3600); break;        //11 畫面停止判斷  //12 收信日獎
+		case 8 :GuildBoss(guildbosshdSw, guildbossthSw, 5, 3600); break;        //13 公會BOSS
+		case 9 :artifictStore(artistoTimeSw); getADBox(); break;                //14 商店刷寶      //15 寶箱廣告
+		case 10 :break;                                        
+		case 11 :
+		case 12 :                              
+		case 13 :
+		case 14 :
+		case 15 :
 	}
 	stepCtrl = stepCtrl + 1;
-	if (stepCtrl > 15){stepCtrl = 1;}
+	if (stepCtrl > 9){stepCtrl = 1;}
 
 
 	
@@ -3884,8 +3879,8 @@ function setFirstsetting() {
 	artistoTimeSw =  300;   //商店刷寶物檢查時間(s)
 	artistarlvSw  =    5;   //目標寶物星級 (5~7)
 	artitarget1Sw =    1;   //目標寶物1 (0:關閉)
-	artitarget2Sw =   13;   //目標寶物2 (0:關閉)
-	artitarget3Sw =   14;   //目標寶物3 (0:關閉)
+	artitarget2Sw =    0;   //目標寶物2 (0:關閉)
+	artitarget3Sw =    0;   //目標寶物3 (0:關閉)
 
 
 	receiveMailSw =    0;   //收mail
