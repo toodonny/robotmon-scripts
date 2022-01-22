@@ -834,8 +834,13 @@ function getADSpeed() {  //看廣告拿2倍速 OK
 							// tapFor(Img3.x, Img3.y, 3, 60, 300);
 
 							for (var j = 1; j <= 3; j++){
-								tapFor(530,  30, 1, 200, 300);
-								tapFor(480, 820, 1, 200, 300);
+
+								// tapFor(530,  30, 1, 200, 300);
+								CheckImageTap( 440, 10, 570, 70, 0.95, 'speedx2_up_ad_icon.png', 1, 1, 1, 700, 1, 0);  //加速關閉點on
+								CheckImageTap( 280, 480, 420, 540, 0.95, 'speedx2_yesno_icon.png', 480, 820, 1, 1000, 0, 1);  //右上功能圖示關閉
+
+								// tapFor(480, 820, 1, 200, 300);
+								sleep(200);
 							}
 
 							ADtimeout[0] = -1;
@@ -3232,6 +3237,13 @@ function upMenu(Timer) {
 			}
 		}
 		
+		if (fcoinex2Sw) {
+			tapFor(360, 102, 3, 50, 150, 600);
+
+
+
+		}
+
 		if (i == 8) {
 			console.log('檢查', 8, '次, ', Timer, '秒後再檢查');
 			
@@ -3364,6 +3376,118 @@ function receiveMail() {  //收mail，預設全收
 	}
 }
 
+function activityCHK() {   //活動判斷  1:Fx3倍
+	if (!config.isRunning) return false;
+
+	var activityQuest = new Array( '', '寶箱Fx3倍', '突襲manta', '工會戰爭');
+	var activityState = new Array( '',  '-無',   '-有-開啟',   '-有-等待');
+	var activityCheck = new Array( '',  -1,   -1,   -1);
+
+	//統一抓圖坐標
+	//活動類 x1:420, x2:510
+	//碼錶圖 x1:550, x2:585
+
+	for (var i = 1; i <= 3; i++) {
+
+		rbm.keepScreenshotPartial( 400, 80, 560, 1080);  //完成後確認鈕
+		var filename = 'activityList_0' + i + '.png'
+		var targetImg1 = rbm.findImage(filename, 0.80);
+		rbm.releaseScreenshot();
+
+		if (targetImg1 != undefined) {
+			activityCheck[i] = 2
+
+			// console.log(targetImg1.x, targetImg1.y);
+
+			rbm.keepScreenshotPartial( 520, targetImg1.y - 20, 600, targetImg1.y + 80);  //完成後確認鈕
+			var targetImg2 = rbm.findImage('activityClock.png', 0.80);
+			rbm.releaseScreenshot();
+			if (targetImg2 != undefined) {
+				activityCheck[i] = 3;
+
+				var hrX1 = targetImg2.x - 423;
+				var hrX2 = targetImg2.x - 390;
+				var hrY1 = targetImg2.y + 47;
+				var hrY2 = targetImg2.y + 70;
+
+				var minX1 = targetImg2.x - 369;
+				var minX2 = targetImg2.x - 330;
+				var minY1 = targetImg2.y + 47;
+				var minY2 = targetImg2.y + 70;
+
+				// console.log(targetImg2.x, targetImg2.y);
+				// console.log(hrX1, hrY1, hrX2, hrY2);
+				// console.log(minX1, minY1, minX2, minY2);
+
+				var hrORC = num_Recognition(hrX1, hrY1, hrX2, hrY2, 0.85, 'num_Reco/activity_num/wait/activitywait_num_');
+				var minORC = num_Recognition(minX1, minY1, minX2, minY2, 0.85, 'num_Reco/activity_num/wait/activitywait_num_');
+			}
+
+		}else {activityCheck[i] = 1;}
+
+		console.log('每日活動-', activityQuest[i], activityState[activityCheck[i]], ',PLZ wait:', hrORC, 'hr ', minORC, 'min');
+	}
+}
+
+function activityTime(x1, y1, x2, y2) {    //活動時間判斷
+	if (!config.isRunning) return false;
+
+	var actTimeX = new Array( -1, -1, -1, -1, -1, -1, -1);
+	var actTimeY = new Array( -1, -1, -1, -1, -1, -1, -1);
+	var actTimeR = new Array( -1, -1, -1, -1, -1);
+
+	rbm.keepScreenshotPartial( x1, y1, x2, y2);  //完成後確認鈕
+	var ImgStart = rbm.findImage('activityQStartat.png', 0.80);
+	var ImgEnd = rbm.findImage('activityQEndat.png', 0.80);
+	var ImgDay = rbm.findImage('activityQDay.png', 0.80);
+	var ImgHour = rbm.findImage('activityQHour.png', 0.80);
+	var ImgMin = rbm.findImage('activityQMin.png', 0.80);
+	rbm.releaseScreenshot();
+
+	if (ImgStart != undefined) {actTimeR[0] = 1;}
+	if (ImgEnd != undefined) {actTimeR[0] = 2;}
+
+	if (ImgDay != undefined) {
+
+		actTimeX[1] = 129;
+		actTimeX[2] = ImgDay.x;
+		actTimeX[3] = ImgDay.x + 17;
+		
+		var intX1 = actTimeX[1];
+		var intX2 = actTimeX[2];
+		var dayORC = num_Recognition(intX1, y1, intX2, y2, 0.85, 'num_Reco/activity_num/wait/activitywait_num_');
+		actTimeR[1] = dayORC;
+	}
+
+	if (ImgHour != undefined) {
+
+		if (ImgDay == undefined) {actTimeX[3] = 129;}
+		actTimeX[4] = ImgHour.x;
+		actTimeX[5] = ImgHour.x + 40;
+
+		var intX1 = actTimeX[3];
+		var intX2 = actTimeX[4];
+		var hrORC = num_Recognition(intX1, y1, intX2, y2, 0.85, 'num_Reco/activity_num/wait/activitywait_num_');
+		actTimeR[2] = hrORC;
+	}
+
+	if (ImgMin != undefined) {
+
+		if (ImgHour == undefined) {actTimeX[5] = 129;}
+		actTimeX[6] = ImgMin.x;
+
+		var intX1 = actTimeX[5];
+		var intX2 = actTimeX[6];
+		var minORC = num_Recognition(intX1, y1, intX2, y2, 0.85, 'num_Reco/activity_num/wait/activitywait_num_');
+		actTimeR[3] = minORC;
+	}
+
+	rbm.log(actTimeX);
+	rbm.log(actTimeR);
+
+	
+}
+
 function artifictStore(Timer) {  //商店刷寶物
 	if (!config.isRunning) return false;
 	if (!artistorereSw) return false;
@@ -3435,59 +3559,6 @@ function artifictStore(Timer) {  //商店刷寶物
 	}
 		
 	artiStoreTimer =  Date.now() + Timer * 1000;
-}
-
-function activityCHK() {   //活動判斷  1:Fx3倍
-	if (!config.isRunning) return false;
-
-	var activityQuest = new Array( '', '寶箱Fx3倍', '突襲manta', '工會戰爭');
-	var activityState = new Array( '',  '-無',   '-有-開啟',   '-有-等待');
-	var activityCheck = new Array( '',  -1,   -1,   -1);
-
-	//統一抓圖坐標
-	//活動類 x1:420, x2:510
-	//碼錶圖 x1:550, x2:585
-
-	for (var i = 1; i <= 3; i++) {
-
-		rbm.keepScreenshotPartial( 400, 80, 560, 1080);  //完成後確認鈕
-		var filename = 'activityList_0' + i + '.png'
-		var targetImg1 = rbm.findImage(filename, 0.80);
-		rbm.releaseScreenshot();
-
-		if (targetImg1 != undefined) {
-			activityCheck[i] = 2
-
-			// console.log(targetImg1.x, targetImg1.y);
-
-			rbm.keepScreenshotPartial( 520, targetImg1.y - 20, 600, targetImg1.y + 80);  //完成後確認鈕
-			var targetImg2 = rbm.findImage('activityClock.png', 0.80);
-			rbm.releaseScreenshot();
-			if (targetImg2 != undefined) {
-				activityCheck[i] = 3;
-
-				var hrX1 = targetImg2.x - 423;
-				var hrX2 = targetImg2.x - 390;
-				var hrY1 = targetImg2.y + 47;
-				var hrY2 = targetImg2.y + 70;
-
-				var minX1 = targetImg2.x - 369;
-				var minX2 = targetImg2.x - 330;
-				var minY1 = targetImg2.y + 47;
-				var minY2 = targetImg2.y + 70;
-
-				// console.log(targetImg2.x, targetImg2.y);
-				// console.log(hrX1, hrY1, hrX2, hrY2);
-				// console.log(minX1, minY1, minX2, minY2);
-
-				var hrORC = num_Recognition(hrX1, hrY1, hrX2, hrY2, 0.85, 'num_Reco/activity_num/wait/activitywait_num_');
-				var minORC = num_Recognition(minX1, minY1, minX2, minY2, 0.85, 'num_Reco/activity_num/wait/activitywait_num_');
-			}
-
-		}else {activityCheck[i] = 1;}
-
-		console.log('每日活動-', activityQuest[i], activityState[activityCheck[i]], ',PLZ wait:', hrORC, 'hr ', minORC, 'min');
-	}
 }
 
 function checkScreenStop(Time1, Time2, Timer) {
@@ -3936,9 +4007,12 @@ function test(cycle){
 			console.log('============================================================================')
 			console.log('n = ', n, ', CRA 腳本開始', stage)
 
-			while(config.isRunning) {main();}
+			activityTime(80, 680, 300, 702);
+			activityTime(80, 895, 300, 915);
 
-			sleep(1000)
+			// while(config.isRunning) {main();}
+
+			sleep(1000);
 			// console.log('n = ', n, ', CRA 腳本結束');
 		}
 	}
