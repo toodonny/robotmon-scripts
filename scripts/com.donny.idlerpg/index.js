@@ -1146,6 +1146,8 @@ function lvupHero(stageMin, lvupl, Timer) {  //	 英雄升級  OK
 						console.log('自動判定人數:', harts, '人'); //取物件長度
 					}
 
+					// rbm.log('Img2 Sowrd:', Img2);
+
 					if (Img2 != undefined && Img2.y > 730 + list_dY) {
 						// console.log('Img2.y > 730');
 						DIY_swipe(Img2.x, Img2.y, 700, 730 + list_dY, 70, 100);
@@ -1179,7 +1181,7 @@ function lvupHero(stageMin, lvupl, Timer) {  //	 英雄升級  OK
 						for (var k = 1; k <= harts; k++){
 							if (!config.isRunning) return false;
 							// console.log('=========Hero Tap Lv Up=========, k:', k);
-							var tapY = Img2.y - 5 + 106 * (k - 1);
+							var tapY = Img2.y + 5 + 106 * (k - 1);
 							
 							var nowgoldlv = Hero.information[k-1].goldlv;
 							var lvupQ = lvuplimitSw - nowgoldlv;
@@ -1506,6 +1508,8 @@ function lvupTap(uplv, intY, strOK, strNG) {  //英雄、村莊升級
 	var lvupCheckNG = checkPointcolor(lvupX[1], intY, 30, strNG);
 	var lvupCheckOK = checkPointcolor(lvupX[1], intY, 30, strOK);
 	// console.log('lvupCheckNG', lvupCheckNG, ', lvupCheckOK', lvupCheckOK);
+	// console.log('NG:', lvupX[1], intY, 30, strNG);
+	// console.log('OK:', lvupX[1], intY, 30, strOK);
 
 	if (lvupCheckNG) {return false;}
 	if (lvupCheckOK) {
@@ -3485,7 +3489,7 @@ function activityTime(x1, y1, x2, y2) {    //活動時間判斷
 	rbm.log(actTimeX);
 	rbm.log(actTimeR);
 
-	
+
 }
 
 function artifictStore(Timer) {  //商店刷寶物
@@ -3852,11 +3856,11 @@ function setFirstTimer() {   //預設值設定
 function setFirstsetting() {
 	lvupHeroSw    =    1;   //英雄升級開關
 	lvupAllHeroSw =    0;   //使用升級所有英雄鈕
-	lvupHeroDi    =    3;   //升級量級次 1:x1, 2:x10, 3:x100, 4:MAX
+	lvupHeroDi    =    2;   //升級量級次 1:x1, 2:x10, 3:x100, 4:MAX
 	lvupHerostgSw =  300;   //設定開始升級關卡
 	lvupheromdSw  =    3;   //1:定時, 2:自動, 3:設定
-	lvuptimeSw    =  600;   //英雄升級檢查間隔
-	lvuplimitSw   =  200;   //金幣等級到達不檢查
+	lvuptimeSw    =  60;   //英雄升級檢查間隔
+	lvuplimitSw   =  110;   //金幣等級到達不檢查
 	//自動判斷是以魔晶+金幣等級-100為下次檢查關卡
 
 	lvupVillageSw =    0;    //村莊升級
@@ -3884,7 +3888,7 @@ function setFirstsetting() {
 	//每次升級以10級為基礎量
 
 
-	autoWeekSw    =    1;   //每日可打材料屬性【0:關閉 1:水  2:火  3:木  4:光  5:暗】
+	autoWeekSw    =    0;   //每日可打材料屬性【0:關閉 1:水  2:火  3:木  4:光  5:暗】
 	dgticksSw     =    0;   //保留票數
 
 	earlydgMaterialSw  =   0;  //提前保留屬性【0:關閉 1:水  2:火  3:木  4:光  5:暗】
@@ -3906,7 +3910,7 @@ function setFirstsetting() {
 
 	failureTime   =   59;   //打材料boss，判定打不過(剩下時間s)
 
-	ExpedSw       =    1;   //遠征開關
+	ExpedSw       =    0;   //遠征開關
 	ExpedHeroSw   =    1;   //每個遠征最大人數
 	ExpedstarSw   =    1;   //刷目標的星級(以1上)
 	Expeditem1Sw  =    0;   //刷目標的物品1 (0:保持現有)
@@ -3934,7 +3938,7 @@ function setFirstsetting() {
 	failureth3Sw  =    0;   //打不過閃電改 300
 	failuredwlvSw =    0;   //閃電300 打不過降級打
 
-	getADBoxSw    =    1;   //撿寶箱開關
+	getADBoxSw    =    0;   //撿寶箱開關
 	tapBOXmodSw   =    2;   //寶箱亂點之術  1:刷關強化  2:點寶箱強化 
 	tapRLtimeSw   =    3;   //(A) 點左右頁面次數(按住50ms，間隔50ms)
 	afterRLDySw   =  100;   //(B) 點完左右頁面等待時間 ms
@@ -4007,9 +4011,11 @@ function test(cycle){
 			console.log('============================================================================')
 			console.log('n = ', n, ', CRA 腳本開始', stage)
 
-			activityTime(80, 680, 300, 702);
-			activityTime(80, 895, 300, 915);
+			// activityTime(80, 680, 300, 702);
+			// activityTime(80, 895, 300, 915);
 
+			lvupHeroTimer = -1
+			lvupHero(lvupHerostgSw, lvupHeroDi, lvuptimeSw);
 			// while(config.isRunning) {main();}
 
 			sleep(1000);
