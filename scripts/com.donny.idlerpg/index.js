@@ -978,12 +978,40 @@ function waitAD(timer, speedx2) {   // OK
 				break;
 			}
 		}
+		if (activityStaut == 0) {
+			console.log('在遊戲中,', i, 'sec');
 
-		if (activityStaut == 1) {
+			rbm.keepScreenshotPartial(260, 500, 450, 1180);  ///點擊獲取
+			var Img = rbm.findImage('getButton.png', 0.90);
+			rbm.releaseScreenshot();
+			if (Img != undefined && Img.score >= 0.90) {
+				console.log('出現獲取鈕，點擊跳出');
+				sleep(300);
+				tapFor(Img.x , Img.y, 3, 60, 200);
+				return false;
+			}
+
+			CheckImageTap(280, 490, 420,  540, 0.90,  'exitgame.png', 240, 830, 1, 500, 0, 0);    //取消退出遊戲
+
+			if (useReturn(1)) {
+				a = a + 1;
+				if (i < 10 && a >= 10) {console.log('選單鈕，出現10秒，異常'); return false;}
+				else if (i > 10 && a >=  5) {console.log('選單鈕，出現 5秒，回到遊戲'); return false;}
+
+				if (!speedx2 && useReturn(2)) {console.log('廣告 2倍速 完成');return false;}  //無加速變有加速判斷
+
+				CheckImageTap(310, 600, 405, 1170, 0.90,  'OKbutton.png',   1,   1, 1, 500, 1, 1);    //確認鈕
+			}else {
+				a = 0;
+				CheckImageTap(500,   0, 720,  530, 0.90, 'rightupXX.png',   1,   1, 1, 500, 1, 0);    //遊戲中右上的叉叉	
+				CheckImageTap(100, 550, 500,  780, 0.99, 'AD_close_video_box.png',   1,   1, 1, 3500, 1, 0);    //遊戲繼續觀看廣告畫面
+			}
+
+		}else if (activityStaut == 1) {
 			console.log('發現google store，按BACK鍵，回廣告,', i, 'sec');
 			keycode('BACK', 1000);
 
-		}else if (activityStaut > 1) {
+		}else {
 			console.log('看廣告畫面中,', i, 'sec');
 
 			// if (i > 5 && i < timer) {console.log(i, 'sec');}
@@ -1047,38 +1075,9 @@ function waitAD(timer, speedx2) {   // OK
 				}
 			}
 
-		}else if (activityStaut == 0) {
-			console.log('在遊戲中,', i, 'sec');
-
-			rbm.keepScreenshotPartial(260, 500, 450, 1180);  ///點擊獲取
-			var Img = rbm.findImage('getButton.png', 0.90);
-			rbm.releaseScreenshot();
-			if (Img != undefined && Img.score >= 0.90) {
-				console.log('出現獲取鈕，點擊跳出');
-				sleep(300);
-				tapFor(Img.x , Img.y, 3, 60, 200);
-				return false;
-			}
-
-			CheckImageTap(280, 490, 420,  540, 0.90,  'exitgame.png', 240, 830, 1, 500, 0, 0);    //取消退出遊戲
-
-			if (useReturn(1)) {
-				a = a + 1;
-				if (i < 10 && a >= 10) {console.log('選單鈕，出現10秒，異常'); return false;}
-				else if (i > 10 && a >=  5) {console.log('選單鈕，出現 5秒，回到遊戲'); return false;}
-
-				if (!speedx2 && useReturn(2)) {console.log('廣告 2倍速 完成');return false;}  //無加速變有加速判斷
-
-				CheckImageTap(310, 600, 405, 1170, 0.90,  'OKbutton.png',   1,   1, 1, 500, 1, 1);    //確認鈕
-			}else {
-				a = 0;
-				CheckImageTap(500,   0, 720,  530, 0.90, 'rightupXX.png',   1,   1, 1, 500, 1, 0);    //遊戲中右上的叉叉	
-				CheckImageTap(100, 550, 500,  780, 0.99, 'AD_close_video_box.png',   1,   1, 1, 3500, 1, 0);    //遊戲繼續觀看廣告畫面
-			}
-
 		}
 
-		sleep(700);
+		sleep(760);
 		//console.log('Wait Time: ', i, '/', timer);
 	}
 }
