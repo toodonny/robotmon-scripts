@@ -927,69 +927,128 @@ function getADGold(Timer) {  //看廣告拿金幣  OK
 	}
 }
 
+//activityName":".Main","packageName":"com.godzilab.idlerpg
+//activityName":"com.applovin.adview.AppLovinFullscreenActivity","packageName":"com.godzilab.idlerpg
+//activityName":"com.applovin.adview.AppLovinFullscreenActivity","packageName":"com.godzilab.idlerpg
+//activityName":"com.applovin.adview.AppLovinFullscreenActivity","packageName":"com.godzilab.idlerpg
+//activityName":"com.google.android.finsky.activities.MainActivity","packageName":"com.android.vending
+
 function waitAD(timer, speedx2) {   // OK
 	if (!config.isRunning) return false;
 	if (speedx2 == undefined) var speedx2 = true;
 	console.log('等待廣告', 'speedx2:', speedx2);
 	
+	// adActivity = {
+	// 	'information':[
+	// 		  {'NO': 1, 'magiclv': '', 'goldlv': '', 'attrib': '', 'totallv': ''},
+	// 		  {'NO': 2, 'magiclv': '', 'goldlv': '', 'attrib': '', 'totallv': ''},
+	// 		  {'NO': 3, 'magiclv': '', 'goldlv': '', 'attrib': '', 'totallv': ''},
+	// 		  {'NO': 4, 'magiclv': '', 'goldlv': '', 'attrib': '', 'totallv': ''},
+	// 		  {'NO': 5, 'magiclv': '', 'goldlv': '', 'attrib': '', 'totallv': ''},
+	// 	  ],
+	//   }	
+
+	var adActivity = new Array(
+		'.Main',
+		'com.google.android.finsky.activities.MainActivity',
+		'com.applovin.adview.AppLovinFullscreenActivity',
+		'com.adcolony.sdk.AdColonyInterstitialActivity'
+	)
+
+	var mainActivityNm = '.Main';
+	var googleActivityNm = 'com.google.android.finsky.activities.MainActivity';
+	var adActivityNm1 = 'com.applovin.adview.AppLovinFullscreenActivity';
+	var adActivityNm2 = 'com.adcolony.sdk.AdColonyInterstitialActivity';
+
+	var gamePackageNm = 'com.godzilab.idlerpg';
+	var googlePackageNm = 'com.android.vending';
+
 	a = 0;
 	for (var i = 1; i <= timer; i++){
 		if (!config.isRunning) return false;
 		
-		if (i > 5 && i < timer) {console.log(i, 'sec');}
-		if (i >= timer - 10) {
-			console.log('廣告觀看計時 = ' + i, '按BACK，切廣告')
+
+		var currApp = rbm.currentApp();
+		// rbm.log(currApp);
+		// console.log('currApp.activityName;', currApp.activityName);
+
+		for (var k = 0; k <= 4; k++) {
+			if (currApp.activityName == adActivity[k]){
+				var activityStaut = k;
+				break;
+			}
+		}
+
+		if (activityStaut == 1) {
+			console.log('發現google store，按BACK鍵，回廣告,', i, 'sec');
 			keycode('BACK', 1000);
-		}
-		// console.log('i:', i, ', timer:', timer);
-		if (i >= timer) {
-			console.log('廣告觀看計時 = ' + timer, '按HOME，切回遊戲')
-			keycode('HOME', 200); sleep(200);
-			keycode('HOME', 200); sleep(1000);
-			// rbm.startApp(config.PackangName,config.LaunchActivityName);
 
-			startApp(180, scrShotSw);
-			sleep(1000);
-		}
+		}else if (activityStaut > 1) {
+			console.log('看廣告畫面中,', i, 'sec');
 
-		var sizeObj = getScreenSize();
-		if (sizeObj.width == 720 && i >= 5 && admodeSw == 2) {
-			var stoptime1 = ScreenStopTimes( 180, 270, 590, 860, 0.999, 'checkADstop.png', 1, 1)
-			
-			rbm.keepScreenshotPartial(674, 22, 700, 45);  ///點擊獲取
-			var Img = rbm.findImage('AD_rr_001.png', 0.90);
-			rbm.releaseScreenshot();
-			if (Img){rbm.log('AD_rr_001.png:', Img);}
-			if (Img != undefined || stoptime1 > 8 || i > 40) {
-				tapFor(690, 35, 1, 30, 100, 4500);
-				tapFor(690, 35, 1, 30, 100, 3000);
-			}
-
-			if (stoptime1 >= 3 || i >= 35) {		
-				// console.log(i, 'sec', 'stoptime1 >= 3 || i >= 35 , press key BACK' );
-				console.log('廣告結束，畫面停3秒，回遊戲');
-				keycode('BACK', 200); sleep(400);
-				stoptime1 = 0;
-			}
-
-			rbm.keepScreenshotPartial(470, 690, 600, 720);  ///點擊獲取
-			var Img = rbm.findImage('AD_YESNO_01.png', 0.90);
-			rbm.releaseScreenshot();
-			if (Img != undefined && Img.score >= 0.90) {
-				console.log('AD_YES_NO，Wait 6 sec');
-				tapFor(Img.x , Img.y, 1, 60, 200);
-				sleep(6000);
-				stoptime1 = 0;
-			}
-
-			rbm.keepScreenshotPartial(660, 60, 690, 90);  ///點擊獲取
-			var Img = rbm.findImage('AD_XX_001.png', 0.90);
-			rbm.releaseScreenshot();
-			if (Img != undefined && Img.score >= 0.90) {
-				console.log('AD_XX_001');
-				tapFor(675 , 75, 1, 60, 200);
+			// if (i > 5 && i < timer) {console.log(i, 'sec');}
+			if (i >= timer - 10) {
+				console.log('廣告觀看計時 = ' + i, '按BACK，切廣告')
+				keycode('BACK', 1000);
 				sleep(1000);
 			}
+			// console.log('i:', i, ', timer:', timer);
+			if (i >= timer) {
+				console.log('廣告觀看計時 = ' + timer, '按HOME，切回遊戲')
+				keycode('HOME', 200); sleep(200);
+				keycode('HOME', 200); sleep(1000);
+				// rbm.startApp(config.PackangName,config.LaunchActivityName);
+
+				startApp(180, scrShotSw);
+				sleep(1000);
+			}
+
+			var sizeObj = getScreenSize();
+			if (sizeObj.width == 720 && i >= 5 && admodeSw == 2) {
+				var stoptime1 = ScreenStopTimes( 180, 270, 590, 860, 0.999, 'checkADstop.png', 1, 1)
+				
+				rbm.keepScreenshotPartial(674, 20, 718, 55);  ///檢查 >> 點擊
+				for (var j = 1; j <= 4; j++){
+					var filename = 'AD_rr_00' + j + '.png';
+					var Img = rbm.findImage(filename, 0.995);
+					if (Img != undefined) {break;}
+				}rbm.releaseScreenshot();
+				if (Img){rbm.log(filename + ':', Img);}
+
+				if (Img != undefined || stoptime1 > 88 || i > 37) {
+					tapFor(690, 35, 1, 30, 100, 4500);
+					tapFor(690, 35, 1, 30, 100, 3000);
+				}
+
+				if (stoptime1 >= 3 || i >= 35) {		
+					// console.log(i, 'sec', 'stoptime1 >= 3 || i >= 35 , press key BACK' );
+					console.log('廣告結束，畫面停3秒，回遊戲');
+					keycode('BACK', 200); sleep(400);
+					stoptime1 = 0;
+				}
+
+				rbm.keepScreenshotPartial(470, 690, 600, 720);  ///點繼續看AD YES NO
+				var Img = rbm.findImage('AD_YESNO_01.png', 0.90);
+				rbm.releaseScreenshot();
+				if (Img != undefined && Img.score >= 0.90) {
+					console.log('AD_YES_NO，Wait 6 sec');
+					tapFor(Img.x , Img.y, 1, 60, 200);
+					sleep(6000);
+					stoptime1 = 0;
+				}
+
+				rbm.keepScreenshotPartial(660, 60, 690, 90);  ///點擊AD X
+				var Img = rbm.findImage('AD_XX_001.png', 0.90);
+				rbm.releaseScreenshot();
+				if (Img != undefined && Img.score >= 0.90) {
+					console.log('AD_XX_001');
+					tapFor(675 , 75, 1, 60, 200);
+					sleep(1000);
+				}
+			}
+
+		}else if (activityStaut == 0) {
+			console.log('在遊戲中,', i, 'sec');
 
 			rbm.keepScreenshotPartial(260, 500, 450, 1180);  ///點擊獲取
 			var Img = rbm.findImage('getButton.png', 0.90);
@@ -1011,13 +1070,14 @@ function waitAD(timer, speedx2) {   // OK
 				if (!speedx2 && useReturn(2)) {console.log('廣告 2倍速 完成');return false;}  //無加速變有加速判斷
 
 				CheckImageTap(310, 600, 405, 1170, 0.90,  'OKbutton.png',   1,   1, 1, 500, 1, 1);    //確認鈕
-			}
-			else {
+			}else {
 				a = 0;
 				CheckImageTap(500,   0, 720,  530, 0.90, 'rightupXX.png',   1,   1, 1, 500, 1, 0);    //遊戲中右上的叉叉	
 				CheckImageTap(100, 550, 500,  780, 0.99, 'AD_close_video_box.png',   1,   1, 1, 3500, 1, 0);    //遊戲繼續觀看廣告畫面
 			}
+
 		}
+
 		sleep(700);
 		//console.log('Wait Time: ', i, '/', timer);
 	}
@@ -1074,6 +1134,7 @@ function choiceMenu(page) {  //主選單頁面  page: 1:英雄 2:村莊 3:寶物
 
 // -英雄資料-----
 function lvupHero(stageMin, lvupl, Timer) {  //	 英雄升級  OK
+	console.log('herolvupAllok:', herolvupAllok);
 	if (!config.isRunning || Date.now() < lvupHeroTimer) return false;	
 	// if (stage > 0 && totallvupstage > 0 &&  stage <= totallvupstage) {return false;}
 	// if (herogoldlvmin >= lvuplimitSw) return false;
@@ -1082,7 +1143,7 @@ function lvupHero(stageMin, lvupl, Timer) {  //	 英雄升級  OK
 	if (!useReturn(2)) return false;
 	if (stage <= stageMin) return false;
 	console.log('英雄升級');
-	
+
 	if (stage > 0 && totallvupstage > 0 &&  stage <= totallvupstage) {
 		console.log('stage:', stage, '未達英雄等級', totallvupstage, '跳出升級'); 
 		lvupHeroTimer =  Date.now() + Timer * 10 * 1000;
@@ -1092,7 +1153,11 @@ function lvupHero(stageMin, lvupl, Timer) {  //	 英雄升級  OK
 		console.log('英雄金幣等級:', herogoldlvmin, '達到設定', lvuplimitSw, '跳出升級'); 
 		lvupHeroTimer =  Date.now() + Timer * 10 * 1000;
 		return false;
-	}	
+	}
+	if (herolvupAllok == 1) {
+		console.log('全數英雄等級到達,', lvuplimitSw);
+		return false;
+	}
 	
 	var lvupX = new Array( 20, 580, 540, 440, 340);
 	// var lvupTap = new Array( '', 20, 10, 5, 3);
@@ -1198,6 +1263,7 @@ function lvupHero(stageMin, lvupl, Timer) {  //	 英雄升級  OK
 								// rbm.log('人員' + k + ':' + '等級到達:', nowgoldlv + '/' + lvuplimitSw, ', lvupQ:' + lvupQ);
 								rbm.log('人員' + k + ':' + nowgoldlv + '/' + lvuplimitSw + ', 等級到達:');
 								herolvupQ = herolvupQ + 1;
+								if (herolvupQ == harts){herolvupAllok = 1;}
 							}
 						}
 						lvupTaps = new Array( '', 20, 12, 5, 3);
@@ -1999,12 +2065,9 @@ function GuildBoss(bosslv, th13, pc, Timer) {  //公會BOSS
 	if (!useReturn(2)) return false;
 	console.log('工會打BOSS');
 	
-
 	for (var i = 1; i <= 15; i++){
 		if (!config.isRunning) return false;
 		//console.log('Guild Boss Fight : ', i );
-
-
 
 		rbm.keepScreenshotPartial( 280, 1190, 440, 1280);  //確認打boss
 		var Img3 = rbm.findImage('guildTimerlimiticon.png', 0.90);
@@ -2019,7 +2082,6 @@ function GuildBoss(bosslv, th13, pc, Timer) {  //公會BOSS
 			tapFor(Img4.x, Img4.y, 1, 70, 400);
 		}
 		else if (Img3 != undefined && Img4 == undefined) {
-
 
 			var bossft_dX = 0;
 			rbm.keepScreenshotPartial( 250, 280, 470, 360);  //確認有工會戰爭偏移找團戰
@@ -3844,6 +3906,7 @@ function setFirstTimer() {   //預設值設定
 	totallvupstage = 0;
 	villageF       = 1;
 	herolvupQ      = 0;
+	herolvupAllok  = -1;
 
 	materialCHK    = 0;
 
@@ -3856,10 +3919,10 @@ function setFirstTimer() {   //預設值設定
 function setFirstsetting() {
 	lvupHeroSw    =    1;   //英雄升級開關
 	lvupAllHeroSw =    0;   //使用升級所有英雄鈕
-	lvupHeroDi    =    2;   //升級量級次 1:x1, 2:x10, 3:x100, 4:MAX
-	lvupHerostgSw =  300;   //設定開始升級關卡
+	lvupHeroDi    =    3;   //升級量級次 1:x1, 2:x10, 3:x100, 4:MAX
+	lvupHerostgSw =  900;   //設定開始升級關卡
 	lvupheromdSw  =    3;   //1:定時, 2:自動, 3:設定
-	lvuptimeSw    =  60;   //英雄升級檢查間隔
+	lvuptimeSw    =  30;   //英雄升級檢查間隔
 	lvuplimitSw   =  110;   //金幣等級到達不檢查
 	//自動判斷是以魔晶+金幣等級-100為下次檢查關卡
 
@@ -3869,7 +3932,7 @@ function setFirstsetting() {
 
 	toRincarnSw   =    1;   //輪迴開關
 	doubMG        =    0;   //輪迴兩倍魔晶
-	ministageSw   = 1661;   //輪迴關卡
+	ministageSw   = 1681;   //輪迴關卡
 	rintimes1Sw   =    1;   //輪迴關卡檢查次數
 
 	autoMinSw     =  140;   //開始檢查關卡 (140~9000)
@@ -3888,7 +3951,7 @@ function setFirstsetting() {
 	//每次升級以10級為基礎量
 
 
-	autoWeekSw    =    0;   //每日可打材料屬性【0:關閉 1:水  2:火  3:木  4:光  5:暗】
+	autoWeekSw    =    1;   //每日可打材料屬性【0:關閉 1:水  2:火  3:木  4:光  5:暗】
 	dgticksSw     =    0;   //保留票數
 
 	earlydgMaterialSw  =   0;  //提前保留屬性【0:關閉 1:水  2:火  3:木  4:光  5:暗】
@@ -3901,7 +3964,7 @@ function setFirstsetting() {
 	spdstageSw    =   40;   //開始打活動boss關卡
 
 	menuW0Sw      =    5;   //星期日：木、水、暗 (3, 1, 5)
-	menuW1Sw      =    2;   //星期一：火、暗 (2, 5)
+	menuW1Sw      =    5;   //星期一：火、暗 (2, 5)
 	menuW2Sw      =    4;   //星期二：木、光 (3, 4)
 	menuW3Sw      =    1;   //星期三：水、火 (1, 2)
 	menuW4Sw      =    4;   //星期四：木、光 (3, 4)
@@ -3910,7 +3973,7 @@ function setFirstsetting() {
 
 	failureTime   =   59;   //打材料boss，判定打不過(剩下時間s)
 
-	ExpedSw       =    0;   //遠征開關
+	ExpedSw       =    1;   //遠征開關
 	ExpedHeroSw   =    1;   //每個遠征最大人數
 	ExpedstarSw   =    1;   //刷目標的星級(以1上)
 	Expeditem1Sw  =    0;   //刷目標的物品1 (0:保持現有)
@@ -3932,25 +3995,25 @@ function setFirstsetting() {
 	herocode2Sw   =   18;   //周日：英雄代碼請見設定頁最下方
 	maldhelpupTSw =    5;   //提早進入求助時間
 
-	guildbossSw   =    0;   //工會打BOSS開關
-	guildbosshdSw =    3;   //工會打BOSS難度 1:弱, 2:中, 3:強
+	guildbossSw   =    1;   //工會打BOSS開關
+	guildbosshdSw =    1;   //工會打BOSS難度 1:弱, 2:中, 3:強
 	guildbossthSw =    1;   //工會打BOSS閃電用量 1:100, 2:300
 	failureth3Sw  =    0;   //打不過閃電改 300
 	failuredwlvSw =    0;   //閃電300 打不過降級打
 
-	getADBoxSw    =    0;   //撿寶箱開關
+	getADBoxSw    =    1;   //撿寶箱開關
 	tapBOXmodSw   =    2;   //寶箱亂點之術  1:刷關強化  2:點寶箱強化 
 	tapRLtimeSw   =    3;   //(A) 點左右頁面次數(按住50ms，間隔50ms)
-	afterRLDySw   =  100;   //(B) 點完左右頁面等待時間 ms
+	afterRLDySw   =   20;   //(B) 點完左右頁面等待時間 ms
 	crystalCKSw   =    1;   //(C) 檢查左右水晶次數 (每次35ms)
 	tapSkillSw    =    1;   //(D)放大技開關
-	skillslepSw   =  150;   //(E)放大技後延遲 ms
+	skillslepSw   =  100;   //(E)放大技後延遲 ms
 	//動作流程與時間差說明
 	//① 點擊左邊(A)次 → 等待(B)毫秒 → 檢查左水晶(C)次 → 點擊 210~710(每50pix)
 	//② 點擊右邊(A)次 → 等待(B)毫秒 → 檢查右水晶(C)次 → 點擊  10~510(每50pix)
 	//③ 施放大技(D) → 等待(E)毫秒 →  回到 ①
 
-	artistorereSw =    1;   //商店刷寶物
+	artistorereSw =    0;   //商店刷寶物
 	artistoTimeSw =  300;   //商店刷寶物檢查時間(s)
 	artistarlvSw  =    5;   //目標寶物星級 (5~7)
 	artitarget1Sw =    1;   //目標寶物1 (0:關閉)
@@ -3962,8 +4025,8 @@ function setFirstsetting() {
 	loginDailySw  =    0;   //每日登入獎勵
 
 	admodeSw      =    2;   //看廣告模式  (1:定時, 2:自動判斷  3:VIP5 點跳過)
-	adtimesetSw   =   60;   //廣告檢查總時間
-	resetappTm    =   60;   //卡畫面重啟時間
+	adtimesetSw   =   80;   //廣告檢查總時間
+	resetappTm    =   80;   //卡畫面重啟時間
 
 	goldADSw      =    1;   //廣告拿金幣開關    
 	fcoinex2Sw    =    0;   //當日Fx2判斷，活動開始前停撿寶箱  
@@ -4011,14 +4074,12 @@ function test(cycle){
 			console.log('============================================================================')
 			console.log('n = ', n, ', CRA 腳本開始', stage)
 
-			// activityTime(80, 680, 300, 702);
-			// activityTime(80, 895, 300, 915);
+			
 
-			lvupHeroTimer = -1
-			lvupHero(lvupHerostgSw, lvupHeroDi, lvuptimeSw);
-			// while(config.isRunning) {main();}
 
-			sleep(1000);
+			while(config.isRunning) {main();}
+
+			// sleep(1000);
 			// console.log('n = ', n, ', CRA 腳本結束');
 		}
 	}
