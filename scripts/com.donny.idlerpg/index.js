@@ -837,7 +837,7 @@ function getADSpeed() {  //看廣告拿2倍速 OK
 
 								// tapFor(530,  30, 1, 200, 300);
 								CheckImageTap( 440, 10, 570, 70, 0.95, 'speedx2_up_ad_icon.png', 1, 1, 1, 700, 1, 0);  //加速關閉點on
-								CheckImageTap( 280, 480, 420, 540, 0.95, 'speedx2_yesno_icon.png', 480, 820, 1, 1000, 0, 1);  //右上功能圖示關閉
+								CheckImageTap( 280, 480, 420, 540, 0.95, 'speedx2_yesno_icon.png', 480, 820, 1, 1000, 0, 0);  //右上功能圖示關閉
 
 								// tapFor(480, 820, 1, 200, 300);
 								sleep(200);
@@ -928,40 +928,42 @@ function getADGold(Timer) {  //看廣告拿金幣  OK
 }
 
 //activityName":".Main","packageName":"com.godzilab.idlerpg
-//activityName":"com.applovin.adview.AppLovinFullscreenActivity","packageName":"com.godzilab.idlerpg
-//activityName":"com.applovin.adview.AppLovinFullscreenActivity","packageName":"com.godzilab.idlerpg
-//activityName":"com.applovin.adview.AppLovinFullscreenActivity","packageName":"com.godzilab.idlerpg
+
 //activityName":"com.google.android.finsky.activities.MainActivity","packageName":"com.android.vending
+
+// activityName":"com.applovin.adview.AppLovinFullscreenActivity","packageName":"com.godzilab.idlerpg
+// activityName":"com.facebook.ads.AudienceNetworkActivity","packageName":"com.godzilab.idlerpg
+// activityName":"com.adcolony.sdk.AdColonyInterstitialActivity","packageName":"com.godzilab.idlerpg
+// activityName":"com.google.android.gms.ads.AdActivity","packageName":"com.godzilab.idlerpg
+// activityName":"com.fyber.inneractive.sdk.activities.InneractiveFullscreenAdActivity","packageName":"com.godzilab.idlerpg
+// activityName":"com.unity3d.services.ads.adunit.AdUnitActivity","packageName":"com.godzilab.idlerpg
 
 function waitAD(timer, speedx2) {   // OK
 	if (!config.isRunning) return false;
 	if (speedx2 == undefined) var speedx2 = true;
 	console.log('等待廣告', 'speedx2:', speedx2);
 	
-	// adActivity = {
-	// 	'information':[
-	// 		  {'NO': 1, 'magiclv': '', 'goldlv': '', 'attrib': '', 'totallv': ''},
-	// 		  {'NO': 2, 'magiclv': '', 'goldlv': '', 'attrib': '', 'totallv': ''},
-	// 		  {'NO': 3, 'magiclv': '', 'goldlv': '', 'attrib': '', 'totallv': ''},
-	// 		  {'NO': 4, 'magiclv': '', 'goldlv': '', 'attrib': '', 'totallv': ''},
-	// 		  {'NO': 5, 'magiclv': '', 'goldlv': '', 'attrib': '', 'totallv': ''},
-	// 	  ],
-	//   }	
+	adActivity = {
+		'info':[
+				{'activityName':'.Main','packageName':'com.godzilab.idlerpg'},
+				{'activityName':'com.google.android.finsky.activities.MainActivity','packageName':'com.android.vending'},
+				{'activityName':'com.applovin.adview.AppLovinFullscreenActivity','packageName':'com.godzilab.idlerpg'},
+				{'activityName':'com.facebook.ads.AudienceNetworkActivity','packageName':'com.godzilab.idlerpg'},
+				{'activityName':'com.adcolony.sdk.AdColonyInterstitialActivity','packageName':'com.godzilab.idlerpg'},
+				{'activityName':'com.google.android.gms.ads.AdActivity','packageName':'com.godzilab.idlerpg'},
+				{'activityName':'com.fyber.inneractive.sdk.activities.InneractiveFullscreenAdActivity','packageName':'com.godzilab.idlerpg'},
+				{'activityName':'com.unity3d.services.ads.adunit.AdUnitActivity','packageName':'com.godzilab.idlerpg'}
+		  ],
+	  }	
 
-	var adActivity = new Array(
-		'.Main',
-		'com.google.android.finsky.activities.MainActivity',
-		'com.applovin.adview.AppLovinFullscreenActivity',
-		'com.adcolony.sdk.AdColonyInterstitialActivity'
-	)
+	// var adActivity = new Array(
+	// 	'.Main',
+	// 	'com.google.android.finsky.activities.MainActivity',
+	// 	'com.applovin.adview.AppLovinFullscreenActivity',
+	// 	'com.adcolony.sdk.AdColonyInterstitialActivity',
 
-	var mainActivityNm = '.Main';
-	var googleActivityNm = 'com.google.android.finsky.activities.MainActivity';
-	var adActivityNm1 = 'com.applovin.adview.AppLovinFullscreenActivity';
-	var adActivityNm2 = 'com.adcolony.sdk.AdColonyInterstitialActivity';
+	// )
 
-	var gamePackageNm = 'com.godzilab.idlerpg';
-	var googlePackageNm = 'com.android.vending';
 
 	a = 0;
 	for (var i = 1; i <= timer; i++){
@@ -972,14 +974,22 @@ function waitAD(timer, speedx2) {   // OK
 		// rbm.log(currApp);
 		// console.log('currApp.activityName;', currApp.activityName);
 
-		for (var k = 0; k <= 4; k++) {
-			if (currApp.activityName == adActivity[k]){
+		
+		var adListQ = Object.keys(adActivity.info).length - 1;
+		// console.log('adListQ:', adListQ);
+		for (var k = 0; k <= adListQ; k++) {
+			// console.log(k, adListQ, adActivity.info[k].activityName);
+			if (currApp.activityName == adActivity.info[k].activityName){
 				var activityStaut = k;
 				break;
 			}
+
+			if (k == adListQ) {rbm.log(currApp);}
 		}
 		if (activityStaut == 0) {
-			console.log('在遊戲中,', i, 'sec');
+			console.log(activityStaut, '在遊戲中,', i, 'sec');
+
+			if (useReturn(3)) {return false;}
 
 			rbm.keepScreenshotPartial(260, 500, 450, 1180);  ///點擊獲取
 			var Img = rbm.findImage('getButton.png', 0.90);
@@ -1000,7 +1010,7 @@ function waitAD(timer, speedx2) {   // OK
 
 				if (!speedx2 && useReturn(2)) {console.log('廣告 2倍速 完成');return false;}  //無加速變有加速判斷
 
-				CheckImageTap(310, 600, 405, 1170, 0.90,  'OKbutton.png',   1,   1, 1, 500, 1, 1);    //確認鈕
+				CheckImageTap(310, 600, 405, 1170, 0.90,  'OKbutton.png',   1,   1, 1, 500, 1, 0);    //確認鈕
 			}else {
 				a = 0;
 				CheckImageTap(500,   0, 720,  530, 0.90, 'rightupXX.png',   1,   1, 1, 500, 1, 0);    //遊戲中右上的叉叉	
@@ -1008,11 +1018,11 @@ function waitAD(timer, speedx2) {   // OK
 			}
 
 		}else if (activityStaut == 1) {
-			console.log('發現google store，按BACK鍵，回廣告,', i, 'sec');
+			console.log(activityStaut, '發現google store，按BACK鍵，回廣告,', i, 'sec');
 			keycode('BACK', 1000);
 
 		}else {
-			console.log('看廣告畫面中,', i, 'sec');
+			console.log(activityStaut, '看廣告畫面中,', i, 'sec');
 
 			// if (i > 5 && i < timer) {console.log(i, 'sec');}
 			if (i >= timer - 10) {
@@ -1077,7 +1087,7 @@ function waitAD(timer, speedx2) {   // OK
 
 		}
 
-		sleep(760);
+		sleep(780);
 		//console.log('Wait Time: ', i, '/', timer);
 	}
 }
@@ -1133,7 +1143,6 @@ function choiceMenu(page) {  //主選單頁面  page: 1:英雄 2:村莊 3:寶物
 
 // -英雄資料-----
 function lvupHero(stageMin, lvupl, Timer) {  //	 英雄升級  OK
-	console.log('herolvupAllok:', herolvupAllok);
 	if (!config.isRunning || Date.now() < lvupHeroTimer) return false;	
 	// if (stage > 0 && totallvupstage > 0 &&  stage <= totallvupstage) {return false;}
 	// if (herogoldlvmin >= lvuplimitSw) return false;
@@ -2198,12 +2207,12 @@ function GuildBossCK(bosslv, th13) {  //公會BOSS
 			rbm.keepScreenshotPartial( intX1,  intY1, intX2, intY2);  //BOSS降級按鈕
 			var Img1 = rbm.findImage('guildbossdonwlvbutton.png', 0.90);
 			var Img2 = rbm.findImage('guildbosshelpicon.png', 0.90);
-			rbm.log('Img1:',Img1);
-			rbm.log('Img2:',Img2);
+			// rbm.log('guildbossdonwlvbutton:',Img1);
+			// rbm.log('guildbosshelpicon:',Img2);
 			rbm.releaseScreenshot();
 			
-			if (Img1 != undefined) { rbm.log('Img1:',Img1); }
-			if (Img2 != undefined) { rbm.log('Img2:',Img2); }	
+			// if (Img1 != undefined) { rbm.log('guildbossdonwlvbutton:',Img1); }
+			// if (Img2 != undefined) { rbm.log('guildbosshelpicon:',Img2); }	
 			
 			if (Img1 != undefined && Img2 == undefined) {
 				tapFor( Img1.x, Img1.y, 1, 60, 200);
@@ -2215,7 +2224,7 @@ function GuildBossCK(bosslv, th13) {  //公會BOSS
 				var checkX = Img2.x + 160 + 140 * (bosslv - 1);
 				var color1 = checkPointcolor(checkX, Img2.y, 30, 'F28459');   //等級按鈕  5D3322:暗的, F28459:亮的
 				
-				if (color1) { rbm.log('color1:', color1, checkX, Img2.y); }
+				// if (color1) { rbm.log('color1:', color1, checkX, Img2.y); }
 				
 				if (!color1) {
 					tapFor( checkX, Img2.y, 1, 60, 200);
@@ -2223,16 +2232,16 @@ function GuildBossCK(bosslv, th13) {  //公會BOSS
 				if (color1) {
 					if (!config.isRunning) return false;
 					
-					console.log(400,  Img1.y, 690, Img1.y + 325);
+					// console.log(400,  Img1.y, 690, Img1.y + 325);
 					rbm.keepScreenshotPartial(400,  Img1.y, 690, Img1.y + 325);  //找閃電
 					var Img3 = rbm.findImage('guildbosschallenge.png', 0.90);
 					var Img4 = rbm.findImage('thundericonBTN.png', 0.92);
 					var Img6 = rbm.findImage('thundericonBTN_dark.png', 0.92);
 					rbm.releaseScreenshot();
 					
-					if (Img3 != undefined) { rbm.log('Img3:',Img3); }
-					if (Img4 != undefined) { rbm.log('Img4:',Img4); }
-					if (Img6 != undefined) { rbm.log('Img6:',Img6); }
+					// if (Img3 != undefined) { rbm.log('guildbosschallenge:',Img3); }
+					// if (Img4 != undefined) { rbm.log('thundericonBTN:',Img4); }
+					// if (Img6 != undefined) { rbm.log('thundericonBTN_dark:',Img6); }
 
 
 					if (Img3 != undefined) {
@@ -2251,9 +2260,9 @@ function GuildBossCK(bosslv, th13) {  //公會BOSS
 							var tapX = 440;
 							if (th13 == 3) {tapX = 580;}
 							
-							console.log(tapX, Img4.y, 30, 'E78900');
+							// console.log(tapX, Img4.y, 30, 'E78900');
 							var color2 = checkPointcolor(tapX, Img4.y + 50, 30, 'E78900');   //等級按鈕  7E1C23:暗的, E78900:亮的
-							if (color2) { rbm.log('color2:', color2, tapX, Img4.y); }
+							// if (color2) { rbm.log('color2:', color2, tapX, Img4.y); }
 							
 							if (color2) {
 								console.log('BOSS開打，選', 100 + 200 * (th13 - 1), '閃電', tapX, Img4.y + 10)
@@ -3962,11 +3971,11 @@ function setFirstsetting() {
 	spdongeonSw   =    0;   //活動boss，9:雪怪，8:豬怪，7:龍怪
 	spdstageSw    =   40;   //開始打活動boss關卡
 
-	menuW0Sw      =    5;   //星期日：木、水、暗 (3, 1, 5)
+	menuW0Sw      =    3;   //星期日：木、水、暗 (3, 1, 5)
 	menuW1Sw      =    5;   //星期一：火、暗 (2, 5)
-	menuW2Sw      =    4;   //星期二：木、光 (3, 4)
+	menuW2Sw      =    3;   //星期二：木、光 (3, 4)
 	menuW3Sw      =    1;   //星期三：水、火 (1, 2)
-	menuW4Sw      =    4;   //星期四：木、光 (3, 4)
+	menuW4Sw      =    3;   //星期四：木、光 (3, 4)
 	menuW5Sw      =    5;   //星期五：水、暗 (1, 5)
 	menuW6Sw      =    4;   //星期六：光、火 (4, 2)
 
@@ -4002,7 +4011,7 @@ function setFirstsetting() {
 
 	getADBoxSw    =    1;   //撿寶箱開關
 	tapBOXmodSw   =    2;   //寶箱亂點之術  1:刷關強化  2:點寶箱強化 
-	tapRLtimeSw   =    3;   //(A) 點左右頁面次數(按住50ms，間隔50ms)
+	tapRLtimeSw   =    4;   //(A) 點左右頁面次數(按住50ms，間隔50ms)
 	afterRLDySw   =   20;   //(B) 點完左右頁面等待時間 ms
 	crystalCKSw   =    1;   //(C) 檢查左右水晶次數 (每次35ms)
 	tapSkillSw    =    1;   //(D)放大技開關
@@ -4013,11 +4022,11 @@ function setFirstsetting() {
 	//③ 施放大技(D) → 等待(E)毫秒 →  回到 ①
 
 	artistorereSw =    0;   //商店刷寶物
-	artistoTimeSw =  300;   //商店刷寶物檢查時間(s)
-	artistarlvSw  =    5;   //目標寶物星級 (5~7)
+	artistoTimeSw =  1380;   //商店刷寶物檢查時間(s)
+	artistarlvSw  =    6;   //目標寶物星級 (5~7)
 	artitarget1Sw =    1;   //目標寶物1 (0:關閉)
-	artitarget2Sw =    0;   //目標寶物2 (0:關閉)
-	artitarget3Sw =    0;   //目標寶物3 (0:關閉)
+	artitarget2Sw =    2;   //目標寶物2 (0:關閉)
+	artitarget3Sw =    3;   //目標寶物3 (0:關閉)
 
 
 	receiveMailSw =    0;   //收mail
