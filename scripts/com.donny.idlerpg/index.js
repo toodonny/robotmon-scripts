@@ -597,7 +597,7 @@ function useReturn(choiceF){          //各項回授點檢查
 		return false;
 
 		case  3: return CheckImageTap( 310,  590, 410,  690, 0.85, 'ADbox.png', 1, 1, 1, 50, 2);             return;   //檢查寶箱看廣告  OK
-		case  4: return CheckImageTap(   0,  580, 110,  820, 0.85, 'speedX2icon_2.png', 1, 1, 1, 50, 2);       return;   //2倍速選單圖示 OK
+		case  4: return CheckImageTap(   0,  580, 110,  820, 0.85, 'speedX2icon_3.png', 1, 1, 1, 50, 2);       return;   //2倍速選單圖示 OK
 		case  5: return CheckImageTap( 220,  560, 360,  700, 0.85, 'herostore_str.png', 1, 1, 1, 50, 2, 0);     return;   //英雄商店文字
 		case  6: return CheckImageTap( 220,  600, 340,  700, 0.85, 'lvupallhero2.png', 1, 1, 1, 50, 2, 0);      return;   //英雄頁面全英雄升級文字
 		case  7: return 
@@ -778,9 +778,9 @@ function getADSpeed() {  //看廣告拿2倍速 OK
 				
 				var x2Y = -1;
 				for (var m = 1; m <= 10; m++){
-					rbm.keepScreenshotPartial( 5,  580,  130,  1180);  //x2 + x3 倍速選單圖示
-					var targetImg = rbm.findImage('speedX2icon_2.png', 0.90);
-					//rbm.log('speedX2icon_2:', targetImg)
+					rbm.keepScreenshotPartial( 5,  580,  130,  1200);  //x2 + x3 倍速選單圖示
+					var targetImg = rbm.findImage('speedX2icon_3.png', 0.90);
+					//rbm.log('speedX2icon_3:', targetImg)
 					rbm.releaseScreenshot();
 					
 					if (targetImg != undefined && targetImg.score >= 0.90){
@@ -865,7 +865,7 @@ function getADSpeed() {  //看廣告拿2倍速 OK
 					}
 				}				
 				else {
-					DIY_swipe(480, 660, 480, 800, 40, 1500);
+					DIY_swipe(480, 660, 480, 800, 40, 2500);
 				}
 			}
 			else {
@@ -1046,7 +1046,7 @@ function waitAD(timer, speedx2) {   // OK
 				var stoptime1 = ScreenStopTimes( 180, 270, 590, 860, 0.999, 'checkADstop.png', 1, 1)
 				
 				rbm.keepScreenshotPartial(674, 20, 718, 55);  ///檢查 >> 點擊
-				for (var j = 1; j <= 4; j++){
+				for (var j = 1; j <= 5; j++){
 					var filename = 'AD_rr_00' + j + '.png';
 					var Img = rbm.findImage(filename, 0.995);
 					if (Img != undefined) {break;}
@@ -1058,7 +1058,7 @@ function waitAD(timer, speedx2) {   // OK
 					tapFor(690, 35, 1, 30, 100, 3000);
 				}
 
-				if (stoptime1 >= 3 || i >= 35) {		
+				if (stoptime1 >= 3 || i >= 40) {		
 					// console.log(i, 'sec', 'stoptime1 >= 3 || i >= 35 , press key BACK' );
 					console.log('廣告結束，畫面停3秒，回遊戲');
 					keycode('BACK', 200); sleep(400);
@@ -1087,7 +1087,7 @@ function waitAD(timer, speedx2) {   // OK
 
 		}
 
-		sleep(780);
+		sleep(850);
 		//console.log('Wait Time: ', i, '/', timer);
 	}
 }
@@ -3928,7 +3928,7 @@ function setFirstsetting() {
 	lvupHeroSw    =    1;   //英雄升級開關
 	lvupAllHeroSw =    0;   //使用升級所有英雄鈕
 	lvupHeroDi    =    3;   //升級量級次 1:x1, 2:x10, 3:x100, 4:MAX
-	lvupHerostgSw =  900;   //設定開始升級關卡
+	lvupHerostgSw =  1100;   //設定開始升級關卡
 	lvupheromdSw  =    3;   //1:定時, 2:自動, 3:設定
 	lvuptimeSw    =  30;   //英雄升級檢查間隔
 	lvuplimitSw   =  110;   //金幣等級到達不檢查
@@ -3960,7 +3960,7 @@ function setFirstsetting() {
 
 
 	autoWeekSw    =    1;   //每日可打材料屬性【0:關閉 1:水  2:火  3:木  4:光  5:暗】
-	dgticksSw     =    0;   //保留票數
+	dgticksSw     =    11;   //保留票數
 
 	earlydgMaterialSw  =   0;  //提前保留屬性【0:關閉 1:水  2:火  3:木  4:光  5:暗】
 	earlydgticksSw     =  99;  //提前保留票數
@@ -3973,15 +3973,15 @@ function setFirstsetting() {
 
 	menuW0Sw      =    3;   //星期日：木、水、暗 (3, 1, 5)
 	menuW1Sw      =    5;   //星期一：火、暗 (2, 5)
-	menuW2Sw      =    3;   //星期二：木、光 (3, 4)
+	menuW2Sw      =    4;   //星期二：木、光 (3, 4)
 	menuW3Sw      =    1;   //星期三：水、火 (1, 2)
-	menuW4Sw      =    3;   //星期四：木、光 (3, 4)
+	menuW4Sw      =    4;   //星期四：木、光 (3, 4)
 	menuW5Sw      =    5;   //星期五：水、暗 (1, 5)
 	menuW6Sw      =    4;   //星期六：光、火 (4, 2)
 
 	failureTime   =   59;   //打材料boss，判定打不過(剩下時間s)
 
-	ExpedSw       =    1;   //遠征開關
+	ExpedSw       =    0;   //遠征開關
 	ExpedHeroSw   =    1;   //每個遠征最大人數
 	ExpedstarSw   =    1;   //刷目標的星級(以1上)
 	Expeditem1Sw  =    0;   //刷目標的物品1 (0:保持現有)
@@ -4011,7 +4011,7 @@ function setFirstsetting() {
 
 	getADBoxSw    =    1;   //撿寶箱開關
 	tapBOXmodSw   =    2;   //寶箱亂點之術  1:刷關強化  2:點寶箱強化 
-	tapRLtimeSw   =    4;   //(A) 點左右頁面次數(按住50ms，間隔50ms)
+	tapRLtimeSw   =    3;   //(A) 點左右頁面次數(按住50ms，間隔50ms)
 	afterRLDySw   =   20;   //(B) 點完左右頁面等待時間 ms
 	crystalCKSw   =    1;   //(C) 檢查左右水晶次數 (每次35ms)
 	tapSkillSw    =    1;   //(D)放大技開關
