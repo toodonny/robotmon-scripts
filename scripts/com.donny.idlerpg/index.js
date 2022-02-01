@@ -701,9 +701,9 @@ function recoNum(choiceF) {        //各項數字辨識
 			}		
 			return -1;
 			break;  //
-		case  6: return num_Recognition(12, 1075, 85, 1095, 0.88, 'num_Reco/guildmedaltime_num/guildmedaltime_num_'); break;  //
-		case  7: return ''; break;  //
-		case  8: return ''; break;  //
+		case  6: return num_Recognition(12, 1075, 85, 1095, 0.88, 'num_Reco/guildmedaltime_num/guildmedaltime_num_'); break;  //公會求勳章時間
+		case  7: return num_Recognition(360, 19, 430, 36, 0.88, 'num_Reco/guildbosserg_num/guildbosserg_num_'); break;  //公會BOSS能量(閃電)
+		case  8: return num_Recognition(35, 507, 95, 524, 0.88, 'num_Reco/guildbosserg_num/guildbosserg_num_'); break;  //f幣數量
 		case  9: return ''; break;  //
 		
 		case 41: return num_Recognition(240, 480, 360, 510, 0.90, 'num_Reco/arena_num/arena_num_'); break;  //競技場第1位
@@ -1043,7 +1043,18 @@ function waitAD(timer, speedx2) {   // OK
 
 			var sizeObj = getScreenSize();
 			if (sizeObj.width == 720 && i >= 5 && admodeSw == 2) {
+
 				var stoptime1 = ScreenStopTimes( 180, 270, 590, 860, 0.999, 'checkADstop.png', 1, 1)
+
+				var currApp = rbm.currentApp();
+				if (currApp.activityName == adActivity.info[1].activityName) {
+					console.log('error 廣告中錯誤, 畫面停止時間歸0!!');
+					ScreenErrorTime1 = Date.now()
+					ScreenErrorTime2 = 0;
+					stoptime1 = 0;
+					keycode('BACK', 200); sleep(400);
+				}
+
 				
 				rbm.keepScreenshotPartial(674, 20, 718, 55);  ///檢查 >> 點擊
 				for (var j = 1; j <= 5; j++){
@@ -1053,7 +1064,7 @@ function waitAD(timer, speedx2) {   // OK
 				}rbm.releaseScreenshot();
 				if (Img){rbm.log(filename + ':', Img);}
 
-				if (Img != undefined || stoptime1 > 88 || i > 37) {
+				if (Img != undefined || stoptime1 > 88 || i > 45) {
 					tapFor(690, 35, 1, 30, 100, 4500);
 					tapFor(690, 35, 1, 30, 100, 3000);
 				}
@@ -1083,6 +1094,8 @@ function waitAD(timer, speedx2) {   // OK
 					tapFor(675 , 75, 1, 60, 200);
 					sleep(1000);
 				}
+
+
 			}
 
 		}
@@ -1674,7 +1687,7 @@ function toRincarnation(Timer) {  //輪迴   OK
 					// CheckImageTap(300, 900, 420, 1080, 0.80, 'reincarnGame.png', 1, 1, 2, 500, 1);              //輪盤遊戲開始鈕
 					// CheckImageTap(300, 900, 420, 1080, 0.80, 'reincarnGame_dark.png', 630, 215, 10, 500, 1);    //輪盤遊戲開始鈕_按過
 
-					CheckImageTap(185, 75, 245, 135, 0.80, 'getnewthing.png', 360, 310, 12, 500, 0, 0);    //得到新物品
+					CheckImageTap(185, 75, 245, 135, 0.85, 'getnewthing.png', 360, 310, 12, 500, 0, 0);    //得到新物品
 					CheckImageTap(500, 0, 720, 530, 0.85, 'rightupXX.png', 1, 1, 1, 200, 1, 0);    //右上的叉叉
 
 					if (useReturn(1)) {
@@ -2072,7 +2085,7 @@ function GuildBoss(bosslv, th13, pc, Timer) {  //公會BOSS
 	if (!useReturn(51)) return false;
 	if (!useReturn(2)) return false;
 	console.log('工會打BOSS');
-	
+
 	for (var i = 1; i <= 15; i++){
 		if (!config.isRunning) return false;
 		//console.log('Guild Boss Fight : ', i );
@@ -2085,11 +2098,26 @@ function GuildBoss(bosslv, th13, pc, Timer) {  //公會BOSS
 		
 		if (Img3 == undefined && Img4 == undefined) {
 			CheckImageTap(610, 1200, 690, 1260, 0.90, 'guildbutton.png', 1, 1, 1, 500, 1, 0);    //進入工會頁面
-		}
-		else if (Img3 == undefined && Img4 != undefined) {
+
+		}else if (Img3 == undefined && Img4 != undefined) {
 			tapFor(Img4.x, Img4.y, 1, 70, 400);
-		}
-		else if (Img3 != undefined && Img4 == undefined) {
+
+		}else if (Img3 != undefined && Img4 == undefined) {
+
+
+			var bossEng = recoNum(7);
+			var diffEng = bossEng - guildbossegSw - (100 + 200 * (guildbossthSw - 1));
+			console.log('guild boss energy:', bossEng, ', difference energy:', diffEng);
+			if (diffEng >= 0) {
+				console.log('主畫面 能量足夠, 可以打BOSS!!')
+			}else if (diffEng < 0) {
+				console.log('主畫面 能量不足, 不打BOSS!!')
+				Timer = 3600;
+				GuildBossTimer =  Date.now() + Timer * 1000;
+				console.log('Fight Boss Wait Time:', (GuildBossTimer - Date.now())/1000, 'sec');
+				keycode('BACK', 600);
+				return false;
+			}
 
 			var bossft_dX = 0;
 			rbm.keepScreenshotPartial( 250, 280, 470, 360);  //確認有工會戰爭偏移找團戰
@@ -2097,7 +2125,7 @@ function GuildBoss(bosslv, th13, pc, Timer) {  //公會BOSS
 			console.log('Img5:', Img5);
 			rbm.releaseScreenshot();
 			if (Img5) {bossft_dX = 250;}
-			console.log('bossft_dx:', bossft_dX);
+			// console.log('bossft_dx:', bossft_dX);
 
 			rbm.keepScreenshotPartial( 560, 150 + bossft_dX, 705, 370 + bossft_dX);  //確認打boss碼表圖
 			var Img2 = rbm.findImage('guildBosslock.png', 0.90);
@@ -2105,9 +2133,11 @@ function GuildBoss(bosslv, th13, pc, Timer) {  //公會BOSS
 			
 			if (Img2 != undefined) {
 				console.log('沒有工會boss可打，跳出');
+				Timer = 3600;
 				GuildBossTimer =  Date.now() + Timer * 1000;
 				return false;
 			}
+
 			if (Img2 == undefined) {
 				console.log('工會boss開放可打');
 				tapFor(560, 150 + bossft_dX, 1, 70, 400);
@@ -2115,51 +2145,41 @@ function GuildBoss(bosslv, th13, pc, Timer) {  //公會BOSS
 		}
 
 		if (useReturn(91)) {
-			for (var j = 1; j <= 100; j++){
+			for (var j = 1; j <= 80; j++){
 				if (!config.isRunning) return false;
 				//console.log('Guild Boss Fight : ', i, j );
 
-				//console.log('21:', useReturn(21));
 				if (!useReturn(21)){  //BOSS戰鬥，撤退鈕
 					//console.log('GuildBoss:', bosslv, th13);
 					
 					if (useReturn(91)) {
 						var bossfig = GuildBossCK(bosslv, th13);
 						if (bossfig == -1) {
-							keycode('BACK', 300);
-							keycode('BACK', 300);
+							keycode('BACK', 600);
+							keycode('BACK', 600);
+							Timer = 600;
 							GuildBossTimer =  Date.now() + Timer * 1000;
+							console.log('Fight Boss Wait Time:', (GuildBossTimer - Date.now()/1000), 'sec');
 							return false;
 						}
-					}
-					else {
-						rbm.keepScreenshotPartial( 310, 700, 405, 1170);  //確認可否刷新對手
+
+					}else {
+						rbm.keepScreenshotPartial( 310, 700, 405, 1170);  //確認是否有OK鈕
 						var Img1 = rbm.findImage('OKbutton.png', 0.90);
 						rbm.releaseScreenshot();
 						if (Img1 != undefined) {
 							tapFor(Img1.x, Img1.y, 1, 70, 400);
 						}
 						
-						CheckImageTap(185, 75, 245, 135, 0.80, 'getnewthing.png', 1, 1, 5, 500, 1, 0);    //得到新物品
+						CheckImageTap(185, 75, 245, 135, 0.85, 'getnewthing.png', 1, 1, 5, 500, 1, 0);    //得到新物品
 					}
 
 				}
 				else {
 					//console.log('Fight Boss');
-					tapFor(  680,   410, 2, 70, 150);
-					
+					tapFor(680, 410, 2, 70, 150);
 					tapSkill(5, 2);
 
-					// for (var k = 1; k <= pc; k++){ 
-					// 	if (!config.isRunning) return false;
-						
-					// 	var skillX = 290 + 74 * (k - 1);
-						
-					// 	if (checkPointcolor(skillX, 519, 15, 'FFFFFF')) {
-					// 		tapFor( skillX, 519, 2, 50, 40);
-					// 	}
-					// }
-					
 				}
 				sleep(1000);
 			}
@@ -2179,9 +2199,21 @@ function GuildBossCK(bosslv, th13) {  //公會BOSS
 	console.log('工會BOSS, 選BOSS來打');
 	
 	
-	for (var i = 1; i <= 10; i++){
+	for (var i = 1; i <= 20; i++){
 		if (!config.isRunning) return false;
 		console.log('選boss，迴圈:', i);
+
+		var bossEng = recoNum(7);
+		var diffEng = bossEng - guildbossegSw - (100 + 200 * (guildbossthSw - 1));
+		console.log('guild boss energy:', bossEng, ', difference energy:', diffEng);
+		if (diffEng >= 0) {
+			console.log('能量足夠, 可以打BOSS!!');
+
+		}else if (diffEng < 0) {
+			console.log('能量不足, 不打BOSS!!');
+			return -1;
+
+		}
 
 		rbm.keepScreenshotPartial( 475,  380, 565, 1105);  //找打BOSS組隊圖示
 		var Img0s = rbm.findImages('guildbossteamicon2.png', 0.90, 4, true, false);
@@ -2217,6 +2249,7 @@ function GuildBossCK(bosslv, th13) {  //公會BOSS
 			if (Img1 != undefined && Img2 == undefined) {
 				tapFor( Img1.x, Img1.y, 1, 60, 200);
 			}
+
 			if (Img1 != undefined && Img2 != undefined) {
 				if (!config.isRunning) return false;
 				console.log('確認難度選單開啟');
@@ -2224,11 +2257,10 @@ function GuildBossCK(bosslv, th13) {  //公會BOSS
 				var checkX = Img2.x + 160 + 140 * (bosslv - 1);
 				var color1 = checkPointcolor(checkX, Img2.y, 30, 'F28459');   //等級按鈕  5D3322:暗的, F28459:亮的
 				
-				// if (color1) { rbm.log('color1:', color1, checkX, Img2.y); }
-				
 				if (!color1) {
-					tapFor( checkX, Img2.y, 1, 60, 200);
+					tapFor(checkX, Img2.y, 1, 60, 200);
 				}
+
 				if (color1) {
 					if (!config.isRunning) return false;
 					
@@ -2250,11 +2282,10 @@ function GuildBossCK(bosslv, th13) {  //公會BOSS
 							console.log('閃電低於', 100 + 200 * (th13 - 1), '，閃電不足，跳出');
 							return -1;
 							
-						}
-						else if (Img4 == undefined) {
+						}else if (Img4 == undefined) {
 							tapFor( Img3.x, Img3.y, 1, 60, 300);
-						}
-						else if (Img4 != undefined) {
+
+						}else if (Img4 != undefined) {
 							console.log('等待開打選100 or 300 閃電');
 							
 							var tapX = 440;
@@ -2280,6 +2311,7 @@ function GuildBossCK(bosslv, th13) {  //公會BOSS
 			}
 		
 		}
+
 		if (useReturn(21)){ break; }
 		if (i == 20){ return -1;}
 		sleep(200);
@@ -4004,6 +4036,7 @@ function setFirstsetting() {
 	maldhelpupTSw =    5;   //提早進入求助時間
 
 	guildbossSw   =    1;   //工會打BOSS開關
+	guildbossegSw =  800;   //工會BOSS能量保留
 	guildbosshdSw =    1;   //工會打BOSS難度 1:弱, 2:中, 3:強
 	guildbossthSw =    1;   //工會打BOSS閃電用量 1:100, 2:300
 	failureth3Sw  =    0;   //打不過閃電改 300
@@ -4012,10 +4045,10 @@ function setFirstsetting() {
 	getADBoxSw    =    1;   //撿寶箱開關
 	tapBOXmodSw   =    2;   //寶箱亂點之術  1:刷關強化  2:點寶箱強化 
 	tapRLtimeSw   =    3;   //(A) 點左右頁面次數(按住50ms，間隔50ms)
-	afterRLDySw   =   20;   //(B) 點完左右頁面等待時間 ms
-	crystalCKSw   =    1;   //(C) 檢查左右水晶次數 (每次35ms)
+	afterRLDySw   =   50;   //(B) 點完左右頁面等待時間 ms
+	crystalCKSw   =    2;   //(C) 檢查左右水晶次數 (每次35ms)
 	tapSkillSw    =    1;   //(D)放大技開關
-	skillslepSw   =  100;   //(E)放大技後延遲 ms
+	skillslepSw   =  160;   //(E)放大技後延遲 ms
 	//動作流程與時間差說明
 	//① 點擊左邊(A)次 → 等待(B)毫秒 → 檢查左水晶(C)次 → 點擊 210~710(每50pix)
 	//② 點擊右邊(A)次 → 等待(B)毫秒 → 檢查右水晶(C)次 → 點擊  10~510(每50pix)
@@ -4082,7 +4115,18 @@ function test(cycle){
 			console.log('============================================================================')
 			console.log('n = ', n, ', CRA 腳本開始', stage)
 
-			
+			// var bossEng = recoNum(7);
+			// var diffEng = bossEng - guildbossegSw - (100 + 200 * (guildbossthSw - 1));
+			// console.log('guild boss energy:', bossEng, ', difference energy:', diffEng);
+			// if (diffEng >= 0) {
+			// 	console.log('能量足夠, 可以打BOSS!!')
+			// }else if (diffEng < 0) {
+			// 	console.log('能量不足, 不打BOSS!!')
+			// }
+
+
+
+			console.log('f coin:', recoNum(8));
 
 
 			while(config.isRunning) {main();}
