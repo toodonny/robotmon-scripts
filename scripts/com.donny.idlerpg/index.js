@@ -889,12 +889,8 @@ function getADSpeed() {  //看廣告拿2倍速 OK
 =======
 				}				
 				else {
-<<<<<<< HEAD
-					DIY_swipe(480, 801, 480, 660, 40, 2500);
-=======
 					DIY_swipe(480, 800, 480, 660, 40, 2500);
 >>>>>>> 33db8743cdc59709e302c39ff7328fad5061fa86
->>>>>>> 4bc8b1e3718201a2bd00ab4b4f04969cea8664ae
 				}
 
 			}else {
@@ -2255,6 +2251,7 @@ function GuildBossCK(bosslv, th13) {  //公會BOSS
 				var intY2 = result.y - 101 + 200;
 				break;
 			}
+			
 			console.log('intX1,  intY1, intX2, intY2:', intX1,  intY1, intX2, intY2);
 			rbm.keepScreenshotPartial(intX1,  intY1, intX2, intY2);  //BOSS降級按鈕
 			var Img1 = rbm.findImage('guildbossdonwlvbutton.png', 0.90);
