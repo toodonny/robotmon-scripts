@@ -776,6 +776,10 @@ function getADSpeed() {  //看廣告拿2倍速 OK
 			if (!speedx2 && !speedx3){
 				choiceMenu(5);
 				
+				if (i == 1){
+					DIY_swipe(480, 660, 480, 1000, 20, 2500);
+				}
+
 				var x2Y = -1;
 				for (var m = 1; m <= 10; m++){
 					rbm.keepScreenshotPartial( 5,  580,  130,  1200);  //x2 + x3 倍速選單圖示
@@ -784,9 +788,9 @@ function getADSpeed() {  //看廣告拿2倍速 OK
 					rbm.releaseScreenshot();
 					
 					if (targetImg != undefined && targetImg.score >= 0.90){
-						if (x2Y == -1) x2Y = targetImg.y;
-						else if (x2Y != -1 && targetImg.y == x2Y) break;
-						else if (x2Y != -1 && targetImg.y != x2Y) x2Y = -1;
+						if (x2Y == -1) {x2Y = targetImg.y;}
+						else if (x2Y != -1 && targetImg.y == x2Y) {break;}
+						else if (x2Y != -1 && targetImg.y != x2Y) {x2Y = -1;}
 					}
 					sleep(150);
 				}
@@ -865,7 +869,7 @@ function getADSpeed() {  //看廣告拿2倍速 OK
 					}
 				}				
 				else {
-					DIY_swipe(480, 660, 480, 800, 40, 2500);
+					DIY_swipe(480, 800, 480, 660, 40, 2500);
 				}
 			}
 			else {
