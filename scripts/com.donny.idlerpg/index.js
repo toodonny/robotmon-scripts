@@ -869,7 +869,7 @@ function getADSpeed() {  //看廣告拿2倍速 OK
 					}
 				}				
 				else {
-					DIY_swipe(480, 800, 480, 660, 40, 2500);
+					DIY_swipe(480, 801, 480, 660, 40, 2500);
 				}
 			}
 			else {
