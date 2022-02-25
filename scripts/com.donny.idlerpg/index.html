@@ -434,7 +434,7 @@
     </script>		
     
     <script>
-      VERSION = 0.660;
+      VERSION = 0.700;
 
 	  var pow10 = 0; 
       var settings = [
@@ -457,7 +457,11 @@
           },
           {
             key: 'strg', 
+<<<<<<< HEAD
+            title: "20220225 UI Ver" + VERSION + ", This script is for 720x1280 resolution, CH/EN interface.",   
+=======
             title: "UI Ver" + VERSION + ", This script is for 720x1280 resolution, CH/EN interface.",   
+>>>>>>> 33db8743cdc59709e302c39ff7328fad5061fa86
             title_zh_TW: "20220225 UI Ver" + VERSION + ", 本腳本僅適用 720x1280 240dip 解析度，中/英文介面。",
           },
         ],
@@ -525,7 +529,7 @@
             key: 'lvuplimitSw', 
             title: "Hero gold Lv limit (10~5000)",
             title_zh_TW: "英雄金幣等級限制 (10~5000)", 
-            default: 400, 
+            default: 10, 
             step: 10, 
             max: 5000, 
             min: 10, 
@@ -738,6 +742,30 @@
             min: 0,
           },
           {
+            key: 'actmaterialX2Sw', 
+            title: "Before the 2x dungeon event starts, reserve tickets in advance", 
+            title_zh_TW: "2倍地牢活動開始前，提前留票", 
+            default: false,
+          },
+          {
+            key: 'actmateriaX2TSw',
+            title: "x2 before the start of the dungeon event, reserve the ticket time in advance",
+            title_zh_TW: "2倍地牢活動開始前，提前留票時間", 
+            default: 0, 
+            step: 1, 
+            max: 24, 
+            min: 0,
+          },
+          {
+            key: 'actdgticksSw',
+            title: "2x the number of votes reserved before the start of the dungeon event",
+            title_zh_TW: "2倍地牢活動開始前，提前留票數", 
+            default: 0, 
+            step: 1, 
+            max: 50, 
+            min: 0,
+          },
+          {
             key: 'materialX2Sw',
             title: "material x2 set attrib【0:OFF, 1:Water, 2:Fire, 3:Earth, 4:Light, 5:Dark】",
             title_zh_TW: "材料x2 指定屬性【0:關閉 1:水  2:火  3:木  4:光  5:暗】", 
@@ -858,9 +886,12 @@
           },
           {
             key: 'ExpedSw', 
-            title: "Auto Expeditions", 
-            title_zh_TW: "自動遠征", 
-            default: false,
+            title: "Expedition switch (0: Off 1: Set number of people 2: System automatic)",
+            title_zh_TW: "遠征開關 (0:關 1:設定人數 2:系統自動)", 
+            default: 0, 
+            step: 1, 
+            max: 2, 
+            min: 0,
           },
           {
             key: 'ExpedHeroSw', 
@@ -1047,8 +1078,8 @@
           },
           {
             key: 'maldhelpupTSw', 
-            title: "Time of early enter to wait",
-            title_zh_TW: "求勛章提早進入等待", 
+            title: "Time of early enter to wait sec",
+            title_zh_TW: "求勛章提早進入等待 秒", 
             default: 15, 
             step: 5, 
             max: 120, 
@@ -1064,6 +1095,11 @@
             title: "Hero code：The button below or above the page",   
             title_zh_TW: "英雄代碼：見設定頁最下方或上方按鈕",
           },
+          {
+            key: 'title99', 
+            title: "Sat 16:00 ~ Sun 00:15 UTC, stop asking for medals",   
+            title_zh_TW: "周六 16:00 ~ 周日 00:15 UTC，停止求勳章",
+          },
         ],
         [
           {
@@ -1076,6 +1112,15 @@
             title: "Auto Challenge Guild BOSS", 
             title_zh_TW: "自動打公會BOSS", 
             default: false,
+          },
+          {
+            key: 'guildbossegSw', 
+            title: "Guild BOSS Energy Retention ",
+            title_zh_TW: "工會BOSS能量保留", 
+            default: 300, 
+            step: 100, 
+            max: 3000, 
+            min: 0,
           },
           {
             key: 'guildbosshdSw', 
@@ -1294,7 +1339,7 @@
             key: 'resetappTm',
             title: "Screen stop restart APP (30~240s)",
             title_zh_TW: "卡畫面重啟APP (30~240秒)", 
-            default: 50, 
+            default: 80, 
             step: 5, 
             max: 240, 
             min: 30, 
@@ -1308,9 +1353,21 @@
             default: false,
           },
           {
-            key: 'fcoinex2Sw', 
-            title: "Day before Fx2 activity no chest", 
-            title_zh_TW: "當日Fx2活動前停撿寶箱", 
+            key: 'actListSw', 
+            title: "Judgment of the day's activities", 
+            title_zh_TW: "當日活動判斷", 
+            default: false,
+          },
+          {
+            key: 'actfx3Sw', 
+            title: "fx3 the day of the event judgment (pause picking up treasure chests)", 
+            title_zh_TW: "fx3倍活動當日判斷(暫停撿寶箱)", 
+            default: false,
+          },
+          {
+            key: 'actdunx2Sw', 
+            title: "Dungeon x2 times event judgment (for reserved tickets)", 
+            title_zh_TW: "地牢x2倍活動判斷(預留票用)", 
             default: false,
           },
         ],
@@ -1318,13 +1375,25 @@
           {
             key: 'rouletShotSw', 
             title: "Before Restart App Screenshoot", 
-            title_zh_TW: "輪迴輪盤抓圖&獲取物品", 
+            title_zh_TW: "輪迴輪盤&獲取物品抓圖", 
             default: false,
           },
           {
             key: 'scrShotSw', 
             title: "Before Restart App Screenshoot", 
             title_zh_TW: "遊戲重啟前抓圖", 
+            default: false,
+          },
+          {
+            key: 'maldShotSw', 
+            title: "Screenshot of asking for medal", 
+            title_zh_TW: "求勳章畫面抓圖", 
+            default: false,
+          },
+          {
+            key: 'overwtADSw', 
+            title: "Snapshot after watching an ad for more than 45 seconds", 
+            title_zh_TW: "看廣告超過45秒抓圖", 
             default: false,
           },
           {
