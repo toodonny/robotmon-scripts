@@ -802,14 +802,11 @@ function getADSpeed() {  //看廣告拿2倍速 OK
 				console.log('AD CD time wait!!')
 
 				choiceMenu(5);
-<<<<<<< HEAD
 				DIY_swipe(480, 660, 480, 1000, 20, 2500);
-=======
 				
 				if (i == 1){
 					DIY_swipe(480, 660, 480, 1000, 20, 2500);
 				}
->>>>>>> 33db8743cdc59709e302c39ff7328fad5061fa86
 
 				var x2Y = -1;
 				for (var m = 1; m <= 10; m++){
@@ -881,16 +878,10 @@ function getADSpeed() {  //看廣告拿2倍速 OK
 						
 						sleep(200);
 					}
-<<<<<<< HEAD
 
 				}else {
 					DIY_swipe(480, 800, 480, 660, 40, 2500);
 
-=======
-				}				
-				else {
-					DIY_swipe(480, 800, 480, 660, 40, 2500);
->>>>>>> 33db8743cdc59709e302c39ff7328fad5061fa86
 				}
 
 			}else {
