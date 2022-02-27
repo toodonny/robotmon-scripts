@@ -1898,9 +1898,10 @@ function tapBoxXY(modLR, times, vdX2) {  //路上連點  OK
 	// console.log('!activityCheck[1]', activityCheck[1]);
 	if (activityCheck[1] == -1) return false;
 	// console.log('actFx3today:', actFx3today, ',treachest_x0:', treachest_x0);
-	if (actFx3today && treachest_x0 > 0) return false;
+	if (activityCheck[1] == 3 && treachest_x0 > 0) return false;  //activityCheck[1]  3倍f 檢查結果 1:無, 2:有-開啟, 3:有-等待
+	// if (actFx3today && treachest_x0 > 0) return false;
 	// console.log('路上連點');
-
+	
 	var tapX = { 
 	    1: ['Left  X:', 210, 285, ''], //左半邊  新版 [2]y差值 -60 ok
 	    2: ['Right X:',  90, 285, '']  //右半邊  新版 [2]y差值 -60 ok
@@ -2963,7 +2964,7 @@ function Expeditions(Timer) {   //遠征
 		if (useReturn(26)) {
 			var tapAutoT = 0; var emptyC = 0;
 
-			for (var k = 1; k <= 30; k++){
+			for (var k = 1; k <= 20; k++){
 				if (!config.isRunning) return false;
 				if (ExpedSw != 2) {break;}
 
@@ -3704,6 +3705,9 @@ function receiveMail() {  //收mail，預設全收
 function activityCHK() {   //活動判斷  1:Fx3倍
 	if (!config.isRunning) return false;
 
+	// activityQuest = new Array( '', '寶箱Fx3倍', '突襲manta', '工會戰爭', '地牢x2', '遠征x2');
+	// activityState = new Array( '',  '-無',   '-有-開啟',   '-有-等待');
+	// activityCheck = new Array( '', -1, -1, -1, -1, -1);
 	//統一抓圖坐標
 	//活動類 x1:420, x2:510, 上緣:11
 	//碼錶圖 x1:550, x2:585
@@ -4454,7 +4458,7 @@ function setFirstsetting() {
 	adtimesetSw   =   80;   //廣告檢查總時間
 	resetappTm    =   80;   //卡畫面重啟時間
 
-	goldADSw      =    1;   //廣告拿金幣開關    
+	goldADSw      =    0;   //廣告拿金幣開關    
 	actListSw     =    1;   //當日活動判斷，活動開始前停撿寶箱
 	actfx3Sw      =    1;   //fx3倍活動當日判斷(暫停撿寶箱)
 	actdunx2Sw    =    1;   //地牢x2倍活動判斷(預留票用)
