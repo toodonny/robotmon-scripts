@@ -1898,7 +1898,7 @@ function tapBoxXY(modLR, times, vdX2) {  //路上連點  OK
 	// console.log('!activityCheck[1]', activityCheck[1]);
 	if (activityCheck[1] == -1) return false;
 	// console.log('actFx3today:', actFx3today, ',treachest_x0:', treachest_x0);
-	if (activityCheck[1] == 3 && treachest_x0 > 0) return false;  //activityCheck[1]  3倍f 檢查結果 1:無, 2:有-開啟, 3:有-等待
+	if (activityCheck[1] == 4 && treachest_x0 > 0) return false;  //activityCheck[1]  3倍f 檢查結果 1:無, 2:有-開啟, 3:有-等待
 	// if (actFx3today && treachest_x0 > 0) return false;
 	// console.log('路上連點');
 	
@@ -3706,7 +3706,7 @@ function activityCHK() {   //活動判斷  1:Fx3倍
 	if (!config.isRunning) return false;
 
 	// activityQuest = new Array( '', '寶箱Fx3倍', '突襲manta', '工會戰爭', '地牢x2', '遠征x2');
-	// activityState = new Array( '',  '-無',   '-有-開啟',   '-有-等待');
+	// activityState = new Array( '',  '-無', '-有-開啟', '-有-等待', '-有-等待-fx3-當日');
 	// activityCheck = new Array( '', -1, -1, -1, -1, -1);
 	//統一抓圖坐標
 	//活動類 x1:420, x2:510, 上緣:11
@@ -3775,6 +3775,7 @@ function activityCHK() {   //活動判斷  1:Fx3倍
 					if (i == 1 && todayDate == actStartDate) {
 						console.log('  已是活動開啟當日，點寶箱暫停!!')
 						actFx3today = 1;
+						activityCheck[i] = 4;
 					}
 
 					if (i == 4){
@@ -4303,7 +4304,7 @@ function setFirstTimer() {   //預設值設定
 	  }
 
 	activityQuest = new Array( '', '寶箱Fx3倍', '突襲manta', '工會戰爭', '地牢x2', '遠征x2');
-	activityState = new Array( '',  '-無',   '-有-開啟',   '-有-等待');
+	activityState = new Array( '',  '-無',   '-有-開啟',   '-有-等待', '-有-等待-fx3-當日');
 	activityCheck = new Array( '', -1, -1, -1, -1, -1);
 
 	furniture = true;
@@ -4378,9 +4379,9 @@ function setFirstsetting() {
 
 
 	autoWeekSw    =    1;   //每日可打材料屬性【0:關閉 1:水  2:火  3:木  4:光  5:暗】
-	dgticksSw     =    0;   //保留票數
+	dgticksSw     =    12;   //保留票數
 
-	earlydgMaterialSw  =   4;  //提前保留屬性【0:關閉 1:水  2:火  3:木  4:光  5:暗】
+	earlydgMaterialSw  =   0;  //提前保留屬性【0:關閉 1:水  2:火  3:木  4:光  5:暗】
 	earlydgticksSw     =  12;  //提前保留票數
 
 	actmaterialX2Sw    =   1;  //2倍地牢活動開始前，提前留票
