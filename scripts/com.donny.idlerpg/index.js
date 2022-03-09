@@ -1236,6 +1236,7 @@ function lvupHero(stageMin, lvupl, Timer) {  //	 英雄升級  OK
 					}
 					else if (Img2 != undefined) {
 						
+						console.log(Img2.x, Img2.y);
 						var totallv = heroinformation(Img2.x, Img2.y);
 						// rbm.log(totallv);
 						if (lvupheromdSw == 2) {
@@ -1308,7 +1309,7 @@ function heroinformation(intX, intY) {  //英雄訊息  OK
 		var goldY1  = magicY1 + 77;
 		var goldY2  = goldY1 + 20;
 		var magicLv = num_Recognition(66, magicY1, 108, magicY2, 0.75, 'num_Reco/hero_lv_num/hero_magiclv_num_');
-		var goldLv  = num_Recognition(18, goldY1, 66, goldY2, 0.65, 'num_Reco/hero_lv_num/hero_goldlv_num_');
+		var goldLv  = num_Recognition(18, goldY1, 90, goldY2, 0.70, 'num_Reco/hero_lv_num/hero_goldlv_num_');
 		
 		var heroatt = 'NONO'
 		var attribY = magicY1 + 38;
@@ -4359,7 +4360,7 @@ function setFirstsetting() {
 	lvupHeroSw    =    1;   //英雄升級開關
 	lvupAllHeroSw =    0;   //使用升級所有英雄鈕
 	lvupHeroDi    =    3;   //升級量級次 1:x1, 2:x10, 3:x100, 4:MAX
-	lvupHerostgSw =  1100;   //設定開始升級關卡
+	lvupHerostgSw =  110;   //設定開始升級關卡
 	lvupheromdSw  =    3;   //1:定時, 2:自動, 3:設定
 	lvuptimeSw    =  180;   //英雄升級檢查間隔
 	lvuplimitSw   =  130;   //金幣等級到達不檢查
@@ -4533,6 +4534,8 @@ function test(cycle){
 			// 	rbm.log('guildfightlable_EN:', Img5);
 			// }
 			// rbm.releaseScreenshot();
+
+			// rbm.log(heroinformation(125, 729)); //英雄訊息  OK
 
 
 			while(config.isRunning) {main();}
