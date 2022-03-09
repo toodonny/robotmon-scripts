@@ -2118,10 +2118,22 @@ function GuildBoss(bosslv, th13, pc, Timer) {  //公會BOSS
 			}
 
 			var bossft_dX = 0;
+
 			rbm.keepScreenshotPartial( 250, 280, 470, 360);  //確認有工會戰爭偏移找團戰
-			var Img5 = rbm.findImage('guildfightlable.png', 0.90);
-			console.log('Img5:', Img5);
+			var Img5 = rbm.findImage('guildfightlable_CN.png', 0.90);
+			rbm.log('guildfightlable_CN:', Img5);
+			if (Img5 == undefined) {
+				Img5 = rbm.findImage('guildfightlable_EN.png', 0.90);
+				rbm.log('guildfightlable_EN:', Img5);
+			}
 			rbm.releaseScreenshot();
+
+
+			// rbm.keepScreenshotPartial( 250, 280, 470, 360);  //確認有工會戰爭偏移找團戰
+			// var Img5 = rbm.findImage('guildfightlable.png', 0.90);
+			// console.log('Img5:', Img5);
+			// rbm.releaseScreenshot();
+
 			if (Img5) {bossft_dX = 250;}
 			// console.log('bossft_dx:', bossft_dX);
 
@@ -4513,17 +4525,17 @@ function test(cycle){
 			console.log('speed:', useReturn(2));
 
 
-			rbm.keepScreenshotPartial( 250, 280, 470, 360);  //確認有工會戰爭偏移找團戰
-			var Img5 = rbm.findImage('guildfightlable_CN.png', 0.90);
-			rbm.log('guildfightlable_CN:', Img5);
-			if (Img5 == undefined) {
-				Img5 = rbm.findImage('guildfightlable_EN.png', 0.90);
-				rbm.log('guildfightlable_EN:', Img5);
-			}
-			rbm.releaseScreenshot();
+			// rbm.keepScreenshotPartial( 250, 280, 470, 360);  //確認有工會戰爭偏移找團戰
+			// var Img5 = rbm.findImage('guildfightlable_CN.png', 0.90);
+			// rbm.log('guildfightlable_CN:', Img5);
+			// if (Img5 == undefined) {
+			// 	Img5 = rbm.findImage('guildfightlable_EN.png', 0.90);
+			// 	rbm.log('guildfightlable_EN:', Img5);
+			// }
+			// rbm.releaseScreenshot();
 
 
-			// while(config.isRunning) {main();}
+			while(config.isRunning) {main();}
 
 			sleep(1000);
 			// console.log('n = ', n, ', CRA 腳本結束');
