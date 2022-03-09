@@ -4379,9 +4379,9 @@ function setFirstsetting() {
 
 
 	autoWeekSw    =    1;   //每日可打材料屬性【0:關閉 1:水  2:火  3:木  4:光  5:暗】
-	dgticksSw     =    12;   //保留票數
+	dgticksSw     =    0;   //保留票數
 
-	earlydgMaterialSw  =   0;  //提前保留屬性【0:關閉 1:水  2:火  3:木  4:光  5:暗】
+	earlydgMaterialSw  =   5;  //提前保留屬性【0:關閉 1:水  2:火  3:木  4:光  5:暗】
 	earlydgticksSw     =  12;  //提前保留票數
 
 	actmaterialX2Sw    =   1;  //2倍地牢活動開始前，提前留票
@@ -4512,14 +4512,18 @@ function test(cycle){
 
 			console.log('speed:', useReturn(2));
 
-			CheckImageTap(280, 400, 440,  630, 0.90, 'X2SPEED_SMALL_ICON.png', 240, 820, 1, 200, 2, 1);  //加速直接點視窗關閉
-			
-			CheckImageTap( 440, 10, 570, 70, 0.95, 'speedx2_up_ad_icon.png', 1, 1, 1, 1000, 2, 1);  //上方點看廣告小圖示
+
+			rbm.keepScreenshotPartial( 250, 280, 470, 360);  //確認有工會戰爭偏移找團戰
+			var Img5 = rbm.findImage('guildfightlable_CN.png', 0.90);
+			rbm.log('guildfightlable_CN:', Img5);
+			if (Img5 == undefined) {
+				Img5 = rbm.findImage('guildfightlable_EN.png', 0.90);
+				rbm.log('guildfightlable_EN:', Img5);
+			}
+			rbm.releaseScreenshot();
 
 
-
-
-			while(config.isRunning) {main();}
+			// while(config.isRunning) {main();}
 
 			sleep(1000);
 			// console.log('n = ', n, ', CRA 腳本結束');
