@@ -1001,9 +1001,27 @@ function waitAD(timer, speedx2) {   // 看廣告判斷機制
 			}
 
 		}else if (activityStaut == 2) {
-			console.log(activityStaut, '發現google store，按BACK鍵，回廣告,', i, 'sec');
-			keycode('BACK', 1000);
-			sleep(10000);
+			for (var l = 1; l <= 20; l++){
+				
+				console.log(l, activityStaut, '發現google store，按BACK鍵，回廣告,', i, 'sec');
+				keycode('BACK', 1000);
+
+				var activityStaut2 = -1;
+				for (var k = 0; k <= adListQ; k++) {
+					// console.log(k, adListQ, adActivity.info[k].activityName);
+					if (currApp.activityName == adActivity.info[k].activityName){
+						activityStaut2 = k;
+						break;
+					}
+
+					if (k == adListQ) {rbm.log(currApp);}
+				}
+
+				if (activityStaut2 > 2) {
+					sleep(10000);
+					break;
+				}
+			}
 
 		}else {
 			console.log(activityStaut, '看廣告畫面中,', i, 'sec');
@@ -1040,7 +1058,7 @@ function waitAD(timer, speedx2) {   // 看廣告判斷機制
 				}
 
 				rbm.keepScreenshotPartial(674, 20, 718, 55);  ///檢查 >> 點擊
-				for (var j = 1; j <= 10; j++){
+				for (var j = 1; j <= 12; j++){
 					if (j % 2 == i % 2) {
 						var n0 = 0;
 						if (j >= 10){n0 = '';}
@@ -1076,12 +1094,22 @@ function waitAD(timer, speedx2) {   // 看廣告判斷機制
 					stoptime1 = 0;
 				}
 	
-				rbm.keepScreenshotPartial(660, 60, 690, 90);  ///點擊AD X
-				var Img = rbm.findImage('AD_XX_001.png', 0.90);
+				rbm.keepScreenshotPartial(50, 60, 690, 105);  ///點擊AD X
+				for (var j = 1; j <= 2; j++){
+					if (j % 2 == i % 2) {
+						var n0 = 0;
+						if (j >= 10){n0 = '';}
+						var filename = 'AD_XX_0' + n0 + j + '.png';
+						var Img = rbm.findImage(filename, 0.99);
+						// rbm.log(i, j, filename, Img);
+						if (Img != undefined) {break;}
+					}
+				}
+				// var Img = rbm.findImage('AD_XX_001.png', 0.90);
 				rbm.releaseScreenshot();
-				if (Img != undefined && Img.score >= 0.90) {
-					console.log('AD_XX_001');
-					tapFor(675 , 75, 1, 60, 200);
+				if (Img != undefined && Img.score >= 0.99) {
+					console.log(filename);
+					tapFor(Img.x + 5, Img.y + 5, 1, 60, 200);
 					sleep(1000);
 				}
 
@@ -1894,21 +1922,21 @@ function checkCrystal(modLR, times, pics) {   //檢查左右水晶   OK
 
 function tapBoxXY(modLR, times, vdX2) {  //路上連點  OK
 	if (!config.isRunning) return false;
-	// console.log('!getADBoxSw');
+	console.log('1111 !getADBoxSw');
 	if (!getADBoxSw) return false;
-	// console.log('!activityCheck[1]', activityCheck[1]);
+	console.log('2222 !activityCheck[1]', activityCheck[1]);
 	if (activityCheck[1] == -1) return false;
-	// console.log('actFx3today:', actFx3today, ',treachest_x0:', treachest_x0);
+	console.log('3333 actFx3today:', actFx3today, ',treachest_x0:', treachest_x0);
 	if (activityCheck[1] == 4 && treachest_x0 > 0) return false;  //activityCheck[1]  3倍f 檢查結果 1:無, 2:有-開啟, 3:有-等待
 	// if (actFx3today && treachest_x0 > 0) return false;
-	// console.log('路上連點');
+	console.log('路上連點');
 	
 	var tapX = { 
 	    1: ['Left  X:', 210, 285, ''], //左半邊  新版 [2]y差值 -60 ok
 	    2: ['Right X:',  90, 285, '']  //右半邊  新版 [2]y差值 -60 ok
 	}; 		
 		
-	var dX = ( 680 - 220 ) / vdX2
+	var dX = ( 620 - 220 ) / vdX2
 	for (var i = 1; i <= times; i++){
 		for (var j = 1; j <= vdX2 + 1; j++){
 			if (!config.isRunning) return false;
