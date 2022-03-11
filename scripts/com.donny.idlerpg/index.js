@@ -1057,7 +1057,7 @@ function waitAD(timer, speedx2) {   // 看廣告判斷機制
 					keycode('BACK', 200); sleep(400);
 				}
 
-				rbm.keepScreenshotPartial(674, 20, 718, 55);  ///檢查 >> 點擊
+				rbm.keepScreenshotPartial(665, 20, 718, 55);  ///檢查 >> 點擊
 				for (var j = 1; j <= 12; j++){
 					if (j % 2 == i % 2) {
 						var n0 = 0;
@@ -1936,7 +1936,7 @@ function tapBoxXY(modLR, times, vdX2) {  //路上連點  OK
 	    2: ['Right X:',  90, 285, '']  //右半邊  新版 [2]y差值 -60 ok
 	}; 		
 		
-	var dX = ( 620 - 220 ) / vdX2
+	var dX = ( 600 - 220 ) / vdX2
 	for (var i = 1; i <= times; i++){
 		for (var j = 1; j <= vdX2 + 1; j++){
 			if (!config.isRunning) return false;
@@ -4554,16 +4554,7 @@ function test(cycle){
 			console.log('speed:', useReturn(2));
 
 
-			// rbm.keepScreenshotPartial( 250, 280, 470, 360);  //確認有工會戰爭偏移找團戰
-			// var Img5 = rbm.findImage('guildfightlable_CN.png', 0.90);
-			// rbm.log('guildfightlable_CN:', Img5);
-			// if (Img5 == undefined) {
-			// 	Img5 = rbm.findImage('guildfightlable_EN.png', 0.90);
-			// 	rbm.log('guildfightlable_EN:', Img5);
-			// }
-			// rbm.releaseScreenshot();
 
-			// rbm.log(heroinformation(125, 729)); //英雄訊息  OK
 
 
 			while(config.isRunning) {main();}
