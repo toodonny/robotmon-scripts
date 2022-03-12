@@ -1014,13 +1014,15 @@ function waitAD(timer, speedx2) {   // 看廣告判斷機制
 						break;
 					}
 
-					if (k == adListQ) {rbm.log(currApp);}
+					if (k == adListQ) {rbm.log('NEW_ad_app', currApp);}
 				}
 
 				if (activityStaut2 > 2) {
 					sleep(10000);
 					break;
 				}
+
+				sleep(500);
 			}
 
 		}else {
@@ -1071,8 +1073,34 @@ function waitAD(timer, speedx2) {   // 看廣告判斷機制
 				rbm.releaseScreenshot();
 
 				if (Img != undefined || stoptime1 > 88 || i > 45) {
-					tapFor(690, 35, 1, 30, 100, 4500);
-					tapFor(690, 35, 1, 30, 100, 3000);
+					tapFor(690, 35, 1, 30, 100, 2500);
+
+					// console.log('adListQ:', adListQ);
+					for (var k = 0; k <= adListQ; k++) {
+						// console.log(k, adListQ, adActivity.info[k].activityName);
+						if (currApp.activityName == adActivity.info[k].activityName){
+							var activityStaut = k;
+							break;
+						}
+			
+						if (k == adListQ) {rbm.log('NEW_ad_app', currApp);}
+					}
+					if (activityStaut == 2) {
+						console.log(l, activityStaut, '廣告結束發現google store，按BACK鍵，回廣告');
+						keycode('BACK', 1000);
+
+						sleep(1000);
+						tapFor(670, 84, 1, 30, 100, 4500);
+
+
+					}else {
+						sleep(2000);
+						tapFor(690, 35, 1, 30, 100, 3000);
+
+					}
+
+
+					
 				}
 
 				if (stoptime1 >= 3 || i >= 40) {		
@@ -1094,13 +1122,13 @@ function waitAD(timer, speedx2) {   // 看廣告判斷機制
 					stoptime1 = 0;
 				}
 	
-				rbm.keepScreenshotPartial(50, 60, 690, 105);  ///點擊AD X
-				for (var j = 1; j <= 2; j++){
+				rbm.keepScreenshotPartial(650, 60, 690, 105);  ///點擊AD X
+				for (var j = 1; j <= 7; j++){
 					if (j % 2 == i % 2) {
 						var n0 = 0;
 						if (j >= 10){n0 = '';}
 						var filename = 'AD_XX_0' + n0 + j + '.png';
-						var Img = rbm.findImage(filename, 0.99);
+						var Img = rbm.findImage(filename, 0.98);
 						// rbm.log(i, j, filename, Img);
 						if (Img != undefined) {break;}
 					}
@@ -4550,9 +4578,17 @@ function test(cycle){
 			console.log('============================================================================')
 			console.log('n = ', n, ', CRA 腳本開始', stage)
 
-
-			console.log('speed:', useReturn(2));
-
+			rbm.keepScreenshotPartial(650, 60, 690, 105);  ///點擊AD X
+			for (var j = 1; j <= 7; j++){
+				// if (j % 2 == i % 2) {
+					var n0 = 0;
+					if (j >= 10){n0 = '';}
+					var filename = 'AD_XX_0' + n0 + j + '.png';
+					var Img = rbm.findImage(filename, 0.99);
+					rbm.log( j, filename, Img);
+					// if (Img != undefined) {break;}
+				// }
+			}
 
 
 
