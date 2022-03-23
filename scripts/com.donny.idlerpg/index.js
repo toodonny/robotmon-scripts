@@ -581,20 +581,13 @@ function useReturn(choiceF){          //各項回授點檢查
 	switch (choiceF) {
 		case  1: return CheckImageTap( 625,   10, 710,   70, 0.95, 'mainpagebutton.png', 1, 1, 1, 50, 2, 0);    return;   //右上功能圖示 OK
 		case  2: 
-		
-		// var spdx2 = CheckImageTap(440, 10, 570, 70, 0.95, 'speedx2.png', 1, 1, 1, 50, 2);    //檢查2倍速圖示 OK
-		// if (spdx2) {return true;}
-		// var spdx3 = CheckImageTap(440, 10, 570, 70, 0.95, 'speedx3.png', 1, 1, 1, 50, 2);    //檢查3倍速圖示 OK
-		// if (spdx3) {return true;}
-		// else {return false;}
+			rbm.keepScreenshotPartial( 440, 10, 570, 70);
+			var Img1 = rbm.findImage('speedx2.png', 0.90);        //檢查2倍速圖示
+			var Img2 = rbm.findImage('speedx3.png', 0.90);        //檢查3倍速圖示
+			rbm.releaseScreenshot();
 
-		rbm.keepScreenshotPartial( 440, 10, 570, 70);
-		var Img1 = rbm.findImage('speedx2.png', 0.90);        //檢查2倍速圖示
-		var Img2 = rbm.findImage('speedx3.png', 0.90);        //檢查3倍速圖示
-		rbm.releaseScreenshot();
-
-		if(Img1 != undefined || Img2 != undefined){return true;}
-		return false;
+			if(Img1 != undefined || Img2 != undefined){return true;}
+			return false;
 
 		case  3: return CheckImageTap( 310,  590, 410,  690, 0.85, 'ADbox.png', 1, 1, 1, 50, 2);             return;   //檢查寶箱看廣告  OK
 		case  4: return CheckImageTap(   0,  580, 110,  820, 0.85, 'speedX2icon_3.png', 1, 1, 1, 50, 2);       return;   //2倍速選單圖示 OK
@@ -619,11 +612,11 @@ function useReturn(choiceF){          //各項回授點檢查
 		case 24: return CheckImageTap( 480,  610, 610,  660, 0.96, 'spdongeon_0_2.png', 1, 1, 1, 50, 2, 0);       return;  //活動BOSS票=0 //地城BOSS票=0
 		case 25: return CheckImageTap(  15,  510,  90,  570, 0.95, 'backarry2.png', 1, 1, 1, 50, 2);             return;  //戰鬥中退回按鈕
 		
-		
 		case 26: return CheckImageTap( 640,  200, 700,  260, 0.95, 'exped_help.png', 1, 1, 1, 50, 2);        return;  //遠征問號圖示
 		case 27: return CheckImageTap( 230,   10, 290,   60, 0.95, 'blitz_Bcoin.png', 1, 1, 1, 50, 2);       return;  //突襲幣圖示
 		case 28: return CheckImageTap( 230,   10, 290,   60, 0.95, 'arena_Acoin.png', 1, 1, 1, 50, 2);        return;  //競技幣圖示
 		
+		case 29: return CheckImageTap( 120,   40, 190,   90, 0.95, 'dailySPgift.png', 1, 1, 1, 50, 2);        return;  //左上每日特別獎勵
 		
 		case 30: return CheckImageTap( 170, 1030, 320, 1180, 0.90, 'robotplant.png', 1, 1, 1, 50, 2);        return;  //機器人工廠字樣-底部
 		case 31: return CheckImageTap( 170,  580, 320, 1180, 0.90, 'robotplant.png', 1, 1, 1, 50, 2);        return;  //機器人工廠字樣-全列表
@@ -636,10 +629,8 @@ function useReturn(choiceF){          //各項回授點檢查
 		case 42: return CheckImageTap2( 60, 180, 650,  820, 0.90, 'ascending_prismicon2.png', 'ascending_goldicon2.png', 1, 1, 1, 50, 2, 1);   return;  //輪回畫面確認
 		
 		case 50: return checkPointcolor3(360, 640, 40, '00BEFF', 360, 660, 40, 'FFFFFF', 360, 760, 40, '6D370C'); return;   //看box廣告圖示點 ok
-		// case 51: return checkPointcolor3(286, 513, 50, '0091E0', 290, 513, 50, '003067', 300, 513, 50, '305985'); return;   //物品數量小G 新版y差+20 ok
 		// case 52: return checkPointcolor3( 15, 515, 50, '0168A5', 125, 515, 50, 'B31B0F', 240, 515, 50, '45681F'); return;   //材料地下城材料清單 新版y差+20 ok
 		
-		// case 50: return checkPointcolor3(360, 640, 40, '00BEFF', 360, 660, 40, 'FFFFFF', 360, 760, 40, '6D370C'); return;   //看box廣告圖示點 ok
 		case 51: 
 			
 			rbm.keepScreenshotPartial( 0,  490,  710,  560);
@@ -654,15 +645,12 @@ function useReturn(choiceF){          //各項回授點檢查
 			if(Img1 != undefined && Img2 != undefined){return true;}
 			return false;
 
-
-		// case 61: return checkPointcolor3( 42, 435, 50, 'FFA800',  51, 432, 50, 'FFA800',  51, 440, 50, 'FFA800'); return;   //對話頻道橘色驚嘆號
 		
 		case 61: return CheckImageTap( 30,  440, 64,  474, 0.90, 'guildeventicon.png', 1, 1, 1, 50, 2);       return;   //對話頻道橘色驚嘆號
 		
 		case 81: return CheckImageTap( 300,  340, 415,  380, 0.90, 'areafightchoice.png', 1, 1, 1, 50, 2);       return;   //競技場挑戰對手文字
 		case 82: return CheckImageTap( 390,   70, 440,  140, 0.90, 'arena_rest.png', 1, 1, 1, 50, 2);            return;   //競技場商店文字，當日停戰
 		
-		//case 91: return CheckImageTap( 660,    0, 720,   60, 0.90, 'guildbosshelpRU.png', 1, 1, 1, 50, 2);       return;   //工會BOSS,右上?圖
 		case 91: return CheckImageTap( 600,    0, 720,   60, 0.90, 'guildbosshelpRY.png', 1, 1, 1, 50, 2);       return;   //工會BOSS,右上?圖
 
 		case 101: return CheckImageTap( 625,  10, 710,   70, 0.90, 'mainpagebutton_bk.png', 1, 1, 1, 50, 2, 1);    return;   //右上功能圖示_模糊
@@ -716,7 +704,7 @@ function recoNum(choiceF) {        //各項數字辨識
 //=============================2020.07.10 Retest================================//
 
 // -廣告獎勵-----
-function getADBox() {   //寶箱廣告觀看 OK
+function getADBox() {   //寶箱廣告觀看
 	if (!config.isRunning) return false;
 	//if (!useReturn(51) && !useReturn(50)) return false;
 	//if (!useReturn(50)) return false;
@@ -745,6 +733,37 @@ function getADBox() {   //寶箱廣告觀看 OK
 				waitAD(adtimesetSw);
 
 				//getADGoldTimer =  getADGoldTimer + 30 * 1000;
+			}
+			else {
+				return false;
+			}
+		// }
+	}
+}
+
+function getDailySPgift(Timer) {   //每日特別獎勵(左上)
+	if (!config.isRunning || Date.now() < DailySPgiftTimer) {return false;}
+	
+	console.log('每日特別獎勵(左上)');
+
+	for (var i = 1; i <= 3; i++){
+		if (!config.isRunning) return false;
+		
+		sleep(200);
+		// if (useReturn(1)) {
+			if (useReturn(29)) {
+
+				for (var j = 1; j <= 4; j++){
+					if (!config.isRunning) return false;
+					//console.log(' AD box click', i, j);
+					
+					sleep(300);
+					CheckImageTap(120, 40, 190, 90, 0.95, 'dailySPgift.png', 1, 1, 1, 1500, 1, 0);
+					CheckImageTap(460, 440, 580, 570, 0.95, 'dailySPgiftBOX.png', 365, 960, 1, 3500, 0, 0);
+				}
+			
+				waitAD(adtimesetSw);
+				DailySPgiftTimer =  Date.now() + Timer * 1000;
 			}
 			else {
 				return false;
@@ -871,7 +890,8 @@ function getADSpeed() {  //看廣告拿2倍速 OK
 						}else if (Img4 != undefined) {	
 							tapFor(Img4.x, Img4.y, 1, 60, 2000);	
 							ADtimeout[0] = -1;
-							break;
+							return false;
+							// break;
 
 						}
 
@@ -1099,6 +1119,8 @@ function waitAD(timer, speedx2) {   // 看廣告判斷機制
 
 
 					}else {
+						
+						console.log(l, activityStaut, '>> 正常結束廣告 tap X');
 						sleep(2000);
 						tapFor(690, 35, 1, 30, 100, 3000);
 
@@ -1956,14 +1978,14 @@ function checkCrystal(modLR, times, pics) {   //檢查左右水晶   OK
 
 function tapBoxXY(modLR, times, vdX2) {  //路上連點  OK
 	if (!config.isRunning) return false;
-	console.log('1111 !getADBoxSw');
+	// console.log('1111 !getADBoxSw');
 	if (!getADBoxSw) return false;
-	console.log('2222 !activityCheck[1]', activityCheck[1]);
+	// console.log('2222 !activityCheck[1]', activityCheck[1]);
 	if (activityCheck[1] == -1) return false;
-	console.log('3333 actFx3today:', actFx3today, ',treachest_x0:', treachest_x0);
+	// console.log('3333 actFx3today:', actFx3today, ',treachest_x0:', treachest_x0);
 	if (activityCheck[1] == 4 && treachest_x0 > 0) return false;  //activityCheck[1]  3倍f 檢查結果 1:無, 2:有-開啟, 3:有-等待
 	// if (actFx3today && treachest_x0 > 0) return false;
-	console.log('路上連點');
+	// console.log('路上連點');
 	
 	var tapX = { 
 	    1: ['Left  X:', 210, 285, ''], //左半邊  新版 [2]y差值 -60 ok
@@ -2360,10 +2382,11 @@ function GuildBossCK(bosslv, th13) {  //公會BOSS
 				
 				if (downLvBtn == 1) {
 					var checkX = Img2.x + 160 + 140 * (bosslv - 1);
+					console.log(checkX, Img2.y, 30, 'F28459');
 					var color1 = checkPointcolor(checkX, Img2.y, 30, 'F28459');   //等級按鈕  5D3322:暗的, F28459:亮的
 					
 					if (!color1) {
-						tapFor(checkX, Img2.y, 1, 60, 200);
+						tapFor(checkX + 5, Img2.y + 5, 1, 60, 200);
 					}
 				}
 				
@@ -3577,7 +3600,7 @@ function upMenu(Timer) {   //上方選單功能 自動收信、每日獎勵、�
 		if (!config.isRunning) return false;
 	
 		if (treachest_x0 == -1) {
-			CheckImageTap( 490, 540, 590, 590, 0.85, 'dailystr_main.png', 1, 1, 1, 300, 1, 1);  //主畫面今日挑戰
+			CheckImageTap( 490, 540, 590, 820, 0.85, 'dailystr_main.png', 1, 1, 1, 300, 1, 1);  //主畫面今日挑戰
 			rbm.keepScreenshotPartial(390, 1230, 450, 1260);      //確認剩下寶箱是否 x0
 			var Img1 = rbm.findImage('treasurechest_icon.png', 0.90);
 			var Img2 = rbm.findImage('treasurechest_x0_2.png', 0.85);
@@ -3610,17 +3633,24 @@ function upMenu(Timer) {   //上方選單功能 自動收信、每日獎勵、�
 		
 		if (receiveMailSw) {
 			console.log('檢查收信');
+			
+			CheckImageTap( 625, 10, 710, 70, 0.85, 'mainpagebutton.png', 1, 1, 1, 800, 1);  //右上功能圖示
 			var mailcolor = checkPointcolor(255, 92, 30, 'DD1819');
 			console.log('mailcolor:', mailcolor);
 			
 			if (mailcolor) {
 				tapFor(244, 102, 3, 50, 150, 600);
 				receiveMail();
+				CheckImageTap(500, 0, 720, 530, 0.85, 'rightupXX.png', 1, 1, 1, 200, 1, 0);    //右上的叉叉
+				CheckImageTap(500, 0, 720, 530, 0.85, 'rightupXX.png', 1, 1, 1, 200, 1, 0);    //右上的叉叉
+				CheckImageTap(500, 0, 720, 530, 0.85, 'rightupXX.png', 1, 1, 1, 200, 1, 0);    //右上的叉叉
 			}
 		}
 		
 		if (loginDailySw) {
 			console.log('每日獎勵(右上)');
+			
+			CheckImageTap( 625, 10, 710, 70, 0.85, 'mainpagebutton.png', 1, 1, 1, 800, 1);  //右上功能圖示
 			var loginDailycolor = checkPointcolor(255, 192, 30, 'DD1819');
 			console.log('loginDailycolor:', loginDailycolor);
 			
@@ -3633,6 +3663,7 @@ function upMenu(Timer) {   //上方選單功能 自動收信、每日獎勵、�
 		if (actListSw > 0) {
 			console.log('任務選單, 活動檢查');
 
+			CheckImageTap( 625, 10, 710, 70, 0.85, 'mainpagebutton.png', 1, 1, 1, 800, 1);  //右上功能圖示
 			var actListicolor = checkPointcolor(380, 92, 10, '3C0F01');
 			console.log('actListicolor:', actListicolor);
 			
@@ -3763,9 +3794,9 @@ function receiveMail() {  //收mail，預設全收
 						}
 					}
 					else if (result2s == '') {
-						if (Allcheckcolor) tapFor( 70, 1120, 1, 50, 300);
-						else if (Receivecolor)  tapFor( 120, 1120, 2, 50, 200);
-						else if (Darkcolor)  tapFor( 120, 1120, 6, 50, 200);
+						if (Allcheckcolor) {tapFor(70, 1120, 1, 50, 300);}
+						else if (Receivecolor)  {tapFor(120, 1120, 16, 50, 200);}
+						else if (Darkcolor)  {tapFor(120, 1120, 6, 50, 200);}
 						else break;
 					}
 					sleep(200);
@@ -4253,9 +4284,7 @@ function main(){       //主流程
 	var remainingTime = 24 * 60 - elapsedTime;                                     //剩餘的時間
 	
 	// console.log(elapsedTime, remainingTime);
-
 	// console.log('elapsedTime:', elapsedTime);
-
 	// console.log(todayNowTimeA.getMinutes(), elapsedChkMin);
 
 	if (todayNowTimeA.getMinutes() > elapsedChkMin) {
@@ -4297,7 +4326,7 @@ function main(){       //主流程
 	}
 
 	switch(stepCtrl) {
-		case 1 :debug(6); upMenu(1800); break;                                  //1 卡屏重啟       //2 收信日獎
+		case 1 :debug(6); upMenu(1800); getDailySPgift(3600); break;                                  //1 卡屏重啟       //2 收信日獎
 		case 2 :getADGold(60); lvupVillage2(2, lvupViltimeSw); break;           //3 廣告金幣       //4 村莊升級
 		case 3 :getDailyreward(900); Areafight(1800); break;                    //5 今日挑戰       //6 打競技場
 		case 4 :lvupHero(lvupHerostgSw, lvupHeroDi, lvuptimeSw); break;         //7 英雄升級
@@ -4347,6 +4376,8 @@ function setFirstTimer() {   //預設值設定
 	upMenuTimer       = Date.now() +    0 * 1000;
 
 	reminderMsgTime   = Date.now() +    0 * 1000;
+
+	DailySPgiftTimer  = Date.now() +    0 * 1000;
 	
 	stoptime       = [ '',  0,  0,  0,  0,  0,  0];
 	autoStuckstage = [  0,  0,  0,  0,  0,  0,  0];
@@ -4527,7 +4558,7 @@ function setFirstsetting() {
 	artitarget2Sw =    2;   //目標寶物2 (0:關閉)
 	artitarget3Sw =    3;   //目標寶物3 (0:關閉)
 
-	receiveMailSw =    0;   //收mail
+	receiveMailSw =    1;   //收mail
 	loginDailySw  =    0;   //每日登入獎勵
 
 	admodeSw      =    2;   //看廣告模式  (1:定時, 2:自動判斷  3:VIP5 點跳過)
@@ -4583,21 +4614,6 @@ function test(cycle){
 			stage = recoNum(1) * 1
 			console.log('============================================================================')
 			console.log('n = ', n, ', CRA 腳本開始', stage)
-
-			rbm.keepScreenshotPartial(650, 60, 690, 105);  ///點擊AD X
-			for (var j = 1; j <= 9; j++){
-				// if (j % 2 == i % 2) {
-					var n0 = 0;
-					if (j >= 10){n0 = '';}
-					var filename = 'AD_XX_0' + n0 + j + '.png';
-					var Img = rbm.findImage(filename, 0.96);
-					rbm.log( j, filename, Img);
-					// if (Img != undefined) {break;}
-				// }
-			}
-
-
-
 
 			while(config.isRunning) {main();}
 
