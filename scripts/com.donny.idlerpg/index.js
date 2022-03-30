@@ -1001,6 +1001,7 @@ function waitAD(timer, speedx2) {   // 看廣告判斷機制
 				console.log('出現獲取鈕，點擊跳出');
 				sleep(300);
 				tapFor(Img.x , Img.y, 3, 60, 200);
+				sleep(5000);
 				return false;
 			}
 
@@ -1085,7 +1086,7 @@ function waitAD(timer, speedx2) {   // 看廣告判斷機制
 						var n0 = 0;
 						if (j >= 10){n0 = '';}
 						var filename = 'AD_rr_0' + n0 + j + '.png';
-						var Img = rbm.findImage(filename, 0.99);
+						var Img = rbm.findImage(filename, 0.985);
 						// rbm.log(i, j, filename, Img);
 						if (Img != undefined) {break;}
 					}
@@ -1093,8 +1094,8 @@ function waitAD(timer, speedx2) {   // 看廣告判斷機制
 				rbm.releaseScreenshot();
 
 				if (Img != undefined || stoptime1 > 88 || i > 45) {
-
-					console.log('stoptime1 > 88 || i > 45');
+					rbm.log(filename, Img);
+					rbm.log('stoptime1 > 88 || i > 45');
 					tapFor(690, 35, 1, 30, 100, 2500);
 
 					console.log('adListQ:', adListQ);
@@ -1156,7 +1157,7 @@ function waitAD(timer, speedx2) {   // 看廣告判斷機制
 						var n0 = 0;
 						if (j >= 10){n0 = '';}
 						var filename = 'AD_XX_0' + n0 + j + '.png';
-						var Img = rbm.findImage(filename, 0.96);
+						var Img = rbm.findImage(filename, 0.975);
 						// rbm.log(i, j, filename, Img);
 						if (Img != undefined) {break;}
 					}
@@ -3765,7 +3766,7 @@ function receiveMail() {  //收mail，預設全收
 				var result = results[index];
 				// rbm.log(result);
 				// rbm.log(result.x, result.y + 5);
-				tapFor(result.x - 5, result.y + 5, 2, 50, 100, 300);
+				tapFor(result.x - 5, result.y + 8, 2, 50, 100, 300);
 				
 				for (var j = 1; j <= 15; j++) {
 					if (!config.isRunning) return false;
@@ -4415,7 +4416,7 @@ function setFirstTimer() {   //預設值設定
 
 	furniture = true;
 	Autofight = false;
-	
+
 	stopbugV = 0;
 	stage = 0;
 	stageOld = 0;
