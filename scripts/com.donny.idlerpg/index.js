@@ -1088,19 +1088,23 @@ function waitAD(timer, speedx2) {   // 看廣告判斷機制
 						var filename = 'AD_rr_0' + n0 + j + '.png';
 						var Img = rbm.findImage(filename, 0.995);
 						// rbm.log(i, j, filename, Img);
-						if (Img != undefined) {break;}
+						if (Img != undefined) {
+							rbm.log(filename, Img);
+							break;
+						}
 					}
 				}
 				rbm.releaseScreenshot();
 
 				if (Img != undefined || stoptime1 > 88 || i > 45) {
-					rbm.log(filename, Img);
 					rbm.log('stoptime1 > 88 || i > 45');
 					tapFor(690, 35, 1, 30, 100, 2500);
 
-					console.log('adListQ:', adListQ);
+					// console.log('adListQ:', adListQ);
 					for (var k = 0; k <= adListQ; k++) {
 						// console.log(k, adListQ, adActivity.info[k].activityName);
+						
+						var currApp = rbm.currentApp();
 						if (currApp.activityName == adActivity.info[k].activityName){
 							activityStaut = k;
 							break;
@@ -1108,7 +1112,9 @@ function waitAD(timer, speedx2) {   // 看廣告判斷機制
 			
 						if (k == adListQ) {rbm.log('NEW_ad_app', currApp);}
 					}
+
 					console.log('45sec activityStaut:', activityStaut);
+
 					if (activityStaut == 2) {
 						console.log(l, activityStaut, '廣告結束發現google store，按BACK鍵，回廣告');
 						keycode('BACK', 1000);
@@ -1157,7 +1163,7 @@ function waitAD(timer, speedx2) {   // 看廣告判斷機制
 						var n0 = 0;
 						if (j >= 10){n0 = '';}
 						var filename = 'AD_XX_0' + n0 + j + '.png';
-						var Img = rbm.findImage(filename, 0.995);
+						var Img = rbm.findImage(filename, 0.985);
 						// rbm.log(i, j, filename, Img);
 						if (Img != undefined) {break;}
 					}
@@ -4615,6 +4621,8 @@ function test(cycle){
 			stage = recoNum(1) * 1
 			console.log('============================================================================')
 			console.log('n = ', n, ', CRA 腳本開始', stage)
+
+
 
 			while(config.isRunning) {main();}
 
