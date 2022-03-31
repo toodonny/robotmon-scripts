@@ -1086,7 +1086,7 @@ function waitAD(timer, speedx2) {   // 看廣告判斷機制
 						var n0 = 0;
 						if (j >= 10){n0 = '';}
 						var filename = 'AD_rr_0' + n0 + j + '.png';
-						var Img = rbm.findImage(filename, 0.985);
+						var Img = rbm.findImage(filename, 0.995);
 						// rbm.log(i, j, filename, Img);
 						if (Img != undefined) {break;}
 					}
@@ -1157,7 +1157,7 @@ function waitAD(timer, speedx2) {   // 看廣告判斷機制
 						var n0 = 0;
 						if (j >= 10){n0 = '';}
 						var filename = 'AD_XX_0' + n0 + j + '.png';
-						var Img = rbm.findImage(filename, 0.975);
+						var Img = rbm.findImage(filename, 0.995);
 						// rbm.log(i, j, filename, Img);
 						if (Img != undefined) {break;}
 					}
