@@ -4409,7 +4409,8 @@ function setFirstTimer() {   //預設值設定
 				{'activityName':'com.google.android.gms.ads.AdActivity','packageName':'com.godzilab.idlerpg'},             //廣告
 				{'activityName':'com.fyber.inneractive.sdk.activities.InneractiveFullscreenAdActivity','packageName':'com.godzilab.idlerpg'}, //廣告
 				{'activityName':'com.unity3d.services.ads.adunit.AdUnitActivity','packageName':'com.godzilab.idlerpg'},     //廣告
-				{'}activityName':'.BrowserActivity','packageName':'com.android.browser'}  //瀏覽器
+				{'activityName':'.BrowserActivity','packageName':'com.android.browser'}  //瀏覽器
+				
 		  ],
 	  }
 
