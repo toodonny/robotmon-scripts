@@ -1115,7 +1115,7 @@ function waitAD(timer, speedx2) {   // 看廣告判斷機制
 
 					console.log('45sec activityStaut:', activityStaut);
 
-					if (activityStaut == 2) {
+					if (activityStaut == 2 || activityStaut == 9) {
 						console.log(l, activityStaut, '廣告結束發現google store，按BACK鍵，回廣告');
 						keycode('BACK', 1000);
 						keycode('BACK', 1000);
@@ -1126,15 +1126,11 @@ function waitAD(timer, speedx2) {   // 看廣告判斷機制
 
 
 					}else {
-						
 						console.log(l, activityStaut, '>> 正常結束廣告 tap X');
 						sleep(2000);
 						tapFor(690, 35, 1, 30, 100, 3000);
 
 					}
-
-
-					
 				}
 
 				if (stoptime1 >= 3 || i >= 40) {		
@@ -1163,7 +1159,7 @@ function waitAD(timer, speedx2) {   // 看廣告判斷機制
 						var n0 = 0;
 						if (j >= 10){n0 = '';}
 						var filename = 'AD_XX_0' + n0 + j + '.png';
-						var Img = rbm.findImage(filename, 0.985);
+						var Img = rbm.findImage(filename, 0.995);
 						// rbm.log(i, j, filename, Img);
 						if (Img != undefined) {break;}
 					}
@@ -4412,7 +4408,8 @@ function setFirstTimer() {   //預設值設定
 				{'activityName':'com.adcolony.sdk.AdColonyInterstitialActivity','packageName':'com.godzilab.idlerpg'},     //廣告
 				{'activityName':'com.google.android.gms.ads.AdActivity','packageName':'com.godzilab.idlerpg'},             //廣告
 				{'activityName':'com.fyber.inneractive.sdk.activities.InneractiveFullscreenAdActivity','packageName':'com.godzilab.idlerpg'}, //廣告
-				{'activityName':'com.unity3d.services.ads.adunit.AdUnitActivity','packageName':'com.godzilab.idlerpg'}     //廣告
+				{'activityName':'com.unity3d.services.ads.adunit.AdUnitActivity','packageName':'com.godzilab.idlerpg'},     //廣告
+				{'}activityName':'.BrowserActivity','packageName':'com.android.browser'}  //瀏覽器
 		  ],
 	  }
 
@@ -4621,8 +4618,6 @@ function test(cycle){
 			stage = recoNum(1) * 1
 			console.log('============================================================================')
 			console.log('n = ', n, ', CRA 腳本開始', stage)
-
-
 
 			while(config.isRunning) {main();}
 
