@@ -4620,6 +4620,27 @@ function test(cycle){
 			console.log('============================================================================')
 			console.log('n = ', n, ', CRA 腳本開始', stage)
 
+			// rbm.keepScreenshotPartial( 110, 590, 440, 1170);  //boss選單圖示範圍  屬性圖示
+			// var targetImg2 = rbm.findImage('materialBoss/materialBoss4_0' + n + '.png', 0.90);
+			// rbm.log('materialBoss/materialBoss4_0' + n + '.png', targetImg2);
+			// rbm.releaseScreenshot();
+
+			// if (targetImg2 != undefined) {
+				
+			// 	rbm.keepScreenshotPartial( targetImg2.x + 330, targetImg2.y - 54, targetImg2.x + 480, targetImg2.y + 40 + 0);  //boss選單圖示範圍
+			// 	var targetImg7 = rbm.findImage('enterbossroom.png', 0.90);
+			// 	rbm.log('enterbossroom.png', targetImg7);
+			// 	rbm.releaseScreenshot();
+				
+			// 	if (targetImg7 != undefined && targetImg7.score >= 0.90) {
+			// 		console.log('tap enterbossroom.png');
+			// 		// tapFor(targetImg7.x, targetImg7.y, 1, 60, 300);
+			// 	}
+			// }
+
+			// var test1 = recoNum(2);
+			// console.log('test1:', test1);
+
 			while(config.isRunning) {main();}
 
 			sleep(1000);
