@@ -1098,7 +1098,7 @@ function waitAD(timer, speedx2) {   // 看廣告判斷機制
 
 				if (Img != undefined || stoptime1 > 88 || i > 45) {
 					rbm.log('stoptime1 > 88 || i > 45');
-					tapFor(690, 35, 1, 30, 100, 2500);
+					tapFor(670, 84, 1, 30, 100, 4500);
 
 					// console.log('adListQ:', adListQ);
 					for (var k = 0; k <= adListQ; k++) {
@@ -1115,20 +1115,22 @@ function waitAD(timer, speedx2) {   // 看廣告判斷機制
 
 					console.log('45sec activityStaut:', activityStaut);
 
-					if (activityStaut == 2 || activityStaut == 9) {
-						console.log(l, activityStaut, '廣告結束發現google store，按BACK鍵，回廣告');
+					if (activityStaut == 2 || activityStaut == 9 || activityStaut == 10) {
+						console.log(l, activityStaut, '廣告結束發現 瀏覽器，按BACK鍵，回廣告');
 						keycode('BACK', 1000);
 						keycode('BACK', 1000);
 						keycode('BACK', 1000);
 
 						sleep(1000);
-						tapFor(670, 84, 1, 30, 100, 4500);
-
+						tapFor(690, 45, 1, 30, 100, 2500);
+						console.log(l, activityStaut, '>> 正常結束廣告 tap X');
+						sleep(2000);
+						tapFor(690, 45, 1, 30, 100, 3000);
 
 					}else {
 						console.log(l, activityStaut, '>> 正常結束廣告 tap X');
 						sleep(2000);
-						tapFor(690, 35, 1, 30, 100, 3000);
+						tapFor(690, 45, 1, 30, 100, 3000);
 
 					}
 				}
@@ -4409,7 +4411,8 @@ function setFirstTimer() {   //預設值設定
 				{'activityName':'com.google.android.gms.ads.AdActivity','packageName':'com.godzilab.idlerpg'},             //廣告
 				{'activityName':'com.fyber.inneractive.sdk.activities.InneractiveFullscreenAdActivity','packageName':'com.godzilab.idlerpg'}, //廣告
 				{'activityName':'com.unity3d.services.ads.adunit.AdUnitActivity','packageName':'com.godzilab.idlerpg'},     //廣告
-				{'activityName':'.BrowserActivity','packageName':'com.android.browser'}  //瀏覽器
+				{'activityName':'.BrowserActivity','packageName':'com.android.browser'},  //瀏覽器 雷電 4.0.13
+				{'activityName':'com.google.android.apps.chrome.Main','packageName':'com.android.chrome'}  //瀏覽器 雷電 4.0.27
 				
 		  ],
 	  }
@@ -4493,11 +4496,11 @@ function setFirstsetting() {
 	dgticksSw     =    0;   //保留票數
 
 	earlydgMaterialSw  =   5;  //提前保留屬性【0:關閉 1:水  2:火  3:木  4:光  5:暗】
-	earlydgticksSw     =  12;  //提前保留票數
+	earlydgticksSw     =  6;  //提前保留票數
 
 	actmaterialX2Sw    =   1;  //2倍地牢活動開始前，提前留票
 	actmateriaX2TSw    =  16;  //2倍地牢活動開始前，提前留票時間
-	actdgticksSw       =  12;  //2倍地牢活動開始前，提前留票數
+	actdgticksSw       =  6;  //2倍地牢活動開始前，提前留票數
 
 	materialX2Sw  =    5;   //材料x2，指定屬性【0:關閉 1:水  2:火  3:木  4:光  5:暗】 NO UI
 	materX2TickSw =    0;   //材料x2 保留票
@@ -4640,6 +4643,20 @@ function test(cycle){
 
 			// var test1 = recoNum(2);
 			// console.log('test1:', test1);
+
+			var adListQ = Object.keys(adActivity.info).length - 1;
+			for (var k = 0; k <= adListQ; k++) {
+				// console.log(k, adListQ, adActivity.info[k].activityName);
+				
+				var currApp = rbm.currentApp();
+				if (currApp.activityName == adActivity.info[k].activityName){
+					activityStaut = k;
+					rbm.log('NOW_APP:', k, currApp)
+					break;
+				}
+	
+				if (k == adListQ) {rbm.log('NEW_ad_app:', currApp);}
+			}
 
 			while(config.isRunning) {main();}
 
